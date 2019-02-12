@@ -42,6 +42,12 @@ void USB_HostMsdCbwCallback(void)
     USB_HostMsdProcessCommand(); /* continue to process ufi command */
 }
 
+void USB_HostMsdDataCallback(void)
+{
+    msdCommand.commandStatus = kMSD_CommandTransferCSW;
+    USB_HostMsdProcessCommand(); /* continue to process ufi command */
+}
+
 void USB_HostMsdCswCallback(void)
 {
     if(msdCommand.cswBlock.CSWSignature == USB_HOST_MSD_CSW_SIGNATURE)
@@ -80,15 +86,21 @@ usb_status_t USB_HostMsdProcessCommand(void)
                 transfer.direction = msdCommand.dataDirection;
                 transfer.transferBuffer = msdCommand.dataBuffer;
                 transfer.transferLength = msdCommand.dataLength;
-                if (transfer.direction == USB_OUT)
-                {
-//                        USB_HostSend(msdInstance->hostHandle, msdInstance->outPipe, transfer);
-                }
-                else
-                {
-//                        USB_HostRecv(msdInstance->hostHandle, msdInstance->inPipe, transfer);
-                }
-                break;
+                transfer.callbackFn = USB_HostMsdDataCallback;
+//                if()
+//                {
+                    if (transfer.direction == USB_OUT){
+                        USB_HostEhciQhQtdListInit(&EhciData.ehciPipe[2]);
+                    }
+                    else{
+                        USB_HostEhciQhQtdListInit(&EhciData.ehciPipe[1]);
+                    }
+                    break;
+//                }
+//                else
+//                {
+//                    /* don't break */
+//                }
             }
             else
             {
@@ -99,7 +111,6 @@ usb_status_t USB_HostMsdProcessCommand(void)
             transfer.transferBuffer = (uint8_t *)&msdCommand.cswBlock;
             transfer.transferLength = sizeof(usb_host_csw_t);
             transfer.callbackFn = USB_HostMsdCswCallback;
-            transfer.direction = USB_IN;
             USB_HostEhciQhQtdListInit(&EhciData.ehciPipe[1]);
             break;
         case kMSD_CommandDone:
@@ -233,6 +244,9 @@ usb_status_t USB_HostMsdReadFormatCapacities(uint8_t logicalUnit,
 
 void USB_HostMsdCommandStart(void)
 {
+    usb_host_ufi_read_capacity_t *read_capacity;
+    uint32_t blockSize = 0;
+    uint32_t lastLBAddr = 0;
     usb_echo("........................ufi command start....................\r\n");
     USB_HostMsdTestUnitReady(0);
     ufiIng = 1;
@@ -241,11 +255,47 @@ void USB_HostMsdCommandStart(void)
         USB_HostEhciIsrFunc();
     }
     usb_echo("unit status: ready\r\n");
+    
     USB_HostMsdRequestSense(0,s_TestUfiBuffer,sizeof(usb_host_ufi_sense_data_t));
     ufiIng = 1;
     while(ufiIng)
     {
         USB_HostEhciIsrFunc();
     }
+    usb_echo("request sense success\r\n");
+    
+    USB_HostMsdInquiry(0,s_TestUfiBuffer,sizeof(usb_host_ufi_inquiry_data_t));
+    ufiIng = 1;
+    while(ufiIng)
+    {
+        USB_HostEhciIsrFunc();
+    }
+    usb_echo("inquiry success\r\n");
+    
+    USB_HostMsdReadCapacity(0,s_TestUfiBuffer,sizeof(usb_host_ufi_read_capacity_t));
+    ufiIng = 1;
+    while(ufiIng)
+    {
+        USB_HostEhciIsrFunc();
+    }
+    usb_echo("read capacity success:\r\n");
+    read_capacity = (usb_host_ufi_read_capacity_t *)&s_TestUfiBuffer[0];
+    blockSize = (read_capacity->blockLengthInBytes[0] << 24) | (read_capacity->blockLengthInBytes[1] << 16) |
+                (read_capacity->blockLengthInBytes[2] << 8) | (read_capacity->blockLengthInBytes[3]);
+    lastLBAddr = (read_capacity->lastLogicalBlockAddress[0] << 24) | (read_capacity->lastLogicalBlockAddress[1] << 16) |
+                (read_capacity->lastLogicalBlockAddress[2] << 8) | (read_capacity->lastLogicalBlockAddress[3]);
+    usb_echo("last logical block:%d block length:%d\r\n", lastLBAddr, blockSize);
+    
+    USB_HostMsdRead10(0, 1, s_TestUfiBuffer, blockSize, 1);
+    ufiIng = 1;
+    while(ufiIng)
+    {
+        USB_HostEhciIsrFunc();
+    }
+    usb_echo("read(10) success\r\n");
+    for(uint32_t i=0; i<blockSize; i++){
+        printf("%02x ",s_TestUfiBuffer[i]);
+    }
+    while(1);
 }
 
