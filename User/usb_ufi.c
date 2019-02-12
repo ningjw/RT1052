@@ -247,7 +247,7 @@ void USB_HostMsdCommandStart(void)
     usb_host_ufi_read_capacity_t *read_capacity;
     uint32_t blockSize = 0;
     uint32_t lastLBAddr = 0;
-    usb_echo("........................ufi command start....................\r\n");
+    printf("........................ufi command start....................\r\n");
     USB_HostMsdTestUnitReady(0);
     ufiIng = 1;
     while(ufiIng)
@@ -286,7 +286,7 @@ void USB_HostMsdCommandStart(void)
                 (read_capacity->lastLogicalBlockAddress[2] << 8) | (read_capacity->lastLogicalBlockAddress[3]);
     usb_echo("last logical block:%d block length:%d\r\n", lastLBAddr, blockSize);
     
-    USB_HostMsdRead10(0, 1, s_TestUfiBuffer, blockSize, 1);
+    USB_HostMsdRead10(0, 0, s_TestUfiBuffer, blockSize, 1);
     ufiIng = 1;
     while(ufiIng)
     {
@@ -296,6 +296,22 @@ void USB_HostMsdCommandStart(void)
     for(uint32_t i=0; i<blockSize; i++){
         printf("%02x ",s_TestUfiBuffer[i]);
     }
-    while(1);
+    printf("\r\n");
+    
+    if(s_TestUfiBuffer[0] != 0xEB || s_TestUfiBuffer[2] != 0x90){
+        USB_HostMsdRead10(0, s_TestUfiBuffer[454], s_TestUfiBuffer, blockSize, 1);
+        ufiIng = 1;
+        while(ufiIng)
+        {
+            USB_HostEhciIsrFunc();
+        }
+        usb_echo("read(10) success\r\n");
+        for(uint32_t i=0; i<blockSize; i++){
+            printf("%02x ",s_TestUfiBuffer[i]);
+        }
+        printf("\r\n");
+    }
+    
+    deviceInstance.state = kStatus_MsdCommandDone;
 }
 

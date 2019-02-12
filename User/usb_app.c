@@ -92,7 +92,6 @@ void USB_HostAppInit(void)
     NVIC_SetPriority(USB_OTG1_IRQn, USB_HOST_INTERRUPT_PRIORITY);
     EnableIRQ(USB_OTG1_IRQn);
     
-    USB1_EventType |= EHCI_TASK_EVENT_PORT_CHANGE;
     usb_echo("host init done\r\n");
 }
 
@@ -118,13 +117,6 @@ void USB_HostEhciIsrFunc(void)
             {
                 USB1_EventType &= ~EHCI_TASK_EVENT_TRANSACTION_DONE;
                 USB_HostEhciTransactionDone();
-            }
-
-            if (USB1_EventType & EHCI_TASK_EVENT_DEVICE_DETACH) /* device detach */
-            {
-                /* disable attach, enable when the detach process is done */
-                ehciIpBase->USBINTR &= (~USBHS_USBINTR_PCE_MASK); 
-                deviceInstance.deviceAttached = kEHCIDeviceDetached;
             }
         }
         else if(deviceInstance.deviceAttached != kEHCIDeviceAttached)

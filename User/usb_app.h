@@ -27,6 +27,8 @@
 
 /*! @brief MSD class code */
 #define USB_HOST_MSD_CLASS_CODE (8U)
+/*! @brief HUB class code */
+#define USB_HOST_HUB_CLASS_CODE (9U)
 /*! @brief MSD sub-class code */
 #define USB_HOST_MSD_SUBCLASS_CODE_UFI (4U)
 /*! @brief MSD sub-class code */

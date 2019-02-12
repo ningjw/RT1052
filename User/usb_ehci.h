@@ -93,6 +93,7 @@ typedef enum _usb_host_device_enumeration_status
     kStatus_DEV_GetMaxLun,   /*!< This device has been used by application */
     kStatus_DEV_SetInterface,
     kStatus_DEV_EnumDone,    /*!< Enumeration is done */
+    kStatus_MsdCommandDone
 } usb_host_device_enumeration_status_t;
 
 

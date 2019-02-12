@@ -56,10 +56,10 @@ void USB_HostEhciPortStaChange(void)
         /* enable ehci phy disconnection */
         if (deviceInstance.speed == USB_SPEED_HIGH){
             USBPHY1->CTRL |= USBPHY_CTRL_ENHOSTDISCONDETECT_MASK;
-            usb_echo("High speed device\r\n");
+            usb_echo("High speed device attached\r\n");
         }
         else{
-            usb_echo("Full speed device\r\n");
+            usb_echo("Full speed device attached\r\n");
         }
         /* wait for reset finish*/
         USB_HostEhciDelay(ehciIpBase, USB_HOST_EHCI_PORT_RESET_DELAY);
@@ -74,12 +74,14 @@ void USB_HostEhciPortStaChange(void)
         if ((deviceInstance.deviceAttached == kEHCIDevicePhyAttached) || 
             (deviceInstance.deviceAttached == kEHCIDeviceAttached))
         {
+            usb_echo("device detached\r\n");
             /* disable ehci phy disconnection */
             USBPHY1->CTRL &= (~USBPHY_CTRL_ENHOSTDISCONDETECT_MASK);
             /* disable async and periodic */
             USB_HostEhciStopAsync();
             USB_HostEhciStopPeriodic();
             USB1_EventType = EHCI_TASK_EVENT_DEVICE_DETACH;
+            deviceInstance.state = kStatus_DEV_Notinit;
         }
     }
 }
@@ -512,6 +514,11 @@ usb_status_t USB_HostProcessState(void)
                 usb_echo("pid=0x%x ", (deviceDescriptor.idProduct[0] | deviceDescriptor.idProduct[1]<<8));
                 usb_echo("vid=0x%x ", (deviceDescriptor.idVendor[0]  | deviceDescriptor.idVendor[1]<<8));
                 usb_echo("address=%d\r\n", deviceInstance.setAddress);
+            }
+            else if(descInterface->bInterfaceClass == USB_HOST_HUB_CLASS_CODE)
+            {
+                usb_echo("hub attached:level=%d ", deviceInstance.level);
+                usb_echo("address=%d\r\n", deviceInstance.allocatedAddress);
             }
             else
             {
