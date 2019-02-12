@@ -33,6 +33,7 @@
 usb_host_msd_command_t msdCommand;
 /* command on-going state. It should set to 1 when start command, it is set to 0 in the callback */
 volatile uint8_t ufiIng;
+__attribute__((aligned(4)))  uint8_t s_TestUfiBuffer[512]; /*!< test buffer */
 usb_status_t USB_HostMsdProcessCommand(void);
 
 void USB_HostMsdCbwCallback(void)
@@ -48,6 +49,7 @@ void USB_HostMsdCswCallback(void)
         switch (msdCommand.cswBlock.CSWStatus)
         {
             case 0:
+                ufiIng = 0;
                 msdCommand.commandStatus = kMSD_CommandIdle;
                 break;
             case 1:
@@ -58,14 +60,6 @@ void USB_HostMsdCswCallback(void)
                 break;
         }
     }
-}
-
-usb_status_t USB_HostRecv(usb_host_pipe_init_t* pipeHandle)
-{
-    usb_status_t status = kStatus_USB_Success;
-    transfer.direction = USB_IN;
-    USB_HostEhciQhQtdListInit(pipeHandle);
-    return status;
 }
 
 
@@ -105,7 +99,8 @@ usb_status_t USB_HostMsdProcessCommand(void)
             transfer.transferBuffer = (uint8_t *)&msdCommand.cswBlock;
             transfer.transferLength = sizeof(usb_host_csw_t);
             transfer.callbackFn = USB_HostMsdCswCallback;
-            USB_HostRecv(&EhciData.ehciPipe[1]);
+            transfer.direction = USB_IN;
+            USB_HostEhciQhQtdListInit(&EhciData.ehciPipe[1]);
             break;
         case kMSD_CommandDone:
             break;
@@ -240,6 +235,13 @@ void USB_HostMsdCommandStart(void)
 {
     usb_echo("........................ufi command start....................\r\n");
     USB_HostMsdTestUnitReady(0);
+    ufiIng = 1;
+    while(ufiIng)
+    {
+        USB_HostEhciIsrFunc();
+    }
+    usb_echo("unit status: ready\r\n");
+    USB_HostMsdRequestSense(0,s_TestUfiBuffer,sizeof(usb_host_ufi_sense_data_t));
     ufiIng = 1;
     while(ufiIng)
     {

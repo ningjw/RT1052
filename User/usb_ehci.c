@@ -99,7 +99,8 @@ usb_status_t USB_HostEhciQhQtdListInit(usb_host_pipe_init_t *ehciPipePointer)
             /* init qtd list */
             EhciData.ehciQtd[0].nextQtdPointer = (uint32_t)&EhciData.ehciQtd[1];
             EhciData.ehciQtd[1].nextQtdPointer = 0;
-            EhciData.ehciQh[1].ehciQtdTail = &EhciData.ehciQtd[1];
+//            EhciData.ehciQh[1].ehciQtdTail = &EhciData.ehciQtd[1];
+            ehciPipePointer->ehciQh->ehciQtdTail = &EhciData.ehciQtd[1];
         }
         else{
             qtdNumber = 3;
@@ -107,7 +108,8 @@ usb_status_t USB_HostEhciQhQtdListInit(usb_host_pipe_init_t *ehciPipePointer)
             EhciData.ehciQtd[0].nextQtdPointer = (uint32_t)&EhciData.ehciQtd[1];
             EhciData.ehciQtd[1].nextQtdPointer = (uint32_t)&EhciData.ehciQtd[2];
             EhciData.ehciQtd[2].nextQtdPointer = 0;
-            EhciData.ehciQh[1].ehciQtdTail = &EhciData.ehciQtd[2];
+//            EhciData.ehciQh[1].ehciQtdTail = &EhciData.ehciQtd[2];
+            ehciPipePointer->ehciQh->ehciQtdTail = &EhciData.ehciQtd[2];
         }
     }
     else//·¢ËÍUFIÃüÁî
@@ -228,10 +230,9 @@ usb_status_t USB_HostEhciQhQtdListInit(usb_host_pipe_init_t *ehciPipePointer)
         qtdPointer->nextQtdPointer |= EHCI_HOST_T_INVALID_VALUE;
         qtdPointer->transferResults[0] |= EHCI_HOST_QTD_IOC_MASK; /* last one set IOC */
         /* save qtd to transfer */
-        EhciData.ehciQh[3].ehciQtdTail = qtdPointer;
+        ehciPipePointer->ehciQh->ehciQtdTail = qtdPointer;
         /* link qtd to qh (link to end) */
-        EhciData.ehciQh[3].nextQtdPointer = (uint32_t)&EhciData.ehciQtd[0];
-        
+        ehciPipePointer->ehciQh->nextQtdPointer = (uint32_t)&EhciData.ehciQtd[0];
     }
     
     USB_HostEhciDelay(ehciIpBase, 2U);
@@ -344,8 +345,11 @@ void USB_HostEhciTransactionDone(void)
                         case kStatus_DEV_GetMaxLun:
                             usb_echo("maxLun: %d\r\n", logicalUnitNumber);
                             break;
+                        case kStatus_DEV_EnumDone:
+                            if(transfer.callbackFn != NULL)
+                                transfer.callbackFn();
+                            break;
                         default :
-                            transfer.callbackFn();
                             break;
                     }
                     if(deviceInstance.state >= kStatus_DEV_GetDes8 && deviceInstance.state < kStatus_DEV_EnumDone){
@@ -478,7 +482,8 @@ usb_status_t USB_HostProcessState(void)
             EhciData.ehciPipe[1].numberPerUframe = 1;
             EhciData.ehciPipe[1].nakCount = 3000;
             EhciData.ehciPipe[1].nextdata01 = 0;
-            USB_HostEhciQhInit(&EhciData.ehciQh[2],&EhciData.ehciPipe[0]);
+        
+            
             EhciData.ehciQh[2].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[1] | EHCI_HOST_POINTER_TYPE_QH);
             
             EhciData.ehciPipe[2].pipeType = USB_ENDPOINT_BULK;
@@ -489,9 +494,14 @@ usb_status_t USB_HostProcessState(void)
             EhciData.ehciPipe[2].numberPerUframe = 1;
             EhciData.ehciPipe[2].nakCount = 3000;
             EhciData.ehciPipe[2].nextdata01 = 0;
+        
+            USB_HostEhciQhInit(&EhciData.ehciQh[1],&EhciData.ehciPipe[0]);
+            USB_HostEhciQhInit(&EhciData.ehciQh[2],&EhciData.ehciPipe[1]);
             USB_HostEhciQhInit(&EhciData.ehciQh[3],&EhciData.ehciPipe[2]);
-            EhciData.ehciQh[3].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[2] | EHCI_HOST_POINTER_TYPE_QH);
             
+            EhciData.ehciQh[3].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[2] | EHCI_HOST_POINTER_TYPE_QH);
+            EhciData.ehciQh[2].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[1] | EHCI_HOST_POINTER_TYPE_QH);
+            EhciData.ehciQh[1].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[0] | EHCI_HOST_POINTER_TYPE_QH);
             EhciData.ehciQh[0].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[3] | EHCI_HOST_POINTER_TYPE_QH);
             deviceInstance.state++;
         case kStatus_DEV_EnumDone: /* enumeration done state */

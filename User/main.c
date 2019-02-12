@@ -12,7 +12,6 @@ int main(void)
         if(deviceInstance.state == kStatus_DEV_EnumDone){
             USB_HostMsdCommandStart();
         }
-//        USB_HostMsdTask(&g_MsdCommandInstance);
     }
 }
 
