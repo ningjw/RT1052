@@ -358,6 +358,9 @@ void USB_HostEhciTransactionDone(void)
                             hubInstance.portIndex = 0;
                             usb_echo("hub get descriptor\r\n");
                             break;
+                        case kHubRunSetPortPower:
+                            usb_echo("set port %d feature PORT_POWER\r\n",hubInstance.portIndex);
+                            break;
                         case kStatus_DEV_EnumDone:
                             if(transfer.callbackFn != NULL)
                                 transfer.callbackFn();
@@ -366,7 +369,9 @@ void USB_HostEhciTransactionDone(void)
                             break;
                     }
                     if(deviceInstance.state >= kStatus_DEV_GetDes8 && deviceInstance.state < kStatus_DEV_EnumDone){
-                        deviceInstance.state++;
+                        if(deviceInstance.state != kHubRunSetPortPower || hubInstance.portIndex == hubInstance.portCount){
+                            deviceInstance.state++;
+                        }
                         USB_HostProcessState();
                     }
                 }
@@ -581,6 +586,15 @@ usb_status_t USB_HostProcessState(void)
             USB_HostHubClassRequestCommon(USB_REQUEST_TYPE_DIR_IN | USB_REQUEST_TYPE_TYPE_CLASS | USB_REQUEST_TYPE_RECIPIENT_DEVICE,
             USB_REQUEST_STANDARD_GET_DESCRIPTOR, 0x00, 0, hubInstance.hubDescriptor, 7 + (hubInstance.portCount >> 3) + 1);
             break;
+        case kHubRunSetPortPower:
+            if(hubInstance.portIndex < hubInstance.portCount)
+            {
+                hubInstance.portIndex++;
+                USB_HostHubClassRequestCommon(USB_REQUEST_TYPE_DIR_OUT | USB_REQUEST_TYPE_TYPE_CLASS | USB_REQUEST_TYPE_RECIPIENT_OTHER,
+                USB_REQUEST_STANDARD_SET_FEATURE,8,hubInstance.portIndex,NULL,0);
+            }
+            break;
+            
         default:
             break;
     }
