@@ -78,6 +78,8 @@
 #define USB_HOST_UFI_START_STOP_UNIT_START_SHIFT (0U)
 #define USB_HOST_UFI_SEND_DIAGNOSTIC_SELF_TEST_SHIFT (2U)
 
+/*! @brief USB host HUB maximum port count */
+#define USB_HOST_HUB_MAX_PORT (7U)
 
 /*! @brief States of device instances enumeration 枚举时使用的状态机*/
 typedef enum _usb_host_device_enumeration_status
@@ -91,10 +93,30 @@ typedef enum _usb_host_device_enumeration_status
     kStatus_DEV_GetCfg,      /*!< Enumeration process: get configuration descriptor */
     kStatus_DEV_SetCfg,      /*!< Enumeration process: set configuration */
     kStatus_DEV_GetMaxLun,   /*!< This device has been used by application */
+    kStatus_DEV_IdentifyClass,
     kStatus_DEV_SetInterface,
+    
+    kHubRunSetInterface, /*!< Wait callback of set interface */
+    kHubRunGetDescriptor7,   /*!< Get 7 bytes HUB descriptor */
+    kHubRunGetDescriptor,    /*!< Get all HUB descriptor */
+    kHubRunSetPortPower,     /*!< Set HUB's port power */
+    kHubRunGetStatusDone,    /*!< HUB status changed */
+    kHubRunClearDone,        /*!< clear HUB feature callback */
+    
     kStatus_DEV_EnumDone,    /*!< Enumeration is done */
+    
     kStatus_MsdCommandDone
 } usb_host_device_enumeration_status_t;
+
+/*! @brief HUB data prime status */
+typedef enum _usb_host_hub_prime_status
+{
+    kPrimeNone = 0,    /*!< Don't prime data*/
+    kPrimeHubControl,  /*!< Prime HUB control transfer*/
+    kPrimePortControl, /*!< Prime port control transfer*/
+    kPrimeInterrupt,   /*!< Prime interrupt transfer*/
+} usb_host_hub_prime_status_t;
+
 
 
 /*! @brief For USB_REQUEST_STANDARD_GET_DESCRIPTOR and USB_REQUEST_STANDARD_SET_DESCRIPTOR */
@@ -173,6 +195,60 @@ typedef struct _usb_host_msd_command
     uint8_t dataDirection; /*!< The data direction, its value is USB_OUT or USB_IN*/
     usb_host_msd_command_status_t commandStatus;
 } usb_host_msd_command_t;
+
+/*! @brief HUB descriptor structure */
+typedef struct _usb_host_hub_descriptor
+{
+    uint8_t blength;                /*!< Number of bytes in this descriptor*/
+    uint8_t bdescriptortype;        /*!< Descriptor Type*/
+    uint8_t bnrports;               /*!< Number of downstream facing ports that this HUB supports*/
+    uint8_t whubcharacteristics[2]; /*!< HUB characteristics please reference to Table 11-13 in usb2.0 specification*/
+    uint8_t bpwron2pwrgood;   /*!< Time (in 2 ms intervals) from the time the power-on sequence begins on a port until
+                                 power is good on that port.*/
+    uint8_t bhubcontrcurrent; /*!< Maximum current requirements of the HUB Controller electronics in mA*/
+    uint8_t deviceremovable;  /*!< Indicates if a port has a removable device attached*/
+} usb_host_hub_descriptor_t;
+
+/*! @brief HUB port instance structure */
+typedef struct _usb_host_hub_port_instance
+{
+//    usb_device_handle deviceHandle; /*!< Device handle*/
+    uint8_t portStatus;             /*!< Port running status*/
+    uint8_t resetCount;             /*!< Port reset time*/
+    uint8_t speed;                  /*!< Port's device speed*/
+} usb_host_hub_port_instance_t;
+
+/*! @brief HUB instance structure */
+typedef struct _usb_host_hub_instance
+{
+//    struct _usb_host_hub_instance *next;       /*!< Next HUB instance*/
+//    usb_host_handle hostHandle;                /*!< Host handle*/
+//    usb_device_handle deviceHandle;            /*!< Device handle*/
+//    usb_host_interface_handle interfaceHandle; /*!< Interface handle*/
+//    usb_host_pipe_handle controlPipe;          /*!< Control pipe handle*/
+//    usb_host_pipe_handle interruptPipe;        /*!< HUB interrupt in pipe handle*/
+//    usb_host_hub_port_instance_t *portList;    /*!< HUB's port instance list*/
+//    usb_host_transfer_t *controlTransfer;      /*!< Control transfer in progress*/
+//    transfer_callback_t inCallbackFn;          /*!< Interrupt in callback*/
+//    void *inCallbackParam;                     /*!< Interrupt in callback parameter*/
+//    transfer_callback_t controlCallbackFn;     /*!< Control callback*/
+//    void *controlCallbackParam;                /*!< Control callback parameter*/
+                                               /*   HUB property */
+    uint16_t totalThinktime;                   /*!< HUB total think time*/
+    uint8_t hubLevel;                          /*!< HUB level, the root HUB's level is 1*/
+    
+    uint8_t hubDescriptor[7 + (USB_HOST_HUB_MAX_PORT >> 3) + 1]; /*!< HUB descriptor buffer*/
+    uint8_t hubBitmapBuffer[(USB_HOST_HUB_MAX_PORT >> 3) + 1];   /*!< HUB receiving bitmap data buffer*/
+    uint8_t hubStatusBuffer[4];                                  /*!< HUB status buffer*/
+    uint8_t portStatusBuffer[4];                                 /*!< Port status buffer*/
+
+    uint8_t hubStatus;                                           /*!< HUB instance running status*/
+    uint8_t portCount;                                           /*!< HUB port count*/
+    uint8_t portIndex;                                           /*!< Record the index when processing ports in turn*/
+    uint8_t portProcess;                                         /*!< The port that is processing*/
+    uint8_t primeStatus;                                         /*!< Data prime transfer status*/
+    uint8_t invalid; /*!< 0/1, when invalid, cannot send transfer to the class*/
+} usb_host_hub_instance_t;
 
 
 void USB_HostEhciPortStaChange(void);
