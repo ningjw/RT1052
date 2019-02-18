@@ -12,7 +12,7 @@
 
 #define MAX_QH (8U)
 #define MAX_QTD (8U)
-#define MAX_PIPES (16U)
+#define MAX_PIPES (8U)
 #define FRAME_LIST_SIZE (1024U)
 
 #define BOARD_XTAL0_CLK_HZ                         24000000U  /*!< Board xtal0 frequency in Hz */
@@ -197,7 +197,7 @@ typedef struct _usb_host_pipe_init
                                 USB_ENDPOINT_ISOCHRONOUS, USB_ENDPOINT_BULK*/
     uint8_t numberPerUframe; /*!< Transaction number for each micro-frame*/
     usb_host_ehci_qh_t *ehciQh;               /*!< Control/bulk/interrupt: QH; ISO: usb_host_ehci_iso_t*/
-    struct _usb_host_pipe_init *next;    /*!< Link the idle pipes*/
+    struct _usb_host_pipe_init *next;    /*!< Link the runing pipes*/
 } usb_host_pipe_init_t;
 
 /*! @brief EHCI data structure */

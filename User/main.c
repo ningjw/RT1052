@@ -10,7 +10,7 @@ int main(void)
     {
         USB_HostEhciIsrFunc();
         if(deviceInstance.state == kStatus_DEV_EnumDone){
-            USB_HostMsdCommandStart();
+//            USB_HostMsdCommandStart();
         }
     }
 }

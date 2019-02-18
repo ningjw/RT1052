@@ -189,7 +189,7 @@ usb_status_t USB_HostEhciQhQtdListInit(usb_host_pipe_init_t *ehciPipePointer)
         /* link qtd to qh (link to end) */
         EhciData.ehciQh[1].nextQtdPointer = (uint32_t)&EhciData.ehciQtd[0];
     }
-    else //发送UFI命令
+    else //发送UFI命令 或者 收发数据
     {
         qtd_index = 0;
         dataAddress = (uint32_t)transfer.transferBuffer;
@@ -378,12 +378,12 @@ void USB_HostEhciTransactionDone(void)
             break;
         }
         ehciPipePointer = ehciPipePointer->next;
-        if(ehciPipePointer->ehciQh == NULL){
-            ehciPipePointer = NULL;
+        if(ehciPipePointer->ehciQh == NULL || ehciPipePointer == NULL){
             break;//跳出while循环
         }
     }
 }
+
 
 
 usb_status_t USB_HostHubClassRequestCommon(uint8_t requestType,uint8_t request,uint16_t wvalue,uint16_t windex,uint8_t *buffer,uint16_t bufferLength)
@@ -405,6 +405,17 @@ usb_status_t USB_HostHubClassRequestCommon(uint8_t requestType,uint8_t request,u
         transfer.direction = USB_OUT;
     }
     return USB_HostEhciQhQtdListInit(&EhciData.ehciPipe[0]);
+}
+
+
+usb_status_t USB_HostHubInterruptRecv(uint8_t *buffer,uint16_t bufferLength)
+{
+    /* initialize transfer */
+    transfer.transferBuffer = buffer;
+    transfer.transferLength = bufferLength;
+//    transfer.callbackFn = USB_HostHubInPipeCallback;
+    transfer.direction = USB_IN;
+    return USB_HostEhciQhQtdListInit(&EhciData.ehciPipe[1]);
 }
 
 usb_status_t USB_HostProcessState(void)
@@ -562,22 +573,30 @@ usb_status_t USB_HostProcessState(void)
                 EhciData.ehciQh[2].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[1] | EHCI_HOST_POINTER_TYPE_QH);
                 EhciData.ehciQh[1].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[0] | EHCI_HOST_POINTER_TYPE_QH);
                 EhciData.ehciQh[0].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[3] | EHCI_HOST_POINTER_TYPE_QH);
+                
                 deviceInstance.state = kStatus_DEV_EnumDone;
+                break;
             }
-//            else
-//            {
-//                EhciData.ehciPipe[1].pipeType = USB_ENDPOINT_INTERRUPT;
-//                EhciData.ehciPipe[1].direction = USB_IN;
-//                EhciData.ehciPipe[1].endpointAddress = (descEndpoint1->bEndpointAddress & 0x0F);//低4位表示端口地址
-//                EhciData.ehciPipe[1].interval = descEndpoint1->bInterval;//端口查询时间
-//                EhciData.ehciPipe[1].maxPacketSize = (uint16_t)((descEndpoint1->wMaxPacketSize[1]<<8 | descEndpoint1->wMaxPacketSize[0]) & 0x07FF);
-//                EhciData.ehciPipe[1].numberPerUframe = 1;
-//                EhciData.ehciPipe[1].nakCount = 3000;
-//                EhciData.ehciPipe[1].nextdata01 = 0;
-//                
-//                EhciData.ehciQh[1].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[0] | EHCI_HOST_POINTER_TYPE_QH);
-//                EhciData.ehciQh[0].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[1] | EHCI_HOST_POINTER_TYPE_QH);
-//            }
+            else
+            {
+                EhciData.ehciPipe[1].pipeType = USB_ENDPOINT_INTERRUPT;
+                EhciData.ehciPipe[1].direction = USB_IN;
+                EhciData.ehciPipe[1].endpointAddress = (descEndpoint1->bEndpointAddress & 0x0F);//低4位表示端口地址
+                EhciData.ehciPipe[1].interval = descEndpoint1->bInterval;//端口查询时间
+                EhciData.ehciPipe[1].maxPacketSize = (uint16_t)((descEndpoint1->wMaxPacketSize[1]<<8 | descEndpoint1->wMaxPacketSize[0]) & 0x07FF);
+                EhciData.ehciPipe[1].numberPerUframe = 1;
+                EhciData.ehciPipe[1].nakCount = 3000;
+                EhciData.ehciPipe[1].nextdata01 = 0;
+                EhciData.ehciPipe[1].next = &EhciData.ehciPipe[0];
+                EhciData.ehciPipe[0].next = NULL;
+                EhciData.ehciRunningPipeList = &EhciData.ehciPipe[1];
+                EhciData.ehciQh[2].horizontalLinkPointer = EHCI_HOST_T_INVALID_VALUE;
+                USB_HostEhciQhInit(&EhciData.ehciQh[2],&EhciData.ehciPipe[1]);
+                EhciData.ehciQh[2].staticEndpointStates[1] |= 0x01;//临时测试方案
+                EhciData.ehciQh[1].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[0] | EHCI_HOST_POINTER_TYPE_QH);
+                EhciData.ehciQh[0].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[1] | EHCI_HOST_POINTER_TYPE_QH);
+                
+            }
         case kHubRunGetDescriptor7:
             USB_HostHubClassRequestCommon(USB_REQUEST_TYPE_DIR_IN | USB_REQUEST_TYPE_TYPE_CLASS | USB_REQUEST_TYPE_RECIPIENT_DEVICE,
             USB_REQUEST_STANDARD_GET_DESCRIPTOR, 0x00, 0, hubInstance.hubDescriptor, 7);
@@ -594,7 +613,12 @@ usb_status_t USB_HostProcessState(void)
                 USB_REQUEST_STANDARD_SET_FEATURE,8,hubInstance.portIndex,NULL,0);
             }
             break;
-            
+        case kHubRunIdle:
+            EhciData.ehciQh[2].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[1] | EHCI_HOST_POINTER_TYPE_QH);
+            EhciData.ehciQh[1].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[0] | EHCI_HOST_POINTER_TYPE_QH);
+            EhciData.ehciQh[0].horizontalLinkPointer = ((uint32_t)&EhciData.ehciQh[2] | EHCI_HOST_POINTER_TYPE_QH);
+            USB_HostHubInterruptRecv(hubInstance.hubBitmapBuffer, (hubInstance.portCount >> 3) + 1);
+            break;
         default:
             break;
     }

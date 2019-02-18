@@ -100,9 +100,7 @@ typedef enum _usb_host_device_enumeration_status
     kHubRunGetDescriptor7,   /*!< Get 7 bytes HUB descriptor */
     kHubRunGetDescriptor,    /*!< Get all HUB descriptor */
     kHubRunSetPortPower,     /*!< Set HUB's port power */
-    kHubRunGetStatusDone,    /*!< HUB status changed */
-    kHubRunClearDone,        /*!< clear HUB feature callback */
-    
+    kHubRunIdle,
     kStatus_DEV_EnumDone,    /*!< Enumeration is done */
     
     kStatus_MsdCommandDone
@@ -227,7 +225,7 @@ typedef struct _usb_host_hub_instance
 //    usb_host_interface_handle interfaceHandle; /*!< Interface handle*/
 //    usb_host_pipe_handle controlPipe;          /*!< Control pipe handle*/
 //    usb_host_pipe_handle interruptPipe;        /*!< HUB interrupt in pipe handle*/
-//    usb_host_hub_port_instance_t *portList;    /*!< HUB's port instance list*/
+    usb_host_hub_port_instance_t *portList;    /*!< HUB's port instance list*/
 //    usb_host_transfer_t *controlTransfer;      /*!< Control transfer in progress*/
 //    transfer_callback_t inCallbackFn;          /*!< Interrupt in callback*/
 //    void *inCallbackParam;                     /*!< Interrupt in callback parameter*/
