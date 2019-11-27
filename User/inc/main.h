@@ -1,0 +1,13 @@
+#ifndef __MAIN_H
+#define __MAIN_H
+
+
+#include "clock_config.h"
+#include "peripherals.h"
+#include "pin_mux.h"
+
+
+#include "interrupt.h"
+#include "lpuart1.h"
+
+#endif
