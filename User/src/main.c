@@ -1,11 +1,18 @@
 #include "main.h"
 
+uint8_t txbuff[] = "开机\r\n";
+extern uint8_t rxData;
+extern uint8_t rxFlag;
 int main(void)
 {
     BOARD_BootClockRUN();
     BOARD_InitBootPins();
     BOARD_InitPeripherals();
-    SysTick_Config(SystemCoreClock / 1000);//1ms 中断一次
+
+    LPUART_WriteBlocking(LPUART1, txbuff, sizeof(txbuff) - 1);
     
+    while(1){
+
+    }
 }
 

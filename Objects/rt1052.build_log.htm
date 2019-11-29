@@ -5,10 +5,10 @@
 <h2>Tool Versions:</h2>
 IDE-Version: ¦ÌVision V5.28.0.0
 Copyright (C) 2019 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: ningjw ningjw, eti, LIC=6XJCX-H05NG-UJE6I-T3MRE-S04QM-WNN9P
+License Information: ningjw ningjw, eti, LIC=GMZI6-DMKJQ-Z9UG9-4XIMR-BUKXS-J14Y1
  
 Tool Versions:
-Toolchain:       MDK-ARM Professional  Version: 5.28.0.0
+Toolchain:       MDK-ARM Plus  Version: 5.28.0.0
 Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
 C Compiler:      Armcc.exe V5.06 update 6 (build 750)
 Assembler:       Armasm.exe V5.06 update 6 (build 750)
@@ -22,19 +22,15 @@ Dialog DLL:      TCM.DLL V1.36.2.0
  
 <h2>Project:</h2>
 D:\RT1052_Project\rt1052.uvprojx
-Project File Date:  09/30/2019
+Project File Date:  11/29/2019
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
-compiling lpuart1.c...
 compiling main.c...
-compiling peripherals.c...
 compiling interrupt.c...
-compiling fsl_gpt.c...
-compiling pin_mux.c...
 linking...
-Program Size: Code=26000 RO-data=4932 RW-data=176 ZI-data=1539660  
+Program Size: Code=15236 RO-data=3932 RW-data=104 ZI-data=3460  
 ".\Objects\rt1052.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -64,28 +60,17 @@ Package Vendor: NXP
                 http://mcuxpresso.nxp.com/cmsis_pack/repo/NXP.MIMXRT1052_DFP.12.0.0.pack
                 NXP.MIMXRT1052_DFP.12.0.0
                 Device Family Pack for MIMXRT1052
-   * Component: adc_12b1msps_sar Version: 2.0.2
-   * Component: adc_etc Version: 2.0.1
    * Component: clock Version: 2.1.0
    * Component: common Version: 2.1.0
    * Component: dmamux Version: 2.0.2
    * Component: edma Version: 2.1.8
-   * Component: elcdif Version: 2.0.1
-   * Component: flexspi Version: 2.1.1
-   * Component: gpio Version: 2.0.2
    * Component: gpt Version: 2.0.0
-   * Component: i2c Version: 2.1.9
    * Component: iomuxc Version: 2.0.0
    * Component: lists Version: 1.0.0
-   * Component: lpi2c_adapter Version: 1.0.0
    * Component: lpuart Version: 2.2.7
    * Component: lpuart_adapter Version: 1.0.0
-   * Component: lpuart_edma Version: 2.2.7
    * Component: pit Version: 2.0.2
    * Component: qtmr Version: 2.0.0
-   * Component: sdhc Version: 2.2.8
-   * Component: semc Version: 2.0.4
-   * Component: xbara Version: 2.0.4
    * Component: assert Version: 1.0.0
    * Component: debug_console Version: 1.0.0
    * Component: notifier Version: 1.0.0
@@ -104,7 +89,6 @@ Package Vendor: NXP
   C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include
   C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include
   C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0
-  C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\i2c
   C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists
   C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager
   C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart
@@ -122,19 +106,19 @@ Package Vendor: NXP
       Include file:  CMSIS\RTOS2\FreeRTOS\Config\ARMCM\FreeRTOSConfig.h
 
    * Component: ARM.FreeRTOS::RTOS:Core:Cortex-M:10.2.0
-      Source file:   Source\list.c
-      Include file:  Source\include\FreeRTOS.h
-      Include file:  Source\include\task.h
-      Source file:   Source\tasks.c
-      Include file:  Source\include\semphr.h
       Include file:  Source\include\queue.h
+      Include file:  Source\include\FreeRTOS.h
+      Include file:  Source\include\semphr.h
       Source file:   Source\queue.c
+      Source file:   Source\tasks.c
+      Include file:  Source\include\task.h
+      Source file:   Source\list.c
       Source file:   Source\portable\RVDS\ARM_CM7\r0p1\port.c
       Source file:   CMSIS\RTOS2\FreeRTOS\Source\freertos_evr.c
 
    * Component: ARM.FreeRTOS::RTOS:Coroutines:10.2.0
-      Source file:   Source\croutine.c
       Include file:  Source\include\croutine.h
+      Source file:   Source\croutine.c
 
    * Component: ARM.FreeRTOS::RTOS:Event Groups:10.2.0
       Include file:  Source\include\event_groups.h
@@ -152,59 +136,35 @@ Package Vendor: NXP
       Include file:  Source\include\stream_buffer.h
 
    * Component: ARM.FreeRTOS::RTOS:Timers:10.2.0
-      Include file:  Source\include\timers.h
       Source file:   Source\timers.c
+      Include file:  Source\include\timers.h
 
    * Component: ARM::CMSIS:CORE:5.3.0
 
    * Component: ARM::CMSIS:RTOS2:FreeRTOS:10.2.0
       Source file:   CMSIS\RTOS2\FreeRTOS\Source\cmsis_os2.c
-      Source file:   CMSIS\RTOS2\FreeRTOS\Source\os_systick.c
       Source file:   CMSIS\RTOS2\FreeRTOS\Source\ARM\clib_arm.c
-
-   * Component: NXP::Device:SDK Drivers:adc_12b1msps_sar:2.0.2
-      Source file:   drivers\fsl_adc.c
-      Include file:  drivers\fsl_adc.h
-
-   * Component: NXP::Device:SDK Drivers:adc_etc:2.0.1
-      Source file:   drivers\fsl_adc_etc.c
-      Include file:  drivers\fsl_adc_etc.h
+      Source file:   CMSIS\RTOS2\FreeRTOS\Source\os_systick.c
 
    * Component: NXP::Device:SDK Drivers:clock:2.1.0
       Source file:   drivers\fsl_clock.c
       Include file:  drivers\fsl_clock.h
 
    * Component: NXP::Device:SDK Drivers:common:2.1.0
-      Include file:  drivers\fsl_common.h
       Source file:   drivers\fsl_common.c
+      Include file:  drivers\fsl_common.h
 
    * Component: NXP::Device:SDK Drivers:dmamux:2.0.2
       Source file:   drivers\fsl_dmamux.c
       Include file:  drivers\fsl_dmamux.h
 
    * Component: NXP::Device:SDK Drivers:edma:2.1.8
-      Source file:   drivers\fsl_edma.c
       Include file:  drivers\fsl_edma.h
-
-   * Component: NXP::Device:SDK Drivers:elcdif:2.0.1
-      Source file:   drivers\fsl_elcdif.c
-      Include file:  drivers\fsl_elcdif.h
-
-   * Component: NXP::Device:SDK Drivers:flexspi:2.1.1
-      Source file:   drivers\fsl_flexspi.c
-      Include file:  drivers\fsl_flexspi.h
-
-   * Component: NXP::Device:SDK Drivers:gpio:2.0.2
-      Source file:   drivers\fsl_gpio.c
-      Include file:  drivers\fsl_gpio.h
+      Source file:   drivers\fsl_edma.c
 
    * Component: NXP::Device:SDK Drivers:gpt:2.0.0
       Source file:   drivers\fsl_gpt.c
       Include file:  drivers\fsl_gpt.h
-
-   * Component: NXP::Device:SDK Drivers:i2c:2.1.9
-      Include file:  drivers\fsl_lpi2c.h
-      Source file:   drivers\fsl_lpi2c.c
 
    * Component: NXP::Device:SDK Drivers:iomuxc:2.0.0
       Include file:  drivers\fsl_iomuxc.h
@@ -212,10 +172,6 @@ Package Vendor: NXP
    * Component: NXP::Device:SDK Drivers:lists:1.0.0
       Source file:   components\lists\generic_list.c
       Include file:  components\lists\generic_list.h
-
-   * Component: NXP::Device:SDK Drivers:lpi2c_adapter:1.0.0
-      Source file:   components\i2c\lpi2c_adapter.c
-      Include file:  components\i2c\i2c.h
 
    * Component: NXP::Device:SDK Drivers:lpuart:2.2.7
       Include file:  drivers\fsl_lpuart.h
@@ -225,48 +181,32 @@ Package Vendor: NXP
       Source file:   components\uart\lpuart_adapter.c
       Include file:  components\uart\uart.h
 
-   * Component: NXP::Device:SDK Drivers:lpuart_edma:2.2.7
-      Include file:  drivers\fsl_lpuart_edma.h
-      Source file:   drivers\fsl_lpuart_edma.c
-
    * Component: NXP::Device:SDK Drivers:pit:2.0.2
-      Source file:   drivers\fsl_pit.c
       Include file:  drivers\fsl_pit.h
+      Source file:   drivers\fsl_pit.c
 
    * Component: NXP::Device:SDK Drivers:qtmr:2.0.0
-      Include file:  drivers\fsl_qtmr.h
       Source file:   drivers\fsl_qtmr.c
-
-   * Component: NXP::Device:SDK Drivers:sdhc:2.2.8
-      Source file:   drivers\fsl_usdhc.c
-      Include file:  drivers\fsl_usdhc.h
-
-   * Component: NXP::Device:SDK Drivers:semc:2.0.4
-      Source file:   drivers\fsl_semc.c
-      Include file:  drivers\fsl_semc.h
-
-   * Component: NXP::Device:SDK Drivers:xbara:2.0.4
-      Include file:  drivers\fsl_xbara.h
-      Source file:   drivers\fsl_xbara.c
+      Include file:  drivers\fsl_qtmr.h
 
    * Component: NXP::Device:SDK Utilities:assert:1.0.0
       Source file:   utilities\fsl_assert.c
 
    * Component: NXP::Device:SDK Utilities:debug_console:1.0.0
-      Include file:  utilities\str\fsl_str.h
-      Include file:  utilities\debug_console\fsl_debug_console_conf.h
-      Include file:  utilities\debug_console\fsl_debug_console.h
-      Source file:   utilities\str\fsl_str.c
       Source file:   utilities\debug_console\fsl_debug_console.c
+      Include file:  utilities\debug_console\fsl_debug_console.h
+      Include file:  utilities\debug_console\fsl_debug_console_conf.h
+      Source file:   utilities\str\fsl_str.c
+      Include file:  utilities\str\fsl_str.h
 
    * Component: NXP::Device:SDK Utilities:notifier:1.0.0
       Source file:   utilities\fsl_notifier.c
       Include file:  utilities\fsl_notifier.h
 
    * Component: NXP::Device:SDK Utilities:serial_manager:1.0.0
+      Include file:  components\serial_manager\serial_manager.h
       Source file:   components\serial_manager\serial_manager.c
       Include file:  components\serial_manager\serial_port_internal.h
-      Include file:  components\serial_manager\serial_manager.h
 
    * Component: NXP::Device:SDK Utilities:serial_manager_uart:1.0.0
       Source file:   components\serial_manager\serial_port_uart.c
@@ -277,13 +217,13 @@ Package Vendor: NXP
       Source file:   utilities\fsl_shell.c
 
    * Component: NXP::Device:Startup:MIMXRT1052_startup:1.0.0
+      Source file:   arm\startup_MIMXRT1052.s
       Include file:  MIMXRT1052.h
       Include file:  MIMXRT1052_features.h
-      Source file:   arm\startup_MIMXRT1052.s
-      Source file:   system_MIMXRT1052.c
       Include file:  system_MIMXRT1052.h
+      Source file:   system_MIMXRT1052.c
       Include file:  fsl_device_registers.h
-Build Time Elapsed:  00:00:04
+Build Time Elapsed:  00:00:05
 </pre>
 </body>
 </html>

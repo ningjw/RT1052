@@ -1676,16 +1676,16 @@ M\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include -IC:\Keil_v5\ARM\PACK\ARM\CMSIS
 -FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1 -IC:\Keil_v5\ARM\PACK\ARM\CM
 SIS\5.6.0\CMSIS\Core\Include -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\
 Include -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0 -IC:\Keil_v5\ARM\PACK\N
-XP\MIMXRT1052_DFP\12.0.0\components\i2c -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DF
-P\12.0.0\components\lists -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\compo
-nents\serial_manager -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components
-\uart -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers -IC:\Keil_v5\ARM\
-PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_D
-FP\12.0.0\utilities\debug_console -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0
-.0\utilities\str --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION
- SETA 528" --predefine="_RTE_ SETA 1" --predefine="CPU_MIMXRT1052CVL5B SETA 1" 
---predefine="__STARTUP_INITIALIZE_NONCACHEDATA SETA 1" --list=.\listings\startu
-p_mimxrt1052.lst RTE\Device\MIMXRT1052CVL5B\startup_MIMXRT1052.s
+XP\MIMXRT1052_DFP\12.0.0\components\lists -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_
+DFP\12.0.0\components\serial_manager -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\1
+2.0.0\components\uart -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers -
+IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities -IC:\Keil_v5\ARM\PACK\
+NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console -IC:\Keil_v5\ARM\PACK\NXP\MIM
+XRT1052_DFP\12.0.0\utilities\str --predefine="__MICROLIB SETA 1" --predefine="_
+_UVISION_VERSION SETA 528" --predefine="_RTE_ SETA 1" --predefine="CPU_MIMXRT10
+52CVL5B SETA 1" --predefine="__STARTUP_INITIALIZE_NONCACHEDATA SETA 1" --list=.
+\listings\startup_mimxrt1052.lst RTE\Device\MIMXRT1052CVL5B\startup_MIMXRT1052.
+s
 
 
 

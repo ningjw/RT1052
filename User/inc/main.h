@@ -10,4 +10,6 @@
 #include "interrupt.h"
 #include "lpuart1.h"
 
+#include "fsl_debug_console.h"
+
 #endif

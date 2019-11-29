@@ -340,7 +340,7 @@
 --diag_suppress=66,1296,186 
  
 </MiscControls>
-              <Define>XIP_EXTERNAL_FLASH=1, XIP_BOOT_HEADER_ENABLE =1,XIP_BOOT_HEADER_DCD_ENABLE =1,PRINTF_FLOAT_ENABLE=1, SCANF_FLOAT_ENABLE=1, PRINTF_ADVANCED_ENABLE=1, SCANF_ADVANCED_ENABLE=1</Define>
+              <Define>CPU_MIMXRT1052CVL5B,XIP_EXTERNAL_FLASH=1, XIP_BOOT_HEADER_ENABLE =1,XIP_BOOT_HEADER_DCD_ENABLE =1,PRINTF_FLOAT_ENABLE=1, SCANF_FLOAT_ENABLE=1, PRINTF_ADVANCED_ENABLE=1, SCANF_ADVANCED_ENABLE=1,USE_RAM_VECTOR_TABLE</Define>
               <Undefine></Undefine>
               <IncludePath>.\board;.\User\inc;.\xip</IncludePath>
             </VariousControls>
@@ -533,18 +533,6 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </component>
-      <component Cclass="Device" Cgroup="SDK Drivers" Csub="adc_12b1msps_sar" Cvendor="NXP" Cversion="2.0.2" condition="device.MIMXRT1052_AND_driver.common">
-        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
-        <targetInfos>
-          <targetInfo name="Target 1"/>
-        </targetInfos>
-      </component>
-      <component Cclass="Device" Cgroup="SDK Drivers" Csub="adc_etc" Cvendor="NXP" Cversion="2.0.1" condition="device.MIMXRT1052_AND_driver.common">
-        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
-        <targetInfos>
-          <targetInfo name="Target 1"/>
-        </targetInfos>
-      </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="clock" Cvendor="NXP" Cversion="2.1.0" condition="device.MIMXRT1052_AND_driver.common">
         <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
         <targetInfos>
@@ -569,31 +557,7 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </component>
-      <component Cclass="Device" Cgroup="SDK Drivers" Csub="elcdif" Cvendor="NXP" Cversion="2.0.1" condition="device.MIMXRT1052_AND_driver.common">
-        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
-        <targetInfos>
-          <targetInfo name="Target 1"/>
-        </targetInfos>
-      </component>
-      <component Cclass="Device" Cgroup="SDK Drivers" Csub="flexspi" Cvendor="NXP" Cversion="2.1.1" condition="device.MIMXRT1052_AND_driver.common">
-        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
-        <targetInfos>
-          <targetInfo name="Target 1"/>
-        </targetInfos>
-      </component>
-      <component Cclass="Device" Cgroup="SDK Drivers" Csub="gpio" Cvendor="NXP" Cversion="2.0.2" condition="device.MIMXRT1052_AND_driver.common">
-        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
-        <targetInfos>
-          <targetInfo name="Target 1"/>
-        </targetInfos>
-      </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="gpt" Cvendor="NXP" Cversion="2.0.0" condition="device.MIMXRT1052_AND_driver.common">
-        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
-        <targetInfos>
-          <targetInfo name="Target 1"/>
-        </targetInfos>
-      </component>
-      <component Cclass="Device" Cgroup="SDK Drivers" Csub="i2c" Cvendor="NXP" Cversion="2.1.9" condition="device.MIMXRT1052_AND_driver.common">
         <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
         <targetInfos>
           <targetInfo name="Target 1"/>
@@ -611,12 +575,6 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </component>
-      <component Cclass="Device" Cgroup="SDK Drivers" Csub="lpi2c_adapter" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1052_AND_driver.common_AND_driver.lpi2c">
-        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
-        <targetInfos>
-          <targetInfo name="Target 1"/>
-        </targetInfos>
-      </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="lpuart" Cvendor="NXP" Cversion="2.2.7" condition="device.MIMXRT1052_AND_driver.common">
         <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
         <targetInfos>
@@ -629,12 +587,6 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </component>
-      <component Cclass="Device" Cgroup="SDK Drivers" Csub="lpuart_edma" Cvendor="NXP" Cversion="2.2.7" condition="device.MIMXRT1052_AND_driver.edma_AND_driver.lpuart">
-        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
-        <targetInfos>
-          <targetInfo name="Target 1"/>
-        </targetInfos>
-      </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="pit" Cvendor="NXP" Cversion="2.0.2" condition="device.MIMXRT1052_AND_driver.common">
         <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
         <targetInfos>
@@ -642,24 +594,6 @@
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="qtmr" Cvendor="NXP" Cversion="2.0.0" condition="device.MIMXRT1052_AND_driver.common">
-        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
-        <targetInfos>
-          <targetInfo name="Target 1"/>
-        </targetInfos>
-      </component>
-      <component Cclass="Device" Cgroup="SDK Drivers" Csub="sdhc" Cvendor="NXP" Cversion="2.2.8" condition="device.MIMXRT1052_AND_driver.common">
-        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
-        <targetInfos>
-          <targetInfo name="Target 1"/>
-        </targetInfos>
-      </component>
-      <component Cclass="Device" Cgroup="SDK Drivers" Csub="semc" Cvendor="NXP" Cversion="2.0.4" condition="device.MIMXRT1052_AND_driver.common">
-        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
-        <targetInfos>
-          <targetInfo name="Target 1"/>
-        </targetInfos>
-      </component>
-      <component Cclass="Device" Cgroup="SDK Drivers" Csub="xbara" Cvendor="NXP" Cversion="2.0.4" condition="device.MIMXRT1052_AND_driver.common">
         <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
         <targetInfos>
           <targetInfo name="Target 1"/>
@@ -764,6 +698,12 @@
         <targetInfos>
           <targetInfo name="Target 1"/>
         </targetInfos>
+      </file>
+      <file attr="config" category="header" name="template\RTE_Device.h">
+        <instance index="0" removed="1">RTE\Device\MIMXRT1052CVL5B\RTE_Device.h</instance>
+        <component Cclass="Device" Cgroup="SDK Project Template" Csub="RTE_Device" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1052_AND_driver.edma"/>
+        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos/>
       </file>
       <file attr="config" category="header" name="fsl_device_registers.h" version="1.0.0">
         <instance index="0">RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h</instance>

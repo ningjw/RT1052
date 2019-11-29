@@ -37,36 +37,6 @@ extern "C" {
  */
 void BOARD_InitBootPins(void);
 
-/* GPIO_AD_B1_08 (coord H13), RGB_RED_LED */
-#define BOARD_INITPINS_RGB_RED_LED_GPIO                                    GPIO1   /*!< GPIO device name: GPIO1 */
-#define BOARD_INITPINS_RGB_RED_LED_PORT                                    GPIO1   /*!< PORT device name: GPIO1 */
-#define BOARD_INITPINS_RGB_RED_LED_PIN                                       24U   /*!< GPIO1 pin index: 24 */
-
-/* GPIO_AD_B1_09 (coord M13), RGB_GREEN_LED */
-#define BOARD_INITPINS_RGB_GREEN_LED_GPIO                                  GPIO1   /*!< GPIO device name: GPIO1 */
-#define BOARD_INITPINS_RGB_GREEN_LED_PORT                                  GPIO1   /*!< PORT device name: GPIO1 */
-#define BOARD_INITPINS_RGB_GREEN_LED_PIN                                     25U   /*!< GPIO1 pin index: 25 */
-
-/* GPIO_AD_B0_10 (coord G13), RGB_BLUE_LED */
-#define BOARD_INITPINS_RGB_BLUE_LED_GPIO                                   GPIO1   /*!< GPIO device name: GPIO1 */
-#define BOARD_INITPINS_RGB_BLUE_LED_PORT                                   GPIO1   /*!< PORT device name: GPIO1 */
-#define BOARD_INITPINS_RGB_BLUE_LED_PIN                                      10U   /*!< GPIO1 pin index: 10 */
-
-/* WAKEUP (coord L6), CORE_BOARD_WAUP_KEY */
-#define BOARD_INITPINS_CORE_BOARD_WAUP_KEY_GPIO                            GPIO5   /*!< GPIO device name: GPIO5 */
-#define BOARD_INITPINS_CORE_BOARD_WAUP_KEY_PORT                            GPIO5   /*!< PORT device name: GPIO5 */
-#define BOARD_INITPINS_CORE_BOARD_WAUP_KEY_PIN                                0U   /*!< GPIO5 pin index: 0 */
-
-/* GPIO_AD_B0_05 (coord G14), CORE_BOARD_MODE_KEY */
-#define BOARD_INITPINS_CORE_BOARD_MODE_KEY_GPIO                            GPIO1   /*!< GPIO device name: GPIO1 */
-#define BOARD_INITPINS_CORE_BOARD_MODE_KEY_PORT                            GPIO1   /*!< PORT device name: GPIO1 */
-#define BOARD_INITPINS_CORE_BOARD_MODE_KEY_PIN                                5U   /*!< GPIO1 pin index: 5 */
-
-/* GPIO_AD_B0_09 (coord F14), CORE_BOARD_LED */
-#define BOARD_INITPINS_CORE_BOARD_LED_GPIO                                 GPIO1   /*!< GPIO device name: GPIO1 */
-#define BOARD_INITPINS_CORE_BOARD_LED_PORT                                 GPIO1   /*!< PORT device name: GPIO1 */
-#define BOARD_INITPINS_CORE_BOARD_LED_PIN                                     9U   /*!< GPIO1 pin index: 9 */
-
 
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
