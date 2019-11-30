@@ -26,7 +26,7 @@
             <power_domains/>
             <pin_labels>
                <pin_label pin_num="M13" pin_signal="GPIO_AD_B1_09" label="RGB_GREEN_LED" identifier="RGB_GREEN_LED"/>
-               <pin_label pin_num="F14" pin_signal="GPIO_AD_B0_09" label="CORE_BOARD_LED" identifier="CORE_BOARD_LED"/>
+               <pin_label pin_num="F14" pin_signal="GPIO_AD_B0_09" label="LED" identifier="CORE_BOARD_LED;LED"/>
                <pin_label pin_num="G13" pin_signal="GPIO_AD_B0_10" label="RGB_BLUE_LED" identifier="RGB_BLUE_LED"/>
                <pin_label pin_num="H13" pin_signal="GPIO_AD_B1_08" label="RGB_RED_LED" identifier="RGB_RED_LED"/>
                <pin_label pin_num="L6" pin_signal="WAKEUP" label="CORE_BOARD_WAUP_KEY" identifier="CORE_BOARD_WAUP_KEY"/>
@@ -34,7 +34,7 @@
             </pin_labels>
          </pins_profile>
          <functions_list>
-            <function name="BOARD_InitPins">
+            <function name="BOARD">
                <description>Configures pin routing and optionally pin electrical features.</description>
                <options>
                   <callFromInitBoot>true</callFromInitBoot>
@@ -42,17 +42,27 @@
                   <enableClock>true</enableClock>
                </options>
                <dependencies>
-                  <dependency resourceType="Peripheral" resourceId="LPUART1" description="Peripheral LPUART1 is not initialized" problem_level="1" source="Pins:BOARD_InitPins">
+                  <dependency resourceType="Peripheral" resourceId="LPUART1" description="Peripheral LPUART1 is not initialized" problem_level="1" source="Pins:BOARD">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="SWComponent" resourceId="platform.drivers.common" description="Pins initialization requires the COMMON Driver in the project." problem_level="2" source="Pins:BOARD_InitPins">
+                  <dependency resourceType="Peripheral" resourceId="LPI2C1" description="Peripheral LPI2C1 is not initialized" problem_level="1" source="Pins:BOARD">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="SWComponent" resourceId="platform.drivers.common" description="Pins initialization requires the COMMON Driver in the project." problem_level="2" source="Pins:BOARD">
                      <feature name="enabled" evaluation="equal" configuration="core0">
                         <data>true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="SWComponent" resourceId="platform.drivers.iomuxc" description="Pins initialization requires the IOMUXC Driver in the project." problem_level="2" source="Pins:BOARD_InitPins">
+                  <dependency resourceType="SWComponent" resourceId="platform.drivers.iomuxc" description="Pins initialization requires the IOMUXC Driver in the project." problem_level="2" source="Pins:BOARD">
+                     <feature name="enabled" evaluation="equal" configuration="core0">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="SWComponent" resourceId="platform.drivers.igpio" description="Pins initialization requires the IGPIO Driver in the project." problem_level="2" source="Pins:BOARD">
                      <feature name="enabled" evaluation="equal" configuration="core0">
                         <data>true</data>
                      </feature>
@@ -61,6 +71,28 @@
                <pins>
                   <pin peripheral="LPUART1" signal="TX" pin_num="K14" pin_signal="GPIO_AD_B0_12"/>
                   <pin peripheral="LPUART1" signal="RX" pin_num="L14" pin_signal="GPIO_AD_B0_13"/>
+                  <pin peripheral="GPIO1" signal="gpio_io, 09" pin_num="F14" pin_signal="GPIO_AD_B0_09">
+                     <pin_features>
+                        <pin_feature name="identifier" value="LED"/>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="LPI2C1" signal="SDA" pin_num="K11" pin_signal="GPIO_AD_B1_01">
+                     <pin_features>
+                        <pin_feature name="software_input_on" value="Enable"/>
+                        <pin_feature name="pull_up_down_config" value="Pull_Down_100K_Ohm"/>
+                        <pin_feature name="pull_keeper_select" value="Pull"/>
+                        <pin_feature name="open_drain" value="Enable"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="LPI2C1" signal="SCL" pin_num="J11" pin_signal="GPIO_AD_B1_00">
+                     <pin_features>
+                        <pin_feature name="software_input_on" value="Enable"/>
+                        <pin_feature name="pull_up_down_config" value="Pull_Down_100K_Ohm"/>
+                        <pin_feature name="pull_keeper_select" value="Pull"/>
+                        <pin_feature name="open_drain" value="Enable"/>
+                     </pin_features>
+                  </pin>
                </pins>
             </function>
          </functions_list>
@@ -286,6 +318,16 @@
                   <data type="Version">2.0.0</data>
                </feature>
             </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.lpi2c" description="在工具链/IDT 工程中未找到 LPI2C Driver。" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.lpi2c" description="工具链/IDT 工程中，该版本的 LPI2C Driver 不被支持。所需的：${required_value},，实际的： ${actual_value}。" problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">2.1.5</data>
+               </feature>
+            </dependency>
          </dependencies>
          <generated_project_files>
             <file path="board/peripherals.c" update_enabled="true"/>
@@ -327,6 +369,21 @@
                   <dependency resourceType="ClockOutput" resourceId="PERCLK_CLK_ROOT" description="PERCLK_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="frequency" evaluation="greaterThan">
                         <data type="Frequency" unit="Hz">0</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="ClockOutput" resourceId="LPI2C_CLK_ROOT" description="LPI2C_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPI2C1.lpi2c_scl" description="Signal serial clock of the peripheral LPI2C1 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPI2C1.lpi2c_sda" description="Signal serial data of the peripheral LPI2C1 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="">
+                        <data type="Boolean">true</data>
                      </feature>
                   </dependency>
                </dependencies>
@@ -416,6 +473,38 @@
                               <setting name="enableInterrupt" value="true"/>
                            </struct>
                         </array>
+                     </config_set>
+                  </instance>
+                  <instance name="LPI2C1" type="lpi2c" type_id="lpi2c_db68d4f4f06a22e25ab51fe9bd6db4d2" mode="master" peripheral="LPI2C1" enabled="true">
+                     <config_set name="main" quick_selection="qs_interrupt">
+                        <setting name="clockSource" value="Lpi2cClock"/>
+                        <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
+                        <struct name="interrupt">
+                           <setting name="IRQn" value="LPI2C1_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                     </config_set>
+                     <config_set name="master">
+                        <setting name="mode" value="polling"/>
+                        <struct name="config">
+                           <setting name="enableMaster" value="true"/>
+                           <setting name="enableDoze" value="true"/>
+                           <setting name="debugEnable" value="false"/>
+                           <setting name="ignoreAck" value="false"/>
+                           <setting name="pinConfig" value="kLPI2C_2PinOpenDrain"/>
+                           <setting name="baudRate_Hz" value="400000"/>
+                           <setting name="busIdleTimeout_ns" value="0"/>
+                           <setting name="pinLowTimeout_ns" value="0"/>
+                           <setting name="sdaGlitchFilterWidth_ns" value="0"/>
+                           <setting name="sclGlitchFilterWidth_ns" value="0"/>
+                           <struct name="hostRequest">
+                              <setting name="enable" value="false"/>
+                              <setting name="source" value="kLPI2C_HostRequestExternalPin"/>
+                              <setting name="polarity" value="kLPI2C_HostRequestPinActiveHigh"/>
+                           </struct>
+                        </struct>
                      </config_set>
                   </instance>
                </instances>

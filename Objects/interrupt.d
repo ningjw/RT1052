@@ -24,7 +24,10 @@
 .\objects\interrupt.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dmamux.h
 .\objects\interrupt.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart.h
 .\objects\interrupt.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_pit.h
+.\objects\interrupt.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h
+.\objects\interrupt.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\interrupt.o: .\board\pin_mux.h
+.\objects\interrupt.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
 .\objects\interrupt.o: .\User\inc\interrupt.h
 .\objects\interrupt.o: .\User\inc\lpuart1.h
 .\objects\interrupt.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h

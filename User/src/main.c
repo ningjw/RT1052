@@ -1,18 +1,16 @@
 #include "main.h"
+#include "i2c_eeprom_drv.h"
 
-uint8_t txbuff[] = "¿ª»ú\r\n";
-extern uint8_t rxData;
-extern uint8_t rxFlag;
 int main(void)
 {
     BOARD_BootClockRUN();
     BOARD_InitBootPins();
     BOARD_InitPeripherals();
 
-    LPUART_WriteBlocking(LPUART1, txbuff, sizeof(txbuff) - 1);
+    BOARD_InitDebugConsole();
+    PRINTF("***** Welcome *****\r\n");
     
     while(1){
 
     }
 }
-

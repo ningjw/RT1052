@@ -15,6 +15,7 @@
 #include "fsl_lpuart.h"
 #include "fsl_clock.h"
 #include "fsl_pit.h"
+#include "fsl_lpi2c.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -51,6 +52,11 @@ extern "C" {
 #define PIT1_IRQ_PRIORITY 5
 /* PIT1 interrupt handler identifier. */
 #define PIT1_IRQHANDLER PIT_IRQHandler
+/* BOARD_InitPeripherals defines for LPI2C1 */
+/* Definition of peripheral ID */
+#define LPI2C1_PERIPHERAL LPI2C1
+/* Definition of clock source */
+#define LPI2C1_CLOCK_FREQ 60000000UL
 
 /***********************************************************************************************************************
  * Global variables
@@ -58,6 +64,7 @@ extern "C" {
 extern const edma_config_t eDMA_config;
 extern const lpuart_config_t LPUART1_config;
 extern const pit_config_t PIT1_config;
+extern const lpi2c_master_config_t LPI2C1_masterConfig;
 
 /***********************************************************************************************************************
  * Initialization functions

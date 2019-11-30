@@ -23,10 +23,14 @@
 .\objects\main.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dmamux.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_pit.h
+.\objects\main.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\main.o: .\board\pin_mux.h
+.\objects\main.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
 .\objects\main.o: .\User\inc\interrupt.h
 .\objects\main.o: .\User\inc\main.h
 .\objects\main.o: .\User\inc\lpuart1.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h
+.\objects\main.o: .\User\inc\i2c_eeprom_drv.h

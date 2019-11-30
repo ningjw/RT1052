@@ -13,7 +13,7 @@ mcu_data: ksdk2_0
 processor_version: 6.0.1
 pin_labels:
 - {pin_num: M13, pin_signal: GPIO_AD_B1_09, label: RGB_GREEN_LED, identifier: RGB_GREEN_LED}
-- {pin_num: F14, pin_signal: GPIO_AD_B0_09, label: CORE_BOARD_LED, identifier: CORE_BOARD_LED}
+- {pin_num: F14, pin_signal: GPIO_AD_B0_09, label: LED, identifier: CORE_BOARD_LED;LED}
 - {pin_num: G13, pin_signal: GPIO_AD_B0_10, label: RGB_BLUE_LED, identifier: RGB_BLUE_LED}
 - {pin_num: H13, pin_signal: GPIO_AD_B1_08, label: RGB_RED_LED, identifier: RGB_RED_LED}
 - {pin_num: L6, pin_signal: WAKEUP, label: CORE_BOARD_WAUP_KEY, identifier: CORE_BOARD_WAUP_KEY}
@@ -23,6 +23,7 @@ pin_labels:
 
 #include "fsl_common.h"
 #include "fsl_iomuxc.h"
+#include "fsl_gpio.h"
 #include "pin_mux.h"
 
 /* FUNCTION ************************************************************************************************************
@@ -32,55 +33,55 @@ pin_labels:
  * 
  * END ****************************************************************************************************************/
 void BOARD_InitBootPins(void) {
-    BOARD_InitPins();
+    BOARD();
 }
 
 /*
  * TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
-BOARD_InitPins:
+BOARD:
 - options: {callFromInitBoot: 'true', coreID: core0, enableClock: 'true'}
 - pin_list:
   - {pin_num: K14, peripheral: LPUART1, signal: TX, pin_signal: GPIO_AD_B0_12}
   - {pin_num: L14, peripheral: LPUART1, signal: RX, pin_signal: GPIO_AD_B0_13}
+  - {pin_num: F14, peripheral: GPIO1, signal: 'gpio_io, 09', pin_signal: GPIO_AD_B0_09, identifier: LED, direction: OUTPUT}
+  - {pin_num: K11, peripheral: LPI2C1, signal: SDA, pin_signal: GPIO_AD_B1_01, software_input_on: Enable}
+  - {pin_num: J11, peripheral: LPI2C1, signal: SCL, pin_signal: GPIO_AD_B1_00, software_input_on: Enable}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
 /* FUNCTION ************************************************************************************************************
  *
- * Function Name : BOARD_InitPins
+ * Function Name : BOARD
  * Description   : Configures pin routing and optionally pin electrical features.
  *
  * END ****************************************************************************************************************/
-void BOARD_InitPins(void) {
+void BOARD(void) {
   CLOCK_EnableClock(kCLOCK_Iomuxc);           /* iomuxc clock (iomuxc_clk_enable): 0x03U */
 
+  /* GPIO configuration of LED on GPIO_AD_B0_09 (pin F14) */
+  gpio_pin_config_t LED_config = {
+      .direction = kGPIO_DigitalOutput,
+      .outputLogic = 0U,
+      .interruptMode = kGPIO_NoIntmode
+  };
+  /* Initialize GPIO functionality on GPIO_AD_B0_09 (pin F14) */
+  GPIO_PinInit(GPIO1, 9U, &LED_config);
+
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_AD_B0_09_GPIO1_IO09,        /* GPIO_AD_B0_09 is configured as GPIO1_IO09 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
       IOMUXC_GPIO_AD_B0_12_LPUART1_TX,        /* GPIO_AD_B0_12 is configured as LPUART1_TX */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
       IOMUXC_GPIO_AD_B0_13_LPUART1_RX,        /* GPIO_AD_B0_13 is configured as LPUART1_RX */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
-
-  IOMUXC_SetPinConfig(
-      IOMUXC_GPIO_AD_B0_12_LPUART1_TX,        /* GPIO_AD_B0_12 PAD functional properties : */
-      0x10B0u);                               /* Slew Rate Field: Slow Slew Rate
-                                                 Drive Strength Field: R0/6
-                                                 Speed Field: medium(100MHz)
-                                                 Open Drain Enable Field: Open Drain Disabled
-                                                 Pull / Keep Enable Field: Pull/Keeper Enabled
-                                                 Pull / Keep Select Field: Keeper
-                                                 Pull Up / Down Config. Field: 100K Ohm Pull Down
-                                                 Hyst. Enable Field: Hysteresis Disabled */
-  IOMUXC_SetPinConfig(
-      IOMUXC_GPIO_AD_B0_13_LPUART1_RX,        /* GPIO_AD_B0_13 PAD functional properties : */
-      0x10B0u);                               /* Slew Rate Field: Slow Slew Rate
-                                                 Drive Strength Field: R0/6
-                                                 Speed Field: medium(100MHz)
-                                                 Open Drain Enable Field: Open Drain Disabled
-                                                 Pull / Keep Enable Field: Pull/Keeper Enabled
-                                                 Pull / Keep Select Field: Keeper
-                                                 Pull Up / Down Config. Field: 100K Ohm Pull Down
-                                                 Hyst. Enable Field: Hysteresis Disabled */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_AD_B1_00_LPI2C1_SCL,        /* GPIO_AD_B1_00 is configured as LPI2C1_SCL */
+      1U);                                    /* Software Input On Field: Force input path of pad GPIO_AD_B1_00 */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_AD_B1_01_LPI2C1_SDA,        /* GPIO_AD_B1_01 is configured as LPI2C1_SDA */
+      1U);                                    /* Software Input On Field: Force input path of pad GPIO_AD_B1_01 */
 }
 
 /***********************************************************************************************************************

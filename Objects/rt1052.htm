@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\Objects\rt1052.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rt1052.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Nov 29 22:50:35 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Sat Nov 30 12:23:57 2019
 <BR><P>
-<H3>Maximum Stack Usage =        752 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =        904 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-main &rArr; BOARD_InitPeripherals &rArr; LPUART1_init &rArr; LPUART_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+main &rArr; BOARD_InitDebugConsole &rArr; DbgConsole_Init &rArr; SerialManager_Init &rArr; Serial_UartInit &rArr; HAL_UartInit &rArr; LPUART_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 <P>
 <H3>
 Mutually Recursive functions
@@ -17,11 +17,11 @@ Mutually Recursive functions
  <LI><a href="#[4]">BusFault_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[4]">BusFault_Handler</a><BR>
  <LI><a href="#[5]">UsageFault_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[5]">UsageFault_Handler</a><BR>
  <LI><a href="#[7]">DebugMon_Handler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[7]">DebugMon_Handler</a><BR>
- <LI><a href="#[10a]">DbgConsole_SendDataReliable</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[fd]">__aeabi_assert</a><BR>
- <LI><a href="#[120]">SerialManager_Write</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[fd]">__aeabi_assert</a><BR>
- <LI><a href="#[11f]">Serial_UartWrite</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[fd]">__aeabi_assert</a><BR>
- <LI><a href="#[110]">HAL_UartSendBlocking</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[fd]">__aeabi_assert</a><BR>
- <LI><a href="#[111]">LPUART_WriteBlocking</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[fd]">__aeabi_assert</a><BR>
+ <LI><a href="#[119]">DbgConsole_SendDataReliable</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[e6]">__aeabi_assert</a><BR>
+ <LI><a href="#[13c]">SerialManager_Write</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[e6]">__aeabi_assert</a><BR>
+ <LI><a href="#[13b]">Serial_UartWrite</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[e6]">__aeabi_assert</a><BR>
+ <LI><a href="#[125]">HAL_UartSendBlocking</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[e6]">__aeabi_assert</a><BR>
+ <LI><a href="#[126]">LPUART_WriteBlocking</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[e6]">__aeabi_assert</a><BR>
 </UL>
 <P>
 <H3>
@@ -132,13 +132,13 @@ Function Pointers
  <LI><a href="#[2]">HardFault_Handler</a> from startup_mimxrt1052.o(.text) referenced from startup_mimxrt1052.o(RESET)
  <LI><a href="#[31]">KPP_IRQHandler</a> from startup_mimxrt1052.o(.text) referenced from startup_mimxrt1052.o(RESET)
  <LI><a href="#[34]">LCDIF_IRQHandler</a> from startup_mimxrt1052.o(.text) referenced from startup_mimxrt1052.o(RESET)
- <LI><a href="#[bf]">LPI2C1_DriverIRQHandler</a> from startup_mimxrt1052.o(.text) referenced from startup_mimxrt1052.o(.text)
+ <LI><a href="#[bf]">LPI2C1_DriverIRQHandler</a> from fsl_lpi2c.o(i.LPI2C1_DriverIRQHandler) referenced from startup_mimxrt1052.o(.text)
  <LI><a href="#[26]">LPI2C1_IRQHandler</a> from startup_mimxrt1052.o(.text) referenced from startup_mimxrt1052.o(RESET)
- <LI><a href="#[c0]">LPI2C2_DriverIRQHandler</a> from startup_mimxrt1052.o(.text) referenced from startup_mimxrt1052.o(.text)
+ <LI><a href="#[c0]">LPI2C2_DriverIRQHandler</a> from fsl_lpi2c.o(i.LPI2C2_DriverIRQHandler) referenced from startup_mimxrt1052.o(.text)
  <LI><a href="#[27]">LPI2C2_IRQHandler</a> from startup_mimxrt1052.o(.text) referenced from startup_mimxrt1052.o(RESET)
- <LI><a href="#[c1]">LPI2C3_DriverIRQHandler</a> from startup_mimxrt1052.o(.text) referenced from startup_mimxrt1052.o(.text)
+ <LI><a href="#[c1]">LPI2C3_DriverIRQHandler</a> from fsl_lpi2c.o(i.LPI2C3_DriverIRQHandler) referenced from startup_mimxrt1052.o(.text)
  <LI><a href="#[28]">LPI2C3_IRQHandler</a> from startup_mimxrt1052.o(.text) referenced from startup_mimxrt1052.o(RESET)
- <LI><a href="#[c2]">LPI2C4_DriverIRQHandler</a> from startup_mimxrt1052.o(.text) referenced from startup_mimxrt1052.o(.text)
+ <LI><a href="#[c2]">LPI2C4_DriverIRQHandler</a> from fsl_lpi2c.o(i.LPI2C4_DriverIRQHandler) referenced from startup_mimxrt1052.o(.text)
  <LI><a href="#[29]">LPI2C4_IRQHandler</a> from startup_mimxrt1052.o(.text) referenced from startup_mimxrt1052.o(RESET)
  <LI><a href="#[c3]">LPSPI1_DriverIRQHandler</a> from startup_mimxrt1052.o(.text) referenced from startup_mimxrt1052.o(.text)
  <LI><a href="#[2a]">LPSPI1_IRQHandler</a> from startup_mimxrt1052.o(.text) referenced from startup_mimxrt1052.o(RESET)
@@ -250,7 +250,7 @@ Global Symbols
 <P><STRONG><a name="[a5]"></a>__main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry.o(.ARM.Collect$$$$00000000))
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
-<P><STRONG><a name="[135]"></a>_main_stk</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry4.o(.ARM.Collect$$$$00000003))
+<P><STRONG><a name="[151]"></a>_main_stk</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry4.o(.ARM.Collect$$$$00000003))
 
 <P><STRONG><a name="[d6]"></a>_main_scatterload</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry5.o(.ARM.Collect$$$$00000004))
 <BR><BR>[Calls]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
@@ -260,22 +260,22 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[d7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
 </UL>
 
-<P><STRONG><a name="[136]"></a>_main_clock</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry7b.o(.ARM.Collect$$$$00000008))
+<P><STRONG><a name="[152]"></a>_main_clock</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry7b.o(.ARM.Collect$$$$00000008))
 
-<P><STRONG><a name="[137]"></a>_main_cpp_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry8b.o(.ARM.Collect$$$$0000000A))
+<P><STRONG><a name="[153]"></a>_main_cpp_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry8b.o(.ARM.Collect$$$$0000000A))
 
-<P><STRONG><a name="[138]"></a>_main_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry9a.o(.ARM.Collect$$$$0000000B))
+<P><STRONG><a name="[154]"></a>_main_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry9a.o(.ARM.Collect$$$$0000000B))
 
-<P><STRONG><a name="[139]"></a>__rt_final_cpp</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry10a.o(.ARM.Collect$$$$0000000D))
+<P><STRONG><a name="[155]"></a>__rt_final_cpp</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry10a.o(.ARM.Collect$$$$0000000D))
 
-<P><STRONG><a name="[13a]"></a>__rt_final_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry11a.o(.ARM.Collect$$$$0000000F))
+<P><STRONG><a name="[156]"></a>__rt_final_exit</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry11a.o(.ARM.Collect$$$$0000000F))
 
 <P><STRONG><a name="[6]"></a>SVC_Handler</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, port.o(.emb_text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(RESET)
 </UL>
-<P><STRONG><a name="[13b]"></a>__asm___6_port_c_39a90d8d__prvStartFirstTask</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, port.o(.emb_text), UNUSED)
+<P><STRONG><a name="[157]"></a>__asm___6_port_c_39a90d8d__prvStartFirstTask</STRONG> (Thumb, 36 bytes, Stack size 0 bytes, port.o(.emb_text), UNUSED)
 
-<P><STRONG><a name="[13c]"></a>__asm___6_port_c_39a90d8d__prvEnableVFP</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, port.o(.emb_text), UNUSED)
+<P><STRONG><a name="[158]"></a>__asm___6_port_c_39a90d8d__prvEnableVFP</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, port.o(.emb_text), UNUSED)
 
 <P><STRONG><a name="[8]"></a>PendSV_Handler</STRONG> (Thumb, 92 bytes, Stack size 0 bytes, port.o(.emb_text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = PendSV_Handler &rArr; vTaskSwitchContext
@@ -284,7 +284,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(RESET)
 </UL>
-<P><STRONG><a name="[13d]"></a>vPortGetIPSR</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, port.o(.emb_text), UNUSED)
+<P><STRONG><a name="[159]"></a>vPortGetIPSR</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, port.o(.emb_text), UNUSED)
 
 <P><STRONG><a name="[0]"></a>Reset_Handler</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, startup_mimxrt1052.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(RESET)
@@ -542,8 +542,8 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[a2]"></a>DefaultISR</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_mimxrt1052.o(.text))
-<BR>[Address Reference Count : 2]<UL><LI> startup_mimxrt1052.o(.text)
-<LI> startup_mimxrt1052.o(RESET)
+<BR>[Address Reference Count : 2]<UL><LI> startup_mimxrt1052.o(RESET)
+<LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[8b]"></a>ENC1_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_mimxrt1052.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(RESET)
@@ -649,18 +649,6 @@ Global Symbols
 </UL>
 <P><STRONG><a name="[34]"></a>LCDIF_IRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_mimxrt1052.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(RESET)
-</UL>
-<P><STRONG><a name="[bf]"></a>LPI2C1_DriverIRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_mimxrt1052.o(.text))
-<BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
-</UL>
-<P><STRONG><a name="[c0]"></a>LPI2C2_DriverIRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_mimxrt1052.o(.text))
-<BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
-</UL>
-<P><STRONG><a name="[c1]"></a>LPI2C3_DriverIRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_mimxrt1052.o(.text))
-<BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
-</UL>
-<P><STRONG><a name="[c2]"></a>LPI2C4_DriverIRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_mimxrt1052.o(.text))
-<BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[c3]"></a>LPSPI1_DriverIRQHandler</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, startup_mimxrt1052.o(.text))
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
@@ -860,7 +848,8 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
 </UL>
-<BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertRadixNumToString
+<BR>[Called By]<UL><LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_GetPllFreq
+<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertRadixNumToString
 <LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ldivmod
 </UL>
 
@@ -869,7 +858,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 </UL>
-<BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertRadixNumToString
+<BR>[Called By]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertRadixNumToString
 </UL>
 
 <P><STRONG><a name="[de]"></a>__aeabi_memset</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
@@ -877,26 +866,28 @@ Global Symbols
 <LI><a href="#[dd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
 </UL>
 
-<P><STRONG><a name="[13e]"></a>__aeabi_memset4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<P><STRONG><a name="[15a]"></a>__aeabi_memset4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 
-<P><STRONG><a name="[13f]"></a>__aeabi_memset8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<P><STRONG><a name="[15b]"></a>__aeabi_memset8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 
 <P><STRONG><a name="[dd]"></a>__aeabi_memclr</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
 </UL>
 
-<P><STRONG><a name="[10c]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Printf
+<P><STRONG><a name="[115]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Init
+<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Printf
+<LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_GetDefaultConfig
 </UL>
 
-<P><STRONG><a name="[140]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<P><STRONG><a name="[15c]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
 
 <P><STRONG><a name="[df]"></a>_memset$wrapper</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, memseta.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
 </UL>
 
-<P><STRONG><a name="[121]"></a>strlen</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, strlen.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StrFormatPrintf
+<P><STRONG><a name="[13d]"></a>strlen</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, strlen.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StrFormatPrintf
 </UL>
 
 <P><STRONG><a name="[e0]"></a>__aeabi_l2d</STRONG> (Thumb, 40 bytes, Stack size 24 bytes, dfltl.o(.text))
@@ -904,7 +895,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_double_epilogue
 </UL>
-<BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertFloatRadixNumToString
+<BR>[Called By]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertFloatRadixNumToString
 </UL>
 
 <P><STRONG><a name="[e2]"></a>__aeabi_d2lz</STRONG> (Thumb, 74 bytes, Stack size 16 bytes, dfixl.o(.text))
@@ -913,7 +904,7 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[da]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsr
 <LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_llsl
 </UL>
-<BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertFloatRadixNumToString
+<BR>[Called By]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertFloatRadixNumToString
 </UL>
 
 <P><STRONG><a name="[db]"></a>__aeabi_llsl</STRONG> (Thumb, 30 bytes, Stack size 0 bytes, llshl.o(.text))
@@ -922,7 +913,7 @@ Global Symbols
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 </UL>
 
-<P><STRONG><a name="[141]"></a>_ll_shift_l</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llshl.o(.text), UNUSED)
+<P><STRONG><a name="[15d]"></a>_ll_shift_l</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llshl.o(.text), UNUSED)
 
 <P><STRONG><a name="[da]"></a>__aeabi_llsr</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, llushr.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2lz
@@ -930,9 +921,9 @@ Global Symbols
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 </UL>
 
-<P><STRONG><a name="[142]"></a>_ll_ushift_r</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llushr.o(.text), UNUSED)
+<P><STRONG><a name="[15e]"></a>_ll_ushift_r</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, llushr.o(.text), UNUSED)
 
-<P><STRONG><a name="[143]"></a>__I$use$fp</STRONG> (Thumb, 0 bytes, Stack size 8 bytes, iusefp.o(.text), UNUSED)
+<P><STRONG><a name="[15f]"></a>__I$use$fp</STRONG> (Thumb, 0 bytes, Stack size 8 bytes, iusefp.o(.text), UNUSED)
 
 <P><STRONG><a name="[e3]"></a>_double_round</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, depilogue.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = _double_round
@@ -950,13 +941,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_l2d
 </UL>
 
-<P><STRONG><a name="[12e]"></a>__ARM_scalbn</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, dscalb.o(.text))
+<P><STRONG><a name="[14a]"></a>__ARM_scalbn</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, dscalb.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __ARM_scalbn
 </UL>
-<BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
+<BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[144]"></a>scalbn</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, dscalb.o(.text), UNUSED)
+<P><STRONG><a name="[160]"></a>scalbn</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, dscalb.o(.text), UNUSED)
 
 <P><STRONG><a name="[d7]"></a>__scatterload</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, init.o(.text))
 <BR><BR>[Calls]<UL><LI><a href="#[e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main_after_scatterload
@@ -964,269 +955,312 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[d6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_main_scatterload
 </UL>
 
-<P><STRONG><a name="[145]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
+<P><STRONG><a name="[161]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
 
-<P><STRONG><a name="[e5]"></a>BOARD_BootClockRUN</STRONG> (Thumb, 1478 bytes, Stack size 8 bytes, clock_config.o(i.BOARD_BootClockRUN))
+<P><STRONG><a name="[e5]"></a>BOARD</STRONG> (Thumb, 260 bytes, Stack size 40 bytes, pin_mux.o(i.BOARD))
+<BR><BR>[Stack]<UL><LI>Max Depth = 760<LI>Call Chain = BOARD &rArr; GPIO_PinInit &rArr; GPIO_PinWrite &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinInit
+<LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IOMUXC_SetPinMux
+<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IOMUXC_SetPinConfig
+<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+</UL>
+<BR>[Called By]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitBootPins
+</UL>
+
+<P><STRONG><a name="[ea]"></a>BOARD_BootClockRUN</STRONG> (Thumb, 1478 bytes, Stack size 8 bytes, clock_config.o(i.BOARD_BootClockRUN))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = BOARD_BootClockRUN &rArr; CLOCK_DisableClock &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SwitchOsc
-<LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_InitSysPll
-<LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_InitSysPfd
-<LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_InitRcOsc24M
-<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_InitExternalClk
-<LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_InitEnetPll
-<LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_InitArmPll
-<LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_DeinitVideoPll
-<LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_DeinitUsb2Pll
-<LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_DeinitAudioPll
-<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IOMUXC_SetSaiMClkClockSource
-<LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SetPllBypass
-<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SetMux
-<LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SetDiv
-<LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_DisableClock
+<BR>[Calls]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SwitchOsc
+<LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_InitSysPll
+<LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_InitSysPfd
+<LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_InitRcOsc24M
+<LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_InitExternalClk
+<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_InitEnetPll
+<LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_InitArmPll
+<LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_DeinitVideoPll
+<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_DeinitUsb2Pll
+<LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_DeinitAudioPll
+<LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IOMUXC_SetSaiMClkClockSource
+<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SetPllBypass
+<LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SetMux
+<LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SetDiv
+<LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_DisableClock
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[f5]"></a>BOARD_InitBootPins</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, pin_mux.o(i.BOARD_InitBootPins))
-<BR><BR>[Stack]<UL><LI>Max Depth = 704<LI>Call Chain = BOARD_InitBootPins &rArr; BOARD_InitPins &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<P><STRONG><a name="[fa]"></a>BOARD_DebugConsoleSrcFreq</STRONG> (Thumb, 92 bytes, Stack size 16 bytes, lpuart1.o(i.BOARD_DebugConsoleSrcFreq))
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = BOARD_DebugConsoleSrcFreq &rArr; CLOCK_GetPllFreq &rArr; __aeabi_uldivmod
 </UL>
-<BR>[Calls]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPins
+<BR>[Calls]<UL><LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_GetPllFreq
+<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_GetDiv
+</UL>
+<BR>[Called By]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitDebugConsole
+</UL>
+
+<P><STRONG><a name="[fd]"></a>BOARD_InitBootPins</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, pin_mux.o(i.BOARD_InitBootPins))
+<BR><BR>[Stack]<UL><LI>Max Depth = 768<LI>Call Chain = BOARD_InitBootPins &rArr; BOARD &rArr; GPIO_PinInit &rArr; GPIO_PinWrite &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[f7]"></a>BOARD_InitPeripherals</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, peripherals.o(i.BOARD_InitPeripherals))
+<P><STRONG><a name="[fe]"></a>BOARD_InitDebugConsole</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, lpuart1.o(i.BOARD_InitDebugConsole))
+<BR><BR>[Stack]<UL><LI>Max Depth = 904<LI>Call Chain = BOARD_InitDebugConsole &rArr; DbgConsole_Init &rArr; SerialManager_Init &rArr; Serial_UartInit &rArr; HAL_UartInit &rArr; LPUART_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Init
+<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_DebugConsoleSrcFreq
+</UL>
+<BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[100]"></a>BOARD_InitPeripherals</STRONG> (Thumb, 34 bytes, Stack size 8 bytes, peripherals.o(i.BOARD_InitPeripherals))
 <BR><BR>[Stack]<UL><LI>Max Depth = 752<LI>Call Chain = BOARD_InitPeripherals &rArr; LPUART1_init &rArr; LPUART_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_Init
-<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMAMUX_Init
-<LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eDMA_init
-<LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT1_init
-<LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART1_init
+<BR>[Calls]<UL><LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_Init
+<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMAMUX_Init
+<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eDMA_init
+<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT1_init
+<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART1_init
+<LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C1_init
 </UL>
 <BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[f6]"></a>BOARD_InitPins</STRONG> (Thumb, 116 bytes, Stack size 40 bytes, pin_mux.o(i.BOARD_InitPins))
-<BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = BOARD_InitPins &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
-</UL>
-<BR>[Calls]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IOMUXC_SetPinMux
-<LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
-</UL>
-<BR>[Called By]<UL><LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitBootPins
+<P><STRONG><a name="[f4]"></a>CLOCK_DeinitAudioPll</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, fsl_clock.o(i.CLOCK_DeinitAudioPll))
+<BR><BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
 </UL>
 
-<P><STRONG><a name="[ef]"></a>CLOCK_DeinitAudioPll</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, fsl_clock.o(i.CLOCK_DeinitAudioPll))
-<BR><BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+<P><STRONG><a name="[f8]"></a>CLOCK_DeinitUsb2Pll</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, fsl_clock.o(i.CLOCK_DeinitUsb2Pll))
+<BR><BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
 </UL>
 
-<P><STRONG><a name="[f3]"></a>CLOCK_DeinitUsb2Pll</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, fsl_clock.o(i.CLOCK_DeinitUsb2Pll))
-<BR><BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+<P><STRONG><a name="[f6]"></a>CLOCK_DeinitVideoPll</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, fsl_clock.o(i.CLOCK_DeinitVideoPll))
+<BR><BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
 </UL>
 
-<P><STRONG><a name="[f1]"></a>CLOCK_DeinitVideoPll</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, fsl_clock.o(i.CLOCK_DeinitVideoPll))
-<BR><BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+<P><STRONG><a name="[fb]"></a>CLOCK_GetPllFreq</STRONG> (Thumb, 530 bytes, Stack size 48 bytes, fsl_clock.o(i.CLOCK_GetPllFreq))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = CLOCK_GetPllFreq &rArr; __aeabi_uldivmod
+</UL>
+<BR>[Calls]<UL><LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_GetOscFreq
+<LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
+</UL>
+<BR>[Called By]<UL><LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_DebugConsoleSrcFreq
 </UL>
 
-<P><STRONG><a name="[ec]"></a>CLOCK_InitArmPll</STRONG> (Thumb, 82 bytes, Stack size 0 bytes, fsl_clock.o(i.CLOCK_InitArmPll))
-<BR><BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+<P><STRONG><a name="[f1]"></a>CLOCK_InitArmPll</STRONG> (Thumb, 82 bytes, Stack size 0 bytes, fsl_clock.o(i.CLOCK_InitArmPll))
+<BR><BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
 </UL>
 
-<P><STRONG><a name="[f2]"></a>CLOCK_InitEnetPll</STRONG> (Thumb, 104 bytes, Stack size 8 bytes, fsl_clock.o(i.CLOCK_InitEnetPll))
+<P><STRONG><a name="[f7]"></a>CLOCK_InitEnetPll</STRONG> (Thumb, 104 bytes, Stack size 8 bytes, fsl_clock.o(i.CLOCK_InitEnetPll))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = CLOCK_InitEnetPll
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+<BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
 </UL>
 
-<P><STRONG><a name="[e6]"></a>CLOCK_InitExternalClk</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, fsl_clock.o(i.CLOCK_InitExternalClk))
+<P><STRONG><a name="[eb]"></a>CLOCK_InitExternalClk</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, fsl_clock.o(i.CLOCK_InitExternalClk))
 <BR><BR>[Stack]<UL><LI>Max Depth = 664<LI>Call Chain = CLOCK_InitExternalClk &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
-</UL>
-
-<P><STRONG><a name="[e7]"></a>CLOCK_InitRcOsc24M</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, fsl_clock.o(i.CLOCK_InitRcOsc24M))
-<BR><BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+<BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
 </UL>
 
-<P><STRONG><a name="[ee]"></a>CLOCK_InitSysPfd</STRONG> (Thumb, 50 bytes, Stack size 16 bytes, fsl_clock.o(i.CLOCK_InitSysPfd))
+<P><STRONG><a name="[ec]"></a>CLOCK_InitRcOsc24M</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, fsl_clock.o(i.CLOCK_InitRcOsc24M))
+<BR><BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+</UL>
+
+<P><STRONG><a name="[f3]"></a>CLOCK_InitSysPfd</STRONG> (Thumb, 50 bytes, Stack size 16 bytes, fsl_clock.o(i.CLOCK_InitSysPfd))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = CLOCK_InitSysPfd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+<BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
 </UL>
 
-<P><STRONG><a name="[ed]"></a>CLOCK_InitSysPll</STRONG> (Thumb, 130 bytes, Stack size 0 bytes, fsl_clock.o(i.CLOCK_InitSysPll))
-<BR><BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+<P><STRONG><a name="[f2]"></a>CLOCK_InitSysPll</STRONG> (Thumb, 130 bytes, Stack size 0 bytes, fsl_clock.o(i.CLOCK_InitSysPll))
+<BR><BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
 </UL>
 
-<P><STRONG><a name="[e8]"></a>CLOCK_SwitchOsc</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, fsl_clock.o(i.CLOCK_SwitchOsc))
-<BR><BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+<P><STRONG><a name="[ed]"></a>CLOCK_SwitchOsc</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, fsl_clock.o(i.CLOCK_SwitchOsc))
+<BR><BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
 </UL>
 
 <P><STRONG><a name="[a6]"></a>DMA0_DMA16_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA0_DMA16_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA0_DMA16_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[b0]"></a>DMA10_DMA26_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA10_DMA26_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA10_DMA26_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[b1]"></a>DMA11_DMA27_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA11_DMA27_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA11_DMA27_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[b2]"></a>DMA12_DMA28_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA12_DMA28_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA12_DMA28_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[b3]"></a>DMA13_DMA29_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA13_DMA29_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA13_DMA29_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[b4]"></a>DMA14_DMA30_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA14_DMA30_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA14_DMA30_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[b5]"></a>DMA15_DMA31_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA15_DMA31_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA15_DMA31_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[a7]"></a>DMA1_DMA17_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA1_DMA17_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA1_DMA17_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[a8]"></a>DMA2_DMA18_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA2_DMA18_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA2_DMA18_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[a9]"></a>DMA3_DMA19_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA3_DMA19_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA3_DMA19_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[aa]"></a>DMA4_DMA20_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA4_DMA20_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA4_DMA20_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[ab]"></a>DMA5_DMA21_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA5_DMA21_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA5_DMA21_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[ac]"></a>DMA6_DMA22_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA6_DMA22_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA6_DMA22_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[ad]"></a>DMA7_DMA23_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA7_DMA23_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA7_DMA23_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[ae]"></a>DMA8_DMA24_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA8_DMA24_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA8_DMA24_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
 <P><STRONG><a name="[af]"></a>DMA9_DMA25_DriverIRQHandler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fsl_edma.o(i.DMA9_DMA25_DriverIRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMA9_DMA25_DriverIRQHandler &rArr; EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
-<P><STRONG><a name="[f8]"></a>DMAMUX_Init</STRONG> (Thumb, 28 bytes, Stack size 16 bytes, fsl_dmamux.o(i.DMAMUX_Init))
+<P><STRONG><a name="[101]"></a>DMAMUX_Init</STRONG> (Thumb, 28 bytes, Stack size 16 bytes, fsl_dmamux.o(i.DMAMUX_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = DMAMUX_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMAMUX_GetInstance
-<LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
+<BR>[Calls]<UL><LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMAMUX_GetInstance
+<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPeripherals
+<BR>[Called By]<UL><LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPeripherals
 </UL>
 
-<P><STRONG><a name="[10b]"></a>DbgConsole_Printf</STRONG> (Thumb, 70 bytes, Stack size 160 bytes, fsl_debug_console.o(i.DbgConsole_Printf))
+<P><STRONG><a name="[ff]"></a>DbgConsole_Init</STRONG> (Thumb, 190 bytes, Stack size 56 bytes, fsl_debug_console.o(i.DbgConsole_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 896<LI>Call Chain = DbgConsole_Init &rArr; SerialManager_Init &rArr; Serial_UartInit &rArr; HAL_UartInit &rArr; LPUART_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_OpenWriteHandle
+<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_OpenReadHandle
+<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_Init
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+</UL>
+<BR>[Called By]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitDebugConsole
+</UL>
+
+<P><STRONG><a name="[11a]"></a>DbgConsole_Printf</STRONG> (Thumb, 70 bytes, Stack size 160 bytes, fsl_debug_console.o(i.DbgConsole_Printf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 656<LI>Call Chain = DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StrFormatPrintf
-<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_SendDataReliable
-<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+<BR>[Calls]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StrFormatPrintf
+<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_SendDataReliable
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
 </UL>
-<BR>[Called By]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Called By]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[10a]"></a>DbgConsole_SendDataReliable</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, fsl_debug_console.o(i.DbgConsole_SendDataReliable))
+<P><STRONG><a name="[119]"></a>DbgConsole_SendDataReliable</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, fsl_debug_console.o(i.DbgConsole_SendDataReliable))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152 + In Cycle
 <LI>Call Chain = DbgConsole_SendDataReliable &rArr;  __aeabi_assert (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
-<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_WriteBlocking
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_WriteBlocking
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Printf
+<BR>[Called By]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Printf
 <LI><a href="#[d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_PrintCallback
 </UL>
 
-<P><STRONG><a name="[107]"></a>EDMA_GetChannelStatusFlags</STRONG> (Thumb, 70 bytes, Stack size 16 bytes, fsl_edma.o(i.EDMA_GetChannelStatusFlags))
+<P><STRONG><a name="[112]"></a>EDMA_GetChannelStatusFlags</STRONG> (Thumb, 70 bytes, Stack size 16 bytes, fsl_edma.o(i.EDMA_GetChannelStatusFlags))
 <BR><BR>[Stack]<UL><LI>Max Depth = 672<LI>Call Chain = EDMA_GetChannelStatusFlags &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
 <BR>[Called By]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA9_DMA25_DriverIRQHandler
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA8_DMA24_DriverIRQHandler
@@ -1246,10 +1280,10 @@ Global Symbols
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA0_DMA16_DriverIRQHandler
 </UL>
 
-<P><STRONG><a name="[108]"></a>EDMA_HandleIRQ</STRONG> (Thumb, 210 bytes, Stack size 32 bytes, fsl_edma.o(i.EDMA_HandleIRQ))
+<P><STRONG><a name="[113]"></a>EDMA_HandleIRQ</STRONG> (Thumb, 210 bytes, Stack size 32 bytes, fsl_edma.o(i.EDMA_HandleIRQ))
 <BR><BR>[Stack]<UL><LI>Max Depth = 688<LI>Call Chain = EDMA_HandleIRQ &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
 <BR>[Called By]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA9_DMA25_DriverIRQHandler
 <LI><a href="#[ae]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA8_DMA24_DriverIRQHandler
@@ -1269,24 +1303,125 @@ Global Symbols
 <LI><a href="#[a6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMA0_DMA16_DriverIRQHandler
 </UL>
 
-<P><STRONG><a name="[f9]"></a>EDMA_Init</STRONG> (Thumb, 110 bytes, Stack size 24 bytes, fsl_edma.o(i.EDMA_Init))
+<P><STRONG><a name="[102]"></a>EDMA_Init</STRONG> (Thumb, 110 bytes, Stack size 24 bytes, fsl_edma.o(i.EDMA_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 704<LI>Call Chain = EDMA_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
-<LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetInstance
-<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetInstance
+<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPeripherals
+<BR>[Called By]<UL><LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPeripherals
 </UL>
 
-<P><STRONG><a name="[110]"></a>HAL_UartSendBlocking</STRONG> (Thumb, 82 bytes, Stack size 24 bytes, lpuart_adapter.o(i.HAL_UartSendBlocking))
+<P><STRONG><a name="[e7]"></a>GPIO_PinInit</STRONG> (Thumb, 178 bytes, Stack size 48 bytes, fsl_gpio.o(i.GPIO_PinInit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 720<LI>Call Chain = GPIO_PinInit &rArr; GPIO_PinWrite &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinWrite
+<LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinSetInterruptConfig
+<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_GetInstance
+</UL>
+<BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD
+</UL>
+
+<P><STRONG><a name="[120]"></a>GPIO_PinSetInterruptConfig</STRONG> (Thumb, 138 bytes, Stack size 20 bytes, fsl_gpio.o(i.GPIO_PinSetInterruptConfig))
+<BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = GPIO_PinSetInterruptConfig
+</UL>
+<BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinInit
+</UL>
+
+<P><STRONG><a name="[11f]"></a>GPIO_PinWrite</STRONG> (Thumb, 50 bytes, Stack size 16 bytes, fsl_gpio.o(i.GPIO_PinWrite))
+<BR><BR>[Stack]<UL><LI>Max Depth = 672<LI>Call Chain = GPIO_PinWrite &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+</UL>
+<BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinInit
+</UL>
+
+<P><STRONG><a name="[121]"></a>HAL_UartInit</STRONG> (Thumb, 206 bytes, Stack size 40 bytes, lpuart_adapter.o(i.HAL_UartInit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 776<LI>Call Chain = HAL_UartInit &rArr; LPUART_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_Init
+<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_GetDefaultConfig
+<LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UartGetStatus
+</UL>
+<BR>[Called By]<UL><LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Serial_UartInit
+</UL>
+
+<P><STRONG><a name="[125]"></a>HAL_UartSendBlocking</STRONG> (Thumb, 82 bytes, Stack size 24 bytes, lpuart_adapter.o(i.HAL_UartSendBlocking))
 <BR><BR>[Stack]<UL><LI>Max Depth = 48 + In Cycle
 <LI>Call Chain = HAL_UartSendBlocking &rArr;  __aeabi_assert (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
-<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_WriteBlocking
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_WriteBlocking
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Serial_UartWrite
+<BR>[Called By]<UL><LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Serial_UartWrite
+</UL>
+
+<P><STRONG><a name="[bf]"></a>LPI2C1_DriverIRQHandler</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, fsl_lpi2c.o(i.LPI2C1_DriverIRQHandler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = LPI2C1_DriverIRQHandler &rArr; LPI2C_CommonIRQHandler
+</UL>
+<BR>[Calls]<UL><LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_CommonIRQHandler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
+</UL>
+<P><STRONG><a name="[106]"></a>LPI2C1_init</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, peripherals.o(i.LPI2C1_init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 736<LI>Call Chain = LPI2C1_init &rArr; LPI2C_MasterInit &rArr; LPI2C_GetCyclesForWidth &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_MasterInit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPeripherals
+</UL>
+
+<P><STRONG><a name="[c0]"></a>LPI2C2_DriverIRQHandler</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, fsl_lpi2c.o(i.LPI2C2_DriverIRQHandler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = LPI2C2_DriverIRQHandler &rArr; LPI2C_CommonIRQHandler
+</UL>
+<BR>[Calls]<UL><LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_CommonIRQHandler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
+</UL>
+<P><STRONG><a name="[c1]"></a>LPI2C3_DriverIRQHandler</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, fsl_lpi2c.o(i.LPI2C3_DriverIRQHandler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = LPI2C3_DriverIRQHandler &rArr; LPI2C_CommonIRQHandler
+</UL>
+<BR>[Calls]<UL><LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_CommonIRQHandler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
+</UL>
+<P><STRONG><a name="[c2]"></a>LPI2C4_DriverIRQHandler</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, fsl_lpi2c.o(i.LPI2C4_DriverIRQHandler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = LPI2C4_DriverIRQHandler &rArr; LPI2C_CommonIRQHandler
+</UL>
+<BR>[Calls]<UL><LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_CommonIRQHandler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
+</UL>
+<P><STRONG><a name="[12a]"></a>LPI2C_GetInstance</STRONG> (Thumb, 38 bytes, Stack size 16 bytes, fsl_lpi2c.o(i.LPI2C_GetInstance))
+<BR><BR>[Stack]<UL><LI>Max Depth = 672<LI>Call Chain = LPI2C_GetInstance &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+</UL>
+<BR>[Called By]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_MasterInit
+</UL>
+
+<P><STRONG><a name="[128]"></a>LPI2C_MasterInit</STRONG> (Thumb, 302 bytes, Stack size 40 bytes, fsl_lpi2c.o(i.LPI2C_MasterInit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 728<LI>Call Chain = LPI2C_MasterInit &rArr; LPI2C_GetCyclesForWidth &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_MasterSetBaudRate
+<LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_GetInstance
+<LI><a href="#[12b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_MasterReset
+<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_MasterEnable
+<LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_GetCyclesForWidth
+<LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_EnableClock
+</UL>
+<BR>[Called By]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C1_init
+</UL>
+
+<P><STRONG><a name="[12c]"></a>LPI2C_MasterSetBaudRate</STRONG> (Thumb, 286 bytes, Stack size 64 bytes, fsl_lpi2c.o(i.LPI2C_MasterSetBaudRate))
+<BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = LPI2C_MasterSetBaudRate
+</UL>
+<BR>[Calls]<UL><LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_MasterEnable
+</UL>
+<BR>[Called By]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_MasterInit
 </UL>
 
 <P><STRONG><a name="[b7]"></a>LPUART1_DriverIRQHandler</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, fsl_lpuart.o(i.LPUART1_DriverIRQHandler))
@@ -1297,18 +1432,18 @@ Global Symbols
 <P><STRONG><a name="[1e]"></a>LPUART1_IRQHandler</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, interrupt.o(i.LPUART1_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = LPUART1_IRQHandler
 </UL>
-<BR>[Calls]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_GetStatusFlags
+<BR>[Calls]<UL><LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_GetStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(RESET)
 </UL>
-<P><STRONG><a name="[fb]"></a>LPUART1_init</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, peripherals.o(i.LPUART1_init))
+<P><STRONG><a name="[104]"></a>LPUART1_init</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, peripherals.o(i.LPUART1_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 744<LI>Call Chain = LPUART1_init &rArr; LPUART_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_Init
-<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_EnableInterrupts
-<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableIRQ
+<BR>[Calls]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_Init
+<LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_EnableInterrupts
+<LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableIRQ
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPeripherals
+<BR>[Called By]<UL><LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPeripherals
 </UL>
 
 <P><STRONG><a name="[b8]"></a>LPUART2_DriverIRQHandler</STRONG> (Thumb, 16 bytes, Stack size 8 bytes, fsl_lpuart.o(i.LPUART2_DriverIRQHandler))
@@ -1346,459 +1481,584 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
-<P><STRONG><a name="[114]"></a>LPUART_EnableInterrupts</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, fsl_lpuart.o(i.LPUART_EnableInterrupts))
-<BR><BR>[Called By]<UL><LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART1_init
+<P><STRONG><a name="[12f]"></a>LPUART_EnableInterrupts</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, fsl_lpuart.o(i.LPUART_EnableInterrupts))
+<BR><BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART1_init
 </UL>
 
-<P><STRONG><a name="[116]"></a>LPUART_GetInstance</STRONG> (Thumb, 48 bytes, Stack size 16 bytes, fsl_lpuart.o(i.LPUART_GetInstance))
+<P><STRONG><a name="[122]"></a>LPUART_GetDefaultConfig</STRONG> (Thumb, 66 bytes, Stack size 8 bytes, fsl_lpuart.o(i.LPUART_GetDefaultConfig))
+<BR><BR>[Stack]<UL><LI>Max Depth = 664<LI>Call Chain = LPUART_GetDefaultConfig &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+</UL>
+<BR>[Called By]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UartInit
+</UL>
+
+<P><STRONG><a name="[131]"></a>LPUART_GetInstance</STRONG> (Thumb, 48 bytes, Stack size 16 bytes, fsl_lpuart.o(i.LPUART_GetInstance))
 <BR><BR>[Stack]<UL><LI>Max Depth = 672<LI>Call Chain = LPUART_GetInstance &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
-<BR>[Called By]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_Init
+<BR>[Called By]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_Init
 </UL>
 
-<P><STRONG><a name="[112]"></a>LPUART_GetStatusFlags</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, fsl_lpuart.o(i.LPUART_GetStatusFlags))
+<P><STRONG><a name="[12e]"></a>LPUART_GetStatusFlags</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, fsl_lpuart.o(i.LPUART_GetStatusFlags))
 <BR><BR>[Called By]<UL><LI><a href="#[1e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART1_IRQHandler
 </UL>
 
-<P><STRONG><a name="[113]"></a>LPUART_Init</STRONG> (Thumb, 560 bytes, Stack size 56 bytes, fsl_lpuart.o(i.LPUART_Init))
+<P><STRONG><a name="[123]"></a>LPUART_Init</STRONG> (Thumb, 560 bytes, Stack size 56 bytes, fsl_lpuart.o(i.LPUART_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 736<LI>Call Chain = LPUART_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
-<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_GetInstance
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_GetInstance
+<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
 </UL>
-<BR>[Called By]<UL><LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART1_init
+<BR>[Called By]<UL><LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART1_init
+<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UartInit
 </UL>
 
-<P><STRONG><a name="[111]"></a>LPUART_WriteBlocking</STRONG> (Thumb, 60 bytes, Stack size 24 bytes, fsl_lpuart.o(i.LPUART_WriteBlocking))
+<P><STRONG><a name="[126]"></a>LPUART_WriteBlocking</STRONG> (Thumb, 60 bytes, Stack size 24 bytes, fsl_lpuart.o(i.LPUART_WriteBlocking))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24 + In Cycle
 <LI>Call Chain = LPUART_WriteBlocking &rArr;  __aeabi_assert (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
-<BR>[Called By]<UL><LI><a href="#[a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UartSendBlocking
+<BR>[Called By]<UL><LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UartSendBlocking
 </UL>
 
-<P><STRONG><a name="[fc]"></a>PIT1_init</STRONG> (Thumb, 108 bytes, Stack size 8 bytes, peripherals.o(i.PIT1_init))
+<P><STRONG><a name="[105]"></a>PIT1_init</STRONG> (Thumb, 108 bytes, Stack size 8 bytes, peripherals.o(i.PIT1_init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 704<LI>Call Chain = PIT1_init &rArr; PIT_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_Init
-<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_StartTimer
-<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_SetTimerPeriod
-<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_EnableInterrupts
-<LI><a href="#[115]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableIRQ
+<BR>[Calls]<UL><LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_Init
+<LI><a href="#[135]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_StartTimer
+<LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_SetTimerPeriod
+<LI><a href="#[134]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_EnableInterrupts
+<LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EnableIRQ
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPeripherals
+<BR>[Called By]<UL><LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPeripherals
 </UL>
 
-<P><STRONG><a name="[84]"></a>PIT_IRQHandler</STRONG> (Thumb, 64 bytes, Stack size 8 bytes, interrupt.o(i.PIT_IRQHandler))
+<P><STRONG><a name="[84]"></a>PIT_IRQHandler</STRONG> (Thumb, 76 bytes, Stack size 8 bytes, interrupt.o(i.PIT_IRQHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = PIT_IRQHandler
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_GetStatusFlags
-<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_ClearStatusFlags
+<BR>[Calls]<UL><LI><a href="#[137]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_GetStatusFlags
+<LI><a href="#[138]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_ClearStatusFlags
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(RESET)
 </UL>
-<P><STRONG><a name="[117]"></a>PIT_Init</STRONG> (Thumb, 112 bytes, Stack size 16 bytes, fsl_pit.o(i.PIT_Init))
+<P><STRONG><a name="[132]"></a>PIT_Init</STRONG> (Thumb, 112 bytes, Stack size 16 bytes, fsl_pit.o(i.PIT_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 696<LI>Call Chain = PIT_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
-<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_GetInstance
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_GetInstance
+<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
 </UL>
-<BR>[Called By]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT1_init
+<BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT1_init
 </UL>
 
-<P><STRONG><a name="[10e]"></a>SerialManager_WriteBlocking</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, serial_manager.o(i.SerialManager_WriteBlocking))
+<P><STRONG><a name="[116]"></a>SerialManager_Init</STRONG> (Thumb, 90 bytes, Stack size 24 bytes, serial_manager.o(i.SerialManager_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 840<LI>Call Chain = SerialManager_Init &rArr; Serial_UartInit &rArr; HAL_UartInit &rArr; LPUART_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Serial_UartInit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Init
+</UL>
+
+<P><STRONG><a name="[118]"></a>SerialManager_OpenReadHandle</STRONG> (Thumb, 68 bytes, Stack size 24 bytes, serial_manager.o(i.SerialManager_OpenReadHandle))
+<BR><BR>[Stack]<UL><LI>Max Depth = 680<LI>Call Chain = SerialManager_OpenReadHandle &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Init
+</UL>
+
+<P><STRONG><a name="[117]"></a>SerialManager_OpenWriteHandle</STRONG> (Thumb, 62 bytes, Stack size 24 bytes, serial_manager.o(i.SerialManager_OpenWriteHandle))
+<BR><BR>[Stack]<UL><LI>Max Depth = 680<LI>Call Chain = SerialManager_OpenWriteHandle &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+</UL>
+<BR>[Called By]<UL><LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Init
+</UL>
+
+<P><STRONG><a name="[11c]"></a>SerialManager_WriteBlocking</STRONG> (Thumb, 20 bytes, Stack size 16 bytes, serial_manager.o(i.SerialManager_WriteBlocking))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = SerialManager_WriteBlocking &rArr; SerialManager_Write &rArr;  __aeabi_assert (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_Write
+<BR>[Calls]<UL><LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_Write
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_SendDataReliable
+<BR>[Called By]<UL><LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_SendDataReliable
 </UL>
 
-<P><STRONG><a name="[11f]"></a>Serial_UartWrite</STRONG> (Thumb, 74 bytes, Stack size 24 bytes, serial_port_uart.o(i.Serial_UartWrite))
+<P><STRONG><a name="[139]"></a>Serial_UartInit</STRONG> (Thumb, 102 bytes, Stack size 40 bytes, serial_port_uart.o(i.Serial_UartInit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 816<LI>Call Chain = Serial_UartInit &rArr; HAL_UartInit &rArr; LPUART_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UartInit
+</UL>
+<BR>[Called By]<UL><LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_Init
+</UL>
+
+<P><STRONG><a name="[13b]"></a>Serial_UartWrite</STRONG> (Thumb, 74 bytes, Stack size 24 bytes, serial_port_uart.o(i.Serial_UartWrite))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72 + In Cycle
 <LI>Call Chain = Serial_UartWrite &rArr;  __aeabi_assert (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UartSendBlocking
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UartSendBlocking
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_StartWriting
+<BR>[Called By]<UL><LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_StartWriting
 </UL>
 
-<P><STRONG><a name="[10d]"></a>StrFormatPrintf</STRONG> (Thumb, 1576 bytes, Stack size 160 bytes, fsl_str.o(i.StrFormatPrintf))
+<P><STRONG><a name="[11b]"></a>StrFormatPrintf</STRONG> (Thumb, 1576 bytes, Stack size 160 bytes, fsl_str.o(i.StrFormatPrintf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 496<LI>Call Chain = StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[106]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertRadixNumToString
-<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertFloatRadixNumToString
-<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
+<BR>[Calls]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertRadixNumToString
+<LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertFloatRadixNumToString
+<LI><a href="#[13d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Printf
+<BR>[Called By]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Printf
 </UL>
 
 <P><STRONG><a name="[9]"></a>SysTick_Handler</STRONG> (Thumb, 22 bytes, Stack size 8 bytes, cmsis_os2.o(i.SysTick_Handler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = SysTick_Handler &rArr; xPortSysTickHandler &rArr; xTaskIncrementTick
 </UL>
-<BR>[Calls]<UL><LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetSchedulerState
-<LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xPortSysTickHandler
+<BR>[Calls]<UL><LI><a href="#[13e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetSchedulerState
+<LI><a href="#[13f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xPortSysTickHandler
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(RESET)
 </UL>
 <P><STRONG><a name="[a4]"></a>SystemInit</STRONG> (Thumb, 480 bytes, Stack size 8 bytes, system_mimxrt1052.o(i.SystemInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = SystemInit
 </UL>
-<BR>[Calls]<UL><LI><a href="#[124]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInitHook
+<BR>[Calls]<UL><LI><a href="#[140]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInitHook
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
-<P><STRONG><a name="[124]"></a>SystemInitHook</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, system_mimxrt1052.o(i.SystemInitHook))
+<P><STRONG><a name="[140]"></a>SystemInitHook</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, system_mimxrt1052.o(i.SystemInitHook))
 <BR><BR>[Called By]<UL><LI><a href="#[a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
 </UL>
 
-<P><STRONG><a name="[12f]"></a>__ARM_fpclassify</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fpclassify.o(i.__ARM_fpclassify))
+<P><STRONG><a name="[14b]"></a>__ARM_fpclassify</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, fpclassify.o(i.__ARM_fpclassify))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __ARM_fpclassify
 </UL>
-<BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
+<BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[fd]"></a>__aeabi_assert</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, fsl_assert.o(i.__aeabi_assert))
+<P><STRONG><a name="[e6]"></a>__aeabi_assert</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, fsl_assert.o(i.__aeabi_assert))
 <BR><BR>[Stack]<UL><LI>Max Depth = 656<LI>Call Chain = __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Printf
+<BR>[Calls]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Printf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPins
-<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_Init
-<LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_Init
-<LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_Init
-<LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_InitExternalClk
-<LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SetMux
-<LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SetDiv
-<LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_DisableClock
-<LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_WriteBlocking
-<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UartSendBlocking
-<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Serial_UartWrite
-<LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_Write
-<LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
-<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
-<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
-<LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetInstance
-<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
-<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMAMUX_GetInstance
-<LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
-<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_SendDataReliable
-<LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_GetInstance
-<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
-<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_GetInstance
+<BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinInit
+<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD
+<LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_Init
+<LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_Init
+<LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_Init
+<LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_InitExternalClk
+<LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SetMux
+<LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_SetDiv
+<LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_DisableClock
+<LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Init
+<LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinWrite
+<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_GetInstance
+<LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_HandleIRQ
+<LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetChannelStatusFlags
+<LI><a href="#[11d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_GetInstance
+<LI><a href="#[108]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
+<LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMAMUX_GetInstance
+<LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
+<LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_WriteBlocking
+<LI><a href="#[122]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_GetDefaultConfig
+<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UartSendBlocking
+<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UartInit
+<LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Serial_UartWrite
+<LI><a href="#[139]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Serial_UartInit
+<LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_OpenWriteHandle
+<LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_OpenReadHandle
+<LI><a href="#[116]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_Init
+<LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_Write
+<LI><a href="#[136]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_GetInstance
+<LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
+<LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_GetInstance
+<LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
+<LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_GetInstance
+<LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_GetCyclesForWidth
+<LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
+<LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_SendDataReliable
 </UL>
 
-<P><STRONG><a name="[104]"></a>__hardfp_modf</STRONG> (Thumb, 186 bytes, Stack size 24 bytes, modf.o(i.__hardfp_modf))
+<P><STRONG><a name="[10f]"></a>__hardfp_modf</STRONG> (Thumb, 186 bytes, Stack size 24 bytes, modf.o(i.__hardfp_modf))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = __hardfp_modf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertFloatRadixNumToString
+<BR>[Called By]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertFloatRadixNumToString
 </UL>
 
-<P><STRONG><a name="[105]"></a>__hardfp_pow</STRONG> (Thumb, 2140 bytes, Stack size 192 bytes, pow.o(i.__hardfp_pow))
+<P><STRONG><a name="[110]"></a>__hardfp_pow</STRONG> (Thumb, 2140 bytes, Stack size 192 bytes, pow.o(i.__hardfp_pow))
 <BR><BR>[Stack]<UL><LI>Max Depth = 216<LI>Call Chain = __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
-<LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sqrt
-<LI><a href="#[12d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_poly
-<LI><a href="#[12f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_fpclassify
-<LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fabs
-<LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_underflow
-<LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_overflow
-<LI><a href="#[12b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_invalid
-<LI><a href="#[125]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_infnan2
-<LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_divzero
-<LI><a href="#[12e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbn
+<BR>[Calls]<UL><LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
+<LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sqrt
+<LI><a href="#[149]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_poly
+<LI><a href="#[14b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_fpclassify
+<LI><a href="#[146]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;fabs
+<LI><a href="#[148]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_underflow
+<LI><a href="#[144]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_overflow
+<LI><a href="#[147]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_invalid
+<LI><a href="#[141]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_infnan2
+<LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__mathlib_dbl_divzero
+<LI><a href="#[14a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ARM_scalbn
 </UL>
-<BR>[Called By]<UL><LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertFloatRadixNumToString
-</UL>
-
-<P><STRONG><a name="[12d]"></a>__kernel_poly</STRONG> (Thumb, 112 bytes, Stack size 0 bytes, poly.o(i.__kernel_poly))
-<BR><BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
+<BR>[Called By]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ConvertFloatRadixNumToString
 </UL>
 
-<P><STRONG><a name="[127]"></a>__mathlib_dbl_divzero</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, dunder.o(i.__mathlib_dbl_divzero))
-<BR><BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
+<P><STRONG><a name="[149]"></a>__kernel_poly</STRONG> (Thumb, 112 bytes, Stack size 0 bytes, poly.o(i.__kernel_poly))
+<BR><BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[125]"></a>__mathlib_dbl_infnan2</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, dunder.o(i.__mathlib_dbl_infnan2))
-<BR><BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
+<P><STRONG><a name="[143]"></a>__mathlib_dbl_divzero</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, dunder.o(i.__mathlib_dbl_divzero))
+<BR><BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[12b]"></a>__mathlib_dbl_invalid</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, dunder.o(i.__mathlib_dbl_invalid))
-<BR><BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
+<P><STRONG><a name="[141]"></a>__mathlib_dbl_infnan2</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, dunder.o(i.__mathlib_dbl_infnan2))
+<BR><BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[128]"></a>__mathlib_dbl_overflow</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, dunder.o(i.__mathlib_dbl_overflow))
-<BR><BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
+<P><STRONG><a name="[147]"></a>__mathlib_dbl_invalid</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, dunder.o(i.__mathlib_dbl_invalid))
+<BR><BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[12c]"></a>__mathlib_dbl_underflow</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, dunder.o(i.__mathlib_dbl_underflow))
-<BR><BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
+<P><STRONG><a name="[144]"></a>__mathlib_dbl_overflow</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, dunder.o(i.__mathlib_dbl_overflow))
+<BR><BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[146]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
-
-<P><STRONG><a name="[147]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
-
-<P><STRONG><a name="[148]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
-
-<P><STRONG><a name="[126]"></a>__set_errno</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, errno.o(i.__set_errno))
-<BR><BR>[Called By]<UL><LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sqrt
-<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
+<P><STRONG><a name="[148]"></a>__mathlib_dbl_underflow</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, dunder.o(i.__mathlib_dbl_underflow))
+<BR><BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[fa]"></a>eDMA_init</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, peripherals.o(i.eDMA_init))
-<BR><BR>[Called By]<UL><LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPeripherals
+<P><STRONG><a name="[162]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
+
+<P><STRONG><a name="[163]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
+
+<P><STRONG><a name="[164]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
+
+<P><STRONG><a name="[142]"></a>__set_errno</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, errno.o(i.__set_errno))
+<BR><BR>[Called By]<UL><LI><a href="#[145]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;sqrt
+<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[12a]"></a>fabs</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, fabs.o(i.fabs))
+<P><STRONG><a name="[103]"></a>eDMA_init</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, peripherals.o(i.eDMA_init))
+<BR><BR>[Called By]<UL><LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPeripherals
+</UL>
+
+<P><STRONG><a name="[146]"></a>fabs</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, fabs.o(i.fabs))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = fabs
 </UL>
-<BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
+<BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
 <P><STRONG><a name="[a3]"></a>main</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, main.o(i.main))
-<BR><BR>[Stack]<UL><LI>Max Depth = 752<LI>Call Chain = main &rArr; BOARD_InitPeripherals &rArr; LPUART1_init &rArr; LPUART_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<BR><BR>[Stack]<UL><LI>Max Depth = 904<LI>Call Chain = main &rArr; BOARD_InitDebugConsole &rArr; DbgConsole_Init &rArr; SerialManager_Init &rArr; Serial_UartInit &rArr; HAL_UartInit &rArr; LPUART_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[111]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_WriteBlocking
-<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPeripherals
-<LI><a href="#[f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitBootPins
-<LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+<BR>[Calls]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Printf
+<LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPeripherals
+<LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitDebugConsole
+<LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitBootPins
+<LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>
-<P><STRONG><a name="[129]"></a>sqrt</STRONG> (Thumb, 106 bytes, Stack size 24 bytes, sqrt.o(i.sqrt))
+<P><STRONG><a name="[145]"></a>sqrt</STRONG> (Thumb, 106 bytes, Stack size 24 bytes, sqrt.o(i.sqrt))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[126]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
+<BR>[Calls]<UL><LI><a href="#[142]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
 </UL>
-<BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
-</UL>
-
-<P><STRONG><a name="[133]"></a>uxListRemove</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, list.o(i.uxListRemove))
-<BR><BR>[Called By]<UL><LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskIncrementTick
+<BR>[Called By]<UL><LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
 </UL>
 
-<P><STRONG><a name="[130]"></a>vApplicationStackOverflowHook</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, cmsis_os2.o(i.vApplicationStackOverflowHook))
+<P><STRONG><a name="[14f]"></a>uxListRemove</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, list.o(i.uxListRemove))
+<BR><BR>[Called By]<UL><LI><a href="#[14d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskIncrementTick
+</UL>
+
+<P><STRONG><a name="[14c]"></a>vApplicationStackOverflowHook</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, cmsis_os2.o(i.vApplicationStackOverflowHook))
 <BR><BR>[Called By]<UL><LI><a href="#[d8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskSwitchContext
 </UL>
 
-<P><STRONG><a name="[134]"></a>vListInsertEnd</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, list.o(i.vListInsertEnd))
-<BR><BR>[Called By]<UL><LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskIncrementTick
+<P><STRONG><a name="[150]"></a>vListInsertEnd</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, list.o(i.vListInsertEnd))
+<BR><BR>[Called By]<UL><LI><a href="#[14d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskIncrementTick
 </UL>
 
 <P><STRONG><a name="[d8]"></a>vTaskSwitchContext</STRONG> (Thumb, 154 bytes, Stack size 16 bytes, tasks.o(i.vTaskSwitchContext))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = vTaskSwitchContext
 </UL>
-<BR>[Calls]<UL><LI><a href="#[130]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vApplicationStackOverflowHook
+<BR>[Calls]<UL><LI><a href="#[14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vApplicationStackOverflowHook
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PendSV_Handler
 </UL>
 
-<P><STRONG><a name="[123]"></a>xPortSysTickHandler</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, port.o(i.xPortSysTickHandler))
+<P><STRONG><a name="[13f]"></a>xPortSysTickHandler</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, port.o(i.xPortSysTickHandler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = xPortSysTickHandler &rArr; xTaskIncrementTick
 </UL>
-<BR>[Calls]<UL><LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskIncrementTick
+<BR>[Calls]<UL><LI><a href="#[14d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskIncrementTick
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 </UL>
 
-<P><STRONG><a name="[122]"></a>xTaskGetSchedulerState</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, tasks.o(i.xTaskGetSchedulerState))
+<P><STRONG><a name="[13e]"></a>xTaskGetSchedulerState</STRONG> (Thumb, 24 bytes, Stack size 0 bytes, tasks.o(i.xTaskGetSchedulerState))
 <BR><BR>[Called By]<UL><LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 </UL>
 
-<P><STRONG><a name="[131]"></a>xTaskIncrementTick</STRONG> (Thumb, 236 bytes, Stack size 24 bytes, tasks.o(i.xTaskIncrementTick))
+<P><STRONG><a name="[14d]"></a>xTaskIncrementTick</STRONG> (Thumb, 236 bytes, Stack size 24 bytes, tasks.o(i.xTaskIncrementTick))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = xTaskIncrementTick
 </UL>
-<BR>[Calls]<UL><LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvResetNextTaskUnblockTime
-<LI><a href="#[134]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vListInsertEnd
-<LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uxListRemove
+<BR>[Calls]<UL><LI><a href="#[150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vListInsertEnd
+<LI><a href="#[14f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uxListRemove
+<LI><a href="#[14e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvResetNextTaskUnblockTime
 </UL>
-<BR>[Called By]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xPortSysTickHandler
+<BR>[Called By]<UL><LI><a href="#[13f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xPortSysTickHandler
 </UL>
 <P>
 <H3>
 Local Symbols
 </H3>
-<P><STRONG><a name="[11d]"></a>PIT_ClearStatusFlags</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, interrupt.o(i.PIT_ClearStatusFlags))
+<P><STRONG><a name="[138]"></a>PIT_ClearStatusFlags</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, interrupt.o(i.PIT_ClearStatusFlags))
 <BR><BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[11c]"></a>PIT_GetStatusFlags</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, interrupt.o(i.PIT_GetStatusFlags))
+<P><STRONG><a name="[137]"></a>PIT_GetStatusFlags</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, interrupt.o(i.PIT_GetStatusFlags))
 <BR><BR>[Called By]<UL><LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_IRQHandler
 </UL>
 
-<P><STRONG><a name="[eb]"></a>CLOCK_DisableClock</STRONG> (Thumb, 68 bytes, Stack size 32 bytes, clock_config.o(i.CLOCK_DisableClock))
+<P><STRONG><a name="[fc]"></a>CLOCK_GetDiv</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, lpuart1.o(i.CLOCK_GetDiv))
+<BR><BR>[Called By]<UL><LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_DebugConsoleSrcFreq
+</UL>
+
+<P><STRONG><a name="[f0]"></a>CLOCK_DisableClock</STRONG> (Thumb, 68 bytes, Stack size 32 bytes, clock_config.o(i.CLOCK_DisableClock))
 <BR><BR>[Stack]<UL><LI>Max Depth = 688<LI>Call Chain = CLOCK_DisableClock &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+<BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
 </UL>
 
-<P><STRONG><a name="[ea]"></a>CLOCK_SetDiv</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, clock_config.o(i.CLOCK_SetDiv))
+<P><STRONG><a name="[ef]"></a>CLOCK_SetDiv</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, clock_config.o(i.CLOCK_SetDiv))
 <BR><BR>[Stack]<UL><LI>Max Depth = 672<LI>Call Chain = CLOCK_SetDiv &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+<BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
 </UL>
 
-<P><STRONG><a name="[e9]"></a>CLOCK_SetMux</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, clock_config.o(i.CLOCK_SetMux))
+<P><STRONG><a name="[ee]"></a>CLOCK_SetMux</STRONG> (Thumb, 100 bytes, Stack size 16 bytes, clock_config.o(i.CLOCK_SetMux))
 <BR><BR>[Stack]<UL><LI>Max Depth = 672<LI>Call Chain = CLOCK_SetMux &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+<BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
 </UL>
 
-<P><STRONG><a name="[f0]"></a>CLOCK_SetPllBypass</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, clock_config.o(i.CLOCK_SetPllBypass))
+<P><STRONG><a name="[f5]"></a>CLOCK_SetPllBypass</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, clock_config.o(i.CLOCK_SetPllBypass))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = CLOCK_SetPllBypass
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+<BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
 </UL>
 
-<P><STRONG><a name="[f4]"></a>IOMUXC_SetSaiMClkClockSource</STRONG> (Thumb, 52 bytes, Stack size 12 bytes, clock_config.o(i.IOMUXC_SetSaiMClkClockSource))
+<P><STRONG><a name="[f9]"></a>IOMUXC_SetSaiMClkClockSource</STRONG> (Thumb, 52 bytes, Stack size 12 bytes, clock_config.o(i.IOMUXC_SetSaiMClkClockSource))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = IOMUXC_SetSaiMClkClockSource
 </UL>
-<BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
+<BR>[Called By]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_BootClockRUN
 </UL>
 
-<P><STRONG><a name="[115]"></a>EnableIRQ</STRONG> (Thumb, 52 bytes, Stack size 0 bytes, peripherals.o(i.EnableIRQ))
-<BR><BR>[Called By]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT1_init
-<LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART1_init
+<P><STRONG><a name="[130]"></a>EnableIRQ</STRONG> (Thumb, 52 bytes, Stack size 0 bytes, peripherals.o(i.EnableIRQ))
+<BR><BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT1_init
+<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART1_init
 </UL>
 
-<P><STRONG><a name="[119]"></a>PIT_EnableInterrupts</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, peripherals.o(i.PIT_EnableInterrupts))
+<P><STRONG><a name="[134]"></a>PIT_EnableInterrupts</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, peripherals.o(i.PIT_EnableInterrupts))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = PIT_EnableInterrupts
 </UL>
-<BR>[Called By]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT1_init
+<BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT1_init
 </UL>
 
-<P><STRONG><a name="[118]"></a>PIT_SetTimerPeriod</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, peripherals.o(i.PIT_SetTimerPeriod))
-<BR><BR>[Called By]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT1_init
+<P><STRONG><a name="[133]"></a>PIT_SetTimerPeriod</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, peripherals.o(i.PIT_SetTimerPeriod))
+<BR><BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT1_init
 </UL>
 
-<P><STRONG><a name="[11a]"></a>PIT_StartTimer</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, peripherals.o(i.PIT_StartTimer))
-<BR><BR>[Called By]<UL><LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT1_init
+<P><STRONG><a name="[135]"></a>PIT_StartTimer</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, peripherals.o(i.PIT_StartTimer))
+<BR><BR>[Called By]<UL><LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT1_init
 </UL>
 
-<P><STRONG><a name="[fe]"></a>IOMUXC_SetPinMux</STRONG> (Thumb, 26 bytes, Stack size 20 bytes, pin_mux.o(i.IOMUXC_SetPinMux))
+<P><STRONG><a name="[e9]"></a>IOMUXC_SetPinConfig</STRONG> (Thumb, 12 bytes, Stack size 12 bytes, pin_mux.o(i.IOMUXC_SetPinConfig))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = IOMUXC_SetPinConfig
+</UL>
+<BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD
+</UL>
+
+<P><STRONG><a name="[e8]"></a>IOMUXC_SetPinMux</STRONG> (Thumb, 26 bytes, Stack size 20 bytes, pin_mux.o(i.IOMUXC_SetPinMux))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = IOMUXC_SetPinMux
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_InitPins
+<BR>[Called By]<UL><LI><a href="#[e5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD
 </UL>
 
-<P><STRONG><a name="[11e]"></a>SerialManager_StartWriting</STRONG> (Thumb, 54 bytes, Stack size 24 bytes, serial_manager.o(i.SerialManager_StartWriting))
+<P><STRONG><a name="[13a]"></a>SerialManager_StartWriting</STRONG> (Thumb, 54 bytes, Stack size 24 bytes, serial_manager.o(i.SerialManager_StartWriting))
 <BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = SerialManager_StartWriting &rArr; Serial_UartWrite &rArr;  __aeabi_assert (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[11f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Serial_UartWrite
+<BR>[Calls]<UL><LI><a href="#[13b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Serial_UartWrite
 </UL>
-<BR>[Called By]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_Write
+<BR>[Called By]<UL><LI><a href="#[13c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_Write
 </UL>
 
-<P><STRONG><a name="[120]"></a>SerialManager_Write</STRONG> (Thumb, 96 bytes, Stack size 24 bytes, serial_manager.o(i.SerialManager_Write))
+<P><STRONG><a name="[13c]"></a>SerialManager_Write</STRONG> (Thumb, 96 bytes, Stack size 24 bytes, serial_manager.o(i.SerialManager_Write))
 <BR><BR>[Stack]<UL><LI>Max Depth = 120 + In Cycle
 <LI>Call Chain = SerialManager_Write &rArr;  __aeabi_assert (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
-<LI><a href="#[11e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_StartWriting
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<LI><a href="#[13a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_StartWriting
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_WriteBlocking
+<BR>[Called By]<UL><LI><a href="#[11c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SerialManager_WriteBlocking
 </UL>
 
-<P><STRONG><a name="[ff]"></a>CLOCK_ControlGate</STRONG> (Thumb, 60 bytes, Stack size 24 bytes, fsl_dmamux.o(i.CLOCK_ControlGate))
+<P><STRONG><a name="[124]"></a>HAL_UartGetStatus</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, lpuart_adapter.o(i.HAL_UartGetStatus))
+<BR><BR>[Called By]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UartInit
+</UL>
+
+<P><STRONG><a name="[10d]"></a>CLOCK_GetOscFreq</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, fsl_clock.o(i.CLOCK_GetOscFreq))
+<BR><BR>[Called By]<UL><LI><a href="#[fb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_GetPllFreq
+</UL>
+
+<P><STRONG><a name="[107]"></a>CLOCK_ControlGate</STRONG> (Thumb, 60 bytes, Stack size 24 bytes, fsl_dmamux.o(i.CLOCK_ControlGate))
 <BR><BR>[Stack]<UL><LI>Max Depth = 680<LI>Call Chain = CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMAMUX_Init
+<BR>[Called By]<UL><LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMAMUX_Init
 </UL>
 
-<P><STRONG><a name="[109]"></a>DMAMUX_GetInstance</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, fsl_dmamux.o(i.DMAMUX_GetInstance))
+<P><STRONG><a name="[114]"></a>DMAMUX_GetInstance</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, fsl_dmamux.o(i.DMAMUX_GetInstance))
 <BR><BR>[Stack]<UL><LI>Max Depth = 672<LI>Call Chain = DMAMUX_GetInstance &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMAMUX_Init
+<BR>[Called By]<UL><LI><a href="#[101]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DMAMUX_Init
 </UL>
 
-<P><STRONG><a name="[100]"></a>CLOCK_ControlGate</STRONG> (Thumb, 60 bytes, Stack size 24 bytes, fsl_edma.o(i.CLOCK_ControlGate))
+<P><STRONG><a name="[108]"></a>CLOCK_ControlGate</STRONG> (Thumb, 60 bytes, Stack size 24 bytes, fsl_edma.o(i.CLOCK_ControlGate))
 <BR><BR>[Stack]<UL><LI>Max Depth = 680<LI>Call Chain = CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_Init
+<BR>[Called By]<UL><LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_Init
 </UL>
 
-<P><STRONG><a name="[10f]"></a>EDMA_GetInstance</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, fsl_edma.o(i.EDMA_GetInstance))
+<P><STRONG><a name="[11d]"></a>EDMA_GetInstance</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, fsl_edma.o(i.EDMA_GetInstance))
 <BR><BR>[Stack]<UL><LI>Max Depth = 672<LI>Call Chain = EDMA_GetInstance &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
-<BR>[Called By]<UL><LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_Init
+<BR>[Called By]<UL><LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EDMA_Init
 </UL>
 
-<P><STRONG><a name="[101]"></a>CLOCK_ControlGate</STRONG> (Thumb, 60 bytes, Stack size 24 bytes, fsl_lpuart.o(i.CLOCK_ControlGate))
+<P><STRONG><a name="[11e]"></a>GPIO_GetInstance</STRONG> (Thumb, 48 bytes, Stack size 16 bytes, fsl_gpio.o(i.GPIO_GetInstance))
+<BR><BR>[Stack]<UL><LI>Max Depth = 672<LI>Call Chain = GPIO_GetInstance &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+</UL>
+<BR>[Called By]<UL><LI><a href="#[e7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinInit
+</UL>
+
+<P><STRONG><a name="[109]"></a>CLOCK_ControlGate</STRONG> (Thumb, 60 bytes, Stack size 24 bytes, fsl_lpi2c.o(i.CLOCK_ControlGate))
 <BR><BR>[Stack]<UL><LI>Max Depth = 680<LI>Call Chain = CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
-<BR>[Called By]<UL><LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_Init
+<BR>[Called By]<UL><LI><a href="#[10c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_EnableClock
 </UL>
 
-<P><STRONG><a name="[102]"></a>CLOCK_ControlGate</STRONG> (Thumb, 60 bytes, Stack size 24 bytes, fsl_pit.o(i.CLOCK_ControlGate))
+<P><STRONG><a name="[10c]"></a>CLOCK_EnableClock</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, fsl_lpi2c.o(i.CLOCK_EnableClock))
+<BR><BR>[Stack]<UL><LI>Max Depth = 688<LI>Call Chain = CLOCK_EnableClock &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CLOCK_ControlGate
+</UL>
+<BR>[Called By]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_MasterInit
+</UL>
+
+<P><STRONG><a name="[127]"></a>LPI2C_CommonIRQHandler</STRONG> (Thumb, 66 bytes, Stack size 16 bytes, fsl_lpi2c.o(i.LPI2C_CommonIRQHandler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = LPI2C_CommonIRQHandler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[c2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C4_DriverIRQHandler
+<LI><a href="#[c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C3_DriverIRQHandler
+<LI><a href="#[c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C2_DriverIRQHandler
+<LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C1_DriverIRQHandler
+</UL>
+
+<P><STRONG><a name="[129]"></a>LPI2C_GetCyclesForWidth</STRONG> (Thumb, 100 bytes, Stack size 32 bytes, fsl_lpi2c.o(i.LPI2C_GetCyclesForWidth))
+<BR><BR>[Stack]<UL><LI>Max Depth = 688<LI>Call Chain = LPI2C_GetCyclesForWidth &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+</UL>
+<BR>[Called By]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_MasterInit
+</UL>
+
+<P><STRONG><a name="[12d]"></a>LPI2C_MasterEnable</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, fsl_lpi2c.o(i.LPI2C_MasterEnable))
+<BR><BR>[Called By]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_MasterInit
+<LI><a href="#[12c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_MasterSetBaudRate
+</UL>
+
+<P><STRONG><a name="[12b]"></a>LPI2C_MasterReset</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, fsl_lpi2c.o(i.LPI2C_MasterReset))
+<BR><BR>[Called By]<UL><LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPI2C_MasterInit
+</UL>
+
+<P><STRONG><a name="[10a]"></a>CLOCK_ControlGate</STRONG> (Thumb, 60 bytes, Stack size 24 bytes, fsl_lpuart.o(i.CLOCK_ControlGate))
 <BR><BR>[Stack]<UL><LI>Max Depth = 680<LI>Call Chain = CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
-<BR>[Called By]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_Init
+<BR>[Called By]<UL><LI><a href="#[123]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_Init
 </UL>
 
-<P><STRONG><a name="[11b]"></a>PIT_GetInstance</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, fsl_pit.o(i.PIT_GetInstance))
+<P><STRONG><a name="[10b]"></a>CLOCK_ControlGate</STRONG> (Thumb, 60 bytes, Stack size 24 bytes, fsl_pit.o(i.CLOCK_ControlGate))
+<BR><BR>[Stack]<UL><LI>Max Depth = 680<LI>Call Chain = CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+</UL>
+<BR>[Called By]<UL><LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_Init
+</UL>
+
+<P><STRONG><a name="[136]"></a>PIT_GetInstance</STRONG> (Thumb, 46 bytes, Stack size 16 bytes, fsl_pit.o(i.PIT_GetInstance))
 <BR><BR>[Stack]<UL><LI>Max Depth = 672<LI>Call Chain = PIT_GetInstance &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[fd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<BR>[Calls]<UL><LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
 </UL>
-<BR>[Called By]<UL><LI><a href="#[117]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_Init
+<BR>[Called By]<UL><LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;PIT_Init
 </UL>
 
 <P><STRONG><a name="[d5]"></a>DbgConsole_PrintCallback</STRONG> (Thumb, 62 bytes, Stack size 24 bytes, fsl_debug_console.o(i.DbgConsole_PrintCallback))
 <BR><BR>[Stack]<UL><LI>Max Depth = 176<LI>Call Chain = DbgConsole_PrintCallback &rArr; DbgConsole_SendDataReliable &rArr;  __aeabi_assert (Cycle)
 </UL>
-<BR>[Calls]<UL><LI><a href="#[10a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_SendDataReliable
+<BR>[Calls]<UL><LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_SendDataReliable
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> fsl_debug_console.o(i.DbgConsole_Printf)
 </UL>
-<P><STRONG><a name="[103]"></a>ConvertFloatRadixNumToString</STRONG> (Thumb, 430 bytes, Stack size 120 bytes, fsl_str.o(i.ConvertFloatRadixNumToString))
+<P><STRONG><a name="[10e]"></a>ConvertFloatRadixNumToString</STRONG> (Thumb, 430 bytes, Stack size 120 bytes, fsl_str.o(i.ConvertFloatRadixNumToString))
 <BR><BR>[Stack]<UL><LI>Max Depth = 336<LI>Call Chain = ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_l2d
 <LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2lz
-<LI><a href="#[105]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
-<LI><a href="#[104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_modf
+<LI><a href="#[110]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_pow
+<LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_modf
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StrFormatPrintf
+<BR>[Called By]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StrFormatPrintf
 </UL>
 
-<P><STRONG><a name="[106]"></a>ConvertRadixNumToString</STRONG> (Thumb, 332 bytes, Stack size 88 bytes, fsl_str.o(i.ConvertRadixNumToString))
+<P><STRONG><a name="[111]"></a>ConvertRadixNumToString</STRONG> (Thumb, 332 bytes, Stack size 88 bytes, fsl_str.o(i.ConvertRadixNumToString))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = ConvertRadixNumToString &rArr; __aeabi_ldivmod &rArr; __aeabi_uldivmod
 </UL>
 <BR>[Calls]<UL><LI><a href="#[dc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ldivmod
 <LI><a href="#[d9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uldivmod
 </UL>
-<BR>[Called By]<UL><LI><a href="#[10d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StrFormatPrintf
+<BR>[Called By]<UL><LI><a href="#[11b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StrFormatPrintf
 </UL>
 
-<P><STRONG><a name="[132]"></a>prvResetNextTaskUnblockTime</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, tasks.o(i.prvResetNextTaskUnblockTime))
-<BR><BR>[Called By]<UL><LI><a href="#[131]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskIncrementTick
+<P><STRONG><a name="[14e]"></a>prvResetNextTaskUnblockTime</STRONG> (Thumb, 42 bytes, Stack size 0 bytes, tasks.o(i.prvResetNextTaskUnblockTime))
+<BR><BR>[Called By]<UL><LI><a href="#[14d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskIncrementTick
 </UL>
 <P>
 <H3>

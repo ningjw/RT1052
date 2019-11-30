@@ -37,12 +37,17 @@ extern "C" {
  */
 void BOARD_InitBootPins(void);
 
+/* GPIO_AD_B0_09 (coord F14), LED */
+#define BOARD_LED_GPIO                                                     GPIO1   /*!< GPIO device name: GPIO1 */
+#define BOARD_LED_PORT                                                     GPIO1   /*!< PORT device name: GPIO1 */
+#define BOARD_LED_PIN                                                         9U   /*!< GPIO1 pin index: 9 */
+
 
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
  *
  */
-void BOARD_InitPins(void);
+void BOARD(void);
 
 #if defined(__cplusplus)
 }

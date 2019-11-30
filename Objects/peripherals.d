@@ -21,3 +21,5 @@
 .\objects\peripherals.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dmamux.h
 .\objects\peripherals.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart.h
 .\objects\peripherals.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_pit.h
+.\objects\peripherals.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h
+.\objects\peripherals.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h

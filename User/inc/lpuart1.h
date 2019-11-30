@@ -2,5 +2,6 @@
 #define __LPUART1__H
 
 
+void BOARD_InitDebugConsole(void);
 
 #endif

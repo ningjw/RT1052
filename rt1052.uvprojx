@@ -340,7 +340,7 @@
 --diag_suppress=66,1296,186 
  
 </MiscControls>
-              <Define>CPU_MIMXRT1052CVL5B,XIP_EXTERNAL_FLASH=1, XIP_BOOT_HEADER_ENABLE =1,XIP_BOOT_HEADER_DCD_ENABLE =1,PRINTF_FLOAT_ENABLE=1, SCANF_FLOAT_ENABLE=1, PRINTF_ADVANCED_ENABLE=1, SCANF_ADVANCED_ENABLE=1,USE_RAM_VECTOR_TABLE</Define>
+              <Define>CPU_MIMXRT1052CVL5B,XIP_EXTERNAL_FLASH=1, XIP_BOOT_HEADER_ENABLE =1,XIP_BOOT_HEADER_DCD_ENABLE =1,PRINTF_FLOAT_ENABLE=1, SCANF_FLOAT_ENABLE=1, PRINTF_ADVANCED_ENABLE=1, SCANF_ADVANCED_ENABLE=1</Define>
               <Undefine></Undefine>
               <IncludePath>.\board;.\User\inc;.\xip</IncludePath>
             </VariousControls>
@@ -389,15 +389,17 @@
       <Groups>
         <Group>
           <GroupName>App</GroupName>
-        </Group>
-        <Group>
-          <GroupName>Driver</GroupName>
           <Files>
             <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\main.c</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Driver</GroupName>
+          <Files>
             <File>
               <FileName>interrupt.c</FileName>
               <FileType>1</FileType>
@@ -407,6 +409,16 @@
               <FileName>lpuart1.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\lpuart1.c</FilePath>
+            </File>
+            <File>
+              <FileName>core_delay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\core_delay.c</FilePath>
+            </File>
+            <File>
+              <FileName>i2c_eeprom_drv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\i2c_eeprom_drv.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -557,7 +569,19 @@
           <targetInfo name="Target 1"/>
         </targetInfos>
       </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="gpio" Cvendor="NXP" Cversion="2.0.2" condition="device.MIMXRT1052_AND_driver.common">
+        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="gpt" Cvendor="NXP" Cversion="2.0.0" condition="device.MIMXRT1052_AND_driver.common">
+        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="i2c" Cvendor="NXP" Cversion="2.1.9" condition="device.MIMXRT1052_AND_driver.common">
         <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
         <targetInfos>
           <targetInfo name="Target 1"/>

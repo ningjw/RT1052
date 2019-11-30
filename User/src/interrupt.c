@@ -17,7 +17,7 @@ void PIT_IRQHandler(void)
     if( PIT_GetStatusFlags(PIT, kPIT_Chnl_1) == true ){
         /* 清除中断标志位.*/
         PIT_ClearStatusFlags(PIT, kPIT_Chnl_1, kPIT_TimerFlag);
-        
+        BOARD_LED_PORT->DR ^= (1<<BOARD_LED_PIN);
     }
     
     __DSB();
