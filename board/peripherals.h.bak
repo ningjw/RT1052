@@ -65,7 +65,7 @@ extern "C" {
 /* Definition of peripheral ID */
 #define LPUART2_PERIPHERAL LPUART2
 /* Definition of the clock source frequency */
-#define LPUART2_CLOCK_SOURCE 4000000UL
+#define LPUART2_CLOCK_SOURCE 80000000UL
 /* LPUART2 interrupt vector ID (number). */
 #define LPUART2_SERIAL_RX_TX_IRQN LPUART2_IRQn
 /* LPUART2 interrupt handler identifier. */
@@ -107,6 +107,11 @@ extern "C" {
 #define GPIO2_GPIO_COMB_16_31_IRQN GPIO2_Combined_16_31_IRQn
 /* GPIO2 interrupt handler identifier. */
 #define GPIO2_GPIO_COMB_16_31_IRQHANDLER GPIO2_Combined_16_31_IRQHandler
+/* BOARD_InitPeripherals defines for LPI2C3 */
+/* Definition of peripheral ID */
+#define LPI2C3_PERIPHERAL LPI2C3
+/* Definition of clock source */
+#define LPI2C3_CLOCK_FREQ 3000000UL
 
 /***********************************************************************************************************************
  * Global variables
@@ -120,6 +125,7 @@ extern const lpuart_config_t LPUART4_config;
 extern const lpuart_config_t LPUART3_config;
 extern const lpuart_config_t LPUART5_config;
 extern const lpspi_master_config_t LPSPI4_config;
+extern const lpi2c_master_config_t LPI2C3_masterConfig;
 
 /***********************************************************************************************************************
  * Initialization functions

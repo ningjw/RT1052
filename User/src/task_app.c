@@ -5,6 +5,8 @@ TaskHandle_t AppADC_TaskHandle = NULL;  /* ADC任务句柄 */
 TaskHandle_t AppEMMC_TaskHandle = NULL; /* eMMC任务句柄 */
 
 
+
+
 /***********************************************************************
   * @ 函数名  ： AppBLE_Task
   * @ 功能说明： 为了方便管理，所有的任务创建函数都放在这个函数里面

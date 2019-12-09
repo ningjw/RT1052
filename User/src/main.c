@@ -51,6 +51,16 @@ static void AppTaskCreate(void)
 }
 
 
+/**
+* @brief  发送一个字符串 
+* @param  base:选择端口
+* @param  data:将要发送的数据
+* @retval 无
+*/
+void Uart_SendString( LPUART_Type *base,  const char *str)
+{
+    LPUART_WriteBlocking( base, (const uint8_t*)str, strlen(str));
+}
 
 int main(void)
 {
@@ -63,6 +73,8 @@ int main(void)
     BOARD_InitDebugConsole();
     PRINTF("***** Welcome *****\r\n");
 
+    Uart_SendString(LPUART2, "***** Welcome *****\r\n");
+    
     RTC_Config();
     
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);//1ms中断，FreeRTOS使用

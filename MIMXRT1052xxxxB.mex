@@ -182,8 +182,16 @@
                   <pin peripheral="LPUART4" signal="RX" pin_num="B11" pin_signal="GPIO_B1_01"/>
                   <pin peripheral="LPUART4" signal="TX" pin_num="A11" pin_signal="GPIO_B1_00"/>
                   <pin peripheral="LPUART3" signal="RX" pin_num="C9" pin_signal="GPIO_B0_09"/>
-                  <pin peripheral="LPUART3" signal="TX" pin_num="B9" pin_signal="GPIO_B0_08"/>
-                  <pin peripheral="LPUART2" signal="RX" pin_num="M12" pin_signal="GPIO_AD_B1_03"/>
+                  <pin peripheral="LPUART3" signal="TX" pin_num="B9" pin_signal="GPIO_B0_08">
+                     <pin_features>
+                        <pin_feature name="pull_up_down_config" value="Pull_Down_100K_Ohm"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="LPUART2" signal="RX" pin_num="M12" pin_signal="GPIO_AD_B1_03">
+                     <pin_features>
+                        <pin_feature name="pull_up_down_config" value="Pull_Down_100K_Ohm"/>
+                     </pin_features>
+                  </pin>
                   <pin peripheral="LPUART2" signal="TX" pin_num="L11" pin_signal="GPIO_AD_B1_02"/>
                   <pin peripheral="GPIO2" signal="gpio_io, 11" pin_num="A10" pin_signal="GPIO_B0_11">
                      <pin_features>
@@ -534,11 +542,6 @@
                         <data type="Version">2.0.2</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="ClockOutput" resourceId="UART_CLK_ROOT" description="UART_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="frequency" evaluation="greaterThan">
-                        <data type="Frequency" unit="Hz">0</data>
-                     </feature>
-                  </dependency>
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART1.uart_tx" description="Signal TX of the peripheral LPUART1 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="equal">
                         <data type="Boolean">true</data>
@@ -569,11 +572,6 @@
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="ClockOutput" resourceId="UART_CLK_ROOT" description="UART_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="frequency" evaluation="greaterThan">
-                        <data type="Frequency" unit="Hz">0</data>
-                     </feature>
-                  </dependency>
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART2.uart_tx" description="Signal TX of the peripheral LPUART2 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="equal">
                         <data type="Boolean">true</data>
@@ -582,11 +580,6 @@
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART2.uart_rx" description="Signal RX of the peripheral LPUART2 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="equal">
                         <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="ClockOutput" resourceId="UART_CLK_ROOT" description="UART_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="frequency" evaluation="greaterThan">
-                        <data type="Frequency" unit="Hz">0</data>
                      </feature>
                   </dependency>
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART4.uart_tx" description="Signal TX of the peripheral LPUART4 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
@@ -599,11 +592,6 @@
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="ClockOutput" resourceId="UART_CLK_ROOT" description="UART_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="frequency" evaluation="greaterThan">
-                        <data type="Frequency" unit="Hz">0</data>
-                     </feature>
-                  </dependency>
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART3.uart_tx" description="Signal TX of the peripheral LPUART3 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="equal">
                         <data type="Boolean">true</data>
@@ -612,11 +600,6 @@
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART3.uart_rx" description="Signal RX of the peripheral LPUART3 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="equal">
                         <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="ClockOutput" resourceId="UART_CLK_ROOT" description="UART_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="frequency" evaluation="greaterThan">
-                        <data type="Frequency" unit="Hz">0</data>
                      </feature>
                   </dependency>
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART5.uart_tx" description="Signal TX of the peripheral LPUART5 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
@@ -682,10 +665,10 @@
                      </config_set>
                   </instance>
                   <instance name="LPUART1" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="interrupts" peripheral="LPUART1" enabled="true">
-                     <config_set name="lpuartConfig_t" quick_selection="QuickSelection1">
+                     <config_set name="lpuartConfig_t">
                         <struct name="lpuartConfig">
                            <setting name="clockSource" value="LpuartClock"/>
-                           <setting name="lpuartSrcClkFreq" value="BOARD_BootClockRUN"/>
+                           <setting name="lpuartSrcClkFreq" value="custom:80000000"/>
                            <setting name="baudRate_Bps" value="115200"/>
                            <setting name="parityMode" value="kLPUART_ParityDisabled"/>
                            <setting name="dataBitsCount" value="kLPUART_EightDataBits"/>
@@ -802,10 +785,10 @@
                      </config_set>
                   </instance>
                   <instance name="LPUART2" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="interrupts" peripheral="LPUART2" enabled="true">
-                     <config_set name="lpuartConfig_t" quick_selection="QuickSelection1">
+                     <config_set name="lpuartConfig_t">
                         <struct name="lpuartConfig">
                            <setting name="clockSource" value="LpuartClock"/>
-                           <setting name="lpuartSrcClkFreq" value="BOARD_BootClockRUN"/>
+                           <setting name="lpuartSrcClkFreq" value="custom:80000000"/>
                            <setting name="baudRate_Bps" value="115200"/>
                            <setting name="parityMode" value="kLPUART_ParityDisabled"/>
                            <setting name="dataBitsCount" value="kLPUART_EightDataBits"/>
@@ -842,10 +825,10 @@
                      </config_set>
                   </instance>
                   <instance name="LPUART4" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="interrupts" peripheral="LPUART4" enabled="true">
-                     <config_set name="lpuartConfig_t" quick_selection="QuickSelection1">
+                     <config_set name="lpuartConfig_t">
                         <struct name="lpuartConfig">
                            <setting name="clockSource" value="LpuartClock"/>
-                           <setting name="lpuartSrcClkFreq" value="BOARD_BootClockRUN"/>
+                           <setting name="lpuartSrcClkFreq" value="custom:80000000"/>
                            <setting name="baudRate_Bps" value="115200"/>
                            <setting name="parityMode" value="kLPUART_ParityDisabled"/>
                            <setting name="dataBitsCount" value="kLPUART_EightDataBits"/>
@@ -882,10 +865,10 @@
                      </config_set>
                   </instance>
                   <instance name="LPUART3" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="interrupts" peripheral="LPUART3" enabled="true">
-                     <config_set name="lpuartConfig_t" quick_selection="QuickSelection1">
+                     <config_set name="lpuartConfig_t">
                         <struct name="lpuartConfig">
                            <setting name="clockSource" value="LpuartClock"/>
-                           <setting name="lpuartSrcClkFreq" value="BOARD_BootClockRUN"/>
+                           <setting name="lpuartSrcClkFreq" value="custom:80000000"/>
                            <setting name="baudRate_Bps" value="115200"/>
                            <setting name="parityMode" value="kLPUART_ParityDisabled"/>
                            <setting name="dataBitsCount" value="kLPUART_EightDataBits"/>
@@ -922,10 +905,10 @@
                      </config_set>
                   </instance>
                   <instance name="LPUART5" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="interrupts" peripheral="LPUART5" enabled="true">
-                     <config_set name="lpuartConfig_t" quick_selection="QuickSelection1">
+                     <config_set name="lpuartConfig_t">
                         <struct name="lpuartConfig">
                            <setting name="clockSource" value="LpuartClock"/>
-                           <setting name="lpuartSrcClkFreq" value="BOARD_BootClockRUN"/>
+                           <setting name="lpuartSrcClkFreq" value="custom:80000000"/>
                            <setting name="baudRate_Bps" value="115200"/>
                            <setting name="parityMode" value="kLPUART_ParityDisabled"/>
                            <setting name="dataBitsCount" value="kLPUART_EightDataBits"/>

@@ -91,7 +91,7 @@ instance:
   - lpuartConfig_t:
     - lpuartConfig:
       - clockSource: 'LpuartClock'
-      - lpuartSrcClkFreq: 'BOARD_BootClockRUN'
+      - lpuartSrcClkFreq: 'custom:80000000'
       - baudRate_Bps: '115200'
       - parityMode: 'kLPUART_ParityDisabled'
       - dataBitsCount: 'kLPUART_EightDataBits'
@@ -107,7 +107,6 @@ instance:
       - rxIdleConfig: 'kLPUART_IdleCharacter1'
       - enableTx: 'true'
       - enableRx: 'true'
-    - quick_selection: 'QuickSelection1'
   - interruptsCfg:
     - interrupts: 'kLPUART_RxDataRegFullInterruptEnable kLPUART_RxOverrunInterruptEnable'
     - interrupt_vectors:
@@ -317,7 +316,7 @@ instance:
   - lpuartConfig_t:
     - lpuartConfig:
       - clockSource: 'LpuartClock'
-      - lpuartSrcClkFreq: 'BOARD_BootClockRUN'
+      - lpuartSrcClkFreq: 'custom:80000000'
       - baudRate_Bps: '115200'
       - parityMode: 'kLPUART_ParityDisabled'
       - dataBitsCount: 'kLPUART_EightDataBits'
@@ -333,7 +332,6 @@ instance:
       - rxIdleConfig: 'kLPUART_IdleCharacter1'
       - enableTx: 'true'
       - enableRx: 'true'
-    - quick_selection: 'QuickSelection1'
   - interruptsCfg:
     - interrupts: 'kLPUART_RxDataRegFullInterruptEnable kLPUART_RxOverrunInterruptEnable'
     - interrupt_vectors:
@@ -386,7 +384,7 @@ instance:
   - lpuartConfig_t:
     - lpuartConfig:
       - clockSource: 'LpuartClock'
-      - lpuartSrcClkFreq: 'BOARD_BootClockRUN'
+      - lpuartSrcClkFreq: 'custom:80000000'
       - baudRate_Bps: '115200'
       - parityMode: 'kLPUART_ParityDisabled'
       - dataBitsCount: 'kLPUART_EightDataBits'
@@ -402,7 +400,6 @@ instance:
       - rxIdleConfig: 'kLPUART_IdleCharacter1'
       - enableTx: 'true'
       - enableRx: 'true'
-    - quick_selection: 'QuickSelection1'
   - interruptsCfg:
     - interrupts: 'kLPUART_RxDataRegFullInterruptEnable kLPUART_RxOverrunInterruptEnable'
     - interrupt_vectors:
@@ -455,7 +452,7 @@ instance:
   - lpuartConfig_t:
     - lpuartConfig:
       - clockSource: 'LpuartClock'
-      - lpuartSrcClkFreq: 'BOARD_BootClockRUN'
+      - lpuartSrcClkFreq: 'custom:80000000'
       - baudRate_Bps: '115200'
       - parityMode: 'kLPUART_ParityDisabled'
       - dataBitsCount: 'kLPUART_EightDataBits'
@@ -471,7 +468,6 @@ instance:
       - rxIdleConfig: 'kLPUART_IdleCharacter1'
       - enableTx: 'true'
       - enableRx: 'true'
-    - quick_selection: 'QuickSelection1'
   - interruptsCfg:
     - interrupts: 'kLPUART_RxDataRegFullInterruptEnable kLPUART_RxOverrunInterruptEnable'
     - interrupt_vectors:
@@ -524,7 +520,7 @@ instance:
   - lpuartConfig_t:
     - lpuartConfig:
       - clockSource: 'LpuartClock'
-      - lpuartSrcClkFreq: 'BOARD_BootClockRUN'
+      - lpuartSrcClkFreq: 'custom:80000000'
       - baudRate_Bps: '115200'
       - parityMode: 'kLPUART_ParityDisabled'
       - dataBitsCount: 'kLPUART_EightDataBits'
@@ -540,7 +536,6 @@ instance:
       - rxIdleConfig: 'kLPUART_IdleCharacter1'
       - enableTx: 'true'
       - enableRx: 'true'
-    - quick_selection: 'QuickSelection1'
   - interruptsCfg:
     - interrupts: 'kLPUART_RxDataRegFullInterruptEnable kLPUART_RxOverrunInterruptEnable'
     - interrupt_vectors:
