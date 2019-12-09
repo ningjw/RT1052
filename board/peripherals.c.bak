@@ -578,12 +578,12 @@ void LPUART5_init(void) {
 }
 
 /***********************************************************************************************************************
- * LPSPI1 initialization code
+ * LPSPI4 initialization code
  **********************************************************************************************************************/
 /* clang-format off */
 /* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
 instance:
-- name: 'LPSPI1'
+- name: 'LPSPI4'
 - type: 'lpspi'
 - mode: 'polling'
 - type_id: 'lpspi_6e21a1e0a09f0a012d683c4f91752db8'
@@ -595,8 +595,8 @@ instance:
     - clockSource: 'LpspiClock'
     - clockSourceFreq: 'BOARD_BootClockRUN'
     - master:
-      - baudRate: '500000'
-      - bitsPerFrame: '8'
+      - baudRate: '24000000'
+      - bitsPerFrame: '24'
       - cpol: 'kLPSPI_ClockPolarityActiveHigh'
       - cpha: 'kLPSPI_ClockPhaseFirstEdge'
       - direction: 'kLPSPI_MsbFirst'
@@ -607,12 +607,11 @@ instance:
       - pcsActiveHighOrLow: 'kLPSPI_PcsActiveLow'
       - pinCfg: 'kLPSPI_SdiInSdoOut'
       - dataOutConfig: 'kLpspiDataOutRetained'
-    - quick_selection: 'qs_master'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
-const lpspi_master_config_t LPSPI1_config = {
-  .baudRate = 500000,
-  .bitsPerFrame = 8,
+const lpspi_master_config_t LPSPI4_config = {
+  .baudRate = 24000000,
+  .bitsPerFrame = 24,
   .cpol = kLPSPI_ClockPolarityActiveHigh,
   .cpha = kLPSPI_ClockPhaseFirstEdge,
   .direction = kLPSPI_MsbFirst,
@@ -625,8 +624,45 @@ const lpspi_master_config_t LPSPI1_config = {
   .dataOutConfig = kLpspiDataOutRetained
 };
 
-void LPSPI1_init(void) {
-  LPSPI_MasterInit(LPSPI1_PERIPHERAL, &LPSPI1_config, LPSPI1_CLOCK_FREQ);
+void LPSPI4_init(void) {
+  LPSPI_MasterInit(LPSPI4_PERIPHERAL, &LPSPI4_config, LPSPI4_CLOCK_FREQ);
+}
+
+/***********************************************************************************************************************
+ * GPIO2 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'GPIO2'
+- type: 'igpio'
+- mode: 'GPIO'
+- type_id: 'igpio_b1c1fa279aa7069dca167502b8589cb7'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'GPIO2'
+- config_sets:
+  - fsl_gpio:
+    - enable_irq_comb_0_15: 'true'
+    - gpio_interrupt_comb_0_15:
+      - IRQn: 'GPIO2_Combined_0_15_IRQn'
+      - enable_priority: 'false'
+      - priority: '0'
+      - enable_custom_name: 'false'
+    - enable_irq_comb_16_31: 'true'
+    - gpio_interrupt_comb_16_31:
+      - IRQn: 'GPIO2_Combined_16_31_IRQn'
+      - enable_priority: 'false'
+      - priority: '0'
+      - enable_custom_name: 'false'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+
+void GPIO2_init(void) {
+  /* Make sure, the clock gate for GPIO2 is enabled (e. g. in pin_mux.c) */
+  /* Enable interrupt GPIO2_Combined_0_15_IRQn request in the NVIC */
+  EnableIRQ(GPIO2_Combined_0_15_IRQn);
+  /* Enable interrupt GPIO2_Combined_16_31_IRQn request in the NVIC */
+  EnableIRQ(GPIO2_Combined_16_31_IRQn);
 }
 
 /***********************************************************************************************************************
@@ -648,7 +684,8 @@ void BOARD_InitPeripherals(void)
   LPUART4_init();
   LPUART3_init();
   LPUART5_init();
-  LPSPI1_init();
+  LPSPI4_init();
+  GPIO2_init();
 }
 
 /***********************************************************************************************************************

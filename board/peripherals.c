@@ -595,8 +595,8 @@ instance:
     - clockSource: 'LpspiClock'
     - clockSourceFreq: 'BOARD_BootClockRUN'
     - master:
-      - baudRate: '500000'
-      - bitsPerFrame: '8'
+      - baudRate: '24000000'
+      - bitsPerFrame: '24'
       - cpol: 'kLPSPI_ClockPolarityActiveHigh'
       - cpha: 'kLPSPI_ClockPhaseFirstEdge'
       - direction: 'kLPSPI_MsbFirst'
@@ -607,12 +607,11 @@ instance:
       - pcsActiveHighOrLow: 'kLPSPI_PcsActiveLow'
       - pinCfg: 'kLPSPI_SdiInSdoOut'
       - dataOutConfig: 'kLpspiDataOutRetained'
-    - quick_selection: 'qs_master'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const lpspi_master_config_t LPSPI4_config = {
-  .baudRate = 500000,
-  .bitsPerFrame = 8,
+  .baudRate = 24000000,
+  .bitsPerFrame = 24,
   .cpol = kLPSPI_ClockPolarityActiveHigh,
   .cpha = kLPSPI_ClockPhaseFirstEdge,
   .direction = kLPSPI_MsbFirst,
@@ -627,6 +626,106 @@ const lpspi_master_config_t LPSPI4_config = {
 
 void LPSPI4_init(void) {
   LPSPI_MasterInit(LPSPI4_PERIPHERAL, &LPSPI4_config, LPSPI4_CLOCK_FREQ);
+}
+
+/***********************************************************************************************************************
+ * GPIO2 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'GPIO2'
+- type: 'igpio'
+- mode: 'GPIO'
+- type_id: 'igpio_b1c1fa279aa7069dca167502b8589cb7'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'GPIO2'
+- config_sets:
+  - fsl_gpio:
+    - enable_irq_comb_0_15: 'true'
+    - gpio_interrupt_comb_0_15:
+      - IRQn: 'GPIO2_Combined_0_15_IRQn'
+      - enable_priority: 'false'
+      - priority: '0'
+      - enable_custom_name: 'false'
+    - enable_irq_comb_16_31: 'true'
+    - gpio_interrupt_comb_16_31:
+      - IRQn: 'GPIO2_Combined_16_31_IRQn'
+      - enable_priority: 'false'
+      - priority: '0'
+      - enable_custom_name: 'false'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+
+void GPIO2_init(void) {
+  /* Make sure, the clock gate for GPIO2 is enabled (e. g. in pin_mux.c) */
+  /* Enable interrupt GPIO2_Combined_0_15_IRQn request in the NVIC */
+  EnableIRQ(GPIO2_Combined_0_15_IRQn);
+  /* Enable interrupt GPIO2_Combined_16_31_IRQn request in the NVIC */
+  EnableIRQ(GPIO2_Combined_16_31_IRQn);
+}
+
+/***********************************************************************************************************************
+ * LPI2C3 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'LPI2C3'
+- type: 'lpi2c'
+- mode: 'master'
+- type_id: 'lpi2c_db68d4f4f06a22e25ab51fe9bd6db4d2'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'LPI2C3'
+- config_sets:
+  - main:
+    - clockSource: 'Lpi2cClock'
+    - clockSourceFreq: 'BOARD_BootClockRUN'
+    - interrupt:
+      - IRQn: 'LPI2C3_IRQn'
+      - enable_priority: 'false'
+      - priority: '0'
+      - enable_custom_name: 'false'
+    - quick_selection: 'qs_interrupt'
+  - master:
+    - mode: 'polling'
+    - config:
+      - enableMaster: 'true'
+      - enableDoze: 'true'
+      - debugEnable: 'false'
+      - ignoreAck: 'false'
+      - pinConfig: 'kLPI2C_2PinOpenDrain'
+      - baudRate_Hz: '400000'
+      - busIdleTimeout_ns: '0'
+      - pinLowTimeout_ns: '0'
+      - sdaGlitchFilterWidth_ns: '0'
+      - sclGlitchFilterWidth_ns: '0'
+      - hostRequest:
+        - enable: 'false'
+        - source: 'kLPI2C_HostRequestExternalPin'
+        - polarity: 'kLPI2C_HostRequestPinActiveHigh'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const lpi2c_master_config_t LPI2C3_masterConfig = {
+  .enableMaster = true,
+  .enableDoze = true,
+  .debugEnable = false,
+  .ignoreAck = false,
+  .pinConfig = kLPI2C_2PinOpenDrain,
+  .baudRate_Hz = 400000,
+  .busIdleTimeout_ns = 0,
+  .pinLowTimeout_ns = 0,
+  .sdaGlitchFilterWidth_ns = 0,
+  .sclGlitchFilterWidth_ns = 0,
+  .hostRequest = {
+    .enable = false,
+    .source = kLPI2C_HostRequestExternalPin,
+    .polarity = kLPI2C_HostRequestPinActiveHigh
+  }
+};
+
+void LPI2C3_init(void) {
+  LPI2C_MasterInit(LPI2C3_PERIPHERAL, &LPI2C3_masterConfig, LPI2C3_CLOCK_FREQ);
 }
 
 /***********************************************************************************************************************
@@ -649,6 +748,8 @@ void BOARD_InitPeripherals(void)
   LPUART3_init();
   LPUART5_init();
   LPSPI4_init();
+  GPIO2_init();
+  LPI2C3_init();
 }
 
 /***********************************************************************************************************************

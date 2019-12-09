@@ -1,8 +1,8 @@
 Dependencies for Project 'rt1052', Target 'Target 1': (DO NOT MODIFY !)
-F (.\User\src\main.c)(0x5DEDB3C8)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\main.o --depend .\objects\main.d)
-I (.\User\inc\main.h)(0x5DEDB18B)
+F (.\User\src\main.c)(0x5DEDF259)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\main.o --depend .\objects\main.d)
+I (.\User\inc\main.h)(0x5DEDEBF2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
-I (.\board\clock_config.h)(0x5DECCB67)
+I (.\board\clock_config.h)(0x5DEDBDAE)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\ARMCC\include\assert.h)(0x5CEB79D6)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
@@ -18,7 +18,7 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h)(0x5C8F4DD
 I (.\RTE\Device\MIMXRT1052CVL5B\system_MIMXRT1052.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_clock.h)(0x5CFC4A9E)
-I (.\board\peripherals.h)(0x5DECCBDE)
+I (.\board\peripherals.h)(0x5DEDDF15)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_edma.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dmamux.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart.h)(0x5CFC4A9E)
@@ -27,8 +27,8 @@ I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h)(0x5CFC4A9E
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h)(0x5CFC4A9E)
-I (.\board\pin_mux.h)(0x5DECCB65)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h)(0x5CFC4A9E)
+I (.\board\pin_mux.h)(0x5DEDDF11)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h)(0x5CFC4A9E)
@@ -38,7 +38,7 @@ I (.\User\inc\lpuart1.h)(0x5DE1D378)
 I (.\User\inc\i2c_eeprom_drv.h)(0x5DE1E6EE)
 I (.\User\inc\rtc_drv.h)(0x5DEDB2D7)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x5CAFE25C)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\projdefs.h)(0x5CAFE262)
@@ -48,10 +48,61 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\mpu_wrappers.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\task.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\list.h)(0x5CAFE262)
+I (.\User\inc\task_app.h)(0x5DEDF035)
+F (.\User\src\task_app.c)(0x5DEDF042)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\task_app.o --depend .\objects\task_app.d)
+I (.\User\inc\main.h)(0x5DEDEBF2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
+I (.\board\clock_config.h)(0x5DEDBDAE)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\ARMCC\include\assert.h)(0x5CEB79D6)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
+I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5CFC4A9E)
+I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm7.h)(0x5D2590B6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_version.h)(0x5D2590B6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5D2590B6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5D2590B6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h)(0x5C8F4DD4)
+I (.\RTE\Device\MIMXRT1052CVL5B\system_MIMXRT1052.h)(0x5CFC4A9E)
+I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_clock.h)(0x5CFC4A9E)
+I (.\board\peripherals.h)(0x5DEDDF15)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_edma.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dmamux.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_pit.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h)(0x5CFC4A9E)
+I (.\board\pin_mux.h)(0x5DEDDF11)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_hp.h)(0x5CFC4A9E)
+I (.\User\inc\interrupt.h)(0x5DE215A9)
+I (.\User\inc\lpuart1.h)(0x5DE1D378)
+I (.\User\inc\i2c_eeprom_drv.h)(0x5DE1E6EE)
+I (.\User\inc\rtc_drv.h)(0x5DEDB2D7)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
+I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x5CAFE25C)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\projdefs.h)(0x5CAFE262)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\portable.h)(0x5CAFE262)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\deprecated_definitions.h)(0x5CAFE262)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1\portmacro.h)(0x5CAFE264)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\mpu_wrappers.h)(0x5CAFE262)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\task.h)(0x5CAFE262)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\list.h)(0x5CAFE262)
+I (.\User\inc\task_app.h)(0x5DEDF035)
 F (.\User\src\interrupt.c)(0x5DEDB295)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\interrupt.o --depend .\objects\interrupt.d)
-I (.\User\inc\main.h)(0x5DEDB18B)
+I (.\User\inc\main.h)(0x5DEDEBF2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
-I (.\board\clock_config.h)(0x5DECCB67)
+I (.\board\clock_config.h)(0x5DEDBDAE)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\ARMCC\include\assert.h)(0x5CEB79D6)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
@@ -67,7 +118,7 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h)(0x5C8F4DD
 I (.\RTE\Device\MIMXRT1052CVL5B\system_MIMXRT1052.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_clock.h)(0x5CFC4A9E)
-I (.\board\peripherals.h)(0x5DECCBDE)
+I (.\board\peripherals.h)(0x5DEDDF15)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_edma.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dmamux.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart.h)(0x5CFC4A9E)
@@ -76,8 +127,8 @@ I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h)(0x5CFC4A9E
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h)(0x5CFC4A9E)
-I (.\board\pin_mux.h)(0x5DECCB65)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h)(0x5CFC4A9E)
+I (.\board\pin_mux.h)(0x5DEDDF11)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h)(0x5CFC4A9E)
@@ -87,7 +138,7 @@ I (.\User\inc\lpuart1.h)(0x5DE1D378)
 I (.\User\inc\i2c_eeprom_drv.h)(0x5DE1E6EE)
 I (.\User\inc\rtc_drv.h)(0x5DEDB2D7)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x5CAFE25C)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\projdefs.h)(0x5CAFE262)
@@ -97,10 +148,11 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\mpu_wrappers.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\task.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\list.h)(0x5CAFE262)
+I (.\User\inc\task_app.h)(0x5DEDF035)
 F (.\User\src\lpuart1.c)(0x5DE1E562)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\lpuart1.o --depend .\objects\lpuart1.d)
-I (.\User\inc\main.h)(0x5DEDB18B)
+I (.\User\inc\main.h)(0x5DEDEBF2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
-I (.\board\clock_config.h)(0x5DECCB67)
+I (.\board\clock_config.h)(0x5DEDBDAE)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\ARMCC\include\assert.h)(0x5CEB79D6)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
@@ -116,7 +168,7 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h)(0x5C8F4DD
 I (.\RTE\Device\MIMXRT1052CVL5B\system_MIMXRT1052.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_clock.h)(0x5CFC4A9E)
-I (.\board\peripherals.h)(0x5DECCBDE)
+I (.\board\peripherals.h)(0x5DEDDF15)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_edma.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dmamux.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart.h)(0x5CFC4A9E)
@@ -125,8 +177,8 @@ I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h)(0x5CFC4A9E
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h)(0x5CFC4A9E)
-I (.\board\pin_mux.h)(0x5DECCB65)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h)(0x5CFC4A9E)
+I (.\board\pin_mux.h)(0x5DEDDF11)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h)(0x5CFC4A9E)
@@ -136,7 +188,7 @@ I (.\User\inc\lpuart1.h)(0x5DE1D378)
 I (.\User\inc\i2c_eeprom_drv.h)(0x5DE1E6EE)
 I (.\User\inc\rtc_drv.h)(0x5DEDB2D7)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x5CAFE25C)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\projdefs.h)(0x5CAFE262)
@@ -146,6 +198,7 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\mpu_wrappers.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\task.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\list.h)(0x5CAFE262)
+I (.\User\inc\task_app.h)(0x5DEDF035)
 F (.\User\src\core_delay.c)(0x5DE1D273)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\core_delay.o --depend .\objects\core_delay.d)
 I (.\User\inc\core_delay.h)(0x5AFD2EC2)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h)(0x5CFC4A9E)
@@ -189,9 +242,9 @@ I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_deb
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h)(0x5CFC4A9E)
 F (.\User\src\rtc_drv.c)(0x5DEDB16C)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\rtc_drv.o --depend .\objects\rtc_drv.d)
-I (.\User\inc\main.h)(0x5DEDB18B)
+I (.\User\inc\main.h)(0x5DEDEBF2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
-I (.\board\clock_config.h)(0x5DECCB67)
+I (.\board\clock_config.h)(0x5DEDBDAE)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\ARMCC\include\assert.h)(0x5CEB79D6)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
@@ -207,7 +260,7 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h)(0x5C8F4DD
 I (.\RTE\Device\MIMXRT1052CVL5B\system_MIMXRT1052.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_clock.h)(0x5CFC4A9E)
-I (.\board\peripherals.h)(0x5DECCBDE)
+I (.\board\peripherals.h)(0x5DEDDF15)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_edma.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dmamux.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart.h)(0x5CFC4A9E)
@@ -216,8 +269,8 @@ I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h)(0x5CFC4A9E
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h)(0x5CFC4A9E)
-I (.\board\pin_mux.h)(0x5DECCB65)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h)(0x5CFC4A9E)
+I (.\board\pin_mux.h)(0x5DEDDF11)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h)(0x5CFC4A9E)
@@ -227,7 +280,7 @@ I (.\User\inc\lpuart1.h)(0x5DE1D378)
 I (.\User\inc\i2c_eeprom_drv.h)(0x5DE1E6EE)
 I (.\User\inc\rtc_drv.h)(0x5DEDB2D7)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x5CAFE25C)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\projdefs.h)(0x5CAFE262)
@@ -237,8 +290,9 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\mpu_wrappers.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\task.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\list.h)(0x5CAFE262)
-F (.\board\clock_config.c)(0x5DECCB67)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\clock_config.o --depend .\objects\clock_config.d)
-I (board\clock_config.h)(0x5DECCB67)
+I (.\User\inc\task_app.h)(0x5DEDF035)
+F (.\board\clock_config.c)(0x5DEDBDAE)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\clock_config.o --depend .\objects\clock_config.d)
+I (board\clock_config.h)(0x5DEDBDAE)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\ARMCC\include\assert.h)(0x5CEB79D6)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
@@ -256,8 +310,8 @@ I (.\RTE\Device\MIMXRT1052CVL5B\system_MIMXRT1052.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_clock.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_iomuxc.h)(0x5CFC4A9E)
-F (.\board\peripherals.c)(0x5DECCD79)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\peripherals.o --depend .\objects\peripherals.d)
-I (board\peripherals.h)(0x5DECCBDE)
+F (.\board\peripherals.c)(0x5DEDDF15)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\peripherals.o --depend .\objects\peripherals.d)
+I (board\peripherals.h)(0x5DEDDF15)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_edma.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\ARMCC\include\assert.h)(0x5CEB79D6)
@@ -282,7 +336,8 @@ I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h)(0x5CFC4A9E
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h)(0x5CFC4A9E)
-F (.\board\pin_mux.c)(0x5DECCB65)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\pin_mux.o --depend .\objects\pin_mux.d)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h)(0x5CFC4A9E)
+F (.\board\pin_mux.c)(0x5DEDDF11)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\pin_mux.o --depend .\objects\pin_mux.d)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\ARMCC\include\assert.h)(0x5CEB79D6)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
@@ -301,7 +356,7 @@ I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_clock.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_iomuxc.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h)(0x5CFC4A9E)
-I (board\pin_mux.h)(0x5DECCB65)
+I (board\pin_mux.h)(0x5DEDDF11)
 F (.\xip\evkbimxrt1050_flexspi_nor_config.c)(0x5D8ED10C)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\evkbimxrt1050_flexspi_nor_config.o --depend .\objects\evkbimxrt1050_flexspi_nor_config.d)
 I (xip\evkbimxrt1050_flexspi_nor_config.h)(0x5D75CAB0)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
@@ -330,7 +385,7 @@ F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Source\ARM
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
 I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5CFC4A9E)
@@ -362,7 +417,7 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5D
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5D2590B6)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include\os_tick.h)(0x5B617084)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm7.h)(0x5D2590B6)
@@ -670,6 +725,24 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h)(0x5C8F4DD
 I (.\RTE\Device\MIMXRT1052CVL5B\system_MIMXRT1052.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h)(0x5CFC4A9E)
 I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_clock.h)(0x5CFC4A9E)
+F (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_hp.c)(0x5CFC4A9E)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\fsl_snvs_hp.o --depend .\objects\fsl_snvs_hp.d)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_hp.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\ARMCC\include\assert.h)(0x5CEB79D6)
+I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
+I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
+I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5CFC4A9E)
+I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm7.h)(0x5D2590B6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_version.h)(0x5D2590B6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5D2590B6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5D2590B6)
+I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h)(0x5C8F4DD4)
+I (.\RTE\Device\MIMXRT1052CVL5B\system_MIMXRT1052.h)(0x5CFC4A9E)
+I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h)(0x5CFC4A9E)
+I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_clock.h)(0x5CFC4A9E)
 F (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.c)(0x5CFC4A9E)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\fsl_debug_console.o --depend .\objects\fsl_debug_console.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdarg.h)(0x5CEB79E4)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
@@ -797,29 +870,11 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h)(0x5C8F4DD
 I (RTE\Device\MIMXRT1052CVL5B\system_MIMXRT1052.h)(0x5CFC4A9E)
 I (RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h)(0x5CFC4A9E)
 F (RTE\Device\MIMXRT1052CVL5B\system_MIMXRT1052.h)(0x5CFC4A9E)()
-F (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_hp.c)(0x5CFC4A9E)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\fsl_snvs_hp.o --depend .\objects\fsl_snvs_hp.d)
-I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_hp.h)(0x5CFC4A9E)
-I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h)(0x5CFC4A9E)
-I (C:\Keil_v5\ARM\ARMCC\include\assert.h)(0x5CEB79D6)
-I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5CEB79DE)
-I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
-I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
-I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
-I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5CFC4A9E)
-I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5CFC4A9E)
-I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm7.h)(0x5D2590B6)
-I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_version.h)(0x5D2590B6)
-I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5D2590B6)
-I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5D2590B6)
-I (C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h)(0x5C8F4DD4)
-I (.\RTE\Device\MIMXRT1052CVL5B\system_MIMXRT1052.h)(0x5CFC4A9E)
-I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h)(0x5CFC4A9E)
-I (C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_clock.h)(0x5CFC4A9E)
 F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Source\freertos_evr.c)(0x5CAFE25C)(--c99 --gnu -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="528" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DSCANF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1" -DSCANF_ADVANCED_ENABLE="1"-o .\objects\freertos_evr.o --depend .\objects\freertos_evr.d)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
 I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5CFC4A9E)
@@ -848,7 +903,7 @@ F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\croutine.c)(0x5CAFE262)(
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
 I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5CFC4A9E)
@@ -874,7 +929,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
 I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5CFC4A9E)
@@ -901,7 +956,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
 I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5CFC4A9E)
@@ -925,7 +980,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
 I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5CFC4A9E)
@@ -949,7 +1004,7 @@ F (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
 I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5CFC4A9E)
@@ -975,7 +1030,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
 I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5CFC4A9E)
@@ -1000,7 +1055,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
 I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5CFC4A9E)
@@ -1026,7 +1081,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
 I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5CFC4A9E)
@@ -1052,7 +1107,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5CEB79E2)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5CEB79E2)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)
+I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)
 I (.\RTE\_Target_1\RTE_Components.h)(0x5D8F2E0B)
 I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5CFC4A9E)
 I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5CFC4A9E)
@@ -1074,4 +1129,4 @@ I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\task.h)(0x5CAFE2
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\list.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h)(0x5CAFE262)
 I (C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h)(0x5CAFE262)
-F (RTE\RTOS\FreeRTOSConfig.h)(0x5CAFE25C)()
+F (RTE\RTOS\FreeRTOSConfig.h)(0x5DEDF28E)()

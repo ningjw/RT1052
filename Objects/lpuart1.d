@@ -27,8 +27,8 @@
 .\objects\lpuart1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h
-.\objects\lpuart1.o: .\board\pin_mux.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
+.\objects\lpuart1.o: .\board\pin_mux.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h
@@ -48,3 +48,4 @@
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\mpu_wrappers.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\task.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\list.h
+.\objects\lpuart1.o: .\User\inc\task_app.h

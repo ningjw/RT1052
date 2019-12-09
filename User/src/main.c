@@ -2,9 +2,7 @@
 
 
 static TaskHandle_t AppTaskCreate_Handle = NULL;      /* 创建任务句柄 */
-static void AppTaskCreate(void);               /* 用于创建任务 */
-
-
+static void AppTaskCreate(void);                      /* 用于创建任务 */
 
 
 /***********************************************************************
@@ -15,17 +13,41 @@ static void AppTaskCreate(void);               /* 用于创建任务 */
   **********************************************************************/
 static void AppTaskCreate(void)
 {
-//    taskENTER_CRITICAL();           //进入临界区
-    while(1){
-        vTaskDelay(1000);
-                /* 获取日期 */
-        SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
-        /* 打印日期&时间 */ 
-        PRINTF("%02d-%02d-%02d  %02d:%02d:%02d \r\n", rtcDate.year,rtcDate.month, rtcDate.day,rtcDate.hour, rtcDate.minute, rtcDate.second);
-    }
-//    vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
+    BaseType_t xReturn = pdPASS;/* 定义一个创建信息返回值，默认为pdPASS */
+    
+    taskENTER_CRITICAL();           //进入临界区
+    
+    /* 创建BLE_Task任务 */
+    xReturn = xTaskCreate((TaskFunction_t )AppBLE_Task,  /* 任务入口函数 */
+                          (const char*    )"BLE_Task",/* 任务名字 */
+                          (uint16_t       )512,  /* 任务栈大小 */
+                          (void*          )NULL, /* 任务入口函数参数 */
+                          (UBaseType_t    )1,    /* 任务的优先级 */
+                          (TaskHandle_t*  )&AppBLE_TaskHandle);/* 任务控制块指针 */
+    
+    
+    /* 创建ADC_Task任务 */
+    xReturn = xTaskCreate((TaskFunction_t )AppADC_Task,  /* 任务入口函数 */
+                          (const char*    )"ADC_Task",/* 任务名字 */
+                          (uint16_t       )512,  /* 任务栈大小 */
+                          (void*          )NULL, /* 任务入口函数参数 */
+                          (UBaseType_t    )2,    /* 任务的优先级 */
+                          (TaskHandle_t*  )&AppADC_TaskHandle);/* 任务控制块指针 */
+                          
+    /* 创建eMMC_Task任务 */
+    xReturn = xTaskCreate((TaskFunction_t )AppEMMC_Task,  /* 任务入口函数 */
+                          (const char*    )"eMMC_Task",/* 任务名字 */
+                          (uint16_t       )512,  /* 任务栈大小 */
+                          (void*          )NULL, /* 任务入口函数参数 */
+                          (UBaseType_t    )3,    /* 任务的优先级 */
+                          (TaskHandle_t*  )&AppEMMC_TaskHandle);/* 任务控制块指针 */
 
-//    taskEXIT_CRITICAL();            //退出临界区
+    if(pdPASS == xReturn) {//任务创建成功
+        
+        }else PRINTF("任务创建失败:%d",xReturn);
+    vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
+
+    taskEXIT_CRITICAL();            //退出临界区
 }
 
 

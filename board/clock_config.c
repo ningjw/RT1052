@@ -52,42 +52,42 @@ name: BOARD_BootClockRUN
 called_from_default_init: true
 outputs:
 - {id: AHB_CLK_ROOT.outFreq, value: 528 MHz, locked: true, accuracy: '0.001'}
-- {id: CAN_CLK_ROOT.outFreq, value: 60 MHz}
+- {id: CAN_CLK_ROOT.outFreq, value: 3 MHz}
 - {id: CKIL_SYNC_CLK_ROOT.outFreq, value: 32.768 kHz}
 - {id: CLK_1M.outFreq, value: 1 MHz}
 - {id: CLK_24M.outFreq, value: 24 MHz}
-- {id: CSI_CLK_ROOT.outFreq, value: 80 MHz, locked: true, accuracy: '0.001'}
+- {id: CSI_CLK_ROOT.outFreq, value: 24 MHz}
 - {id: ENET1_TX_CLK.outFreq, value: 6 MHz}
 - {id: ENET_125M_CLK.outFreq, value: 6 MHz}
 - {id: ENET_25M_REF_CLK.outFreq, value: 1.2 MHz}
-- {id: FLEXIO1_CLK_ROOT.outFreq, value: 120 MHz}
-- {id: FLEXIO2_CLK_ROOT.outFreq, value: 120 MHz}
+- {id: FLEXIO1_CLK_ROOT.outFreq, value: 6 MHz}
+- {id: FLEXIO2_CLK_ROOT.outFreq, value: 6 MHz}
 - {id: FLEXSPI_CLK_ROOT.outFreq, value: 264 MHz}
 - {id: GPT1_ipg_clk_highfreq.outFreq, value: 66 MHz}
 - {id: GPT2_ipg_clk_highfreq.outFreq, value: 66 MHz}
 - {id: IPG_CLK_ROOT.outFreq, value: 132 MHz}
-- {id: LCDIF_CLK_ROOT.outFreq, value: 60 MHz}
-- {id: LPI2C_CLK_ROOT.outFreq, value: 60 MHz}
-- {id: LPSPI_CLK_ROOT.outFreq, value: 120 MHz}
+- {id: LCDIF_CLK_ROOT.outFreq, value: 3 MHz}
+- {id: LPI2C_CLK_ROOT.outFreq, value: 3 MHz}
+- {id: LPSPI_CLK_ROOT.outFreq, value: 24 MHz}
 - {id: LVDS1_CLK.outFreq, value: 1.056 GHz}
-- {id: MQS_MCLK.outFreq, value: 60 MHz}
+- {id: MQS_MCLK.outFreq, value: 2 MHz}
 - {id: PERCLK_CLK_ROOT.outFreq, value: 66 MHz}
 - {id: PLL7_MAIN_CLK.outFreq, value: 24 MHz}
-- {id: SAI1_CLK_ROOT.outFreq, value: 60 MHz}
-- {id: SAI1_MCLK1.outFreq, value: 60 MHz}
-- {id: SAI1_MCLK2.outFreq, value: 60 MHz}
-- {id: SAI1_MCLK3.outFreq, value: 60 MHz}
-- {id: SAI2_CLK_ROOT.outFreq, value: 60 MHz}
-- {id: SAI2_MCLK1.outFreq, value: 60 MHz}
-- {id: SAI2_MCLK3.outFreq, value: 60 MHz}
-- {id: SAI3_CLK_ROOT.outFreq, value: 60 MHz}
-- {id: SAI3_MCLK1.outFreq, value: 60 MHz}
-- {id: SAI3_MCLK3.outFreq, value: 60 MHz}
+- {id: SAI1_CLK_ROOT.outFreq, value: 2 MHz}
+- {id: SAI1_MCLK1.outFreq, value: 2 MHz}
+- {id: SAI1_MCLK2.outFreq, value: 2 MHz}
+- {id: SAI1_MCLK3.outFreq, value: 3 MHz}
+- {id: SAI2_CLK_ROOT.outFreq, value: 2 MHz}
+- {id: SAI2_MCLK1.outFreq, value: 2 MHz}
+- {id: SAI2_MCLK3.outFreq, value: 3 MHz}
+- {id: SAI3_CLK_ROOT.outFreq, value: 2 MHz}
+- {id: SAI3_MCLK1.outFreq, value: 2 MHz}
+- {id: SAI3_MCLK3.outFreq, value: 3 MHz}
 - {id: SEMC_CLK_ROOT.outFreq, value: 132 MHz}
-- {id: SPDIF0_CLK_ROOT.outFreq, value: 60 MHz}
+- {id: SPDIF0_CLK_ROOT.outFreq, value: 3 MHz}
 - {id: TRACE_CLK_ROOT.outFreq, value: 132 MHz}
-- {id: UART_CLK_ROOT.outFreq, value: 80 MHz}
-- {id: USBPHY1_CLK.outFreq, value: 480 MHz}
+- {id: UART_CLK_ROOT.outFreq, value: 4 MHz}
+- {id: USBPHY1_CLK.outFreq, value: 24 MHz}
 - {id: USDHC1_CLK_ROOT.outFreq, value: 198 MHz, locked: true, accuracy: '0.001'}
 - {id: USDHC2_CLK_ROOT.outFreq, value: 198 MHz}
 settings:
@@ -95,14 +95,13 @@ settings:
 - {id: CCM.ARM_PODF.scale, value: '2', locked: true}
 - {id: CCM.CAN_CLK_PODF.scale, value: '1', locked: true}
 - {id: CCM.CAN_CLK_SEL.sel, value: CCM.PLL3_SW_60M_CLK_DIV}
-- {id: CCM.CSI_CLK_SEL.sel, value: CCM_ANALOG.PLL3_PFD1_CLK}
-- {id: CCM.CSI_PODF.scale, value: '6'}
+- {id: CCM.CSI_PODF.scale, value: '1', locked: true}
 - {id: CCM.FLEXIO1_CLK_PODF.scale, value: '2', locked: true}
 - {id: CCM.FLEXIO2_CLK_PODF.scale, value: '2', locked: true}
 - {id: CCM.FLEXSPI_PODF.scale, value: '3', locked: true}
 - {id: CCM.FLEXSPI_SEL.sel, value: CCM_ANALOG.PLL2_PFD2_CLK}
-- {id: CCM.LPSPI_CLK_SEL.sel, value: CCM_ANALOG.PLL3_PFD1_CLK}
-- {id: CCM.LPSPI_PODF.scale, value: '4', locked: true}
+- {id: CCM.LPSPI_CLK_SEL.sel, value: CCM_ANALOG.PLL3_PFD0_CLK}
+- {id: CCM.LPSPI_PODF.scale, value: '1', locked: true}
 - {id: CCM.PERCLK_PODF.scale, value: '2', locked: true}
 - {id: CCM.SAI1_CLK_PODF.scale, value: '3', locked: true}
 - {id: CCM.SAI2_CLK_PODF.scale, value: '3', locked: true}
@@ -128,15 +127,10 @@ settings:
 - {id: CCM_ANALOG.PLL2_PFD2_DIV.scale, value: '12', locked: true}
 - {id: CCM_ANALOG.PLL2_PFD2_MUL.scale, value: '18', locked: true}
 - {id: CCM_ANALOG.PLL2_PFD3_BYPASS.sel, value: CCM_ANALOG.PLL2_PFD3}
-- {id: CCM_ANALOG.PLL3_BYPASS.sel, value: CCM_ANALOG.PLL3}
-- {id: CCM_ANALOG.PLL3_PFD0_BYPASS.sel, value: CCM_ANALOG.PLL3_PFD0}
 - {id: CCM_ANALOG.PLL3_PFD0_DIV.scale, value: '15'}
-- {id: CCM_ANALOG.PLL3_PFD1_BYPASS.sel, value: CCM_ANALOG.PLL3_PFD1}
 - {id: CCM_ANALOG.PLL3_PFD1_DIV.scale, value: '18'}
-- {id: CCM_ANALOG.PLL3_PFD2_BYPASS.sel, value: CCM_ANALOG.PLL3_PFD2}
 - {id: CCM_ANALOG.PLL3_PFD2_DIV.scale, value: '12', locked: true}
 - {id: CCM_ANALOG.PLL3_PFD2_MUL.scale, value: '18', locked: true}
-- {id: CCM_ANALOG.PLL3_PFD3_BYPASS.sel, value: CCM_ANALOG.PLL3_PFD3}
 - {id: CCM_ANALOG_PLL_USB1_EN_USB_CLKS_CFG, value: Enabled}
 - {id: CCM_ANALOG_PLL_USB1_EN_USB_CLKS_OUT_CFG, value: Enabled}
 - {id: CCM_ANALOG_PLL_USB1_POWER_CFG, value: 'Yes'}
@@ -258,18 +252,18 @@ void BOARD_BootClockRUN(void)
     /* Disable CSI clock gate. */
     CLOCK_DisableClock(kCLOCK_Csi);
     /* Set CSI_PODF. */
-    CLOCK_SetDiv(kCLOCK_CsiDiv, 5);
+    CLOCK_SetDiv(kCLOCK_CsiDiv, 0);
     /* Set Csi clock source. */
-    CLOCK_SetMux(kCLOCK_CsiMux, 3);
+    CLOCK_SetMux(kCLOCK_CsiMux, 0);
     /* Disable LPSPI clock gate. */
     CLOCK_DisableClock(kCLOCK_Lpspi1);
     CLOCK_DisableClock(kCLOCK_Lpspi2);
     CLOCK_DisableClock(kCLOCK_Lpspi3);
     CLOCK_DisableClock(kCLOCK_Lpspi4);
     /* Set LPSPI_PODF. */
-    CLOCK_SetDiv(kCLOCK_LpspiDiv, 3);
+    CLOCK_SetDiv(kCLOCK_LpspiDiv, 0);
     /* Set Lpspi clock source. */
-    CLOCK_SetMux(kCLOCK_LpspiMux, 0);
+    CLOCK_SetMux(kCLOCK_LpspiMux, 1);
     /* Disable TRACE clock gate. */
     CLOCK_DisableClock(kCLOCK_Trace);
     /* Set TRACE_PODF. */
@@ -397,6 +391,8 @@ void BOARD_BootClockRUN(void)
     CLOCK_InitUsb1Pfd(kCLOCK_Pfd2, 12);
     /* Init Usb1 pfd3. */
     CLOCK_InitUsb1Pfd(kCLOCK_Pfd3, 19);
+    /* Bypass Usb1 PLL. */
+    CLOCK_SetPllBypass(CCM_ANALOG, kCLOCK_PllUsb1, 1);
 #endif
     /* DeInit Audio PLL. */
     CLOCK_DeinitAudioPll();

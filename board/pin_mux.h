@@ -87,6 +87,31 @@ void BOARD_InitBootPins(void);
 #define BOARD_BOOT_MODE1_SIGNAL                                        BOOT_MODE   /*!< SRC signal: BOOT_MODE */
 #define BOARD_BOOT_MODE1_CHANNEL                                              1U   /*!< SRC BOOT_MODE channel: 1 */
 
+/* GPIO_AD_B0_14 (coord H14), E103_RST */
+#define BOARD_E103_RST_GPIO                                                GPIO1   /*!< GPIO device name: GPIO1 */
+#define BOARD_E103_RST_PORT                                                GPIO1   /*!< PORT device name: GPIO1 */
+#define BOARD_E103_RST_PIN                                                   14U   /*!< GPIO1 pin index: 14 */
+
+/* GPIO_AD_B1_05 (coord K12), E103_PWR_EN */
+#define BOARD_E103_PWR_EN_GPIO                                             GPIO1   /*!< GPIO device name: GPIO1 */
+#define BOARD_E103_PWR_EN_PORT                                             GPIO1   /*!< PORT device name: GPIO1 */
+#define BOARD_E103_PWR_EN_PIN                                                21U   /*!< GPIO1 pin index: 21 */
+
+/* GPIO_AD_B0_11 (coord G10), E103_SETDF */
+#define BOARD_E103_SETDF_GPIO                                              GPIO1   /*!< GPIO device name: GPIO1 */
+#define BOARD_E103_SETDF_PORT                                              GPIO1   /*!< PORT device name: GPIO1 */
+#define BOARD_E103_SETDF_PIN                                                 11U   /*!< GPIO1 pin index: 11 */
+
+/* GPIO_AD_B1_04 (coord L12), BTM_EN */
+#define BOARD_BTM_EN_GPIO                                                  GPIO1   /*!< GPIO device name: GPIO1 */
+#define BOARD_BTM_EN_PORT                                                  GPIO1   /*!< PORT device name: GPIO1 */
+#define BOARD_BTM_EN_PIN                                                     20U   /*!< GPIO1 pin index: 20 */
+
+/* GPIO_AD_B0_10 (coord G13), BTM_MODE */
+#define BOARD_BTM_MODE_GPIO                                                GPIO1   /*!< GPIO device name: GPIO1 */
+#define BOARD_BTM_MODE_PORT                                                GPIO1   /*!< PORT device name: GPIO1 */
+#define BOARD_BTM_MODE_PIN                                                   10U   /*!< GPIO1 pin index: 10 */
+
 
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
