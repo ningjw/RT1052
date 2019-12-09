@@ -17,7 +17,17 @@ pin_labels:
 - {pin_num: G13, pin_signal: GPIO_AD_B0_10, label: RGB_BLUE_LED, identifier: RGB_BLUE_LED}
 - {pin_num: H13, pin_signal: GPIO_AD_B1_08, label: RGB_RED_LED, identifier: RGB_RED_LED}
 - {pin_num: L6, pin_signal: WAKEUP, label: CORE_BOARD_WAUP_KEY, identifier: CORE_BOARD_WAUP_KEY}
-- {pin_num: G14, pin_signal: GPIO_AD_B0_05, label: CORE_BOARD_MODE_KEY, identifier: CORE_BOARD_MODE_KEY}
+- {pin_num: G14, pin_signal: GPIO_AD_B0_05, label: CORE_BOARD_MODE_KEY, identifier: BOOT_MODE1}
+- {pin_num: D11, pin_signal: GPIO_B1_03, label: RST_4G, identifier: RST_4G}
+- {pin_num: C11, pin_signal: GPIO_B1_02, label: PWR_4G, identifier: PWR_4G}
+- {pin_num: A10, pin_signal: GPIO_B0_11, label: ADC_MODE, identifier: ADC_MODE}
+- {pin_num: E11, pin_signal: GPIO_B0_15, label: ADC_FORMAT, identifier: ADC_FORMAT}
+- {pin_num: E10, pin_signal: GPIO_B0_14, label: ADC_SYNC, identifier: ADC_SYNC}
+- {pin_num: E7, pin_signal: GPIO_B0_01, label: ADC_SDI}
+- {pin_num: D8, pin_signal: GPIO_B0_03, label: ADC_SCK}
+- {pin_num: C8, pin_signal: GPIO_B0_04, label: ADC_RDY, identifier: ADC_RDY}
+- {pin_num: C14, pin_signal: GPIO_B1_14, label: eMMC_EN, identifier: eMMC_EN}
+- {pin_num: F11, pin_signal: GPIO_AD_B0_04, label: BOOT_MODE0, identifier: BOOT_MODE0}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -48,6 +58,33 @@ BOARD:
     open_drain: Enable}
   - {pin_num: J11, peripheral: LPI2C1, signal: SCL, pin_signal: GPIO_AD_B1_00, software_input_on: Enable, pull_up_down_config: Pull_Down_100K_Ohm, pull_keeper_select: Pull,
     open_drain: Enable}
+  - {pin_num: A8, peripheral: TMR3, signal: 'TIMER, 0', pin_signal: GPIO_B0_06}
+  - {pin_num: E7, peripheral: LPSPI4, signal: SDI, pin_signal: GPIO_B0_01}
+  - {pin_num: D8, peripheral: LPSPI4, signal: SCK, pin_signal: GPIO_B0_03}
+  - {pin_num: D11, peripheral: GPIO2, signal: 'gpio_io, 19', pin_signal: GPIO_B1_03}
+  - {pin_num: C11, peripheral: GPIO2, signal: 'gpio_io, 18', pin_signal: GPIO_B1_02}
+  - {pin_num: B11, peripheral: LPUART4, signal: RX, pin_signal: GPIO_B1_01}
+  - {pin_num: A11, peripheral: LPUART4, signal: TX, pin_signal: GPIO_B1_00}
+  - {pin_num: C9, peripheral: LPUART3, signal: RX, pin_signal: GPIO_B0_09}
+  - {pin_num: B9, peripheral: LPUART3, signal: TX, pin_signal: GPIO_B0_08}
+  - {pin_num: M12, peripheral: LPUART2, signal: RX, pin_signal: GPIO_AD_B1_03}
+  - {pin_num: L11, peripheral: LPUART2, signal: TX, pin_signal: GPIO_AD_B1_02}
+  - {pin_num: A10, peripheral: GPIO2, signal: 'gpio_io, 11', pin_signal: GPIO_B0_11, direction: OUTPUT, gpio_init_state: 'false'}
+  - {pin_num: E11, peripheral: GPIO2, signal: 'gpio_io, 15', pin_signal: GPIO_B0_15, direction: OUTPUT}
+  - {pin_num: E10, peripheral: GPIO2, signal: 'gpio_io, 14', pin_signal: GPIO_B0_14, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: C8, peripheral: GPIO2, signal: 'gpio_io, 04', pin_signal: GPIO_B0_04, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: J1, peripheral: USDHC1, signal: 'usdhc_data, 0', pin_signal: GPIO_SD_B0_02}
+  - {pin_num: J4, peripheral: USDHC1, signal: usdhc_cmd, pin_signal: GPIO_SD_B0_00}
+  - {pin_num: J3, peripheral: USDHC1, signal: usdhc_clk, pin_signal: GPIO_SD_B0_01}
+  - {pin_num: K1, peripheral: USDHC1, signal: 'usdhc_data, 1', pin_signal: GPIO_SD_B0_03}
+  - {pin_num: H2, peripheral: USDHC1, signal: 'usdhc_data, 2', pin_signal: GPIO_SD_B0_04}
+  - {pin_num: J2, peripheral: USDHC1, signal: 'usdhc_data, 3', pin_signal: GPIO_SD_B0_05}
+  - {pin_num: C14, peripheral: GPIO2, signal: 'gpio_io, 30', pin_signal: GPIO_B1_14, direction: OUTPUT}
+  - {pin_num: D14, peripheral: LPUART5, signal: RX, pin_signal: GPIO_B1_13}
+  - {pin_num: D13, peripheral: LPUART5, signal: TX, pin_signal: GPIO_B1_12}
+  - {pin_num: E8, peripheral: LPSPI4, signal: SDO, pin_signal: GPIO_B0_02}
+  - {pin_num: F11, peripheral: SRC, signal: 'BOOT_MODE, 0', pin_signal: GPIO_AD_B0_04}
+  - {pin_num: G14, peripheral: SRC, signal: 'BOOT_MODE, 1', pin_signal: GPIO_AD_B0_05}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -69,6 +106,57 @@ void BOARD(void) {
   /* Initialize GPIO functionality on GPIO_AD_B0_09 (pin F14) */
   GPIO_PinInit(GPIO1, 9U, &LED_config);
 
+  /* GPIO configuration of ADC_RDY on GPIO_B0_04 (pin C8) */
+  gpio_pin_config_t ADC_RDY_config = {
+      .direction = kGPIO_DigitalOutput,
+      .outputLogic = 1U,
+      .interruptMode = kGPIO_NoIntmode
+  };
+  /* Initialize GPIO functionality on GPIO_B0_04 (pin C8) */
+  GPIO_PinInit(GPIO2, 4U, &ADC_RDY_config);
+
+  /* GPIO configuration of ADC_MODE on GPIO_B0_11 (pin A10) */
+  gpio_pin_config_t ADC_MODE_config = {
+      .direction = kGPIO_DigitalOutput,
+      .outputLogic = 0U,
+      .interruptMode = kGPIO_NoIntmode
+  };
+  /* Initialize GPIO functionality on GPIO_B0_11 (pin A10) */
+  GPIO_PinInit(GPIO2, 11U, &ADC_MODE_config);
+
+  /* GPIO configuration of ADC_SYNC on GPIO_B0_14 (pin E10) */
+  gpio_pin_config_t ADC_SYNC_config = {
+      .direction = kGPIO_DigitalOutput,
+      .outputLogic = 1U,
+      .interruptMode = kGPIO_NoIntmode
+  };
+  /* Initialize GPIO functionality on GPIO_B0_14 (pin E10) */
+  GPIO_PinInit(GPIO2, 14U, &ADC_SYNC_config);
+
+  /* GPIO configuration of ADC_FORMAT on GPIO_B0_15 (pin E11) */
+  gpio_pin_config_t ADC_FORMAT_config = {
+      .direction = kGPIO_DigitalOutput,
+      .outputLogic = 0U,
+      .interruptMode = kGPIO_NoIntmode
+  };
+  /* Initialize GPIO functionality on GPIO_B0_15 (pin E11) */
+  GPIO_PinInit(GPIO2, 15U, &ADC_FORMAT_config);
+
+  /* GPIO configuration of eMMC_EN on GPIO_B1_14 (pin C14) */
+  gpio_pin_config_t eMMC_EN_config = {
+      .direction = kGPIO_DigitalOutput,
+      .outputLogic = 0U,
+      .interruptMode = kGPIO_NoIntmode
+  };
+  /* Initialize GPIO functionality on GPIO_B1_14 (pin C14) */
+  GPIO_PinInit(GPIO2, 30U, &eMMC_EN_config);
+
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_AD_B0_04_SRC_BOOT_MODE00,   /* GPIO_AD_B0_04 is configured as SRC_BOOT_MODE00 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_AD_B0_05_SRC_BOOT_MODE01,   /* GPIO_AD_B0_05 is configured as SRC_BOOT_MODE01 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
       IOMUXC_GPIO_AD_B0_09_GPIO1_IO09,        /* GPIO_AD_B0_09 is configured as GPIO1_IO09 */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
@@ -84,6 +172,85 @@ void BOARD(void) {
   IOMUXC_SetPinMux(
       IOMUXC_GPIO_AD_B1_01_LPI2C1_SDA,        /* GPIO_AD_B1_01 is configured as LPI2C1_SDA */
       1U);                                    /* Software Input On Field: Force input path of pad GPIO_AD_B1_01 */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_AD_B1_02_LPUART2_TX,        /* GPIO_AD_B1_02 is configured as LPUART2_TX */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_AD_B1_03_LPUART2_RX,        /* GPIO_AD_B1_03 is configured as LPUART2_RX */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B0_01_LPSPI4_SDI,           /* GPIO_B0_01 is configured as LPSPI4_SDI */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B0_02_LPSPI4_SDO,           /* GPIO_B0_02 is configured as LPSPI4_SDO */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B0_03_LPSPI4_SCK,           /* GPIO_B0_03 is configured as LPSPI4_SCK */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B0_04_GPIO2_IO04,           /* GPIO_B0_04 is configured as GPIO2_IO04 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B0_06_QTIMER3_TIMER0,       /* GPIO_B0_06 is configured as QTIMER3_TIMER0 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B0_08_LPUART3_TX,           /* GPIO_B0_08 is configured as LPUART3_TX */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B0_09_LPUART3_RX,           /* GPIO_B0_09 is configured as LPUART3_RX */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B0_11_GPIO2_IO11,           /* GPIO_B0_11 is configured as GPIO2_IO11 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B0_14_GPIO2_IO14,           /* GPIO_B0_14 is configured as GPIO2_IO14 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B0_15_GPIO2_IO15,           /* GPIO_B0_15 is configured as GPIO2_IO15 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B1_00_LPUART4_TX,           /* GPIO_B1_00 is configured as LPUART4_TX */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B1_01_LPUART4_RX,           /* GPIO_B1_01 is configured as LPUART4_RX */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B1_02_GPIO2_IO18,           /* GPIO_B1_02 is configured as GPIO2_IO18 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B1_03_GPIO2_IO19,           /* GPIO_B1_03 is configured as GPIO2_IO19 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B1_12_LPUART5_TX,           /* GPIO_B1_12 is configured as LPUART5_TX */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B1_13_LPUART5_RX,           /* GPIO_B1_13 is configured as LPUART5_RX */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B1_14_GPIO2_IO30,           /* GPIO_B1_14 is configured as GPIO2_IO30 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_SD_B0_00_USDHC1_CMD,        /* GPIO_SD_B0_00 is configured as USDHC1_CMD */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_SD_B0_01_USDHC1_CLK,        /* GPIO_SD_B0_01 is configured as USDHC1_CLK */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_SD_B0_02_USDHC1_DATA0,      /* GPIO_SD_B0_02 is configured as USDHC1_DATA0 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_SD_B0_03_USDHC1_DATA1,      /* GPIO_SD_B0_03 is configured as USDHC1_DATA1 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_SD_B0_04_USDHC1_DATA2,      /* GPIO_SD_B0_04 is configured as USDHC1_DATA2 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_SD_B0_05_USDHC1_DATA3,      /* GPIO_SD_B0_05 is configured as USDHC1_DATA3 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_GPR->GPR6 = ((IOMUXC_GPR->GPR6 &
+    (~(IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL_MASK))) /* Mask bits to zero which are setting */
+      | IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL(0x00U) /* QTIMER3 TMR0 input select: input from IOMUX */
+    );
   IOMUXC_SetPinConfig(
       IOMUXC_GPIO_AD_B1_00_LPI2C1_SCL,        /* GPIO_AD_B1_00 PAD functional properties : */
       0x38B0U);                               /* Slew Rate Field: Slow Slew Rate

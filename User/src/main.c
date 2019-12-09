@@ -18,7 +18,10 @@ static void AppTaskCreate(void)
 //    taskENTER_CRITICAL();           //进入临界区
     while(1){
         vTaskDelay(1000);
-        PRINTF("AppTaskCreate\r\n");
+                /* 获取日期 */
+        SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
+        /* 打印日期&时间 */ 
+        PRINTF("%02d-%02d-%02d  %02d:%02d:%02d \r\n", rtcDate.year,rtcDate.month, rtcDate.day,rtcDate.hour, rtcDate.minute, rtcDate.second);
     }
 //    vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
 
@@ -38,6 +41,8 @@ int main(void)
     BOARD_InitDebugConsole();
     PRINTF("***** Welcome *****\r\n");
 
+    RTC_Config();
+    
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);//1ms中断，FreeRTOS使用
 
     /* 创建AppTaskCreate任务 */

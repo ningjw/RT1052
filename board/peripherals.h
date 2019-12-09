@@ -16,6 +16,8 @@
 #include "fsl_clock.h"
 #include "fsl_pit.h"
 #include "fsl_lpi2c.h"
+#include "fsl_qtmr.h"
+#include "fsl_lpspi.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -57,6 +59,45 @@ extern "C" {
 #define LPI2C1_PERIPHERAL LPI2C1
 /* Definition of clock source */
 #define LPI2C1_CLOCK_FREQ 60000000UL
+/* Definition of peripheral ID */
+#define QUADTIMER3_PERIPHERAL TMR3
+/* Definition of peripheral ID */
+#define LPUART2_PERIPHERAL LPUART2
+/* Definition of the clock source frequency */
+#define LPUART2_CLOCK_SOURCE 80000000UL
+/* LPUART2 interrupt vector ID (number). */
+#define LPUART2_SERIAL_RX_TX_IRQN LPUART2_IRQn
+/* LPUART2 interrupt handler identifier. */
+#define LPUART2_SERIAL_RX_TX_IRQHANDLER LPUART2_IRQHandler
+/* Definition of peripheral ID */
+#define LPUART4_PERIPHERAL LPUART4
+/* Definition of the clock source frequency */
+#define LPUART4_CLOCK_SOURCE 80000000UL
+/* LPUART4 interrupt vector ID (number). */
+#define LPUART4_SERIAL_RX_TX_IRQN LPUART4_IRQn
+/* LPUART4 interrupt handler identifier. */
+#define LPUART4_SERIAL_RX_TX_IRQHANDLER LPUART4_IRQHandler
+/* Definition of peripheral ID */
+#define LPUART3_PERIPHERAL LPUART3
+/* Definition of the clock source frequency */
+#define LPUART3_CLOCK_SOURCE 80000000UL
+/* LPUART3 interrupt vector ID (number). */
+#define LPUART3_SERIAL_RX_TX_IRQN LPUART3_IRQn
+/* LPUART3 interrupt handler identifier. */
+#define LPUART3_SERIAL_RX_TX_IRQHANDLER LPUART3_IRQHandler
+/* Definition of peripheral ID */
+#define LPUART5_PERIPHERAL LPUART5
+/* Definition of the clock source frequency */
+#define LPUART5_CLOCK_SOURCE 80000000UL
+/* LPUART5 interrupt vector ID (number). */
+#define LPUART5_SERIAL_RX_TX_IRQN LPUART5_IRQn
+/* LPUART5 interrupt handler identifier. */
+#define LPUART5_SERIAL_RX_TX_IRQHANDLER LPUART5_IRQHandler
+/* BOARD_InitPeripherals defines for LPSPI4 */
+/* Definition of peripheral ID */
+#define LPSPI4_PERIPHERAL LPSPI4
+/* Definition of clock source */
+#define LPSPI4_CLOCK_FREQ 120000000UL
 
 /***********************************************************************************************************************
  * Global variables
@@ -65,6 +106,11 @@ extern const edma_config_t eDMA_config;
 extern const lpuart_config_t LPUART1_config;
 extern const pit_config_t PIT1_config;
 extern const lpi2c_master_config_t LPI2C1_masterConfig;
+extern const lpuart_config_t LPUART2_config;
+extern const lpuart_config_t LPUART4_config;
+extern const lpuart_config_t LPUART3_config;
+extern const lpuart_config_t LPUART5_config;
+extern const lpspi_master_config_t LPSPI4_config;
 
 /***********************************************************************************************************************
  * Initialization functions

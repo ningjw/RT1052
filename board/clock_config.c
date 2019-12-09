@@ -87,6 +87,7 @@ outputs:
 - {id: SPDIF0_CLK_ROOT.outFreq, value: 60 MHz}
 - {id: TRACE_CLK_ROOT.outFreq, value: 132 MHz}
 - {id: UART_CLK_ROOT.outFreq, value: 80 MHz}
+- {id: USBPHY1_CLK.outFreq, value: 480 MHz}
 - {id: USDHC1_CLK_ROOT.outFreq, value: 198 MHz, locked: true, accuracy: '0.001'}
 - {id: USDHC2_CLK_ROOT.outFreq, value: 198 MHz}
 settings:
@@ -136,6 +137,8 @@ settings:
 - {id: CCM_ANALOG.PLL3_PFD2_DIV.scale, value: '12', locked: true}
 - {id: CCM_ANALOG.PLL3_PFD2_MUL.scale, value: '18', locked: true}
 - {id: CCM_ANALOG.PLL3_PFD3_BYPASS.sel, value: CCM_ANALOG.PLL3_PFD3}
+- {id: CCM_ANALOG_PLL_USB1_EN_USB_CLKS_CFG, value: Enabled}
+- {id: CCM_ANALOG_PLL_USB1_EN_USB_CLKS_OUT_CFG, value: Enabled}
 - {id: CCM_ANALOG_PLL_USB1_POWER_CFG, value: 'Yes'}
 sources:
 - {id: CCM_ANALOG.CLK1.outFreq, value: 24 MHz, enabled: true}
@@ -394,8 +397,6 @@ void BOARD_BootClockRUN(void)
     CLOCK_InitUsb1Pfd(kCLOCK_Pfd2, 12);
     /* Init Usb1 pfd3. */
     CLOCK_InitUsb1Pfd(kCLOCK_Pfd3, 19);
-    /* Disable Usb1 PLL output for USBPHY1. */
-    CCM_ANALOG->PLL_USB1 &= ~CCM_ANALOG_PLL_USB1_EN_USB_CLKS_MASK;
 #endif
     /* DeInit Audio PLL. */
     CLOCK_DeinitAudioPll();
@@ -471,3 +472,4 @@ void BOARD_BootClockRUN(void)
     /* Set SystemCoreClock variable. */
     SystemCoreClock = BOARD_BOOTCLOCKRUN_CORE_CLOCK;
 }
+

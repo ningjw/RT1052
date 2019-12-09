@@ -272,6 +272,364 @@ void LPI2C1_init(void) {
 }
 
 /***********************************************************************************************************************
+ * QuadTimer3 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'QuadTimer3'
+- type: 'qtmr'
+- mode: 'general'
+- type_id: 'qtmr_460dd7aa3f3371843c2548acd54252b0'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'TMR3'
+- config_sets:
+  - fsl_qtmr:
+    - clockSource: 'BusInterfaceClock'
+    - clockSourceFreq: 'BOARD_BootClockRUN'
+    - qtmr_channels: []
+    - interruptVector:
+      - enable_irq: 'false'
+      - interrupt:
+        - IRQn: 'TMR3_IRQn'
+        - enable_priority: 'false'
+        - priority: '0'
+        - enable_custom_name: 'false'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+
+void QuadTimer3_init(void) {
+}
+
+/***********************************************************************************************************************
+ * LPUART2 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'LPUART2'
+- type: 'lpuart'
+- mode: 'interrupts'
+- type_id: 'lpuart_bebe3e12b6ec22bbd14199038f2bf459'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'LPUART2'
+- config_sets:
+  - lpuartConfig_t:
+    - lpuartConfig:
+      - clockSource: 'LpuartClock'
+      - lpuartSrcClkFreq: 'BOARD_BootClockRUN'
+      - baudRate_Bps: '115200'
+      - parityMode: 'kLPUART_ParityDisabled'
+      - dataBitsCount: 'kLPUART_EightDataBits'
+      - isMsb: 'false'
+      - stopBitCount: 'kLPUART_OneStopBit'
+      - txFifoWatermark: '0'
+      - rxFifoWatermark: '1'
+      - enableRxRTS: 'false'
+      - enableTxCTS: 'false'
+      - txCtsSource: 'kLPUART_CtsSourcePin'
+      - txCtsConfig: 'kLPUART_CtsSampleAtStart'
+      - rxIdleType: 'kLPUART_IdleTypeStartBit'
+      - rxIdleConfig: 'kLPUART_IdleCharacter1'
+      - enableTx: 'true'
+      - enableRx: 'true'
+    - quick_selection: 'QuickSelection1'
+  - interruptsCfg:
+    - interrupts: 'kLPUART_RxDataRegFullInterruptEnable kLPUART_RxOverrunInterruptEnable'
+    - interrupt_vectors:
+      - enable_rx_tx_irq: 'true'
+      - interrupt_rx_tx:
+        - IRQn: 'LPUART2_IRQn'
+        - enable_priority: 'false'
+        - priority: '0'
+        - enable_custom_name: 'false'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const lpuart_config_t LPUART2_config = {
+  .baudRate_Bps = 115200,
+  .parityMode = kLPUART_ParityDisabled,
+  .dataBitsCount = kLPUART_EightDataBits,
+  .isMsb = false,
+  .stopBitCount = kLPUART_OneStopBit,
+  .txFifoWatermark = 0,
+  .rxFifoWatermark = 1,
+  .enableRxRTS = false,
+  .enableTxCTS = false,
+  .txCtsSource = kLPUART_CtsSourcePin,
+  .txCtsConfig = kLPUART_CtsSampleAtStart,
+  .rxIdleType = kLPUART_IdleTypeStartBit,
+  .rxIdleConfig = kLPUART_IdleCharacter1,
+  .enableTx = true,
+  .enableRx = true
+};
+
+void LPUART2_init(void) {
+  LPUART_Init(LPUART2_PERIPHERAL, &LPUART2_config, LPUART2_CLOCK_SOURCE);
+  LPUART_EnableInterrupts(LPUART2_PERIPHERAL, kLPUART_RxDataRegFullInterruptEnable | kLPUART_RxOverrunInterruptEnable);
+  /* Enable interrupt LPUART2_IRQn request in the NVIC */
+  EnableIRQ(LPUART2_SERIAL_RX_TX_IRQN);
+}
+
+/***********************************************************************************************************************
+ * LPUART4 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'LPUART4'
+- type: 'lpuart'
+- mode: 'interrupts'
+- type_id: 'lpuart_bebe3e12b6ec22bbd14199038f2bf459'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'LPUART4'
+- config_sets:
+  - lpuartConfig_t:
+    - lpuartConfig:
+      - clockSource: 'LpuartClock'
+      - lpuartSrcClkFreq: 'BOARD_BootClockRUN'
+      - baudRate_Bps: '115200'
+      - parityMode: 'kLPUART_ParityDisabled'
+      - dataBitsCount: 'kLPUART_EightDataBits'
+      - isMsb: 'false'
+      - stopBitCount: 'kLPUART_OneStopBit'
+      - txFifoWatermark: '0'
+      - rxFifoWatermark: '1'
+      - enableRxRTS: 'false'
+      - enableTxCTS: 'false'
+      - txCtsSource: 'kLPUART_CtsSourcePin'
+      - txCtsConfig: 'kLPUART_CtsSampleAtStart'
+      - rxIdleType: 'kLPUART_IdleTypeStartBit'
+      - rxIdleConfig: 'kLPUART_IdleCharacter1'
+      - enableTx: 'true'
+      - enableRx: 'true'
+    - quick_selection: 'QuickSelection1'
+  - interruptsCfg:
+    - interrupts: 'kLPUART_RxDataRegFullInterruptEnable kLPUART_RxOverrunInterruptEnable'
+    - interrupt_vectors:
+      - enable_rx_tx_irq: 'true'
+      - interrupt_rx_tx:
+        - IRQn: 'LPUART4_IRQn'
+        - enable_priority: 'false'
+        - priority: '0'
+        - enable_custom_name: 'false'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const lpuart_config_t LPUART4_config = {
+  .baudRate_Bps = 115200,
+  .parityMode = kLPUART_ParityDisabled,
+  .dataBitsCount = kLPUART_EightDataBits,
+  .isMsb = false,
+  .stopBitCount = kLPUART_OneStopBit,
+  .txFifoWatermark = 0,
+  .rxFifoWatermark = 1,
+  .enableRxRTS = false,
+  .enableTxCTS = false,
+  .txCtsSource = kLPUART_CtsSourcePin,
+  .txCtsConfig = kLPUART_CtsSampleAtStart,
+  .rxIdleType = kLPUART_IdleTypeStartBit,
+  .rxIdleConfig = kLPUART_IdleCharacter1,
+  .enableTx = true,
+  .enableRx = true
+};
+
+void LPUART4_init(void) {
+  LPUART_Init(LPUART4_PERIPHERAL, &LPUART4_config, LPUART4_CLOCK_SOURCE);
+  LPUART_EnableInterrupts(LPUART4_PERIPHERAL, kLPUART_RxDataRegFullInterruptEnable | kLPUART_RxOverrunInterruptEnable);
+  /* Enable interrupt LPUART4_IRQn request in the NVIC */
+  EnableIRQ(LPUART4_SERIAL_RX_TX_IRQN);
+}
+
+/***********************************************************************************************************************
+ * LPUART3 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'LPUART3'
+- type: 'lpuart'
+- mode: 'interrupts'
+- type_id: 'lpuart_bebe3e12b6ec22bbd14199038f2bf459'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'LPUART3'
+- config_sets:
+  - lpuartConfig_t:
+    - lpuartConfig:
+      - clockSource: 'LpuartClock'
+      - lpuartSrcClkFreq: 'BOARD_BootClockRUN'
+      - baudRate_Bps: '115200'
+      - parityMode: 'kLPUART_ParityDisabled'
+      - dataBitsCount: 'kLPUART_EightDataBits'
+      - isMsb: 'false'
+      - stopBitCount: 'kLPUART_OneStopBit'
+      - txFifoWatermark: '0'
+      - rxFifoWatermark: '1'
+      - enableRxRTS: 'false'
+      - enableTxCTS: 'false'
+      - txCtsSource: 'kLPUART_CtsSourcePin'
+      - txCtsConfig: 'kLPUART_CtsSampleAtStart'
+      - rxIdleType: 'kLPUART_IdleTypeStartBit'
+      - rxIdleConfig: 'kLPUART_IdleCharacter1'
+      - enableTx: 'true'
+      - enableRx: 'true'
+    - quick_selection: 'QuickSelection1'
+  - interruptsCfg:
+    - interrupts: 'kLPUART_RxDataRegFullInterruptEnable kLPUART_RxOverrunInterruptEnable'
+    - interrupt_vectors:
+      - enable_rx_tx_irq: 'true'
+      - interrupt_rx_tx:
+        - IRQn: 'LPUART3_IRQn'
+        - enable_priority: 'false'
+        - priority: '0'
+        - enable_custom_name: 'false'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const lpuart_config_t LPUART3_config = {
+  .baudRate_Bps = 115200,
+  .parityMode = kLPUART_ParityDisabled,
+  .dataBitsCount = kLPUART_EightDataBits,
+  .isMsb = false,
+  .stopBitCount = kLPUART_OneStopBit,
+  .txFifoWatermark = 0,
+  .rxFifoWatermark = 1,
+  .enableRxRTS = false,
+  .enableTxCTS = false,
+  .txCtsSource = kLPUART_CtsSourcePin,
+  .txCtsConfig = kLPUART_CtsSampleAtStart,
+  .rxIdleType = kLPUART_IdleTypeStartBit,
+  .rxIdleConfig = kLPUART_IdleCharacter1,
+  .enableTx = true,
+  .enableRx = true
+};
+
+void LPUART3_init(void) {
+  LPUART_Init(LPUART3_PERIPHERAL, &LPUART3_config, LPUART3_CLOCK_SOURCE);
+  LPUART_EnableInterrupts(LPUART3_PERIPHERAL, kLPUART_RxDataRegFullInterruptEnable | kLPUART_RxOverrunInterruptEnable);
+  /* Enable interrupt LPUART3_IRQn request in the NVIC */
+  EnableIRQ(LPUART3_SERIAL_RX_TX_IRQN);
+}
+
+/***********************************************************************************************************************
+ * LPUART5 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'LPUART5'
+- type: 'lpuart'
+- mode: 'interrupts'
+- type_id: 'lpuart_bebe3e12b6ec22bbd14199038f2bf459'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'LPUART5'
+- config_sets:
+  - lpuartConfig_t:
+    - lpuartConfig:
+      - clockSource: 'LpuartClock'
+      - lpuartSrcClkFreq: 'BOARD_BootClockRUN'
+      - baudRate_Bps: '115200'
+      - parityMode: 'kLPUART_ParityDisabled'
+      - dataBitsCount: 'kLPUART_EightDataBits'
+      - isMsb: 'false'
+      - stopBitCount: 'kLPUART_OneStopBit'
+      - txFifoWatermark: '0'
+      - rxFifoWatermark: '1'
+      - enableRxRTS: 'false'
+      - enableTxCTS: 'false'
+      - txCtsSource: 'kLPUART_CtsSourcePin'
+      - txCtsConfig: 'kLPUART_CtsSampleAtStart'
+      - rxIdleType: 'kLPUART_IdleTypeStartBit'
+      - rxIdleConfig: 'kLPUART_IdleCharacter1'
+      - enableTx: 'true'
+      - enableRx: 'true'
+    - quick_selection: 'QuickSelection1'
+  - interruptsCfg:
+    - interrupts: 'kLPUART_RxDataRegFullInterruptEnable kLPUART_RxOverrunInterruptEnable'
+    - interrupt_vectors:
+      - enable_rx_tx_irq: 'true'
+      - interrupt_rx_tx:
+        - IRQn: 'LPUART5_IRQn'
+        - enable_priority: 'false'
+        - priority: '0'
+        - enable_custom_name: 'false'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const lpuart_config_t LPUART5_config = {
+  .baudRate_Bps = 115200,
+  .parityMode = kLPUART_ParityDisabled,
+  .dataBitsCount = kLPUART_EightDataBits,
+  .isMsb = false,
+  .stopBitCount = kLPUART_OneStopBit,
+  .txFifoWatermark = 0,
+  .rxFifoWatermark = 1,
+  .enableRxRTS = false,
+  .enableTxCTS = false,
+  .txCtsSource = kLPUART_CtsSourcePin,
+  .txCtsConfig = kLPUART_CtsSampleAtStart,
+  .rxIdleType = kLPUART_IdleTypeStartBit,
+  .rxIdleConfig = kLPUART_IdleCharacter1,
+  .enableTx = true,
+  .enableRx = true
+};
+
+void LPUART5_init(void) {
+  LPUART_Init(LPUART5_PERIPHERAL, &LPUART5_config, LPUART5_CLOCK_SOURCE);
+  LPUART_EnableInterrupts(LPUART5_PERIPHERAL, kLPUART_RxDataRegFullInterruptEnable | kLPUART_RxOverrunInterruptEnable);
+  /* Enable interrupt LPUART5_IRQn request in the NVIC */
+  EnableIRQ(LPUART5_SERIAL_RX_TX_IRQN);
+}
+
+/***********************************************************************************************************************
+ * LPSPI4 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'LPSPI4'
+- type: 'lpspi'
+- mode: 'polling'
+- type_id: 'lpspi_6e21a1e0a09f0a012d683c4f91752db8'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'LPSPI4'
+- config_sets:
+  - main:
+    - mode: 'kLPSPI_Master'
+    - clockSource: 'LpspiClock'
+    - clockSourceFreq: 'BOARD_BootClockRUN'
+    - master:
+      - baudRate: '500000'
+      - bitsPerFrame: '8'
+      - cpol: 'kLPSPI_ClockPolarityActiveHigh'
+      - cpha: 'kLPSPI_ClockPhaseFirstEdge'
+      - direction: 'kLPSPI_MsbFirst'
+      - pcsToSckDelayInNanoSec: '1000'
+      - lastSckToPcsDelayInNanoSec: '1000'
+      - betweenTransferDelayInNanoSec: '1000'
+      - whichPcs: 'kLPSPI_Pcs0'
+      - pcsActiveHighOrLow: 'kLPSPI_PcsActiveLow'
+      - pinCfg: 'kLPSPI_SdiInSdoOut'
+      - dataOutConfig: 'kLpspiDataOutRetained'
+    - quick_selection: 'qs_master'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const lpspi_master_config_t LPSPI4_config = {
+  .baudRate = 500000,
+  .bitsPerFrame = 8,
+  .cpol = kLPSPI_ClockPolarityActiveHigh,
+  .cpha = kLPSPI_ClockPhaseFirstEdge,
+  .direction = kLPSPI_MsbFirst,
+  .pcsToSckDelayInNanoSec = 1000,
+  .lastSckToPcsDelayInNanoSec = 1000,
+  .betweenTransferDelayInNanoSec = 1000,
+  .whichPcs = kLPSPI_Pcs0,
+  .pcsActiveHighOrLow = kLPSPI_PcsActiveLow,
+  .pinCfg = kLPSPI_SdiInSdoOut,
+  .dataOutConfig = kLpspiDataOutRetained
+};
+
+void LPSPI4_init(void) {
+  LPSPI_MasterInit(LPSPI4_PERIPHERAL, &LPSPI4_config, LPSPI4_CLOCK_FREQ);
+}
+
+/***********************************************************************************************************************
  * Initialization functions
  **********************************************************************************************************************/
 void BOARD_InitPeripherals(void)
@@ -285,6 +643,12 @@ void BOARD_InitPeripherals(void)
   LPUART1_init();
   PIT1_init();
   LPI2C1_init();
+  QuadTimer3_init();
+  LPUART2_init();
+  LPUART4_init();
+  LPUART3_init();
+  LPUART5_init();
+  LPSPI4_init();
 }
 
 /***********************************************************************************************************************
