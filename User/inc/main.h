@@ -4,6 +4,7 @@
 #define __MAIN_H
 
 #include "stdint.h"
+#include "string.h"
 
 #include "clock_config.h"
 #include "peripherals.h"
@@ -18,6 +19,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "semphr.h"
+#include "timers.h"
 #include "task_app.h"
 
 

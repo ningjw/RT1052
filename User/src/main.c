@@ -48,7 +48,7 @@ int main(void)
 
     BOARD_InitDebugConsole();
     PRINTF("***** Welcome *****\r\n");
-    EEPROM_Test();
+//    EEPROM_Test();
     RTC_Config();//实时时钟初始化
     
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);//1ms中断，FreeRTOS使用

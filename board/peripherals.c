@@ -58,18 +58,19 @@ instance:
       - enableContinuousLinkMode: 'false'
       - enableHaltOnError: 'true'
       - enableRoundRobinArbitration: 'false'
-      - enableDebugMode: 'true'
+      - enableDebugMode: 'false'
     - dma_table:
       - 0: []
       - 1: []
     - edma_channels: []
+    - quick_selection: 'default'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const edma_config_t eDMA_config = {
   .enableContinuousLinkMode = false,
   .enableHaltOnError = true,
   .enableRoundRobinArbitration = false,
-  .enableDebugMode = true
+  .enableDebugMode = false
 };
 
 void eDMA_init(void) {
@@ -340,7 +341,7 @@ void QuadTimer3_init(void) {
 instance:
 - name: 'LPUART2'
 - type: 'lpuart'
-- mode: 'interrupts'
+- mode: 'edma'
 - type_id: 'lpuart_bebe3e12b6ec22bbd14199038f2bf459'
 - functional_group: 'BOARD_InitPeripherals'
 - peripheral: 'LPUART2'
@@ -360,19 +361,28 @@ instance:
       - enableTxCTS: 'false'
       - txCtsSource: 'kLPUART_CtsSourcePin'
       - txCtsConfig: 'kLPUART_CtsSampleAtStart'
-      - rxIdleType: 'kLPUART_IdleTypeStartBit'
+      - rxIdleType: 'kLPUART_IdleTypeStopBit'
       - rxIdleConfig: 'kLPUART_IdleCharacter1'
       - enableTx: 'true'
       - enableRx: 'true'
-  - interruptsCfg:
-    - interrupts: 'kLPUART_RxDataRegFullInterruptEnable kLPUART_RxOverrunInterruptEnable'
-    - interrupt_vectors:
-      - enable_rx_tx_irq: 'true'
-      - interrupt_rx_tx:
-        - IRQn: 'LPUART2_IRQn'
-        - enable_priority: 'false'
-        - priority: '0'
+  - edmaCfg:
+    - edma_channels:
+      - enable_rx_edma_channel: 'true'
+      - edma_rx_channel:
+        - eDMAn: '0'
+        - eDMA_source: 'kDmaRequestMuxLPUART2Rx'
         - enable_custom_name: 'false'
+      - enable_tx_edma_channel: 'false'
+      - edma_tx_channel:
+        - eDMAn: '0'
+        - eDMA_source: 'kDmaRequestMuxLPUART2Tx'
+        - enable_custom_name: 'false'
+    - lpuart_edma_handle:
+      - enable_custom_name: 'true'
+      - handle_custom_name: 'LPUART2_eDMA_Handle'
+      - init_callback: 'false'
+      - callback_fcn: 'LPUART2_UserCallback'
+      - user_data: ''
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const lpuart_config_t LPUART2_config = {
@@ -387,17 +397,24 @@ const lpuart_config_t LPUART2_config = {
   .enableTxCTS = false,
   .txCtsSource = kLPUART_CtsSourcePin,
   .txCtsConfig = kLPUART_CtsSampleAtStart,
-  .rxIdleType = kLPUART_IdleTypeStartBit,
+  .rxIdleType = kLPUART_IdleTypeStopBit,
   .rxIdleConfig = kLPUART_IdleCharacter1,
   .enableTx = true,
   .enableRx = true
 };
+edma_handle_t LPUART2_RX_Handle;
+lpuart_edma_handle_t LPUART2_eDMA_Handle;
 
 void LPUART2_init(void) {
   LPUART_Init(LPUART2_PERIPHERAL, &LPUART2_config, LPUART2_CLOCK_SOURCE);
-  LPUART_EnableInterrupts(LPUART2_PERIPHERAL, kLPUART_RxDataRegFullInterruptEnable | kLPUART_RxOverrunInterruptEnable);
-  /* Enable interrupt LPUART2_IRQn request in the NVIC */
-  EnableIRQ(LPUART2_SERIAL_RX_TX_IRQN);
+  /* Set the source kDmaRequestMuxLPUART2Rx request in the DMAMUX */
+  DMAMUX_SetSource(LPUART2_RX_DMAMUX_BASEADDR, LPUART2_RX_DMA_CHANNEL, LPUART2_RX_DMA_REQUEST);
+  /* Enable the 0 channel in the DMAMUX */
+  DMAMUX_EnableChannel(LPUART2_RX_DMAMUX_BASEADDR, LPUART2_RX_DMA_CHANNEL);
+  /* Create the eDMA LPUART2_RX_Handle handle */
+  EDMA_CreateHandle(&LPUART2_RX_Handle, LPUART2_RX_DMA_BASEADDR, LPUART2_RX_DMA_CHANNEL);
+  /* Create the LPUART eDMA handle */
+  LPUART_TransferCreateHandleEDMA(LPUART2_PERIPHERAL, &LPUART2_eDMA_Handle, NULL, NULL, NULL, &LPUART2_RX_Handle);
 }
 
 /***********************************************************************************************************************

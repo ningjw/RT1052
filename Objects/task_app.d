@@ -1,11 +1,11 @@
 .\objects\task_app.o: User\src\task_app.c
 .\objects\task_app.o: .\User\inc\main.h
 .\objects\task_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\task_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\task_app.o: .\board\clock_config.h
 .\objects\task_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h
 .\objects\task_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
 .\objects\task_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
-.\objects\task_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\task_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\task_app.o: .\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h
 .\objects\task_app.o: .\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h
@@ -26,6 +26,7 @@
 .\objects\task_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h
 .\objects\task_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\task_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h
+.\objects\task_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart_edma.h
 .\objects\task_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h
 .\objects\task_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
 .\objects\task_app.o: .\board\pin_mux.h
@@ -46,6 +47,7 @@
 .\objects\task_app.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\list.h
 .\objects\task_app.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\semphr.h
 .\objects\task_app.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
+.\objects\task_app.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
 .\objects\task_app.o: .\User\inc\task_app.h
 .\objects\task_app.o: .\User\inc\interrupt.h
 .\objects\task_app.o: .\User\inc\lpuart1.h

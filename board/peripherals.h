@@ -17,6 +17,7 @@
 #include "fsl_pit.h"
 #include "fsl_lpi2c.h"
 #include "fsl_qtmr.h"
+#include "fsl_lpuart_edma.h"
 #include "fsl_lpspi.h"
 #include "fsl_gpio.h"
 
@@ -70,10 +71,14 @@ extern "C" {
 #define LPUART2_PERIPHERAL LPUART2
 /* Definition of the clock source frequency */
 #define LPUART2_CLOCK_SOURCE 80000000UL
-/* LPUART2 interrupt vector ID (number). */
-#define LPUART2_SERIAL_RX_TX_IRQN LPUART2_IRQn
-/* LPUART2 interrupt handler identifier. */
-#define LPUART2_SERIAL_RX_TX_IRQHANDLER LPUART2_IRQHandler
+/* LPUART2 eDMA source request. */
+#define LPUART2_RX_DMA_REQUEST kDmaRequestMuxLPUART2Rx
+/* Selected eDMA channel number. */
+#define LPUART2_RX_DMA_CHANNEL 0
+/* DMAMUX device that is used for muxing of the request. */
+#define LPUART2_RX_DMAMUX_BASEADDR DMAMUX
+/* Used DMA device. */
+#define LPUART2_RX_DMA_BASEADDR DMA0
 /* Definition of peripheral ID */
 #define LPUART4_PERIPHERAL LPUART4
 /* Definition of the clock source frequency */
@@ -132,6 +137,8 @@ extern const pit_config_t PIT1_config;
 extern const lpi2c_master_config_t LPI2C1_masterConfig;
 extern const qtmr_config_t QuadTimer3_Channel_0_config;
 extern const lpuart_config_t LPUART2_config;
+extern edma_handle_t LPUART2_RX_Handle;
+extern lpuart_edma_handle_t LPUART2_eDMA_Handle;
 extern const lpuart_config_t LPUART4_config;
 extern const lpuart_config_t LPUART3_config;
 extern const lpuart_config_t LPUART5_config;

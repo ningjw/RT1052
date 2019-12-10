@@ -1,11 +1,11 @@
 .\objects\lpuart1.o: User\src\lpuart1.c
 .\objects\lpuart1.o: .\User\inc\main.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\lpuart1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\lpuart1.o: .\board\clock_config.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
-.\objects\lpuart1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\lpuart1.o: .\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h
 .\objects\lpuart1.o: .\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h
@@ -26,6 +26,7 @@
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h
+.\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart_edma.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
 .\objects\lpuart1.o: .\board\pin_mux.h
@@ -46,6 +47,7 @@
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\list.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\semphr.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
+.\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
 .\objects\lpuart1.o: .\User\inc\task_app.h
 .\objects\lpuart1.o: .\User\inc\interrupt.h
 .\objects\lpuart1.o: .\User\inc\lpuart1.h

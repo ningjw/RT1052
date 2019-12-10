@@ -1,11 +1,11 @@
 .\objects\ble_app.o: User\src\ble_app.c
 .\objects\ble_app.o: .\User\inc\main.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\ble_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\ble_app.o: .\board\clock_config.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
-.\objects\ble_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 .\objects\ble_app.o: .\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h
 .\objects\ble_app.o: .\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h
@@ -26,6 +26,7 @@
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h
+.\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart_edma.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
 .\objects\ble_app.o: .\board\pin_mux.h
@@ -46,6 +47,7 @@
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\list.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\semphr.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
+.\objects\ble_app.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
 .\objects\ble_app.o: .\User\inc\task_app.h
 .\objects\ble_app.o: .\User\inc\interrupt.h
 .\objects\ble_app.o: .\User\inc\lpuart1.h

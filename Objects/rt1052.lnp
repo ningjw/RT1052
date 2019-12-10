@@ -30,6 +30,7 @@
 ".\objects\fsl_lpi2c.o"
 ".\objects\fsl_lpspi.o"
 ".\objects\fsl_lpuart.o"
+".\objects\fsl_lpuart_edma.o"
 ".\objects\fsl_pit.o"
 ".\objects\fsl_qtmr.o"
 ".\objects\fsl_snvs_hp.o"

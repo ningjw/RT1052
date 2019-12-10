@@ -1,41 +1,25 @@
 #include "main.h"
 
-typedef struct
-{
-    uint16_t resp_time100ms;  //发送后查询返回信息的延时，100ms为单位。可设为指令最大响应时间。
-    uint8_t  try_delay1ms;    //发送失败后再次发送时的延时，1ms为单位
-    uint8_t  max_try_times;   //最大重试次数
-    uint8_t  max_reset_times; //最大重启次数
-}stcATConfig;
+#define LPUART2_BUFF_LEN 64
 
-typedef void (*SendMsgFunc_t)(uint8_t * buf, uint32_t len);
 SendMsgFunc_t SendMsgCallback;
-char atAckBuf[64] = {0};            //串口接收缓冲区
+AT_NONCACHEABLE_SECTION_INIT(uint8_t g_lpuart2RxBuf[LPUART2_BUFF_LEN]) = {0};            //串口接收缓冲区
+AT_NONCACHEABLE_SECTION_INIT(uint8_t g_lpuart2TxBuf[LPUART2_BUFF_LEN]) = {0};            //串口发送缓冲区
+lpuart_transfer_t receiveXfer;
+
+TaskHandle_t      AppBLE_TaskHandle = NULL;//蓝牙任务句柄
 SemaphoreHandle_t AckBufMux = NULL; //串口接收缓冲区互斥信号量
 SemaphoreHandle_t RecvAckSem = NULL;//串口收到AT指令回令的信号量，可在串口接收空闲后发出
-
-TaskHandle_t AppBLE_TaskHandle = NULL;  /* 蓝牙任务句柄 */
-
+TimerHandle_t     Lpuart2Tmr = NULL;//软件定时器句柄,用于AT指令接受超时
 
 /***************************************************************************************
   * @brief   发送一个字符串 
   * @input   base:选择端口; data:将要发送的数据
   * @return  
 ***************************************************************************************/
-void Uart_SendString( LPUART_Type *base,  const char *str)
+void LPUART2_SendString(const char *str)
 {
-    LPUART_WriteBlocking( base, (const uint8_t*)str, strlen(str));
-}
-
-
-/***************************************************************************************
-  * @brief   在发送AT指令之前，需要先注册AT指令的运行环境
-  * @input   
-  * @return  
-***************************************************************************************/
-void AT_RegisterHandler(SendMsgFunc_t func)
-{
-	SendMsgCallback = func;                       //串口发送数据的函数            
+    LPUART_WriteBlocking(LPUART2, (uint8_t *)str, strlen(str));
 }
 
 
@@ -48,7 +32,7 @@ void AT_RegisterHandler(SendMsgFunc_t func)
 ******************************************************************/
 uint8_t AT_SendCmd(const char *send_str,const char *recv_str,stcATConfig *p_at_config)
 {
-    
+    return 0;
 }
  
 /*****************************************************************
@@ -61,26 +45,21 @@ uint8_t AT_SendCmd(const char *send_str,const char *recv_str,stcATConfig *p_at_c
 ******************************************************************/
 uint8_t AT_SendData(const char *send_buf,const uint16_t buf_len,const char *recv_str,stcATConfig *p_at_config)
 {
-    
+    return 0;
 }
 
-/*****************************************************************
-* 功能：查询AT指令的回令中是否有需要的字符串
-* 输入: recv_str:期待输出字符串中需要含有的子字符串，如"OK\r\n"
-        max_resp_time：指令最大响应时间，单位100ms
-* 输出：查找到的子字符串指针
-******************************************************************/
-char* AT_SearchRecvBuf(const char* recv_str,uint16_t max_resp_time)
+/***************************************************************************************
+  * @brief   定时处理函数
+  * @input   
+  * @return  
+***************************************************************************************/
+void SoftTmr_Callback(void* parameter)
 {
-    
+
 }
-/******************************************
-* 功能：清空串口接收缓冲区
-******************************************/
-void AT_ClearAckBuff(void)
-{
-    
-}
+
+uint8_t flag_rev_data = 0;
+
 
 /***********************************************************************
   * @ 函数名  ： AppBLE_Task
@@ -90,19 +69,28 @@ void AT_ClearAckBuff(void)
   **********************************************************************/
 void AppBLE_Task(void)
 {
+    /*使能空闲中断*/
+	LPUART_EnableInterrupts(LPUART2, kLPUART_IdleLineInterruptEnable);
+	/*使能串口中断**/
+	EnableIRQ(LPUART2_IRQn);
+    
     RecvAckSem = xSemaphoreCreateBinary();      //创建 二值 信号量 
-//    xSemaphoreGive( RecvAckSem );             //发送信号量
-//    xSemaphoreTake(RecvAckSem, portMAX_DELAY);//获取信号量
     
     AckBufMux = xSemaphoreCreateMutex();      //创建 互斥信号量
 //    xSemaphoreGive(AckBufMux);              //释放互斥量
 //    xSemaphoreTake(AckBufMux,portMAX_DELAY);//获取互斥量
     
-    stcATConfig ATCfg;
-    ATCfg.resp_time100ms = 1;//最大相应时间为100ms
-    ATCfg.try_delay1ms   = 100;//响应失败后再次发送时延时100ms
-    ATCfg.max_try_times  = 3; ////最大重试次数:3
-    ATCfg.max_reset_times =1; //最大重启次数：1
+    //创建软件定时器。参数一次为：定时器名称、定时周期、周期模式(单次)、唯一id、回调函数
+    Lpuart2Tmr = xTimerCreate("BleTimer", 100, pdFALSE,(void*)1, (TimerCallbackFunction_t)SoftTmr_Callback);
+    if (Lpuart2Tmr != NULL) {
+       xTimerStart(Lpuart2Tmr, 0); // 开启周期定时器
+    }
+   
+    receiveXfer.data     = g_lpuart2RxBuf;
+    receiveXfer.dataSize = LPUART2_BUFF_LEN;
+
+    LPUART2_SendString("AppBLE_Task 创建成功");
+    LPUART_ReceiveEDMA(LPUART2, &LPUART2_eDMA_Handle, &receiveXfer);  //使用eDMA接收
     
     while(1)
     {
@@ -110,10 +98,11 @@ void AppBLE_Task(void)
         SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
         /* 打印日期&时间 */ 
         PRINTF("BLE TASK:%02d-%02d-%02d  %02d:%02d:%02d \r\n", rtcDate.year,rtcDate.month, rtcDate.day,rtcDate.hour, rtcDate.minute, rtcDate.second);
-        vTaskDelay(1000);
+        
+        xSemaphoreTake(RecvAckSem, portMAX_DELAY);//获取信号量
+        LPUART2_SendString((char *)receiveXfer.data);
     }
 }
-
 
 /***************************************************************************************
   * @brief
@@ -122,20 +111,19 @@ void AppBLE_Task(void)
 ***************************************************************************************/
 void LPUART2_IRQHandler(void)
 {
-    uint8_t ucTemp;
-    /*串口接收到数据*/
-    if ( (kLPUART_RxDataRegFullFlag)&LPUART_GetStatusFlags(LPUART2) )
+   /*	接收到数据满了触发中断	*/
+    if ((kLPUART_IdleLineFlag) & LPUART_GetStatusFlags(LPUART2))
     {
-        /*读取数据*/
-        ucTemp = LPUART_ReadByte(LPUART2);
+		/*清除空闲中断*/
+		LPUART2->STAT |= LPUART_STAT_IDLE_MASK; 
         
-        /*将读取到的数据写入到缓冲区*/
-//        Uart_SendByte(LPUART2, ucTemp);
+		/*接收eDMA的数据量*/
+		LPUART_TransferGetReceiveCountEDMA(LPUART2, &LPUART2_eDMA_Handle, &receiveXfer.dataSize); 
+		LPUART_TransferAbortReceiveEDMA(LPUART2, &LPUART2_eDMA_Handle);   //eDMA终止接收数据
+		LPUART_ReceiveEDMA(LPUART2, &LPUART2_eDMA_Handle, &receiveXfer);  //使用eDMA接收
+        xSemaphoreGive( RecvAckSem );
     }
     __DSB();
 }
-
-
-
 
 
