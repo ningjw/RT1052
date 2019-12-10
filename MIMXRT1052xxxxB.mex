@@ -30,7 +30,7 @@
                <pin_label pin_num="G13" pin_signal="GPIO_AD_B0_10" label="BTM_MODE" identifier="BTM_MODE"/>
                <pin_label pin_num="H13" pin_signal="GPIO_AD_B1_08" label="RGB_RED_LED" identifier="RGB_RED_LED"/>
                <pin_label pin_num="L6" pin_signal="WAKEUP" label="CORE_BOARD_WAUP_KEY" identifier="CORE_BOARD_WAUP_KEY"/>
-               <pin_label pin_num="G14" pin_signal="GPIO_AD_B0_05" label="CORE_BOARD_MODE_KEY" identifier="BOOT_MODE1"/>
+               <pin_label pin_num="G14" pin_signal="GPIO_AD_B0_05" label="BOOT_MODE1" identifier="BOOT_MODE1"/>
                <pin_label pin_num="D11" pin_signal="GPIO_B1_03" label="RST_4G" identifier="RST_4G"/>
                <pin_label pin_num="C11" pin_signal="GPIO_B1_02" label="PWR_4G" identifier="PWR_4G"/>
                <pin_label pin_num="A10" pin_signal="GPIO_B0_11" label="ADC_MODE" identifier="ADC_MODE"/>
@@ -113,6 +113,11 @@
                      </feature>
                   </dependency>
                   <dependency resourceType="Peripheral" resourceId="SRC" description="Peripheral SRC is not initialized" problem_level="1" source="Pins:BOARD">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="Peripheral" resourceId="TMR1" description="Peripheral TMR1 is not initialized" problem_level="1" source="Pins:BOARD">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
@@ -257,6 +262,7 @@
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
                   </pin>
+                  <pin peripheral="TMR1" signal="TIMER, 0" pin_num="D7" pin_signal="GPIO_B0_00"/>
                </pins>
             </function>
          </functions_list>
@@ -572,6 +578,21 @@
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
+                  <dependency resourceType="ClockOutput" resourceId="IPG_CLK_ROOT" description="IPG_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="TMR3.tmr_sec_in.0" description="Timer input 0 of peripheral TMR3 is not routed" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="equal">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="TMR3.tmr_out.0" description="Timer output 0 of peripheral TMR3 is not routed" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="equal">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART2.uart_tx" description="Signal TX of the peripheral LPUART2 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="equal">
                         <data type="Boolean">true</data>
@@ -644,6 +665,21 @@
                   </dependency>
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPI2C3.lpi2c_sda" description="Signal serial data of the peripheral LPI2C3 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="ClockOutput" resourceId="IPG_CLK_ROOT" description="IPG_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="TMR1.tmr_sec_in.0" description="Timer input 0 of peripheral TMR1 is not routed" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="equal">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="TMR1.tmr_out.0" description="Timer output 0 of peripheral TMR1 is not routed" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="equal">
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
@@ -772,7 +808,27 @@
                      <config_set name="fsl_qtmr">
                         <setting name="clockSource" value="BusInterfaceClock"/>
                         <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
-                        <array name="qtmr_channels"/>
+                        <array name="qtmr_channels">
+                           <struct name="0">
+                              <setting name="channel_prefix_id" value="Channel_0"/>
+                              <setting name="channel" value="kQTMR_Channel_0"/>
+                              <setting name="primarySource" value="kQTMR_ClockDivide_4"/>
+                              <setting name="secondarySource" value="kQTMR_Counter0InputPin"/>
+                              <setting name="countingMode" value="kQTMR_NoOperation"/>
+                              <setting name="enableMasterMode" value="false"/>
+                              <setting name="enableExternalForce" value="false"/>
+                              <setting name="faultFilterCount" value="3"/>
+                              <setting name="faultFilterPeriod" value="0"/>
+                              <setting name="debugMode" value="kQTMR_RunNormalInDebug"/>
+                              <setting name="timerModeInit" value="pwmOutput"/>
+                              <struct name="pwmMode">
+                                 <setting name="freq_value_str" value="33000"/>
+                                 <setting name="dutyCyclePercent" value="0"/>
+                                 <setting name="outputPolarity" value="false"/>
+                              </struct>
+                              <setting name="dmaIntMode" value="polling"/>
+                           </struct>
+                        </array>
                         <struct name="interruptVector">
                            <setting name="enable_irq" value="false"/>
                            <struct name="interrupt">
@@ -1022,6 +1078,42 @@
                               <setting name="enable" value="false"/>
                               <setting name="source" value="kLPI2C_HostRequestExternalPin"/>
                               <setting name="polarity" value="kLPI2C_HostRequestPinActiveHigh"/>
+                           </struct>
+                        </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="QuadTimer1" type="qtmr" type_id="qtmr_460dd7aa3f3371843c2548acd54252b0" mode="general" peripheral="TMR1" enabled="true">
+                     <config_set name="fsl_qtmr">
+                        <setting name="clockSource" value="BusInterfaceClock"/>
+                        <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
+                        <array name="qtmr_channels">
+                           <struct name="0">
+                              <setting name="channel_prefix_id" value="Channel_0"/>
+                              <setting name="channel" value="kQTMR_Channel_0"/>
+                              <setting name="primarySource" value="kQTMR_ClockDivide_2"/>
+                              <setting name="secondarySource" value="kQTMR_Counter0InputPin"/>
+                              <setting name="countingMode" value="kQTMR_NoOperation"/>
+                              <setting name="enableMasterMode" value="false"/>
+                              <setting name="enableExternalForce" value="false"/>
+                              <setting name="faultFilterCount" value="3"/>
+                              <setting name="faultFilterPeriod" value="0"/>
+                              <setting name="debugMode" value="kQTMR_RunNormalInDebug"/>
+                              <setting name="timerModeInit" value="pwmOutput"/>
+                              <struct name="pwmMode">
+                                 <setting name="freq_value_str" value="33000"/>
+                                 <setting name="dutyCyclePercent" value="0"/>
+                                 <setting name="outputPolarity" value="false"/>
+                              </struct>
+                              <setting name="dmaIntMode" value="polling"/>
+                           </struct>
+                        </array>
+                        <struct name="interruptVector">
+                           <setting name="enable_irq" value="false"/>
+                           <struct name="interrupt">
+                              <setting name="IRQn" value="TMR1_IRQn"/>
+                              <setting name="enable_priority" value="false"/>
+                              <setting name="priority" value="0"/>
+                              <setting name="enable_custom_name" value="false"/>
                            </struct>
                         </struct>
                      </config_set>

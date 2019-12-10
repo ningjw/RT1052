@@ -22,15 +22,29 @@ Dialog DLL:      TCM.DLL V1.36.2.0
  
 <h2>Project:</h2>
 D:\RT1052_Project\rt1052.uvprojx
-Project File Date:  12/09/2019
+Project File Date:  12/10/2019
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
-compiling interrupt.c...
+compiling ble_app.c...
+User\src\ble_app.c(52): warning:  #940-D: missing return statement at end of non-void function "AT_SendCmd" 
+  }
+User\src\ble_app.c(65): warning:  #940-D: missing return statement at end of non-void function "AT_SendData" 
+  }
+User\src\ble_app.c(76): warning:  #940-D: missing return statement at end of non-void function "AT_SearchRecvBuf" 
+  }
+User\src\ble_app.c(101): warning:  #550-D: variable "ATCfg"  was set but never used
+      stcATConfig ATCfg;
+User\src\ble_app.c(125): warning:  #550-D: variable "ucTemp"  was set but never used
+      uint8_t ucTemp;
+User\src\ble_app.c: 5 warnings, 0 errors
 linking...
-Program Size: Code=29028 RO-data=4672 RW-data=192 ZI-data=14976  
-".\Objects\rt1052.axf" - 0 Error(s), 0 Warning(s).
+.\Objects\rt1052.axf: Error: L6218E: Undefined symbol Uart_SendByte (referred from interrupt.o).
+Not enough information to list image symbols.
+Not enough information to list load addresses in the image map.
+Finished: 2 information, 0 warning and 1 error messages.
+".\Objects\rt1052.axf" - 1 Error(s), 5 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -109,19 +123,19 @@ Package Vendor: NXP
       Include file:  CMSIS\RTOS2\FreeRTOS\Config\ARMCM\FreeRTOSConfig.h
 
    * Component: ARM.FreeRTOS::RTOS:Core:Cortex-M:10.2.0
-      Include file:  Source\include\queue.h
-      Include file:  Source\include\task.h
-      Source file:   Source\list.c
       Include file:  Source\include\FreeRTOS.h
-      Source file:   Source\queue.c
-      Include file:  Source\include\semphr.h
-      Source file:   Source\tasks.c
       Source file:   Source\portable\RVDS\ARM_CM7\r0p1\port.c
+      Source file:   Source\list.c
+      Source file:   Source\queue.c
+      Include file:  Source\include\queue.h
+      Include file:  Source\include\semphr.h
+      Include file:  Source\include\task.h
+      Source file:   Source\tasks.c
       Source file:   CMSIS\RTOS2\FreeRTOS\Source\freertos_evr.c
 
    * Component: ARM.FreeRTOS::RTOS:Coroutines:10.2.0
-      Include file:  Source\include\croutine.h
       Source file:   Source\croutine.c
+      Include file:  Source\include\croutine.h
 
    * Component: ARM.FreeRTOS::RTOS:Event Groups:10.2.0
       Source file:   Source\event_groups.c
@@ -131,8 +145,8 @@ Package Vendor: NXP
       Source file:   Source\portable\MemMang\heap_4.c
 
    * Component: ARM.FreeRTOS::RTOS:Message Buffer:10.2.0
-      Source file:   Source\stream_buffer.c
       Include file:  Source\include\message_buffer.h
+      Source file:   Source\stream_buffer.c
 
    * Component: ARM.FreeRTOS::RTOS:Stream Buffer:10.2.0
       Include file:  Source\include\stream_buffer.h
@@ -146,8 +160,8 @@ Package Vendor: NXP
 
    * Component: ARM::CMSIS:RTOS2:FreeRTOS:10.2.0
       Source file:   CMSIS\RTOS2\FreeRTOS\Source\cmsis_os2.c
-      Source file:   CMSIS\RTOS2\FreeRTOS\Source\os_systick.c
       Source file:   CMSIS\RTOS2\FreeRTOS\Source\ARM\clib_arm.c
+      Source file:   CMSIS\RTOS2\FreeRTOS\Source\os_systick.c
 
    * Component: NXP::Device:SDK Drivers:clock:2.1.0
       Source file:   drivers\fsl_clock.c
@@ -158,16 +172,16 @@ Package Vendor: NXP
       Source file:   drivers\fsl_common.c
 
    * Component: NXP::Device:SDK Drivers:dmamux:2.0.2
-      Source file:   drivers\fsl_dmamux.c
       Include file:  drivers\fsl_dmamux.h
+      Source file:   drivers\fsl_dmamux.c
 
    * Component: NXP::Device:SDK Drivers:edma:2.1.8
-      Include file:  drivers\fsl_edma.h
       Source file:   drivers\fsl_edma.c
+      Include file:  drivers\fsl_edma.h
 
    * Component: NXP::Device:SDK Drivers:gpio:2.0.2
-      Include file:  drivers\fsl_gpio.h
       Source file:   drivers\fsl_gpio.c
+      Include file:  drivers\fsl_gpio.h
 
    * Component: NXP::Device:SDK Drivers:gpt:2.0.0
       Source file:   drivers\fsl_gpt.c
@@ -181,8 +195,8 @@ Package Vendor: NXP
       Include file:  drivers\fsl_iomuxc.h
 
    * Component: NXP::Device:SDK Drivers:lists:1.0.0
-      Source file:   components\lists\generic_list.c
       Include file:  components\lists\generic_list.h
+      Source file:   components\lists\generic_list.c
 
    * Component: NXP::Device:SDK Drivers:lpspi:2.0.3
       Include file:  drivers\fsl_lpspi.h
@@ -193,56 +207,57 @@ Package Vendor: NXP
       Include file:  drivers\fsl_lpuart.h
 
    * Component: NXP::Device:SDK Drivers:lpuart_adapter:1.0.0
-      Source file:   components\uart\lpuart_adapter.c
       Include file:  components\uart\uart.h
+      Source file:   components\uart\lpuart_adapter.c
 
    * Component: NXP::Device:SDK Drivers:pit:2.0.2
-      Include file:  drivers\fsl_pit.h
       Source file:   drivers\fsl_pit.c
+      Include file:  drivers\fsl_pit.h
 
    * Component: NXP::Device:SDK Drivers:qtmr:2.0.0
       Source file:   drivers\fsl_qtmr.c
       Include file:  drivers\fsl_qtmr.h
 
    * Component: NXP::Device:SDK Drivers:snvs_hp:2.1.2
-      Source file:   drivers\fsl_snvs_hp.c
       Include file:  drivers\fsl_snvs_hp.h
+      Source file:   drivers\fsl_snvs_hp.c
 
    * Component: NXP::Device:SDK Utilities:assert:1.0.0
       Source file:   utilities\fsl_assert.c
 
    * Component: NXP::Device:SDK Utilities:debug_console:1.0.0
-      Source file:   utilities\str\fsl_str.c
       Include file:  utilities\debug_console\fsl_debug_console.h
       Include file:  utilities\debug_console\fsl_debug_console_conf.h
-      Source file:   utilities\debug_console\fsl_debug_console.c
       Include file:  utilities\str\fsl_str.h
+      Source file:   utilities\debug_console\fsl_debug_console.c
+      Source file:   utilities\str\fsl_str.c
 
    * Component: NXP::Device:SDK Utilities:notifier:1.0.0
-      Include file:  utilities\fsl_notifier.h
       Source file:   utilities\fsl_notifier.c
+      Include file:  utilities\fsl_notifier.h
 
    * Component: NXP::Device:SDK Utilities:serial_manager:1.0.0
-      Include file:  components\serial_manager\serial_port_internal.h
-      Include file:  components\serial_manager\serial_manager.h
       Source file:   components\serial_manager\serial_manager.c
+      Include file:  components\serial_manager\serial_manager.h
+      Include file:  components\serial_manager\serial_port_internal.h
 
    * Component: NXP::Device:SDK Utilities:serial_manager_uart:1.0.0
-      Source file:   components\serial_manager\serial_port_uart.c
       Include file:  components\serial_manager\serial_port_uart.h
+      Source file:   components\serial_manager\serial_port_uart.c
 
    * Component: NXP::Device:SDK Utilities:shell:1.0.0
-      Include file:  utilities\fsl_shell.h
       Source file:   utilities\fsl_shell.c
+      Include file:  utilities\fsl_shell.h
 
    * Component: NXP::Device:Startup:MIMXRT1052_startup:1.0.0
-      Include file:  fsl_device_registers.h
-      Include file:  system_MIMXRT1052.h
-      Include file:  MIMXRT1052.h
       Source file:   arm\startup_MIMXRT1052.s
+      Include file:  MIMXRT1052.h
       Include file:  MIMXRT1052_features.h
+      Include file:  system_MIMXRT1052.h
       Source file:   system_MIMXRT1052.c
-Build Time Elapsed:  00:00:03
+      Include file:  fsl_device_registers.h
+Target not created.
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

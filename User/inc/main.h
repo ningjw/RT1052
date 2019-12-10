@@ -14,19 +14,19 @@
 #include "fsl_debug_console.h"
 #include "fsl_snvs_hp.h"
 
+
+#include "FreeRTOS.h"
+#include "task.h"
+#include "semphr.h"
+#include "task_app.h"
+
+
 #include "interrupt.h"
 #include "lpuart1.h"
 #include "i2c_eeprom_drv.h"
 #include "rtc_drv.h"
-
-#include "FreeRTOS.h"
-#include "task.h"
-#include "task_app.h"
+#include "ble_app.h"
 
 
 
-
-
-
-        
 #endif

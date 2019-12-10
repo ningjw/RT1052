@@ -1,7 +1,13 @@
 #include "main.h"
 
 
-/* Get debug console frequency. */
+
+
+/***************************************************************************************
+  * @brief   Get debug console frequency.
+  * @input   
+  * @return  
+***************************************************************************************/
 uint32_t BOARD_DebugConsoleSrcFreq(void)
 {
     uint32_t freq;
@@ -26,5 +32,22 @@ void BOARD_InitDebugConsole(void)
     uint32_t uartClkSrcFreq = BOARD_DebugConsoleSrcFreq();
 
     DbgConsole_Init(1, 115200, kSerialPort_Uart, uartClkSrcFreq);
+}
+
+
+/***************************************************************************************
+  * @brief
+  * @input
+  * @return
+***************************************************************************************/
+void LPUART1_IRQHandler(void)
+{
+    uint8_t ucCh = ucCh;
+
+    /*串口接收到数据*/
+    if (kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART1) ) {
+        /*读取数据*/
+        ucCh = LPUART_ReadByte( LPUART1 );
+    }
 }
 

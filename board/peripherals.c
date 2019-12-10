@@ -286,7 +286,24 @@ instance:
   - fsl_qtmr:
     - clockSource: 'BusInterfaceClock'
     - clockSourceFreq: 'BOARD_BootClockRUN'
-    - qtmr_channels: []
+    - qtmr_channels:
+      - 0:
+        - channel_prefix_id: 'Channel_0'
+        - channel: 'kQTMR_Channel_0'
+        - primarySource: 'kQTMR_ClockDivide_4'
+        - secondarySource: 'kQTMR_Counter0InputPin'
+        - countingMode: 'kQTMR_NoOperation'
+        - enableMasterMode: 'false'
+        - enableExternalForce: 'false'
+        - faultFilterCount: '3'
+        - faultFilterPeriod: '0'
+        - debugMode: 'kQTMR_RunNormalInDebug'
+        - timerModeInit: 'pwmOutput'
+        - pwmMode:
+          - freq_value_str: '33000'
+          - dutyCyclePercent: '0'
+          - outputPolarity: 'false'
+        - dmaIntMode: 'polling'
     - interruptVector:
       - enable_irq: 'false'
       - interrupt:
@@ -296,8 +313,23 @@ instance:
         - enable_custom_name: 'false'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
+const qtmr_config_t QuadTimer3_Channel_0_config = {
+  .primarySource = kQTMR_ClockDivide_4,
+  .secondarySource = kQTMR_Counter0InputPin,
+  .enableMasterMode = false,
+  .enableExternalForce = false,
+  .faultFilterCount = 0,
+  .faultFilterPeriod = 0,
+  .debugMode = kQTMR_RunNormalInDebug
+};
 
 void QuadTimer3_init(void) {
+  /* Quad timer channel Channel_0 peripheral initialization */
+  QTMR_Init(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, &QuadTimer3_Channel_0_config);
+  /* Setup the PWM mode of the timer channel */
+  QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, 1000UL, 0U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
+  /* Start the timer - select the timer counting mode */
+  QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_NoOperation);
 }
 
 /***********************************************************************************************************************
@@ -724,6 +756,68 @@ void LPI2C3_init(void) {
 }
 
 /***********************************************************************************************************************
+ * QuadTimer1 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'QuadTimer1'
+- type: 'qtmr'
+- mode: 'general'
+- type_id: 'qtmr_460dd7aa3f3371843c2548acd54252b0'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'TMR1'
+- config_sets:
+  - fsl_qtmr:
+    - clockSource: 'BusInterfaceClock'
+    - clockSourceFreq: 'BOARD_BootClockRUN'
+    - qtmr_channels:
+      - 0:
+        - channel_prefix_id: 'Channel_0'
+        - channel: 'kQTMR_Channel_0'
+        - primarySource: 'kQTMR_ClockDivide_2'
+        - secondarySource: 'kQTMR_Counter0InputPin'
+        - countingMode: 'kQTMR_NoOperation'
+        - enableMasterMode: 'false'
+        - enableExternalForce: 'false'
+        - faultFilterCount: '3'
+        - faultFilterPeriod: '0'
+        - debugMode: 'kQTMR_RunNormalInDebug'
+        - timerModeInit: 'pwmOutput'
+        - pwmMode:
+          - freq_value_str: '33000'
+          - dutyCyclePercent: '0'
+          - outputPolarity: 'false'
+        - dmaIntMode: 'polling'
+    - interruptVector:
+      - enable_irq: 'false'
+      - interrupt:
+        - IRQn: 'TMR1_IRQn'
+        - enable_priority: 'false'
+        - priority: '0'
+        - enable_custom_name: 'false'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const qtmr_config_t QuadTimer1_Channel_0_config = {
+  .primarySource = kQTMR_ClockDivide_2,
+  .secondarySource = kQTMR_Counter0InputPin,
+  .enableMasterMode = false,
+  .enableExternalForce = false,
+  .faultFilterCount = 0,
+  .faultFilterPeriod = 0,
+  .debugMode = kQTMR_RunNormalInDebug
+};
+
+void QuadTimer1_init(void) {
+  /* Quad timer channel Channel_0 peripheral initialization */
+  QTMR_Init(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, &QuadTimer1_Channel_0_config);
+  /* Setup the PWM mode of the timer channel */
+  QTMR_SetupPwm(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, 2000UL, 0U, false, QUADTIMER1_CHANNEL_0_CLOCK_SOURCE);
+  /* Start the timer - select the timer counting mode */
+  QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_NoOperation);
+}
+
+/***********************************************************************************************************************
  * Initialization functions
  **********************************************************************************************************************/
 void BOARD_InitPeripherals(void)
@@ -745,6 +839,7 @@ void BOARD_InitPeripherals(void)
   LPSPI4_init();
   GPIO2_init();
   LPI2C3_init();
+  QuadTimer1_init();
 }
 
 /***********************************************************************************************************************

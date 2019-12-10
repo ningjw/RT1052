@@ -62,6 +62,10 @@ extern "C" {
 #define LPI2C1_CLOCK_FREQ 3000000UL
 /* Definition of peripheral ID */
 #define QUADTIMER3_PERIPHERAL TMR3
+/* Definition of the timer channel Channel_0. */
+#define QUADTIMER3_CHANNEL_0_CHANNEL kQTMR_Channel_0
+/* Definition of the timer channel Channel_0 clock source frequency. */
+#define QUADTIMER3_CHANNEL_0_CLOCK_SOURCE 33000000UL
 /* Definition of peripheral ID */
 #define LPUART2_PERIPHERAL LPUART2
 /* Definition of the clock source frequency */
@@ -112,6 +116,12 @@ extern "C" {
 #define LPI2C3_PERIPHERAL LPI2C3
 /* Definition of clock source */
 #define LPI2C3_CLOCK_FREQ 3000000UL
+/* Definition of peripheral ID */
+#define QUADTIMER1_PERIPHERAL TMR1
+/* Definition of the timer channel Channel_0. */
+#define QUADTIMER1_CHANNEL_0_CHANNEL kQTMR_Channel_0
+/* Definition of the timer channel Channel_0 clock source frequency. */
+#define QUADTIMER1_CHANNEL_0_CLOCK_SOURCE 66000000UL
 
 /***********************************************************************************************************************
  * Global variables
@@ -120,12 +130,14 @@ extern const edma_config_t eDMA_config;
 extern const lpuart_config_t LPUART1_config;
 extern const pit_config_t PIT1_config;
 extern const lpi2c_master_config_t LPI2C1_masterConfig;
+extern const qtmr_config_t QuadTimer3_Channel_0_config;
 extern const lpuart_config_t LPUART2_config;
 extern const lpuart_config_t LPUART4_config;
 extern const lpuart_config_t LPUART3_config;
 extern const lpuart_config_t LPUART5_config;
 extern const lpspi_master_config_t LPSPI4_config;
 extern const lpi2c_master_config_t LPI2C3_masterConfig;
+extern const qtmr_config_t QuadTimer1_Channel_0_config;
 
 /***********************************************************************************************************************
  * Initialization functions

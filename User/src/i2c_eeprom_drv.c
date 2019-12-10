@@ -223,13 +223,11 @@ uint8_t EEPROM_Test(void)
 {
   uint16_t i;
 
-  PRINTF("写入的数据");
-    
+
   for ( i=0; i<EEPROM_TEST_NUM; i++ ) //填充缓冲
   {
     EEPROM_Buffer_Write[i] = i;
 
-    PRINTF("0x%02X ", EEPROM_Buffer_Write[i]);
     if((i+1)%10 == 0 || i == (EEPROM_TEST_NUM-1))    
         PRINTF("\r\n");    
    }
@@ -239,10 +237,7 @@ uint8_t EEPROM_Test(void)
                              EEPORM_TEST_START_ADDR,
                              EEPROM_Buffer_Write,
                              EEPROM_TEST_NUM);
-  
-  PRINTF("写成功");
-   
-  PRINTF("读出的数据");
+
   //将EEPROM读出数据顺序保持到I2c_Buf_Read中
   I2C_EEPROM_BufferRead(EEPROM_READ_ADDRESS_8_BIT,
                            EEPORM_TEST_START_ADDR,
@@ -254,17 +249,15 @@ uint8_t EEPROM_Test(void)
   { 
     if(EEPROM_Buffer_Read[i] != EEPROM_Buffer_Write[i])
     {
-      PRINTF("0x%02X ", EEPROM_Buffer_Read[i]);
-      PRINTF("错误:I2C EEPROM写入与读出的数据不一致");
+      PRINTF("I2C(AT24C02) ERROR\r\n");
       return 1;
     }
-    PRINTF("0x%02X ", EEPROM_Buffer_Read[i]);
     if((i+1)%10 == 0 || i == (EEPROM_TEST_NUM-1))    
         PRINTF("\r\n");
     
   }
 
-  PRINTF("I2C(AT24C02)读写测试成功");
+  PRINTF("I2C(AT24C02) OK\r\n");
   return 0;
 }
 

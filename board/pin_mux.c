@@ -17,7 +17,7 @@ pin_labels:
 - {pin_num: G13, pin_signal: GPIO_AD_B0_10, label: BTM_MODE, identifier: BTM_MODE}
 - {pin_num: H13, pin_signal: GPIO_AD_B1_08, label: RGB_RED_LED, identifier: RGB_RED_LED}
 - {pin_num: L6, pin_signal: WAKEUP, label: CORE_BOARD_WAUP_KEY, identifier: CORE_BOARD_WAUP_KEY}
-- {pin_num: G14, pin_signal: GPIO_AD_B0_05, label: CORE_BOARD_MODE_KEY, identifier: BOOT_MODE1}
+- {pin_num: G14, pin_signal: GPIO_AD_B0_05, label: BOOT_MODE1, identifier: BOOT_MODE1}
 - {pin_num: D11, pin_signal: GPIO_B1_03, label: RST_4G, identifier: RST_4G}
 - {pin_num: C11, pin_signal: GPIO_B1_02, label: PWR_4G, identifier: PWR_4G}
 - {pin_num: A10, pin_signal: GPIO_B0_11, label: ADC_MODE, identifier: ADC_MODE}
@@ -99,6 +99,7 @@ BOARD:
   - {pin_num: G10, peripheral: GPIO1, signal: 'gpio_io, 11', pin_signal: GPIO_AD_B0_11, direction: OUTPUT}
   - {pin_num: L12, peripheral: GPIO1, signal: 'gpio_io, 20', pin_signal: GPIO_AD_B1_04, direction: OUTPUT}
   - {pin_num: G13, peripheral: GPIO1, signal: 'gpio_io, 10', pin_signal: GPIO_AD_B0_10, direction: OUTPUT}
+  - {pin_num: D7, peripheral: TMR1, signal: 'TIMER, 0', pin_signal: GPIO_B0_00}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -259,6 +260,9 @@ void BOARD(void) {
       IOMUXC_GPIO_AD_B1_07_LPI2C3_SCL,        /* GPIO_AD_B1_07 is configured as LPI2C3_SCL */
       1U);                                    /* Software Input On Field: Force input path of pad GPIO_AD_B1_07 */
   IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B0_00_QTIMER1_TIMER0,       /* GPIO_B0_00 is configured as QTIMER1_TIMER0 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
       IOMUXC_GPIO_B0_01_LPSPI4_SDI,           /* GPIO_B0_01 is configured as LPSPI4_SDI */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
@@ -328,7 +332,8 @@ void BOARD(void) {
       IOMUXC_GPIO_SD_B0_05_USDHC1_DATA3,      /* GPIO_SD_B0_05 is configured as USDHC1_DATA3 */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_GPR->GPR6 = ((IOMUXC_GPR->GPR6 &
-    (~(IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL_MASK))) /* Mask bits to zero which are setting */
+    (~(IOMUXC_GPR_GPR6_QTIMER1_TRM0_INPUT_SEL_MASK | IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL_MASK))) /* Mask bits to zero which are setting */
+      | IOMUXC_GPR_GPR6_QTIMER1_TRM0_INPUT_SEL(0x00U) /* QTIMER1 TMR0 input select: input from IOMUX */
       | IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL(0x00U) /* QTIMER3 TMR0 input select: input from IOMUX */
     );
   IOMUXC_SetPinConfig(

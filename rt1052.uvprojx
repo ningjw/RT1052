@@ -396,20 +396,25 @@
               <FilePath>.\User\src\main.c</FilePath>
             </File>
             <File>
+              <FileName>interrupt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\interrupt.c</FilePath>
+            </File>
+            <File>
               <FileName>task_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\task_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>ble_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\ble_app.c</FilePath>
             </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Driver</GroupName>
           <Files>
-            <File>
-              <FileName>interrupt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\interrupt.c</FilePath>
-            </File>
             <File>
               <FileName>lpuart1.c</FileName>
               <FileType>1</FileType>
@@ -429,6 +434,11 @@
               <FileName>rtc_drv.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\rtc_drv.c</FilePath>
+            </File>
+            <File>
+              <FileName>emmc_drv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\emmc_drv.c</FilePath>
             </File>
           </Files>
         </Group>

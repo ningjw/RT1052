@@ -33,10 +33,6 @@
 .\objects\rtc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h
 .\objects\rtc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h
 .\objects\rtc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_hp.h
-.\objects\rtc_drv.o: .\User\inc\interrupt.h
-.\objects\rtc_drv.o: .\User\inc\lpuart1.h
-.\objects\rtc_drv.o: .\User\inc\i2c_eeprom_drv.h
-.\objects\rtc_drv.o: .\User\inc\rtc_drv.h
 .\objects\rtc_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h
 .\objects\rtc_drv.o: .\RTE\RTOS\FreeRTOSConfig.h
 .\objects\rtc_drv.o: .\RTE\_Target_1\RTE_Components.h
@@ -48,4 +44,11 @@
 .\objects\rtc_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\mpu_wrappers.h
 .\objects\rtc_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\task.h
 .\objects\rtc_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\list.h
+.\objects\rtc_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\semphr.h
+.\objects\rtc_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
 .\objects\rtc_drv.o: .\User\inc\task_app.h
+.\objects\rtc_drv.o: .\User\inc\interrupt.h
+.\objects\rtc_drv.o: .\User\inc\lpuart1.h
+.\objects\rtc_drv.o: .\User\inc\i2c_eeprom_drv.h
+.\objects\rtc_drv.o: .\User\inc\rtc_drv.h
+.\objects\rtc_drv.o: .\User\inc\ble_app.h

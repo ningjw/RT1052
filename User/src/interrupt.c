@@ -1,8 +1,6 @@
 #include "main.h"
 
 
-uint32_t count = 0;
-
 /**
 * @brief  发送一个字符
 * @param  base:选择端口
@@ -37,42 +35,6 @@ void PIT_IRQHandler(void)
     __DSB();
 }
 
-
-/***************************************************************************************
-  * @brief
-  * @input
-  * @return
-***************************************************************************************/
-void LPUART1_IRQHandler(void)
-{
-    uint8_t ucCh = ucCh;
-
-    /*串口接收到数据*/
-    if (kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART1) ) {
-        /*读取数据*/
-        ucCh = LPUART_ReadByte( LPUART1 );
-    }
-}
-
-/***************************************************************************************
-  * @brief
-  * @input
-  * @return
-***************************************************************************************/
-void LPUART2_IRQHandler(void)
-{
-    uint8_t ucTemp;
-    /*串口接收到数据*/
-    if ((kLPUART_RxDataRegFullFlag)&LPUART_GetStatusFlags(LPUART2))
-    {
-        /*读取数据*/
-        ucTemp = LPUART_ReadByte(LPUART2);
-
-        /*将读取到的数据写入到缓冲区*/
-        Uart_SendByte(LPUART2, ucTemp);
-    }
-    __DSB();
-}
 
 /***************************************************************************************
   * @brief

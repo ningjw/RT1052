@@ -82,7 +82,7 @@ void BOARD_InitBootPins(void);
 #define BOARD_BOOT_MODE0_SIGNAL                                        BOOT_MODE   /*!< SRC signal: BOOT_MODE */
 #define BOARD_BOOT_MODE0_CHANNEL                                              0U   /*!< SRC BOOT_MODE channel: 0 */
 
-/* GPIO_AD_B0_05 (coord G14), CORE_BOARD_MODE_KEY */
+/* GPIO_AD_B0_05 (coord G14), BOOT_MODE1 */
 #define BOARD_BOOT_MODE1_PERIPHERAL                                          SRC   /*!< Device name: SRC */
 #define BOARD_BOOT_MODE1_SIGNAL                                        BOOT_MODE   /*!< SRC signal: BOOT_MODE */
 #define BOARD_BOOT_MODE1_CHANNEL                                              1U   /*!< SRC BOOT_MODE channel: 1 */
