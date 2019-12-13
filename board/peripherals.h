@@ -20,6 +20,7 @@
 #include "fsl_lpuart_edma.h"
 #include "fsl_lpspi.h"
 #include "fsl_gpio.h"
+#include "fsl_adc.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -66,7 +67,7 @@ extern "C" {
 /* Definition of the timer channel Channel_0. */
 #define QUADTIMER3_CHANNEL_0_CHANNEL kQTMR_Channel_0
 /* Definition of the timer channel Channel_0 clock source frequency. */
-#define QUADTIMER3_CHANNEL_0_CLOCK_SOURCE 33000000UL
+#define QUADTIMER3_CHANNEL_0_CLOCK_SOURCE 132000000UL
 /* Definition of peripheral ID */
 #define LPUART2_PERIPHERAL LPUART2
 /* Definition of the clock source frequency */
@@ -110,12 +111,10 @@ extern "C" {
 #define LPSPI4_CLOCK_FREQ 24000000UL
 /* GPIO2 interrupt vector ID (number). */
 #define GPIO2_GPIO_COMB_0_15_IRQN GPIO2_Combined_0_15_IRQn
+/* GPIO2 interrupt vector priority. */
+#define GPIO2_GPIO_COMB_0_15_IRQ_PRIORITY 0
 /* GPIO2 interrupt handler identifier. */
-#define GPIO2_GPIO_COMB_0_15_IRQHANDLER GPIO2_Combined_0_15_IRQHandler
-/* GPIO2 interrupt vector ID (number). */
-#define GPIO2_GPIO_COMB_16_31_IRQN GPIO2_Combined_16_31_IRQn
-/* GPIO2 interrupt handler identifier. */
-#define GPIO2_GPIO_COMB_16_31_IRQHANDLER GPIO2_Combined_16_31_IRQHandler
+#define GPIO2_COMB_0_15_IRQHANDLER GPIO2_Combined_0_15_IRQHandler
 /* BOARD_InitPeripherals defines for LPI2C3 */
 /* Definition of peripheral ID */
 #define LPI2C3_PERIPHERAL LPI2C3
@@ -126,7 +125,12 @@ extern "C" {
 /* Definition of the timer channel Channel_0. */
 #define QUADTIMER1_CHANNEL_0_CHANNEL kQTMR_Channel_0
 /* Definition of the timer channel Channel_0 clock source frequency. */
-#define QUADTIMER1_CHANNEL_0_CLOCK_SOURCE 66000000UL
+#define QUADTIMER1_CHANNEL_0_CLOCK_SOURCE 132000000UL
+/* BOARD_InitPeripherals defines for ADC1 */
+/* Definition of peripheral ID */
+#define ADC1_PERIPHERAL ADC1
+/* Definition of special channel interconnected with ADC_ETC which takes real channel to be measured from ADC_ETC. */
+#define ADC1_CHANNEL_DRIVEN_BY_ADC_ETC 16U
 
 /***********************************************************************************************************************
  * Global variables
@@ -145,6 +149,7 @@ extern const lpuart_config_t LPUART5_config;
 extern const lpspi_master_config_t LPSPI4_config;
 extern const lpi2c_master_config_t LPI2C3_masterConfig;
 extern const qtmr_config_t QuadTimer1_Channel_0_config;
+extern const adc_config_t ADC1_config;
 
 /***********************************************************************************************************************
  * Initialization functions

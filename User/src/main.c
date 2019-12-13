@@ -16,13 +16,13 @@ static void AppTaskCreate(void)
     taskENTER_CRITICAL();           //进入临界区
     
     /* 创建BLE_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )AppBLE_Task,"BLE_Task",512,NULL,1,&AppBLE_TaskHandle);
+    xTaskCreate((TaskFunction_t )BLE_AppTask,"BLE_Task",512,NULL,1,&BLE_TaskHandle);
     
     /* 创建ADC_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )AppADC_Task, "ADC_Task",512,NULL, 2,&AppADC_TaskHandle);
+    xTaskCreate((TaskFunction_t )ADC_AppTask, "ADC_Task",512,NULL, 2,&ADC_TaskHandle);
                           
     /* 创建eMMC_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )AppEMMC_Task,"eMMC_Task",512,NULL,3,&AppEMMC_TaskHandle);
+    xTaskCreate((TaskFunction_t )Battery_AppTask,"eMMC_Task",512,NULL,3,&Battery_TaskHandle);
 
     vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
 
@@ -45,7 +45,7 @@ int main(void)
     BOARD_BootClockRUN();
     BOARD_InitBootPins();
     BOARD_InitPeripherals();
-
+    
     BOARD_InitDebugConsole();
     PRINTF("***** Welcome *****\r\n");
 //    EEPROM_Test();

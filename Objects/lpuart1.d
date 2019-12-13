@@ -29,11 +29,13 @@
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart_edma.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
+.\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc.h
 .\objects\lpuart1.o: .\board\pin_mux.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_hp.h
+.\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_iomuxc.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h
 .\objects\lpuart1.o: .\RTE\RTOS\FreeRTOSConfig.h
 .\objects\lpuart1.o: .\RTE\_Target_1\RTE_Components.h
@@ -53,4 +55,9 @@
 .\objects\lpuart1.o: .\User\inc\lpuart1.h
 .\objects\lpuart1.o: .\User\inc\i2c_eeprom_drv.h
 .\objects\lpuart1.o: .\User\inc\rtc_drv.h
+.\objects\lpuart1.o: .\User\inc\emmc_drv.h
+.\objects\lpuart1.o: .\User\inc\adc_drv.h
+.\objects\lpuart1.o: .\User\inc\battery_drv.h
 .\objects\lpuart1.o: .\User\inc\ble_app.h
+.\objects\lpuart1.o: .\User\inc\adc_app.h
+.\objects\lpuart1.o: .\User\inc\battery_app.h

@@ -59,9 +59,7 @@ instance:
       - enableHaltOnError: 'true'
       - enableRoundRobinArbitration: 'false'
       - enableDebugMode: 'false'
-    - dma_table:
-      - 0: []
-      - 1: []
+    - dma_table: []
     - edma_channels: []
     - quick_selection: 'default'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
@@ -291,9 +289,9 @@ instance:
       - 0:
         - channel_prefix_id: 'Channel_0'
         - channel: 'kQTMR_Channel_0'
-        - primarySource: 'kQTMR_ClockDivide_4'
+        - primarySource: 'kQTMR_ClockDivide_1'
         - secondarySource: 'kQTMR_Counter0InputPin'
-        - countingMode: 'kQTMR_NoOperation'
+        - countingMode: 'kQTMR_PriSrcRiseEdge'
         - enableMasterMode: 'false'
         - enableExternalForce: 'false'
         - faultFilterCount: '3'
@@ -301,8 +299,8 @@ instance:
         - debugMode: 'kQTMR_RunNormalInDebug'
         - timerModeInit: 'pwmOutput'
         - pwmMode:
-          - freq_value_str: '33000'
-          - dutyCyclePercent: '0'
+          - freq_value_str: '3300'
+          - dutyCyclePercent: '50'
           - outputPolarity: 'false'
         - dmaIntMode: 'polling'
     - interruptVector:
@@ -315,7 +313,7 @@ instance:
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const qtmr_config_t QuadTimer3_Channel_0_config = {
-  .primarySource = kQTMR_ClockDivide_4,
+  .primarySource = kQTMR_ClockDivide_1,
   .secondarySource = kQTMR_Counter0InputPin,
   .enableMasterMode = false,
   .enableExternalForce = false,
@@ -328,9 +326,9 @@ void QuadTimer3_init(void) {
   /* Quad timer channel Channel_0 peripheral initialization */
   QTMR_Init(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, &QuadTimer3_Channel_0_config);
   /* Setup the PWM mode of the timer channel */
-  QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, 1000UL, 0U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
+  QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, 40000UL, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
   /* Start the timer - select the timer counting mode */
-  QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_NoOperation);
+  QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 }
 
 /***********************************************************************************************************************
@@ -689,10 +687,11 @@ instance:
     - enable_irq_comb_0_15: 'true'
     - gpio_interrupt_comb_0_15:
       - IRQn: 'GPIO2_Combined_0_15_IRQn'
-      - enable_priority: 'false'
+      - enable_priority: 'true'
       - priority: '0'
-      - enable_custom_name: 'false'
-    - enable_irq_comb_16_31: 'true'
+      - enable_custom_name: 'true'
+      - handler_custom_name: 'GPIO2_COMB_0_15_IRQHANDLER'
+    - enable_irq_comb_16_31: 'false'
     - gpio_interrupt_comb_16_31:
       - IRQn: 'GPIO2_Combined_16_31_IRQn'
       - enable_priority: 'false'
@@ -703,10 +702,10 @@ instance:
 
 void GPIO2_init(void) {
   /* Make sure, the clock gate for GPIO2 is enabled (e. g. in pin_mux.c) */
+  /* Interrupt vector GPIO2_Combined_0_15_IRQn priority settings in the NVIC */
+  NVIC_SetPriority(GPIO2_Combined_0_15_IRQn, GPIO2_GPIO_COMB_0_15_IRQ_PRIORITY);
   /* Enable interrupt GPIO2_Combined_0_15_IRQn request in the NVIC */
   EnableIRQ(GPIO2_Combined_0_15_IRQn);
-  /* Enable interrupt GPIO2_Combined_16_31_IRQn request in the NVIC */
-  EnableIRQ(GPIO2_Combined_16_31_IRQn);
 }
 
 /***********************************************************************************************************************
@@ -792,9 +791,9 @@ instance:
       - 0:
         - channel_prefix_id: 'Channel_0'
         - channel: 'kQTMR_Channel_0'
-        - primarySource: 'kQTMR_ClockDivide_2'
+        - primarySource: 'kQTMR_ClockDivide_1'
         - secondarySource: 'kQTMR_Counter0InputPin'
-        - countingMode: 'kQTMR_NoOperation'
+        - countingMode: 'kQTMR_PriSrcRiseEdge'
         - enableMasterMode: 'false'
         - enableExternalForce: 'false'
         - faultFilterCount: '3'
@@ -802,8 +801,8 @@ instance:
         - debugMode: 'kQTMR_RunNormalInDebug'
         - timerModeInit: 'pwmOutput'
         - pwmMode:
-          - freq_value_str: '33000'
-          - dutyCyclePercent: '0'
+          - freq_value_str: '3300'
+          - dutyCyclePercent: '50'
           - outputPolarity: 'false'
         - dmaIntMode: 'polling'
     - interruptVector:
@@ -816,7 +815,7 @@ instance:
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const qtmr_config_t QuadTimer1_Channel_0_config = {
-  .primarySource = kQTMR_ClockDivide_2,
+  .primarySource = kQTMR_ClockDivide_1,
   .secondarySource = kQTMR_Counter0InputPin,
   .enableMasterMode = false,
   .enableExternalForce = false,
@@ -829,9 +828,74 @@ void QuadTimer1_init(void) {
   /* Quad timer channel Channel_0 peripheral initialization */
   QTMR_Init(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, &QuadTimer1_Channel_0_config);
   /* Setup the PWM mode of the timer channel */
-  QTMR_SetupPwm(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, 2000UL, 0U, false, QUADTIMER1_CHANNEL_0_CLOCK_SOURCE);
+  QTMR_SetupPwm(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, 40000UL, 50U, false, QUADTIMER1_CHANNEL_0_CLOCK_SOURCE);
   /* Start the timer - select the timer counting mode */
-  QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_NoOperation);
+  QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
+}
+
+/***********************************************************************************************************************
+ * ADC1 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'ADC1'
+- type: 'adc_12b1msps_sar'
+- mode: 'ADC_GENERAL'
+- type_id: 'adc_12b1msps_sar_6a490e886349a7b2b07bed10ce7b299b'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'ADC1'
+- config_sets:
+  - fsl_adc:
+    - clockConfig:
+      - clockSource: 'kADC_ClockSourceAD'
+      - clockSourceFreq: 'custom:10 MHz'
+      - clockDriver: 'kADC_ClockDriver2'
+      - samplePeriodMode: 'kADC_SamplePeriodShort2Clocks'
+      - enableAsynchronousClockOutput: 'true'
+    - conversionConfig:
+      - resolution: 'kADC_Resolution12Bit'
+      - hardwareAverageMode: 'kADC_HardwareAverageDisable'
+      - enableHardwareTrigger: 'software'
+      - enableHighSpeed: 'false'
+      - enableLowPower: 'false'
+      - enableContinuousConversion: 'false'
+      - enableOverWrite: 'false'
+      - enableDma: 'false'
+    - resultingTime: []
+    - resultCorrection:
+      - doAutoCalibration: 'false'
+      - offset: '0'
+    - hardwareCompareConfiguration:
+      - hardwareCompareMode: 'disabled'
+      - value1: '0'
+      - value2: '0'
+    - enableInterrupt: 'false'
+    - adc_interrupt:
+      - IRQn: 'ADC1_IRQn'
+      - enable_priority: 'false'
+      - priority: '0'
+      - enable_custom_name: 'false'
+    - adc_channels_config: []
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const adc_config_t ADC1_config = {
+  .enableOverWrite = false,
+  .enableContinuousConversion = false,
+  .enableHighSpeed = false,
+  .enableLowPower = false,
+  .enableLongSample = false,
+  .enableAsynchronousClockOutput = true,
+  .referenceVoltageSource = kADC_ReferenceVoltageSourceAlt0,
+  .samplePeriodMode = kADC_SamplePeriodShort2Clocks,
+  .clockSource = kADC_ClockSourceAD,
+  .clockDriver = kADC_ClockDriver2,
+  .resolution = kADC_Resolution12Bit
+};
+
+void ADC1_init(void) {
+  /* Initialize ADC1 peripheral. */
+  ADC_Init(ADC1_PERIPHERAL, &ADC1_config);
 }
 
 /***********************************************************************************************************************
@@ -857,6 +921,7 @@ void BOARD_InitPeripherals(void)
   GPIO2_init();
   LPI2C3_init();
   QuadTimer1_init();
+  ADC1_init();
 }
 
 /***********************************************************************************************************************

@@ -33,10 +33,10 @@ typedef void (*SendMsgFunc_t)(uint8_t * buf, uint32_t len);
 
 
 
-extern TaskHandle_t AppBLE_TaskHandle ;  /* 蓝牙任务句柄 */
+extern TaskHandle_t BLE_TaskHandle ;  /* 蓝牙任务句柄 */
 
 
-void AppBLE_Task(void);
+void BLE_AppTask(void);
 
 
 

@@ -7,7 +7,7 @@ AT_NONCACHEABLE_SECTION_INIT(uint8_t g_lpuart2RxBuf[LPUART2_BUFF_LEN]) = {0};   
 AT_NONCACHEABLE_SECTION_INIT(uint8_t g_lpuart2TxBuf[LPUART2_BUFF_LEN]) = {0};            //串口发送缓冲区
 lpuart_transfer_t receiveXfer;
 
-TaskHandle_t      AppBLE_TaskHandle = NULL;//蓝牙任务句柄
+TaskHandle_t      BLE_TaskHandle = NULL;//蓝牙任务句柄
 SemaphoreHandle_t AckBufMux = NULL; //串口接收缓冲区互斥信号量
 SemaphoreHandle_t RecvAckSem = NULL;//串口收到AT指令回令的信号量，可在串口接收空闲后发出
 TimerHandle_t     Lpuart2Tmr = NULL;//软件定时器句柄,用于AT指令接受超时
@@ -62,12 +62,12 @@ uint8_t flag_rev_data = 0;
 
 
 /***********************************************************************
-  * @ 函数名  ： AppBLE_Task
+  * @ 函数名  ： BLE_AppTask
   * @ 功能说明： 为了方便管理，所有的任务创建函数都放在这个函数里面
   * @ 参数    ： 无
   * @ 返回值  ： 无
   **********************************************************************/
-void AppBLE_Task(void)
+void BLE_AppTask(void)
 {
     /*使能空闲中断*/
 	LPUART_EnableInterrupts(LPUART2, kLPUART_IdleLineInterruptEnable);
@@ -89,8 +89,9 @@ void AppBLE_Task(void)
     receiveXfer.data     = g_lpuart2RxBuf;
     receiveXfer.dataSize = LPUART2_BUFF_LEN;
 
-    LPUART2_SendString("AppBLE_Task 创建成功");
     LPUART_ReceiveEDMA(LPUART2, &LPUART2_eDMA_Handle, &receiveXfer);  //使用eDMA接收
+    
+    PRINTF("BLE Task Create and Running\r\n");
     
     while(1)
     {

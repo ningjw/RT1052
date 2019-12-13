@@ -25,10 +25,10 @@
             <processor_version>6.0.1</processor_version>
             <power_domains/>
             <pin_labels>
-               <pin_label pin_num="M13" pin_signal="GPIO_AD_B1_09" label="RGB_GREEN_LED" identifier="RGB_GREEN_LED"/>
+               <pin_label pin_num="M13" pin_signal="GPIO_AD_B1_09" label="CHARGE_COMPELETE" identifier="CHARGE_COMPELETE"/>
                <pin_label pin_num="F14" pin_signal="GPIO_AD_B0_09" label="LED" identifier="CORE_BOARD_LED;LED"/>
                <pin_label pin_num="G13" pin_signal="GPIO_AD_B0_10" label="BTM_MODE" identifier="BTM_MODE"/>
-               <pin_label pin_num="H13" pin_signal="GPIO_AD_B1_08" label="RGB_RED_LED" identifier="RGB_RED_LED"/>
+               <pin_label pin_num="H13" pin_signal="GPIO_AD_B1_08" label="CHARGING" identifier="CHARGING"/>
                <pin_label pin_num="L6" pin_signal="WAKEUP" label="CORE_BOARD_WAUP_KEY" identifier="CORE_BOARD_WAUP_KEY"/>
                <pin_label pin_num="G14" pin_signal="GPIO_AD_B0_05" label="BOOT_MODE1" identifier="BOOT_MODE1"/>
                <pin_label pin_num="D11" pin_signal="GPIO_B1_03" label="RST_4G" identifier="RST_4G"/>
@@ -46,6 +46,14 @@
                <pin_label pin_num="G10" pin_signal="GPIO_AD_B0_11" label="E103_SETDF" identifier="E103_SETDF"/>
                <pin_label pin_num="L12" pin_signal="GPIO_AD_B1_04" label="BTM_EN" identifier="BTM_EN"/>
                <pin_label pin_num="L10" pin_signal="GPIO_AD_B0_15" label="PWR_AL" identifier="PWR_AL"/>
+               <pin_label pin_num="E12" pin_signal="GPIO_B1_04" label="LED_POWER_RED" identifier="LED_POWER_RED"/>
+               <pin_label pin_num="D12" pin_signal="GPIO_B1_05" label="LED_POWER_GREEN" identifier="LED_POWER_GREEN"/>
+               <pin_label pin_num="C12" pin_signal="GPIO_B1_06" label="LED_BATTERY_RED" identifier="LED_BATTERY_RED"/>
+               <pin_label pin_num="B12" pin_signal="GPIO_B1_07" label="LED_BATTERY_GREEN" identifier="LED_BATTERY_GREEN"/>
+               <pin_label pin_num="A12" pin_signal="GPIO_B1_08" label="LED_BLE_RED" identifier="LED_BT_RED;LED_BLE_RED"/>
+               <pin_label pin_num="A13" pin_signal="GPIO_B1_09" label="LED_BLE_GREEN" identifier="LED_BT_GREEN;LED_BLE_GREEN"/>
+               <pin_label pin_num="B13" pin_signal="GPIO_B1_10" label="LED_STATUS_RED" identifier="LED_STATUS_RED"/>
+               <pin_label pin_num="C13" pin_signal="GPIO_B1_11" label="LED_STATUS_GREEN" identifier="LED_STATUS_GREEN"/>
             </pin_labels>
          </pins_profile>
          <functions_list>
@@ -102,11 +110,6 @@
                         <data>true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="Peripheral" resourceId="USDHC1" description="Peripheral USDHC1 is not initialized" problem_level="1" source="Pins:BOARD">
-                     <feature name="initialized" evaluation="equal">
-                        <data>true</data>
-                     </feature>
-                  </dependency>
                   <dependency resourceType="Peripheral" resourceId="LPUART5" description="Peripheral LPUART5 is not initialized" problem_level="1" source="Pins:BOARD">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
@@ -117,7 +120,17 @@
                         <data>true</data>
                      </feature>
                   </dependency>
+                  <dependency resourceType="Peripheral" resourceId="ADC1" description="Peripheral ADC1 is not initialized" problem_level="1" source="Pins:BOARD">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
                   <dependency resourceType="Peripheral" resourceId="TMR1" description="Peripheral TMR1 is not initialized" problem_level="1" source="Pins:BOARD">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="Peripheral" resourceId="USDHC1" description="Peripheral USDHC1 is not initialized" problem_level="1" source="Pins:BOARD">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
@@ -179,7 +192,11 @@
                         <pin_feature name="open_drain" value="Enable"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="TMR3" signal="TIMER, 0" pin_num="A8" pin_signal="GPIO_B0_06"/>
+                  <pin peripheral="TMR3" signal="TIMER, 0" pin_num="A8" pin_signal="GPIO_B0_06">
+                     <pin_features>
+                        <pin_feature name="slew_rate" value="Fast"/>
+                     </pin_features>
+                  </pin>
                   <pin peripheral="LPSPI4" signal="SDI" pin_num="E7" pin_signal="GPIO_B0_01"/>
                   <pin peripheral="LPSPI4" signal="SCK" pin_num="D8" pin_signal="GPIO_B0_03"/>
                   <pin peripheral="GPIO2" signal="gpio_io, 19" pin_num="D11" pin_signal="GPIO_B1_03"/>
@@ -218,15 +235,10 @@
                   <pin peripheral="GPIO2" signal="gpio_io, 04" pin_num="C8" pin_signal="GPIO_B0_04">
                      <pin_features>
                         <pin_feature name="direction" value="INPUT"/>
+                        <pin_feature name="gpio_interrupt" value="kGPIO_IntFallingEdge"/>
                         <pin_feature name="slew_rate" value="Fast"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="USDHC1" signal="usdhc_data, 0" pin_num="J1" pin_signal="GPIO_SD_B0_02"/>
-                  <pin peripheral="USDHC1" signal="usdhc_cmd" pin_num="J4" pin_signal="GPIO_SD_B0_00"/>
-                  <pin peripheral="USDHC1" signal="usdhc_clk" pin_num="J3" pin_signal="GPIO_SD_B0_01"/>
-                  <pin peripheral="USDHC1" signal="usdhc_data, 1" pin_num="K1" pin_signal="GPIO_SD_B0_03"/>
-                  <pin peripheral="USDHC1" signal="usdhc_data, 2" pin_num="H2" pin_signal="GPIO_SD_B0_04"/>
-                  <pin peripheral="USDHC1" signal="usdhc_data, 3" pin_num="J2" pin_signal="GPIO_SD_B0_05"/>
                   <pin peripheral="GPIO2" signal="gpio_io, 30" pin_num="C14" pin_signal="GPIO_B1_14">
                      <pin_features>
                         <pin_feature name="direction" value="OUTPUT"/>
@@ -262,7 +274,70 @@
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="TMR1" signal="TIMER, 0" pin_num="D7" pin_signal="GPIO_B0_00"/>
+                  <pin peripheral="GPIO2" signal="gpio_io, 20" pin_num="E12" pin_signal="GPIO_B1_04">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO2" signal="gpio_io, 21" pin_num="D12" pin_signal="GPIO_B1_05">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO2" signal="gpio_io, 22" pin_num="C12" pin_signal="GPIO_B1_06">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO2" signal="gpio_io, 23" pin_num="B12" pin_signal="GPIO_B1_07">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO2" signal="gpio_io, 24" pin_num="A12" pin_signal="GPIO_B1_08">
+                     <pin_features>
+                        <pin_feature name="identifier" value="LED_BLE_RED"/>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO2" signal="gpio_io, 25" pin_num="A13" pin_signal="GPIO_B1_09">
+                     <pin_features>
+                        <pin_feature name="identifier" value="LED_BLE_GREEN"/>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO2" signal="gpio_io, 26" pin_num="B13" pin_signal="GPIO_B1_10">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO2" signal="gpio_io, 27" pin_num="C13" pin_signal="GPIO_B1_11">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="ADC1" signal="IN, 0" pin_num="J13" pin_signal="GPIO_AD_B1_11"/>
+                  <pin peripheral="TMR1" signal="TIMER, 0" pin_num="D7" pin_signal="GPIO_B0_00">
+                     <pin_features>
+                        <pin_feature name="slew_rate" value="Fast"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO1" signal="gpio_io, 24" pin_num="H13" pin_signal="GPIO_AD_B1_08"/>
+                  <pin peripheral="GPIO1" signal="gpio_io, 25" pin_num="M13" pin_signal="GPIO_AD_B1_09"/>
+                  <pin peripheral="USDHC1" signal="usdhc_clk" pin_num="J3" pin_signal="GPIO_SD_B0_01"/>
+                  <pin peripheral="USDHC1" signal="usdhc_cmd" pin_num="J4" pin_signal="GPIO_SD_B0_00"/>
+                  <pin peripheral="USDHC1" signal="usdhc_data, 0" pin_num="J1" pin_signal="GPIO_SD_B0_02"/>
+                  <pin peripheral="USDHC1" signal="usdhc_data, 1" pin_num="K1" pin_signal="GPIO_SD_B0_03"/>
+                  <pin peripheral="USDHC1" signal="usdhc_data, 2" pin_num="H2" pin_signal="GPIO_SD_B0_04"/>
+                  <pin peripheral="USDHC1" signal="usdhc_data, 3" pin_num="J2" pin_signal="GPIO_SD_B0_05"/>
                </pins>
             </function>
          </functions_list>
@@ -525,6 +600,16 @@
                   <data type="Version">2.0.1</data>
                </feature>
             </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.adc_12b1msps_sar" description="在工具链/IDT 工程中未找到 ADC Driver。" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.adc_12b1msps_sar" description="工具链/IDT 工程中，该版本的 ADC Driver 不被支持。所需的：${required_value},，实际的： ${actual_value}。" problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">2.0.0</data>
+               </feature>
+            </dependency>
          </dependencies>
          <generated_project_files>
             <file path="board/peripherals.c" update_enabled="true"/>
@@ -703,10 +788,7 @@
                            <setting name="enableRoundRobinArbitration" value="false"/>
                            <setting name="enableDebugMode" value="false"/>
                         </struct>
-                        <array name="dma_table">
-                           <struct name="0"/>
-                           <struct name="1"/>
-                        </array>
+                        <array name="dma_table"/>
                         <array name="edma_channels"/>
                      </config_set>
                   </instance>
@@ -822,9 +904,9 @@
                            <struct name="0">
                               <setting name="channel_prefix_id" value="Channel_0"/>
                               <setting name="channel" value="kQTMR_Channel_0"/>
-                              <setting name="primarySource" value="kQTMR_ClockDivide_4"/>
+                              <setting name="primarySource" value="kQTMR_ClockDivide_1"/>
                               <setting name="secondarySource" value="kQTMR_Counter0InputPin"/>
-                              <setting name="countingMode" value="kQTMR_NoOperation"/>
+                              <setting name="countingMode" value="kQTMR_PriSrcRiseEdge"/>
                               <setting name="enableMasterMode" value="false"/>
                               <setting name="enableExternalForce" value="false"/>
                               <setting name="faultFilterCount" value="3"/>
@@ -832,8 +914,8 @@
                               <setting name="debugMode" value="kQTMR_RunNormalInDebug"/>
                               <setting name="timerModeInit" value="pwmOutput"/>
                               <struct name="pwmMode">
-                                 <setting name="freq_value_str" value="33000"/>
-                                 <setting name="dutyCyclePercent" value="0"/>
+                                 <setting name="freq_value_str" value="3300"/>
+                                 <setting name="dutyCyclePercent" value="50"/>
                                  <setting name="outputPolarity" value="false"/>
                               </struct>
                               <setting name="dmaIntMode" value="polling"/>
@@ -1053,11 +1135,12 @@
                         <setting name="enable_irq_comb_0_15" value="true"/>
                         <struct name="gpio_interrupt_comb_0_15">
                            <setting name="IRQn" value="GPIO2_Combined_0_15_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
+                           <setting name="enable_priority" value="true"/>
                            <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
+                           <setting name="enable_custom_name" value="true"/>
+                           <setting name="handler_custom_name" value="GPIO2_COMB_0_15_IRQHANDLER"/>
                         </struct>
-                        <setting name="enable_irq_comb_16_31" value="true"/>
+                        <setting name="enable_irq_comb_16_31" value="false"/>
                         <struct name="gpio_interrupt_comb_16_31">
                            <setting name="IRQn" value="GPIO2_Combined_16_31_IRQn"/>
                            <setting name="enable_priority" value="false"/>
@@ -1106,9 +1189,9 @@
                            <struct name="0">
                               <setting name="channel_prefix_id" value="Channel_0"/>
                               <setting name="channel" value="kQTMR_Channel_0"/>
-                              <setting name="primarySource" value="kQTMR_ClockDivide_2"/>
+                              <setting name="primarySource" value="kQTMR_ClockDivide_1"/>
                               <setting name="secondarySource" value="kQTMR_Counter0InputPin"/>
-                              <setting name="countingMode" value="kQTMR_NoOperation"/>
+                              <setting name="countingMode" value="kQTMR_PriSrcRiseEdge"/>
                               <setting name="enableMasterMode" value="false"/>
                               <setting name="enableExternalForce" value="false"/>
                               <setting name="faultFilterCount" value="3"/>
@@ -1116,8 +1199,8 @@
                               <setting name="debugMode" value="kQTMR_RunNormalInDebug"/>
                               <setting name="timerModeInit" value="pwmOutput"/>
                               <struct name="pwmMode">
-                                 <setting name="freq_value_str" value="33000"/>
-                                 <setting name="dutyCyclePercent" value="0"/>
+                                 <setting name="freq_value_str" value="3300"/>
+                                 <setting name="dutyCyclePercent" value="50"/>
                                  <setting name="outputPolarity" value="false"/>
                               </struct>
                               <setting name="dmaIntMode" value="polling"/>
@@ -1132,6 +1215,45 @@
                               <setting name="enable_custom_name" value="false"/>
                            </struct>
                         </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="ADC1" type="adc_12b1msps_sar" type_id="adc_12b1msps_sar_6a490e886349a7b2b07bed10ce7b299b" mode="ADC_GENERAL" peripheral="ADC1" enabled="true">
+                     <config_set name="fsl_adc">
+                        <struct name="clockConfig">
+                           <setting name="clockSource" value="kADC_ClockSourceAD"/>
+                           <setting name="clockSourceFreq" value="custom:10 MHz"/>
+                           <setting name="clockDriver" value="kADC_ClockDriver2"/>
+                           <setting name="samplePeriodMode" value="kADC_SamplePeriodShort2Clocks"/>
+                           <setting name="enableAsynchronousClockOutput" value="true"/>
+                        </struct>
+                        <struct name="conversionConfig">
+                           <setting name="resolution" value="kADC_Resolution12Bit"/>
+                           <setting name="hardwareAverageMode" value="kADC_HardwareAverageDisable"/>
+                           <setting name="enableHardwareTrigger" value="software"/>
+                           <setting name="enableHighSpeed" value="false"/>
+                           <setting name="enableLowPower" value="false"/>
+                           <setting name="enableContinuousConversion" value="false"/>
+                           <setting name="enableOverWrite" value="false"/>
+                           <setting name="enableDma" value="false"/>
+                        </struct>
+                        <struct name="resultingTime"/>
+                        <struct name="resultCorrection">
+                           <setting name="doAutoCalibration" value="false"/>
+                           <setting name="offset" value="0"/>
+                        </struct>
+                        <struct name="hardwareCompareConfiguration">
+                           <setting name="hardwareCompareMode" value="disabled"/>
+                           <setting name="value1" value="0"/>
+                           <setting name="value2" value="0"/>
+                        </struct>
+                        <setting name="enableInterrupt" value="false"/>
+                        <struct name="adc_interrupt">
+                           <setting name="IRQn" value="ADC1_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                        <array name="adc_channels_config"/>
                      </config_set>
                   </instance>
                </instances>

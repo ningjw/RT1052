@@ -29,11 +29,13 @@
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart_edma.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
+.\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc.h
 .\objects\ble_app.o: .\board\pin_mux.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_hp.h
+.\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_iomuxc.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h
 .\objects\ble_app.o: .\RTE\RTOS\FreeRTOSConfig.h
 .\objects\ble_app.o: .\RTE\_Target_1\RTE_Components.h
@@ -53,4 +55,9 @@
 .\objects\ble_app.o: .\User\inc\lpuart1.h
 .\objects\ble_app.o: .\User\inc\i2c_eeprom_drv.h
 .\objects\ble_app.o: .\User\inc\rtc_drv.h
+.\objects\ble_app.o: .\User\inc\emmc_drv.h
+.\objects\ble_app.o: .\User\inc\adc_drv.h
+.\objects\ble_app.o: .\User\inc\battery_drv.h
 .\objects\ble_app.o: .\User\inc\ble_app.h
+.\objects\ble_app.o: .\User\inc\adc_app.h
+.\objects\ble_app.o: .\User\inc\battery_app.h

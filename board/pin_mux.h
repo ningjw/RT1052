@@ -112,6 +112,56 @@ void BOARD_InitBootPins(void);
 #define BOARD_BTM_MODE_PORT                                                GPIO1   /*!< PORT device name: GPIO1 */
 #define BOARD_BTM_MODE_PIN                                                   10U   /*!< GPIO1 pin index: 10 */
 
+/* GPIO_B1_04 (coord E12), LED_POWER_RED */
+#define BOARD_LED_POWER_RED_GPIO                                           GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_POWER_RED_PORT                                           GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_POWER_RED_PIN                                              20U   /*!< GPIO2 pin index: 20 */
+
+/* GPIO_B1_05 (coord D12), LED_POWER_GREEN */
+#define BOARD_LED_POWER_GREEN_GPIO                                         GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_POWER_GREEN_PORT                                         GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_POWER_GREEN_PIN                                            21U   /*!< GPIO2 pin index: 21 */
+
+/* GPIO_B1_06 (coord C12), LED_BATTERY_RED */
+#define BOARD_LED_BATTERY_RED_GPIO                                         GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_BATTERY_RED_PORT                                         GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_BATTERY_RED_PIN                                            22U   /*!< GPIO2 pin index: 22 */
+
+/* GPIO_B1_07 (coord B12), LED_BATTERY_GREEN */
+#define BOARD_LED_BATTERY_GREEN_GPIO                                       GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_BATTERY_GREEN_PORT                                       GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_BATTERY_GREEN_PIN                                          23U   /*!< GPIO2 pin index: 23 */
+
+/* GPIO_B1_08 (coord A12), LED_BLE_RED */
+#define BOARD_LED_BLE_RED_GPIO                                             GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_BLE_RED_PORT                                             GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_BLE_RED_PIN                                                24U   /*!< GPIO2 pin index: 24 */
+
+/* GPIO_B1_09 (coord A13), LED_BLE_GREEN */
+#define BOARD_LED_BLE_GREEN_GPIO                                           GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_BLE_GREEN_PORT                                           GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_BLE_GREEN_PIN                                              25U   /*!< GPIO2 pin index: 25 */
+
+/* GPIO_B1_10 (coord B13), LED_STATUS_RED */
+#define BOARD_LED_STATUS_RED_GPIO                                          GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_STATUS_RED_PORT                                          GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_STATUS_RED_PIN                                             26U   /*!< GPIO2 pin index: 26 */
+
+/* GPIO_B1_11 (coord C13), LED_STATUS_GREEN */
+#define BOARD_LED_STATUS_GREEN_GPIO                                        GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_STATUS_GREEN_PORT                                        GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_STATUS_GREEN_PIN                                           27U   /*!< GPIO2 pin index: 27 */
+
+/* GPIO_AD_B1_08 (coord H13), CHARGING */
+#define BOARD_CHARGING_GPIO                                                GPIO1   /*!< GPIO device name: GPIO1 */
+#define BOARD_CHARGING_PORT                                                GPIO1   /*!< PORT device name: GPIO1 */
+#define BOARD_CHARGING_PIN                                                   24U   /*!< GPIO1 pin index: 24 */
+
+/* GPIO_AD_B1_09 (coord M13), CHARGE_COMPELETE */
+#define BOARD_CHARGE_COMPELETE_GPIO                                        GPIO1   /*!< GPIO device name: GPIO1 */
+#define BOARD_CHARGE_COMPELETE_PORT                                        GPIO1   /*!< PORT device name: GPIO1 */
+#define BOARD_CHARGE_COMPELETE_PIN                                           25U   /*!< GPIO1 pin index: 25 */
+
 
 /*!
  * @brief Configures pin routing and optionally pin electrical features.
