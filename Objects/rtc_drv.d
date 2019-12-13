@@ -51,6 +51,7 @@
 .\objects\rtc_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
 .\objects\rtc_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
 .\objects\rtc_drv.o: .\User\inc\task_app.h
+.\objects\rtc_drv.o: .\cjson\cJSON.h
 .\objects\rtc_drv.o: .\User\inc\interrupt.h
 .\objects\rtc_drv.o: .\User\inc\lpuart1.h
 .\objects\rtc_drv.o: .\User\inc\i2c_eeprom_drv.h

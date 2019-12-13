@@ -28,3 +28,8 @@
 .\objects\emmc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h
 .\objects\emmc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h
 .\objects\emmc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h
+.\objects\emmc_drv.o: .\fatfs\ff.h
+.\objects\emmc_drv.o: .\fatfs\integer.h
+.\objects\emmc_drv.o: .\fatfs\ffconf.h
+.\objects\emmc_drv.o: .\fatfs\fsl_mmc_disk\fsl_mmc_disk.h
+.\objects\emmc_drv.o: .\fatfs\diskio.h

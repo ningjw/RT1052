@@ -29,7 +29,7 @@
         GPIO_PortEnableInterrupts(BOARD_USDHC_CD_GPIO_BASE, 1U << BOARD_USDHC_CD_GPIO_PIN); \
         GPIO_PortClearInterruptFlags(BOARD_USDHC_CD_GPIO_BASE, ~0);                         \
     }
-#define BOARD_HAS_SDCARD (1U)
+#define BOARD_HAS_SDCARD (0U)
 #define BOARD_SD_POWER_RESET_GPIO (GPIO1)
 #define BOARD_SD_POWER_RESET_GPIO_PIN (5U)
 
@@ -65,9 +65,9 @@
 
 #define BOARD_MMC_HOST_BASEADDR BOARD_USDHC1_BASEADDR
 #define BOARD_MMC_HOST_CLK_FREQ BOARD_USDHC1_CLK_FREQ
-#define BOARD_MMC_HOST_IRQ USDHC1_IRQn
-#define BOARD_MMC_VCCQ_SUPPLY kMMC_VoltageWindow170to195
-#define BOARD_MMC_VCC_SUPPLY kMMC_VoltageWindows270to360
+#define BOARD_MMC_HOST_IRQ      USDHC1_IRQn
+#define BOARD_MMC_VCCQ_SUPPLY   kMMC_VoltageWindow170to195
+#define BOARD_MMC_VCC_SUPPLY    kMMC_VoltageWindows270to360
 
 /* we are using the BB SD socket to DEMO the MMC example,but the
 * SD socket provide 4bit bus only, so we define this macro to avoid

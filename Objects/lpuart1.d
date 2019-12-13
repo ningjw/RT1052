@@ -51,6 +51,7 @@
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
 .\objects\lpuart1.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
 .\objects\lpuart1.o: .\User\inc\task_app.h
+.\objects\lpuart1.o: .\cjson\cJSON.h
 .\objects\lpuart1.o: .\User\inc\interrupt.h
 .\objects\lpuart1.o: .\User\inc\lpuart1.h
 .\objects\lpuart1.o: .\User\inc\i2c_eeprom_drv.h

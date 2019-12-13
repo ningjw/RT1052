@@ -773,11 +773,6 @@
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="TMR1.tmr_out.0" description="Timer output 0 of peripheral TMR1 is not routed" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
                </dependencies>
                <instances>
                   <instance name="eDMA" type="edma" type_id="edma_a23fca76a894e1bcdf9d01a687505ff9" mode="basic" peripheral="DMA0" enabled="true">
@@ -1189,7 +1184,7 @@
                            <struct name="0">
                               <setting name="channel_prefix_id" value="Channel_0"/>
                               <setting name="channel" value="kQTMR_Channel_0"/>
-                              <setting name="primarySource" value="kQTMR_ClockDivide_1"/>
+                              <setting name="primarySource" value="kQTMR_ClockDivide_4"/>
                               <setting name="secondarySource" value="kQTMR_Counter0InputPin"/>
                               <setting name="countingMode" value="kQTMR_PriSrcRiseEdge"/>
                               <setting name="enableMasterMode" value="false"/>
@@ -1197,17 +1192,22 @@
                               <setting name="faultFilterCount" value="3"/>
                               <setting name="faultFilterPeriod" value="0"/>
                               <setting name="debugMode" value="kQTMR_RunNormalInDebug"/>
-                              <setting name="timerModeInit" value="pwmOutput"/>
-                              <struct name="pwmMode">
-                                 <setting name="freq_value_str" value="3300"/>
-                                 <setting name="dutyCyclePercent" value="50"/>
-                                 <setting name="outputPolarity" value="false"/>
+                              <setting name="timerModeInit" value="inputCapture"/>
+                              <struct name="inputCaptureMode">
+                                 <setting name="inputPolarity" value="false"/>
+                                 <setting name="reloadOnCapture" value="true"/>
+                                 <setting name="captureMode" value="kQTMR_RisingAndFallingEdge"/>
                               </struct>
-                              <setting name="dmaIntMode" value="polling"/>
+                              <setting name="dmaIntMode" value="interrupt"/>
+                              <set name="interrupts">
+                                 <selected>
+                                    <id>kQTMR_EdgeInterruptEnable</id>
+                                 </selected>
+                              </set>
                            </struct>
                         </array>
                         <struct name="interruptVector">
-                           <setting name="enable_irq" value="false"/>
+                           <setting name="enable_irq" value="true"/>
                            <struct name="interrupt">
                               <setting name="IRQn" value="TMR1_IRQn"/>
                               <setting name="enable_priority" value="false"/>

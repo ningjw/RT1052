@@ -342,7 +342,7 @@
 </MiscControls>
               <Define>CPU_MIMXRT1052CVL5B,XIP_EXTERNAL_FLASH=1, XIP_BOOT_HEADER_ENABLE =1,XIP_BOOT_HEADER_DCD_ENABLE =1,PRINTF_FLOAT_ENABLE=1,PRINTF_ADVANCED_ENABLE=1</Define>
               <Undefine></Undefine>
-              <IncludePath>.\board;.\User\inc;.\xip;.\sdmmc\inc;.\sdmmc\port\freertos</IncludePath>
+              <IncludePath>.\board;.\User\inc;.\xip;.\sdmmc\inc;.\sdmmc\port\freertos;.\fatfs;.\fatfs\fsl_mmc_disk;.\cjson</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -420,6 +420,11 @@
         <Group>
           <GroupName>Driver</GroupName>
           <Files>
+            <File>
+              <FileName>cJSON.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\cjson\cJSON.c</FilePath>
+            </File>
             <File>
               <FileName>lpuart1.c</FileName>
               <FileType>1</FileType>
@@ -499,6 +504,36 @@
               <FileName>fsl_mmc.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\sdmmc\src\fsl_mmc.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>fatfs</GroupName>
+          <Files>
+            <File>
+              <FileName>ff.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\fatfs\ff.c</FilePath>
+            </File>
+            <File>
+              <FileName>fsl_mmc_disk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\fatfs\fsl_mmc_disk\fsl_mmc_disk.c</FilePath>
+            </File>
+            <File>
+              <FileName>ffsystem.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\fatfs\ffsystem.c</FilePath>
+            </File>
+            <File>
+              <FileName>ffunicode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\fatfs\ffunicode.c</FilePath>
+            </File>
+            <File>
+              <FileName>diskio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\fatfs\diskio.c</FilePath>
             </File>
           </Files>
         </Group>

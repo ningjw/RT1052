@@ -51,6 +51,7 @@
 .\objects\adc_app.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
 .\objects\adc_app.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
 .\objects\adc_app.o: .\User\inc\task_app.h
+.\objects\adc_app.o: .\cjson\cJSON.h
 .\objects\adc_app.o: .\User\inc\interrupt.h
 .\objects\adc_app.o: .\User\inc\lpuart1.h
 .\objects\adc_app.o: .\User\inc\i2c_eeprom_drv.h

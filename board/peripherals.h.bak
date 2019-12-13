@@ -115,10 +115,6 @@ extern "C" {
 #define GPIO2_GPIO_COMB_0_15_IRQ_PRIORITY 0
 /* GPIO2 interrupt handler identifier. */
 #define GPIO2_COMB_0_15_IRQHANDLER GPIO2_Combined_0_15_IRQHandler
-/* GPIO2 interrupt vector ID (number). */
-#define GPIO2_GPIO_COMB_16_31_IRQN GPIO2_Combined_16_31_IRQn
-/* GPIO2 interrupt handler identifier. */
-#define GPIO2_GPIO_COMB_16_31_IRQHANDLER GPIO2_Combined_16_31_IRQHandler
 /* BOARD_InitPeripherals defines for LPI2C3 */
 /* Definition of peripheral ID */
 #define LPI2C3_PERIPHERAL LPI2C3

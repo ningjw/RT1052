@@ -51,6 +51,7 @@
 .\objects\battery_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
 .\objects\battery_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
 .\objects\battery_drv.o: .\User\inc\task_app.h
+.\objects\battery_drv.o: .\cjson\cJSON.h
 .\objects\battery_drv.o: .\User\inc\interrupt.h
 .\objects\battery_drv.o: .\User\inc\lpuart1.h
 .\objects\battery_drv.o: .\User\inc\i2c_eeprom_drv.h

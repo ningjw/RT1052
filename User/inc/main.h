@@ -22,6 +22,7 @@
 #include "timers.h"
 #include "task_app.h"
 
+#include "cJSON.h"
 #include "interrupt.h"
 #include "lpuart1.h"
 #include "i2c_eeprom_drv.h"

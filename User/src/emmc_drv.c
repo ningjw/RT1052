@@ -2,10 +2,10 @@
 #include "fsl_iomuxc.h"
 #include "fsl_mmc.h"
 #include "fsl_debug_console.h"
-
-/*! @brief Card结构描述符. */
-mmc_card_t g_emmc;
-
+#include "ff.h"
+#include "fsl_mmc_disk.h"
+/*文件系统描述结构体*/
+FATFS g_fileSystem; /* File system object */
 
 /***************************************************************************************
   * @brief
@@ -65,28 +65,30 @@ static void BOARD_USDHCClockConfiguration(void)
   * @input
   * @return
 ***************************************************************************************/
-int emmc_init(void)
+void emmc_init(void)
 {
-    mmc_card_t *emmc = &g_emmc;
+    FRESULT res = FR_OK;
+    const TCHAR driverNumberBuffer[3U] = {MMCDISK + '0', ':', '/'};
+    BYTE work[FF_MAX_SS];
+    
     /* 初始化SD外设时钟 */
     BOARD_USDHCClockConfiguration();
-
-    emmc->host.base = MMC_HOST_BASEADDR;
-    emmc->host.sourceClock_Hz = MMC_HOST_CLK_FREQ;
-
-    /* SD主机初始化函数 */
-    if (MMC_HostInit(emmc) != kStatus_Success)
-    {
-        PRINTF("\r\nSD主机初始化失败\r\n");
-        return -1;
+    
+    res = f_mount(&g_fileSystem, driverNumberBuffer, 0U);
+    if (res == FR_NO_FILESYSTEM){
+        PRINTF("开始制作文件系统");
+        if (f_mkfs(driverNumberBuffer, FM_ANY, 0U, work, sizeof work) == FR_OK){
+            //重新挂载系统
+            if(f_mount(&g_fileSystem, driverNumberBuffer, 0U) != FR_OK){
+                PRINTF("eMMC错误");
+            }
+        }
     }
-    /* 初始化SD卡 */
-    if (MMC_CardInit(emmc))
-    {
-        PRINTF("\r\nSD初始化失败\r\n");
-        return -1;
+    else if(res == FR_OK){
+        PRINTF("文件挂载成功");
+    }else {
+        PRINTF("eMMC错误");
     }
-    return 0;
 }
 
 
