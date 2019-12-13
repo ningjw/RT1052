@@ -61,7 +61,7 @@ extern "C" {
 /* Definition of peripheral ID */
 #define LPI2C1_PERIPHERAL LPI2C1
 /* Definition of clock source */
-#define LPI2C1_CLOCK_FREQ 3000000UL
+#define LPI2C1_CLOCK_FREQ 1000000UL
 /* Definition of peripheral ID */
 #define QUADTIMER3_PERIPHERAL TMR3
 /* Definition of the timer channel Channel_0. */
@@ -119,7 +119,7 @@ extern "C" {
 /* Definition of peripheral ID */
 #define LPI2C3_PERIPHERAL LPI2C3
 /* Definition of clock source */
-#define LPI2C3_CLOCK_FREQ 3000000UL
+#define LPI2C3_CLOCK_FREQ 1000000UL
 /* Definition of peripheral ID */
 #define QUADTIMER1_PERIPHERAL TMR1
 /* Definition of the timer channel Channel_0. */

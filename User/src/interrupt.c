@@ -30,6 +30,13 @@ void PIT_IRQHandler(void)
         PIT_ClearStatusFlags(PIT, kPIT_Chnl_1, kPIT_TimerFlag);
         //控制led灯闪烁
         BOARD_LED_PORT->DR ^= (1 << BOARD_LED_PIN);
+        
+        /* 获取日期 */
+        SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
+        /* 打印日期&时间 */ 
+        PRINTF("%02d-%02d-%02d  %02d:%02d:%02d \r\n", 
+               rtcDate.year,rtcDate.month, rtcDate.day,rtcDate.hour,
+               rtcDate.minute, rtcDate.second);
     }
 
     __DSB();

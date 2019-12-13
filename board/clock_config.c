@@ -67,7 +67,7 @@ outputs:
 - {id: GPT2_ipg_clk_highfreq.outFreq, value: 66 MHz}
 - {id: IPG_CLK_ROOT.outFreq, value: 132 MHz}
 - {id: LCDIF_CLK_ROOT.outFreq, value: 3 MHz}
-- {id: LPI2C_CLK_ROOT.outFreq, value: 3 MHz}
+- {id: LPI2C_CLK_ROOT.outFreq, value: 1 MHz}
 - {id: LPSPI_CLK_ROOT.outFreq, value: 24 MHz}
 - {id: LVDS1_CLK.outFreq, value: 1.056 GHz}
 - {id: MQS_MCLK.outFreq, value: 2 MHz}
@@ -100,6 +100,7 @@ settings:
 - {id: CCM.FLEXIO2_CLK_PODF.scale, value: '2', locked: true}
 - {id: CCM.FLEXSPI_PODF.scale, value: '3', locked: true}
 - {id: CCM.FLEXSPI_SEL.sel, value: CCM_ANALOG.PLL2_PFD2_CLK}
+- {id: CCM.LPI2C_CLK_PODF.scale, value: '3', locked: true}
 - {id: CCM.LPSPI_CLK_SEL.sel, value: CCM_ANALOG.PLL3_PFD0_CLK}
 - {id: CCM.LPSPI_PODF.scale, value: '1', locked: true}
 - {id: CCM.PERCLK_PODF.scale, value: '2', locked: true}
@@ -299,7 +300,7 @@ void BOARD_BootClockRUN(void)
     CLOCK_DisableClock(kCLOCK_Lpi2c2);
     CLOCK_DisableClock(kCLOCK_Lpi2c3);
     /* Set LPI2C_CLK_PODF. */
-    CLOCK_SetDiv(kCLOCK_Lpi2cDiv, 0);
+    CLOCK_SetDiv(kCLOCK_Lpi2cDiv, 2);
     /* Set Lpi2c clock source. */
     CLOCK_SetMux(kCLOCK_Lpi2cMux, 0);
     /* Disable CAN clock gate. */

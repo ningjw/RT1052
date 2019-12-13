@@ -95,11 +95,6 @@ void BLE_AppTask(void)
     
     while(1)
     {
-        /* 获取日期 */
-        SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
-        /* 打印日期&时间 */ 
-        PRINTF("BLE TASK:%02d-%02d-%02d  %02d:%02d:%02d \r\n", rtcDate.year,rtcDate.month, rtcDate.day,rtcDate.hour, rtcDate.minute, rtcDate.second);
-        
         xSemaphoreTake(RecvAckSem, portMAX_DELAY);//获取信号量
         LPUART2_SendString((char *)receiveXfer.data);
     }
