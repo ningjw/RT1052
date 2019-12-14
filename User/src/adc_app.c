@@ -6,7 +6,30 @@ TaskHandle_t ADC_TaskHandle = NULL;  /* ADC任务句柄 */
 SemaphoreHandle_t ADCRdySem = NULL;//ADC ready信号量，
 
 
-void ADC_AppTask(void);
+/***************************************************************************************
+  * @brief   ADC_READY 引脚中断，下降沿中断
+  * @input   
+  * @return  
+***************************************************************************************/
+void GPIO2_Combined_0_15_IRQHandler(void)
+{
+    /* 清除中断标志位 */
+    GPIO_PortClearInterruptFlags(BOARD_ADC_RDY_GPIO, 1U << BOARD_ADC_RDY_PIN);
+    xSemaphoreGive( ADCRdySem );
+    __DSB();
+}
+
+/***************************************************************************************
+  * @brief   
+  * @input   
+  * @return  
+***************************************************************************************/
+void TMR1_IRQHandler(void)
+{
+    /* 清除中断标志 */
+    QTMR_ClearStatusFlags(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_EdgeFlag);
+    QTMR_GetCurrentTimerCount(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL);//读取寄存器值
+}
 
 /***********************************************************************
   * @ 函数名  ： ADC_AppTask
@@ -25,16 +48,5 @@ void ADC_AppTask(void)
     }
 }
 
-/***************************************************************************************
-  * @brief   ADC_READY 引脚中断，下降沿中断
-  * @input   
-  * @return  
-***************************************************************************************/
-void GPIO2_Combined_0_15_IRQHandler(void)
-{
-    /* 清除中断标志位 */
-    GPIO_PortClearInterruptFlags(BOARD_ADC_RDY_GPIO, 1U << BOARD_ADC_RDY_PIN);
-    xSemaphoreGive( ADCRdySem );
-    __DSB();
-}
+
 

@@ -209,11 +209,6 @@
                         <pin_feature name="pull_up_down_config" value="Pull_Down_100K_Ohm"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="LPUART2" signal="RX" pin_num="M12" pin_signal="GPIO_AD_B1_03">
-                     <pin_features>
-                        <pin_feature name="pull_up_down_config" value="Pull_Down_100K_Ohm"/>
-                     </pin_features>
-                  </pin>
                   <pin peripheral="LPUART2" signal="TX" pin_num="L11" pin_signal="GPIO_AD_B1_02"/>
                   <pin peripheral="GPIO2" signal="gpio_io, 11" pin_num="A10" pin_signal="GPIO_B0_11">
                      <pin_features>
@@ -333,7 +328,13 @@
                   <pin peripheral="ADC1" signal="IN, 0" pin_num="J13" pin_signal="GPIO_AD_B1_11"/>
                   <pin peripheral="TMR1" signal="TIMER, 0" pin_num="D7" pin_signal="GPIO_B0_00">
                      <pin_features>
-                        <pin_feature name="slew_rate" value="Fast"/>
+                        <pin_feature name="hysteresis_enable" value="Enable"/>
+                        <pin_feature name="pull_up_down_config" value="Pull_Up_22K_Ohm"/>
+                        <pin_feature name="pull_keeper_select" value="Keeper"/>
+                        <pin_feature name="pull_keeper_enable" value="Disable"/>
+                        <pin_feature name="open_drain" value="Enable"/>
+                        <pin_feature name="drive_strength" value="Disabled"/>
+                        <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="GPIO1" signal="gpio_io, 24" pin_num="H13" pin_signal="GPIO_AD_B1_08"/>
@@ -344,6 +345,7 @@
                   <pin peripheral="USDHC1" signal="usdhc_data, 1" pin_num="K1" pin_signal="GPIO_SD_B0_03"/>
                   <pin peripheral="USDHC1" signal="usdhc_data, 2" pin_num="H2" pin_signal="GPIO_SD_B0_04"/>
                   <pin peripheral="USDHC1" signal="usdhc_data, 3" pin_num="J2" pin_signal="GPIO_SD_B0_05"/>
+                  <pin peripheral="LPUART2" signal="RX" pin_num="M12" pin_signal="GPIO_AD_B1_03"/>
                </pins>
             </function>
          </functions_list>
@@ -924,7 +926,7 @@
                            </struct>
                         </array>
                         <struct name="interruptVector">
-                           <setting name="enable_irq" value="false"/>
+                           <setting name="enable_irq" value="true"/>
                            <struct name="interrupt">
                               <setting name="IRQn" value="TMR3_IRQn"/>
                               <setting name="enable_priority" value="false"/>
@@ -1191,7 +1193,7 @@
                            <struct name="0">
                               <setting name="channel_prefix_id" value="Channel_0"/>
                               <setting name="channel" value="kQTMR_Channel_0"/>
-                              <setting name="primarySource" value="kQTMR_ClockDivide_4"/>
+                              <setting name="primarySource" value="kQTMR_ClockDivide_2"/>
                               <setting name="secondarySource" value="kQTMR_Counter0InputPin"/>
                               <setting name="countingMode" value="kQTMR_PriSrcRiseEdge"/>
                               <setting name="enableMasterMode" value="false"/>
@@ -1203,7 +1205,7 @@
                               <struct name="inputCaptureMode">
                                  <setting name="inputPolarity" value="false"/>
                                  <setting name="reloadOnCapture" value="true"/>
-                                 <setting name="captureMode" value="kQTMR_RisingAndFallingEdge"/>
+                                 <setting name="captureMode" value="kQTMR_RisingEdge"/>
                               </struct>
                               <setting name="dmaIntMode" value="interrupt"/>
                               <set name="interrupts">

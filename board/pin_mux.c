@@ -84,7 +84,6 @@ BOARD:
   - {pin_num: A11, peripheral: LPUART4, signal: TX, pin_signal: GPIO_B1_00}
   - {pin_num: C9, peripheral: LPUART3, signal: RX, pin_signal: GPIO_B0_09}
   - {pin_num: B9, peripheral: LPUART3, signal: TX, pin_signal: GPIO_B0_08, pull_up_down_config: Pull_Down_100K_Ohm}
-  - {pin_num: M12, peripheral: LPUART2, signal: RX, pin_signal: GPIO_AD_B1_03, pull_up_down_config: Pull_Down_100K_Ohm}
   - {pin_num: L11, peripheral: LPUART2, signal: TX, pin_signal: GPIO_AD_B1_02}
   - {pin_num: A10, peripheral: GPIO2, signal: 'gpio_io, 11', pin_signal: GPIO_B0_11, direction: OUTPUT, gpio_init_state: 'false'}
   - {pin_num: E11, peripheral: GPIO2, signal: 'gpio_io, 15', pin_signal: GPIO_B0_15, direction: OUTPUT}
@@ -110,7 +109,8 @@ BOARD:
   - {pin_num: B13, peripheral: GPIO2, signal: 'gpio_io, 26', pin_signal: GPIO_B1_10, identifier: LED_SYS_RED, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: C13, peripheral: GPIO2, signal: 'gpio_io, 27', pin_signal: GPIO_B1_11, identifier: LED_SYS_GREEN, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: J13, peripheral: ADC1, signal: 'IN, 0', pin_signal: GPIO_AD_B1_11}
-  - {pin_num: D7, peripheral: TMR1, signal: 'TIMER, 0', pin_signal: GPIO_B0_00, slew_rate: Fast}
+  - {pin_num: D7, peripheral: TMR1, signal: 'TIMER, 0', pin_signal: GPIO_B0_00, hysteresis_enable: Enable, pull_up_down_config: Pull_Up_22K_Ohm, pull_keeper_select: Keeper,
+    pull_keeper_enable: Disable, open_drain: Enable, drive_strength: Disabled, slew_rate: Slow}
   - {pin_num: H13, peripheral: GPIO1, signal: 'gpio_io, 24', pin_signal: GPIO_AD_B1_08}
   - {pin_num: M13, peripheral: GPIO1, signal: 'gpio_io, 25', pin_signal: GPIO_AD_B1_09}
   - {pin_num: J3, peripheral: USDHC1, signal: usdhc_clk, pin_signal: GPIO_SD_B0_01}
@@ -119,6 +119,7 @@ BOARD:
   - {pin_num: K1, peripheral: USDHC1, signal: 'usdhc_data, 1', pin_signal: GPIO_SD_B0_03}
   - {pin_num: H2, peripheral: USDHC1, signal: 'usdhc_data, 2', pin_signal: GPIO_SD_B0_04}
   - {pin_num: J2, peripheral: USDHC1, signal: 'usdhc_data, 3', pin_signal: GPIO_SD_B0_05}
+  - {pin_num: M12, peripheral: LPUART2, signal: RX, pin_signal: GPIO_AD_B1_03}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -483,16 +484,6 @@ void BOARD(void) {
                                                  Pull Up / Down Config. Field: 100K Ohm Pull Down
                                                  Hyst. Enable Field: Hysteresis Disabled */
   IOMUXC_SetPinConfig(
-      IOMUXC_GPIO_AD_B1_03_LPUART2_RX,        /* GPIO_AD_B1_03 PAD functional properties : */
-      0x10B0U);                               /* Slew Rate Field: Slow Slew Rate
-                                                 Drive Strength Field: R0/6
-                                                 Speed Field: medium(100MHz)
-                                                 Open Drain Enable Field: Open Drain Disabled
-                                                 Pull / Keep Enable Field: Pull/Keeper Enabled
-                                                 Pull / Keep Select Field: Keeper
-                                                 Pull Up / Down Config. Field: 100K Ohm Pull Down
-                                                 Hyst. Enable Field: Hysteresis Disabled */
-  IOMUXC_SetPinConfig(
       IOMUXC_GPIO_AD_B1_06_LPI2C3_SDA,        /* GPIO_AD_B1_06 PAD functional properties : */
       0x38B0U);                               /* Slew Rate Field: Slow Slew Rate
                                                  Drive Strength Field: R0/6
@@ -514,14 +505,14 @@ void BOARD(void) {
                                                  Hyst. Enable Field: Hysteresis Disabled */
   IOMUXC_SetPinConfig(
       IOMUXC_GPIO_B0_00_QTIMER1_TIMER0,       /* GPIO_B0_00 PAD functional properties : */
-      0x10B1U);                               /* Slew Rate Field: Fast Slew Rate
-                                                 Drive Strength Field: R0/6
+      0x01C880U);                             /* Slew Rate Field: Slow Slew Rate
+                                                 Drive Strength Field: output driver disabled;
                                                  Speed Field: medium(100MHz)
-                                                 Open Drain Enable Field: Open Drain Disabled
-                                                 Pull / Keep Enable Field: Pull/Keeper Enabled
+                                                 Open Drain Enable Field: Open Drain Enabled
+                                                 Pull / Keep Enable Field: Pull/Keeper Disabled
                                                  Pull / Keep Select Field: Keeper
-                                                 Pull Up / Down Config. Field: 100K Ohm Pull Down
-                                                 Hyst. Enable Field: Hysteresis Disabled */
+                                                 Pull Up / Down Config. Field: 22K Ohm Pull Up
+                                                 Hyst. Enable Field: Hysteresis Enabled */
   IOMUXC_SetPinConfig(
       IOMUXC_GPIO_B0_04_GPIO2_IO04,           /* GPIO_B0_04 PAD functional properties : */
       0x10B1U);                               /* Slew Rate Field: Fast Slew Rate

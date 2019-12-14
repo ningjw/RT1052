@@ -63,6 +63,11 @@ static void InitSysPara()
 }
 
 
+
+extern void QuadTimer3_init(void);
+
+
+
 /***************************************************************************************
   * @brief   入口函数
   * @input   
@@ -77,7 +82,6 @@ int main(void)
     BOARD_InitPeripherals();
     BOARD_InitDebugConsole();
     PRINTF("***** Welcome *****\r\n");
-    
     InitSysPara();
     EEPROM_Test();
     RTC_Config();//实时时钟初始化

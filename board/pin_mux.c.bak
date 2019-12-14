@@ -33,14 +33,14 @@ pin_labels:
 - {pin_num: G10, pin_signal: GPIO_AD_B0_11, label: E103_SETDF, identifier: E103_SETDF}
 - {pin_num: L12, pin_signal: GPIO_AD_B1_04, label: BTM_EN, identifier: BTM_EN}
 - {pin_num: L10, pin_signal: GPIO_AD_B0_15, label: PWR_AL, identifier: PWR_AL}
-- {pin_num: E12, pin_signal: GPIO_B1_04, label: LED_POWER_RED, identifier: LED_POWER_RED}
-- {pin_num: D12, pin_signal: GPIO_B1_05, label: LED_POWER_GREEN, identifier: LED_POWER_GREEN}
-- {pin_num: C12, pin_signal: GPIO_B1_06, label: LED_BATTERY_RED, identifier: LED_BATTERY_RED}
-- {pin_num: B12, pin_signal: GPIO_B1_07, label: LED_BATTERY_GREEN, identifier: LED_BATTERY_GREEN}
+- {pin_num: E12, pin_signal: GPIO_B1_04, label: LED_PWR_RED, identifier: LED_POWER_RED;LED_PWR_RED}
+- {pin_num: D12, pin_signal: GPIO_B1_05, label: LED_PWR_GREEN, identifier: LED_POWER_GREEN;LED_PWR_GREEN}
+- {pin_num: C12, pin_signal: GPIO_B1_06, label: LED_BAT_RED, identifier: LED_BATTERY_RED;LED_BAT_RED}
+- {pin_num: B12, pin_signal: GPIO_B1_07, label: ED_BAT_GREEN, identifier: LED_BATTERY_GREEN;LED_BAT_GREEN}
 - {pin_num: A12, pin_signal: GPIO_B1_08, label: LED_BLE_RED, identifier: LED_BT_RED;LED_BLE_RED}
 - {pin_num: A13, pin_signal: GPIO_B1_09, label: LED_BLE_GREEN, identifier: LED_BT_GREEN;LED_BLE_GREEN}
-- {pin_num: B13, pin_signal: GPIO_B1_10, label: LED_STATUS_RED, identifier: LED_STATUS_RED}
-- {pin_num: C13, pin_signal: GPIO_B1_11, label: LED_STATUS_GREEN, identifier: LED_STATUS_GREEN}
+- {pin_num: B13, pin_signal: GPIO_B1_10, label: LED_SYS_RED, identifier: LED_STATUS_RED;LED_SYS_RED}
+- {pin_num: C13, pin_signal: GPIO_B1_11, label: LED_SYS_GREEN, identifier: LED_STATUS_GREEN;LED_SYS_GREEN}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -84,7 +84,6 @@ BOARD:
   - {pin_num: A11, peripheral: LPUART4, signal: TX, pin_signal: GPIO_B1_00}
   - {pin_num: C9, peripheral: LPUART3, signal: RX, pin_signal: GPIO_B0_09}
   - {pin_num: B9, peripheral: LPUART3, signal: TX, pin_signal: GPIO_B0_08, pull_up_down_config: Pull_Down_100K_Ohm}
-  - {pin_num: M12, peripheral: LPUART2, signal: RX, pin_signal: GPIO_AD_B1_03, pull_up_down_config: Pull_Down_100K_Ohm}
   - {pin_num: L11, peripheral: LPUART2, signal: TX, pin_signal: GPIO_AD_B1_02}
   - {pin_num: A10, peripheral: GPIO2, signal: 'gpio_io, 11', pin_signal: GPIO_B0_11, direction: OUTPUT, gpio_init_state: 'false'}
   - {pin_num: E11, peripheral: GPIO2, signal: 'gpio_io, 15', pin_signal: GPIO_B0_15, direction: OUTPUT}
@@ -101,16 +100,17 @@ BOARD:
   - {pin_num: G10, peripheral: GPIO1, signal: 'gpio_io, 11', pin_signal: GPIO_AD_B0_11, direction: OUTPUT}
   - {pin_num: L12, peripheral: GPIO1, signal: 'gpio_io, 20', pin_signal: GPIO_AD_B1_04, direction: OUTPUT}
   - {pin_num: G13, peripheral: GPIO1, signal: 'gpio_io, 10', pin_signal: GPIO_AD_B0_10, direction: OUTPUT}
-  - {pin_num: E12, peripheral: GPIO2, signal: 'gpio_io, 20', pin_signal: GPIO_B1_04, direction: OUTPUT, gpio_init_state: 'true'}
-  - {pin_num: D12, peripheral: GPIO2, signal: 'gpio_io, 21', pin_signal: GPIO_B1_05, direction: OUTPUT, gpio_init_state: 'true'}
-  - {pin_num: C12, peripheral: GPIO2, signal: 'gpio_io, 22', pin_signal: GPIO_B1_06, direction: OUTPUT, gpio_init_state: 'true'}
-  - {pin_num: B12, peripheral: GPIO2, signal: 'gpio_io, 23', pin_signal: GPIO_B1_07, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: E12, peripheral: GPIO2, signal: 'gpio_io, 20', pin_signal: GPIO_B1_04, identifier: LED_PWR_RED, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: D12, peripheral: GPIO2, signal: 'gpio_io, 21', pin_signal: GPIO_B1_05, identifier: LED_PWR_GREEN, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: C12, peripheral: GPIO2, signal: 'gpio_io, 22', pin_signal: GPIO_B1_06, identifier: LED_BAT_RED, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: B12, peripheral: GPIO2, signal: 'gpio_io, 23', pin_signal: GPIO_B1_07, identifier: LED_BAT_GREEN, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: A12, peripheral: GPIO2, signal: 'gpio_io, 24', pin_signal: GPIO_B1_08, identifier: LED_BLE_RED, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: A13, peripheral: GPIO2, signal: 'gpio_io, 25', pin_signal: GPIO_B1_09, identifier: LED_BLE_GREEN, direction: OUTPUT, gpio_init_state: 'true'}
-  - {pin_num: B13, peripheral: GPIO2, signal: 'gpio_io, 26', pin_signal: GPIO_B1_10, direction: OUTPUT, gpio_init_state: 'true'}
-  - {pin_num: C13, peripheral: GPIO2, signal: 'gpio_io, 27', pin_signal: GPIO_B1_11, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: B13, peripheral: GPIO2, signal: 'gpio_io, 26', pin_signal: GPIO_B1_10, identifier: LED_SYS_RED, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: C13, peripheral: GPIO2, signal: 'gpio_io, 27', pin_signal: GPIO_B1_11, identifier: LED_SYS_GREEN, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: J13, peripheral: ADC1, signal: 'IN, 0', pin_signal: GPIO_AD_B1_11}
-  - {pin_num: D7, peripheral: TMR1, signal: 'TIMER, 0', pin_signal: GPIO_B0_00, slew_rate: Fast}
+  - {pin_num: D7, peripheral: TMR1, signal: 'TIMER, 0', pin_signal: GPIO_B0_00, hysteresis_enable: Enable, pull_up_down_config: Pull_Up_22K_Ohm, pull_keeper_select: Keeper,
+    pull_keeper_enable: Disable, open_drain: Enable, drive_strength: Disabled, slew_rate: Slow}
   - {pin_num: H13, peripheral: GPIO1, signal: 'gpio_io, 24', pin_signal: GPIO_AD_B1_08}
   - {pin_num: M13, peripheral: GPIO1, signal: 'gpio_io, 25', pin_signal: GPIO_AD_B1_09}
   - {pin_num: J3, peripheral: USDHC1, signal: usdhc_clk, pin_signal: GPIO_SD_B0_01}
@@ -119,6 +119,8 @@ BOARD:
   - {pin_num: K1, peripheral: USDHC1, signal: 'usdhc_data, 1', pin_signal: GPIO_SD_B0_03}
   - {pin_num: H2, peripheral: USDHC1, signal: 'usdhc_data, 2', pin_signal: GPIO_SD_B0_04}
   - {pin_num: J2, peripheral: USDHC1, signal: 'usdhc_data, 3', pin_signal: GPIO_SD_B0_05}
+  - {pin_num: M12, peripheral: TMR3, signal: 'TIMER, 3', pin_signal: GPIO_AD_B1_03, hysteresis_enable: Enable, pull_up_down_config: Pull_Up_22K_Ohm, pull_keeper_enable: Disable,
+    open_drain: Enable, drive_strength: Disabled, slew_rate: Slow}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -223,41 +225,41 @@ void BOARD(void) {
   /* Initialize GPIO functionality on GPIO_B0_15 (pin E11) */
   GPIO_PinInit(GPIO2, 15U, &ADC_FORMAT_config);
 
-  /* GPIO configuration of LED_POWER_RED on GPIO_B1_04 (pin E12) */
-  gpio_pin_config_t LED_POWER_RED_config = {
+  /* GPIO configuration of LED_PWR_RED on GPIO_B1_04 (pin E12) */
+  gpio_pin_config_t LED_PWR_RED_config = {
       .direction = kGPIO_DigitalOutput,
       .outputLogic = 1U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_B1_04 (pin E12) */
-  GPIO_PinInit(GPIO2, 20U, &LED_POWER_RED_config);
+  GPIO_PinInit(GPIO2, 20U, &LED_PWR_RED_config);
 
-  /* GPIO configuration of LED_POWER_GREEN on GPIO_B1_05 (pin D12) */
-  gpio_pin_config_t LED_POWER_GREEN_config = {
+  /* GPIO configuration of LED_PWR_GREEN on GPIO_B1_05 (pin D12) */
+  gpio_pin_config_t LED_PWR_GREEN_config = {
       .direction = kGPIO_DigitalOutput,
       .outputLogic = 1U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_B1_05 (pin D12) */
-  GPIO_PinInit(GPIO2, 21U, &LED_POWER_GREEN_config);
+  GPIO_PinInit(GPIO2, 21U, &LED_PWR_GREEN_config);
 
-  /* GPIO configuration of LED_BATTERY_RED on GPIO_B1_06 (pin C12) */
-  gpio_pin_config_t LED_BATTERY_RED_config = {
+  /* GPIO configuration of LED_BAT_RED on GPIO_B1_06 (pin C12) */
+  gpio_pin_config_t LED_BAT_RED_config = {
       .direction = kGPIO_DigitalOutput,
       .outputLogic = 1U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_B1_06 (pin C12) */
-  GPIO_PinInit(GPIO2, 22U, &LED_BATTERY_RED_config);
+  GPIO_PinInit(GPIO2, 22U, &LED_BAT_RED_config);
 
-  /* GPIO configuration of LED_BATTERY_GREEN on GPIO_B1_07 (pin B12) */
-  gpio_pin_config_t LED_BATTERY_GREEN_config = {
+  /* GPIO configuration of LED_BAT_GREEN on GPIO_B1_07 (pin B12) */
+  gpio_pin_config_t LED_BAT_GREEN_config = {
       .direction = kGPIO_DigitalOutput,
       .outputLogic = 1U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_B1_07 (pin B12) */
-  GPIO_PinInit(GPIO2, 23U, &LED_BATTERY_GREEN_config);
+  GPIO_PinInit(GPIO2, 23U, &LED_BAT_GREEN_config);
 
   /* GPIO configuration of LED_BLE_RED on GPIO_B1_08 (pin A12) */
   gpio_pin_config_t LED_BLE_RED_config = {
@@ -277,23 +279,23 @@ void BOARD(void) {
   /* Initialize GPIO functionality on GPIO_B1_09 (pin A13) */
   GPIO_PinInit(GPIO2, 25U, &LED_BLE_GREEN_config);
 
-  /* GPIO configuration of LED_STATUS_RED on GPIO_B1_10 (pin B13) */
-  gpio_pin_config_t LED_STATUS_RED_config = {
+  /* GPIO configuration of LED_SYS_RED on GPIO_B1_10 (pin B13) */
+  gpio_pin_config_t LED_SYS_RED_config = {
       .direction = kGPIO_DigitalOutput,
       .outputLogic = 1U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_B1_10 (pin B13) */
-  GPIO_PinInit(GPIO2, 26U, &LED_STATUS_RED_config);
+  GPIO_PinInit(GPIO2, 26U, &LED_SYS_RED_config);
 
-  /* GPIO configuration of LED_STATUS_GREEN on GPIO_B1_11 (pin C13) */
-  gpio_pin_config_t LED_STATUS_GREEN_config = {
+  /* GPIO configuration of LED_SYS_GREEN on GPIO_B1_11 (pin C13) */
+  gpio_pin_config_t LED_SYS_GREEN_config = {
       .direction = kGPIO_DigitalOutput,
       .outputLogic = 1U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_B1_11 (pin C13) */
-  GPIO_PinInit(GPIO2, 27U, &LED_STATUS_GREEN_config);
+  GPIO_PinInit(GPIO2, 27U, &LED_SYS_GREEN_config);
 
   /* GPIO configuration of eMMC_EN on GPIO_B1_14 (pin C14) */
   gpio_pin_config_t eMMC_EN_config = {
@@ -338,7 +340,7 @@ void BOARD(void) {
       IOMUXC_GPIO_AD_B1_02_LPUART2_TX,        /* GPIO_AD_B1_02 is configured as LPUART2_TX */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
-      IOMUXC_GPIO_AD_B1_03_LPUART2_RX,        /* GPIO_AD_B1_03 is configured as LPUART2_RX */
+      IOMUXC_GPIO_AD_B1_03_QTIMER3_TIMER3,    /* GPIO_AD_B1_03 is configured as QTIMER3_TIMER3 */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
       IOMUXC_GPIO_AD_B1_04_GPIO1_IO20,        /* GPIO_AD_B1_04 is configured as GPIO1_IO20 */
@@ -458,9 +460,10 @@ void BOARD(void) {
       IOMUXC_GPIO_SD_B0_05_USDHC1_DATA3,      /* GPIO_SD_B0_05 is configured as USDHC1_DATA3 */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_GPR->GPR6 = ((IOMUXC_GPR->GPR6 &
-    (~(IOMUXC_GPR_GPR6_QTIMER1_TRM0_INPUT_SEL_MASK | IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL_MASK))) /* Mask bits to zero which are setting */
+    (~(IOMUXC_GPR_GPR6_QTIMER1_TRM0_INPUT_SEL_MASK | IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL_MASK | IOMUXC_GPR_GPR6_QTIMER3_TRM3_INPUT_SEL_MASK))) /* Mask bits to zero which are setting */
       | IOMUXC_GPR_GPR6_QTIMER1_TRM0_INPUT_SEL(0x00U) /* QTIMER1 TMR0 input select: input from IOMUX */
       | IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL(0x00U) /* QTIMER3 TMR0 input select: input from IOMUX */
+      | IOMUXC_GPR_GPR6_QTIMER3_TRM3_INPUT_SEL(0x00U) /* QTIMER3 TMR3 input select: input from IOMUX */
     );
   IOMUXC_SetPinConfig(
       IOMUXC_GPIO_AD_B1_00_LPI2C1_SCL,        /* GPIO_AD_B1_00 PAD functional properties : */
@@ -483,15 +486,15 @@ void BOARD(void) {
                                                  Pull Up / Down Config. Field: 100K Ohm Pull Down
                                                  Hyst. Enable Field: Hysteresis Disabled */
   IOMUXC_SetPinConfig(
-      IOMUXC_GPIO_AD_B1_03_LPUART2_RX,        /* GPIO_AD_B1_03 PAD functional properties : */
-      0x10B0U);                               /* Slew Rate Field: Slow Slew Rate
-                                                 Drive Strength Field: R0/6
+      IOMUXC_GPIO_AD_B1_03_QTIMER3_TIMER3,    /* GPIO_AD_B1_03 PAD functional properties : */
+      0x01C880U);                             /* Slew Rate Field: Slow Slew Rate
+                                                 Drive Strength Field: output driver disabled;
                                                  Speed Field: medium(100MHz)
-                                                 Open Drain Enable Field: Open Drain Disabled
-                                                 Pull / Keep Enable Field: Pull/Keeper Enabled
+                                                 Open Drain Enable Field: Open Drain Enabled
+                                                 Pull / Keep Enable Field: Pull/Keeper Disabled
                                                  Pull / Keep Select Field: Keeper
-                                                 Pull Up / Down Config. Field: 100K Ohm Pull Down
-                                                 Hyst. Enable Field: Hysteresis Disabled */
+                                                 Pull Up / Down Config. Field: 22K Ohm Pull Up
+                                                 Hyst. Enable Field: Hysteresis Enabled */
   IOMUXC_SetPinConfig(
       IOMUXC_GPIO_AD_B1_06_LPI2C3_SDA,        /* GPIO_AD_B1_06 PAD functional properties : */
       0x38B0U);                               /* Slew Rate Field: Slow Slew Rate
@@ -514,14 +517,14 @@ void BOARD(void) {
                                                  Hyst. Enable Field: Hysteresis Disabled */
   IOMUXC_SetPinConfig(
       IOMUXC_GPIO_B0_00_QTIMER1_TIMER0,       /* GPIO_B0_00 PAD functional properties : */
-      0x10B1U);                               /* Slew Rate Field: Fast Slew Rate
-                                                 Drive Strength Field: R0/6
+      0x01C880U);                             /* Slew Rate Field: Slow Slew Rate
+                                                 Drive Strength Field: output driver disabled;
                                                  Speed Field: medium(100MHz)
-                                                 Open Drain Enable Field: Open Drain Disabled
-                                                 Pull / Keep Enable Field: Pull/Keeper Enabled
+                                                 Open Drain Enable Field: Open Drain Enabled
+                                                 Pull / Keep Enable Field: Pull/Keeper Disabled
                                                  Pull / Keep Select Field: Keeper
-                                                 Pull Up / Down Config. Field: 100K Ohm Pull Down
-                                                 Hyst. Enable Field: Hysteresis Disabled */
+                                                 Pull Up / Down Config. Field: 22K Ohm Pull Up
+                                                 Hyst. Enable Field: Hysteresis Enabled */
   IOMUXC_SetPinConfig(
       IOMUXC_GPIO_B0_04_GPIO2_IO04,           /* GPIO_B0_04 PAD functional properties : */
       0x10B1U);                               /* Slew Rate Field: Fast Slew Rate

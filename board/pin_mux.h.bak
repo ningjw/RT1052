@@ -37,6 +37,67 @@ extern "C" {
  */
 void BOARD_InitBootPins(void);
 
+/* SRE 压摆率选择 */
+#define SRE_0_SLOW_SLEW_RATE                IOMUXC_SW_PAD_CTL_PAD_SRE(0)
+#define SRE_1_FAST_SLEW_RATE                IOMUXC_SW_PAD_CTL_PAD_SRE(1)
+
+/* 驱动能力配置，配置阻值的大小 */
+#define DSE_0_OUTPUT_DRIVER_DISABLED        IOMUXC_SW_PAD_CTL_PAD_DSE(0)
+/* R0 260 Ohm @ 3.3V, 150Ohm@1.8V, 240 Ohm for DDR */
+#define DSE_1_R0_1                          IOMUXC_SW_PAD_CTL_PAD_DSE(1) 
+/* R0/2 */
+#define DSE_2_R0_2                          IOMUXC_SW_PAD_CTL_PAD_DSE(2)
+/* R0/3 */
+#define DSE_3_R0_3                          IOMUXC_SW_PAD_CTL_PAD_DSE(3)
+/* R0/4 */
+#define DSE_4_R0_4                          IOMUXC_SW_PAD_CTL_PAD_DSE(4)
+/* R0/5 */
+#define DSE_5_R0_5                          IOMUXC_SW_PAD_CTL_PAD_DSE(5)
+/* R0/6 */
+#define DSE_6_R0_6                          IOMUXC_SW_PAD_CTL_PAD_DSE(6)
+/* R0/7 */
+#define DSE_7_R0_7                          IOMUXC_SW_PAD_CTL_PAD_DSE(7)
+
+/* SPEED 带宽配置 */
+#define SPEED_0_LOW_50MHz                   IOMUXC_SW_PAD_CTL_PAD_SPEED(0)
+#define SPEED_1_MEDIUM_100MHz               IOMUXC_SW_PAD_CTL_PAD_SPEED(1)
+#define SPEED_2_MEDIUM_100MHz               IOMUXC_SW_PAD_CTL_PAD_SPEED(2)
+#define SPEED_3_MAX_200MHz                  IOMUXC_SW_PAD_CTL_PAD_SPEED(3)
+
+/* ODE 是否使用开漏模式 */
+#define ODE_0_OPEN_DRAIN_DISABLED           IOMUXC_SW_PAD_CTL_PAD_ODE(0)     
+#define ODE_1_OPEN_DRAIN_ENABLED            IOMUXC_SW_PAD_CTL_PAD_ODE(1)     
+
+/* PKE 是否使能保持器或上下拉功能 */
+#define PKE_0_PULL_KEEPER_DISABLED          IOMUXC_SW_PAD_CTL_PAD_PKE(0)      
+#define PKE_1_PULL_KEEPER_ENABLED           IOMUXC_SW_PAD_CTL_PAD_PKE(1)      
+
+/* PUE 选择使用保持器还是上下拉 */
+#define PUE_0_KEEPER_SELECTED               IOMUXC_SW_PAD_CTL_PAD_PUE(0)   
+#define PUE_1_PULL_SELECTED                 IOMUXC_SW_PAD_CTL_PAD_PUE(1)   
+
+/* PUS 上下拉配置 */
+#define PUS_0_100K_OHM_PULL_DOWN            IOMUXC_SW_PAD_CTL_PAD_PUS(0)     
+#define PUS_1_47K_OHM_PULL_UP               IOMUXC_SW_PAD_CTL_PAD_PUS(1)   
+#define PUS_2_100K_OHM_PULL_UP              IOMUXC_SW_PAD_CTL_PAD_PUS(2)   
+#define PUS_3_22K_OHM_PULL_UP               IOMUXC_SW_PAD_CTL_PAD_PUS(3)   
+
+/* HYS 滞后功能 */
+#define HYS_0_HYSTERESIS_DISABLED           IOMUXC_SW_PAD_CTL_PAD_HYS(0)  
+#define HYS_1_HYSTERESIS_ENABLED            IOMUXC_SW_PAD_CTL_PAD_HYS(1)  
+
+/* 输入捕获引脚的PAD配置 */
+#define TMR_INPUT_PAD_CONFIG_DATA       (SRE_0_SLOW_SLEW_RATE| \
+                                        DSE_0_OUTPUT_DRIVER_DISABLED| \
+                                        SPEED_2_MEDIUM_100MHz| \
+                                        ODE_1_OPEN_DRAIN_ENABLED| \
+                                        PKE_0_PULL_KEEPER_DISABLED| \
+                                        PUE_0_KEEPER_SELECTED| \
+                                        PUS_3_22K_OHM_PULL_UP| \
+                                        HYS_1_HYSTERESIS_ENABLED) 
+                                        
+                                        
+                                        
 /* GPIO_AD_B0_09 (coord F14), LED */
 #define BOARD_LED_GPIO                                                     GPIO1   /*!< GPIO device name: GPIO1 */
 #define BOARD_LED_PORT                                                     GPIO1   /*!< PORT device name: GPIO1 */
@@ -112,25 +173,25 @@ void BOARD_InitBootPins(void);
 #define BOARD_BTM_MODE_PORT                                                GPIO1   /*!< PORT device name: GPIO1 */
 #define BOARD_BTM_MODE_PIN                                                   10U   /*!< GPIO1 pin index: 10 */
 
-/* GPIO_B1_04 (coord E12), LED_POWER_RED */
-#define BOARD_LED_POWER_RED_GPIO                                           GPIO2   /*!< GPIO device name: GPIO2 */
-#define BOARD_LED_POWER_RED_PORT                                           GPIO2   /*!< PORT device name: GPIO2 */
-#define BOARD_LED_POWER_RED_PIN                                              20U   /*!< GPIO2 pin index: 20 */
+/* GPIO_B1_04 (coord E12), LED_PWR_RED */
+#define BOARD_LED_PWR_RED_GPIO                                             GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_PWR_RED_PORT                                             GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_PWR_RED_PIN                                                20U   /*!< GPIO2 pin index: 20 */
 
-/* GPIO_B1_05 (coord D12), LED_POWER_GREEN */
-#define BOARD_LED_POWER_GREEN_GPIO                                         GPIO2   /*!< GPIO device name: GPIO2 */
-#define BOARD_LED_POWER_GREEN_PORT                                         GPIO2   /*!< PORT device name: GPIO2 */
-#define BOARD_LED_POWER_GREEN_PIN                                            21U   /*!< GPIO2 pin index: 21 */
+/* GPIO_B1_05 (coord D12), LED_PWR_GREEN */
+#define BOARD_LED_PWR_GREEN_GPIO                                           GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_PWR_GREEN_PORT                                           GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_PWR_GREEN_PIN                                              21U   /*!< GPIO2 pin index: 21 */
 
-/* GPIO_B1_06 (coord C12), LED_BATTERY_RED */
-#define BOARD_LED_BATTERY_RED_GPIO                                         GPIO2   /*!< GPIO device name: GPIO2 */
-#define BOARD_LED_BATTERY_RED_PORT                                         GPIO2   /*!< PORT device name: GPIO2 */
-#define BOARD_LED_BATTERY_RED_PIN                                            22U   /*!< GPIO2 pin index: 22 */
+/* GPIO_B1_06 (coord C12), LED_BAT_RED */
+#define BOARD_LED_BAT_RED_GPIO                                             GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_BAT_RED_PORT                                             GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_BAT_RED_PIN                                                22U   /*!< GPIO2 pin index: 22 */
 
-/* GPIO_B1_07 (coord B12), LED_BATTERY_GREEN */
-#define BOARD_LED_BATTERY_GREEN_GPIO                                       GPIO2   /*!< GPIO device name: GPIO2 */
-#define BOARD_LED_BATTERY_GREEN_PORT                                       GPIO2   /*!< PORT device name: GPIO2 */
-#define BOARD_LED_BATTERY_GREEN_PIN                                          23U   /*!< GPIO2 pin index: 23 */
+/* GPIO_B1_07 (coord B12), ED_BAT_GREEN */
+#define BOARD_LED_BAT_GREEN_GPIO                                           GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_BAT_GREEN_PORT                                           GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_BAT_GREEN_PIN                                              23U   /*!< GPIO2 pin index: 23 */
 
 /* GPIO_B1_08 (coord A12), LED_BLE_RED */
 #define BOARD_LED_BLE_RED_GPIO                                             GPIO2   /*!< GPIO device name: GPIO2 */
@@ -142,15 +203,15 @@ void BOARD_InitBootPins(void);
 #define BOARD_LED_BLE_GREEN_PORT                                           GPIO2   /*!< PORT device name: GPIO2 */
 #define BOARD_LED_BLE_GREEN_PIN                                              25U   /*!< GPIO2 pin index: 25 */
 
-/* GPIO_B1_10 (coord B13), LED_STATUS_RED */
-#define BOARD_LED_STATUS_RED_GPIO                                          GPIO2   /*!< GPIO device name: GPIO2 */
-#define BOARD_LED_STATUS_RED_PORT                                          GPIO2   /*!< PORT device name: GPIO2 */
-#define BOARD_LED_STATUS_RED_PIN                                             26U   /*!< GPIO2 pin index: 26 */
+/* GPIO_B1_10 (coord B13), LED_SYS_RED */
+#define BOARD_LED_SYS_RED_GPIO                                             GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_SYS_RED_PORT                                             GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_SYS_RED_PIN                                                26U   /*!< GPIO2 pin index: 26 */
 
-/* GPIO_B1_11 (coord C13), LED_STATUS_GREEN */
-#define BOARD_LED_STATUS_GREEN_GPIO                                        GPIO2   /*!< GPIO device name: GPIO2 */
-#define BOARD_LED_STATUS_GREEN_PORT                                        GPIO2   /*!< PORT device name: GPIO2 */
-#define BOARD_LED_STATUS_GREEN_PIN                                           27U   /*!< GPIO2 pin index: 27 */
+/* GPIO_B1_11 (coord C13), LED_SYS_GREEN */
+#define BOARD_LED_SYS_GREEN_GPIO                                           GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_SYS_GREEN_PORT                                           GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_SYS_GREEN_PIN                                              27U   /*!< GPIO2 pin index: 27 */
 
 /* GPIO_AD_B1_08 (coord H13), CHARGING */
 #define BOARD_CHARGING_GPIO                                                GPIO1   /*!< GPIO device name: GPIO1 */

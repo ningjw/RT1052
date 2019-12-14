@@ -304,7 +304,7 @@ instance:
           - outputPolarity: 'false'
         - dmaIntMode: 'polling'
     - interruptVector:
-      - enable_irq: 'false'
+      - enable_irq: 'true'
       - interrupt:
         - IRQn: 'TMR3_IRQn'
         - enable_priority: 'false'
@@ -327,6 +327,8 @@ void QuadTimer3_init(void) {
   QTMR_Init(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, &QuadTimer3_Channel_0_config);
   /* Setup the PWM mode of the timer channel */
   QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, 40000UL, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
+  /* Enable interrupt TMR3_IRQn request in the NVIC */
+  EnableIRQ(QUADTIMER3_IRQN);
   /* Start the timer - select the timer counting mode */
   QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 }
@@ -791,7 +793,7 @@ instance:
       - 0:
         - channel_prefix_id: 'Channel_0'
         - channel: 'kQTMR_Channel_0'
-        - primarySource: 'kQTMR_ClockDivide_4'
+        - primarySource: 'kQTMR_ClockDivide_2'
         - secondarySource: 'kQTMR_Counter0InputPin'
         - countingMode: 'kQTMR_PriSrcRiseEdge'
         - enableMasterMode: 'false'
@@ -803,7 +805,7 @@ instance:
         - inputCaptureMode:
           - inputPolarity: 'false'
           - reloadOnCapture: 'true'
-          - captureMode: 'kQTMR_RisingAndFallingEdge'
+          - captureMode: 'kQTMR_RisingEdge'
         - dmaIntMode: 'interrupt'
         - interrupts: 'kQTMR_EdgeInterruptEnable'
     - interruptVector:
@@ -816,7 +818,7 @@ instance:
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const qtmr_config_t QuadTimer1_Channel_0_config = {
-  .primarySource = kQTMR_ClockDivide_4,
+  .primarySource = kQTMR_ClockDivide_2,
   .secondarySource = kQTMR_Counter0InputPin,
   .enableMasterMode = false,
   .enableExternalForce = false,
@@ -829,7 +831,7 @@ void QuadTimer1_init(void) {
   /* Quad timer channel Channel_0 peripheral initialization */
   QTMR_Init(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, &QuadTimer1_Channel_0_config);
   /* Setup the Input capture mode of the timer channel */
-  QTMR_SetupInputCapture(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_Counter0InputPin, false, true, kQTMR_RisingAndFallingEdge);
+  QTMR_SetupInputCapture(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_Counter0InputPin, false, true, kQTMR_RisingEdge);
   /* Enable interrupt requests of the timer channel */
   QTMR_EnableInterrupts(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_EdgeInterruptEnable);
   /* Enable interrupt TMR1_IRQn request in the NVIC */
