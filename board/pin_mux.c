@@ -33,14 +33,14 @@ pin_labels:
 - {pin_num: G10, pin_signal: GPIO_AD_B0_11, label: E103_SETDF, identifier: E103_SETDF}
 - {pin_num: L12, pin_signal: GPIO_AD_B1_04, label: BTM_EN, identifier: BTM_EN}
 - {pin_num: L10, pin_signal: GPIO_AD_B0_15, label: PWR_AL, identifier: PWR_AL}
-- {pin_num: E12, pin_signal: GPIO_B1_04, label: LED_POWER_RED, identifier: LED_POWER_RED}
-- {pin_num: D12, pin_signal: GPIO_B1_05, label: LED_POWER_GREEN, identifier: LED_POWER_GREEN}
-- {pin_num: C12, pin_signal: GPIO_B1_06, label: LED_BATTERY_RED, identifier: LED_BATTERY_RED}
-- {pin_num: B12, pin_signal: GPIO_B1_07, label: LED_BATTERY_GREEN, identifier: LED_BATTERY_GREEN}
+- {pin_num: E12, pin_signal: GPIO_B1_04, label: LED_PWR_RED, identifier: LED_POWER_RED;LED_PWR_RED}
+- {pin_num: D12, pin_signal: GPIO_B1_05, label: LED_PWR_GREEN, identifier: LED_POWER_GREEN;LED_PWR_GREEN}
+- {pin_num: C12, pin_signal: GPIO_B1_06, label: LED_BAT_RED, identifier: LED_BATTERY_RED;LED_BAT_RED}
+- {pin_num: B12, pin_signal: GPIO_B1_07, label: ED_BAT_GREEN, identifier: LED_BATTERY_GREEN;LED_BAT_GREEN}
 - {pin_num: A12, pin_signal: GPIO_B1_08, label: LED_BLE_RED, identifier: LED_BT_RED;LED_BLE_RED}
 - {pin_num: A13, pin_signal: GPIO_B1_09, label: LED_BLE_GREEN, identifier: LED_BT_GREEN;LED_BLE_GREEN}
-- {pin_num: B13, pin_signal: GPIO_B1_10, label: LED_STATUS_RED, identifier: LED_STATUS_RED}
-- {pin_num: C13, pin_signal: GPIO_B1_11, label: LED_STATUS_GREEN, identifier: LED_STATUS_GREEN}
+- {pin_num: B13, pin_signal: GPIO_B1_10, label: LED_SYS_RED, identifier: LED_STATUS_RED;LED_SYS_RED}
+- {pin_num: C13, pin_signal: GPIO_B1_11, label: LED_SYS_GREEN, identifier: LED_STATUS_GREEN;LED_SYS_GREEN}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -101,14 +101,14 @@ BOARD:
   - {pin_num: G10, peripheral: GPIO1, signal: 'gpio_io, 11', pin_signal: GPIO_AD_B0_11, direction: OUTPUT}
   - {pin_num: L12, peripheral: GPIO1, signal: 'gpio_io, 20', pin_signal: GPIO_AD_B1_04, direction: OUTPUT}
   - {pin_num: G13, peripheral: GPIO1, signal: 'gpio_io, 10', pin_signal: GPIO_AD_B0_10, direction: OUTPUT}
-  - {pin_num: E12, peripheral: GPIO2, signal: 'gpio_io, 20', pin_signal: GPIO_B1_04, direction: OUTPUT, gpio_init_state: 'true'}
-  - {pin_num: D12, peripheral: GPIO2, signal: 'gpio_io, 21', pin_signal: GPIO_B1_05, direction: OUTPUT, gpio_init_state: 'true'}
-  - {pin_num: C12, peripheral: GPIO2, signal: 'gpio_io, 22', pin_signal: GPIO_B1_06, direction: OUTPUT, gpio_init_state: 'true'}
-  - {pin_num: B12, peripheral: GPIO2, signal: 'gpio_io, 23', pin_signal: GPIO_B1_07, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: E12, peripheral: GPIO2, signal: 'gpio_io, 20', pin_signal: GPIO_B1_04, identifier: LED_PWR_RED, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: D12, peripheral: GPIO2, signal: 'gpio_io, 21', pin_signal: GPIO_B1_05, identifier: LED_PWR_GREEN, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: C12, peripheral: GPIO2, signal: 'gpio_io, 22', pin_signal: GPIO_B1_06, identifier: LED_BAT_RED, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: B12, peripheral: GPIO2, signal: 'gpio_io, 23', pin_signal: GPIO_B1_07, identifier: LED_BAT_GREEN, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: A12, peripheral: GPIO2, signal: 'gpio_io, 24', pin_signal: GPIO_B1_08, identifier: LED_BLE_RED, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: A13, peripheral: GPIO2, signal: 'gpio_io, 25', pin_signal: GPIO_B1_09, identifier: LED_BLE_GREEN, direction: OUTPUT, gpio_init_state: 'true'}
-  - {pin_num: B13, peripheral: GPIO2, signal: 'gpio_io, 26', pin_signal: GPIO_B1_10, direction: OUTPUT, gpio_init_state: 'true'}
-  - {pin_num: C13, peripheral: GPIO2, signal: 'gpio_io, 27', pin_signal: GPIO_B1_11, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: B13, peripheral: GPIO2, signal: 'gpio_io, 26', pin_signal: GPIO_B1_10, identifier: LED_SYS_RED, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: C13, peripheral: GPIO2, signal: 'gpio_io, 27', pin_signal: GPIO_B1_11, identifier: LED_SYS_GREEN, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: J13, peripheral: ADC1, signal: 'IN, 0', pin_signal: GPIO_AD_B1_11}
   - {pin_num: D7, peripheral: TMR1, signal: 'TIMER, 0', pin_signal: GPIO_B0_00, slew_rate: Fast}
   - {pin_num: H13, peripheral: GPIO1, signal: 'gpio_io, 24', pin_signal: GPIO_AD_B1_08}
@@ -223,41 +223,41 @@ void BOARD(void) {
   /* Initialize GPIO functionality on GPIO_B0_15 (pin E11) */
   GPIO_PinInit(GPIO2, 15U, &ADC_FORMAT_config);
 
-  /* GPIO configuration of LED_POWER_RED on GPIO_B1_04 (pin E12) */
-  gpio_pin_config_t LED_POWER_RED_config = {
+  /* GPIO configuration of LED_PWR_RED on GPIO_B1_04 (pin E12) */
+  gpio_pin_config_t LED_PWR_RED_config = {
       .direction = kGPIO_DigitalOutput,
       .outputLogic = 1U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_B1_04 (pin E12) */
-  GPIO_PinInit(GPIO2, 20U, &LED_POWER_RED_config);
+  GPIO_PinInit(GPIO2, 20U, &LED_PWR_RED_config);
 
-  /* GPIO configuration of LED_POWER_GREEN on GPIO_B1_05 (pin D12) */
-  gpio_pin_config_t LED_POWER_GREEN_config = {
+  /* GPIO configuration of LED_PWR_GREEN on GPIO_B1_05 (pin D12) */
+  gpio_pin_config_t LED_PWR_GREEN_config = {
       .direction = kGPIO_DigitalOutput,
       .outputLogic = 1U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_B1_05 (pin D12) */
-  GPIO_PinInit(GPIO2, 21U, &LED_POWER_GREEN_config);
+  GPIO_PinInit(GPIO2, 21U, &LED_PWR_GREEN_config);
 
-  /* GPIO configuration of LED_BATTERY_RED on GPIO_B1_06 (pin C12) */
-  gpio_pin_config_t LED_BATTERY_RED_config = {
+  /* GPIO configuration of LED_BAT_RED on GPIO_B1_06 (pin C12) */
+  gpio_pin_config_t LED_BAT_RED_config = {
       .direction = kGPIO_DigitalOutput,
       .outputLogic = 1U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_B1_06 (pin C12) */
-  GPIO_PinInit(GPIO2, 22U, &LED_BATTERY_RED_config);
+  GPIO_PinInit(GPIO2, 22U, &LED_BAT_RED_config);
 
-  /* GPIO configuration of LED_BATTERY_GREEN on GPIO_B1_07 (pin B12) */
-  gpio_pin_config_t LED_BATTERY_GREEN_config = {
+  /* GPIO configuration of LED_BAT_GREEN on GPIO_B1_07 (pin B12) */
+  gpio_pin_config_t LED_BAT_GREEN_config = {
       .direction = kGPIO_DigitalOutput,
       .outputLogic = 1U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_B1_07 (pin B12) */
-  GPIO_PinInit(GPIO2, 23U, &LED_BATTERY_GREEN_config);
+  GPIO_PinInit(GPIO2, 23U, &LED_BAT_GREEN_config);
 
   /* GPIO configuration of LED_BLE_RED on GPIO_B1_08 (pin A12) */
   gpio_pin_config_t LED_BLE_RED_config = {
@@ -277,23 +277,23 @@ void BOARD(void) {
   /* Initialize GPIO functionality on GPIO_B1_09 (pin A13) */
   GPIO_PinInit(GPIO2, 25U, &LED_BLE_GREEN_config);
 
-  /* GPIO configuration of LED_STATUS_RED on GPIO_B1_10 (pin B13) */
-  gpio_pin_config_t LED_STATUS_RED_config = {
+  /* GPIO configuration of LED_SYS_RED on GPIO_B1_10 (pin B13) */
+  gpio_pin_config_t LED_SYS_RED_config = {
       .direction = kGPIO_DigitalOutput,
       .outputLogic = 1U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_B1_10 (pin B13) */
-  GPIO_PinInit(GPIO2, 26U, &LED_STATUS_RED_config);
+  GPIO_PinInit(GPIO2, 26U, &LED_SYS_RED_config);
 
-  /* GPIO configuration of LED_STATUS_GREEN on GPIO_B1_11 (pin C13) */
-  gpio_pin_config_t LED_STATUS_GREEN_config = {
+  /* GPIO configuration of LED_SYS_GREEN on GPIO_B1_11 (pin C13) */
+  gpio_pin_config_t LED_SYS_GREEN_config = {
       .direction = kGPIO_DigitalOutput,
       .outputLogic = 1U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_B1_11 (pin C13) */
-  GPIO_PinInit(GPIO2, 27U, &LED_STATUS_GREEN_config);
+  GPIO_PinInit(GPIO2, 27U, &LED_SYS_GREEN_config);
 
   /* GPIO configuration of eMMC_EN on GPIO_B1_14 (pin C14) */
   gpio_pin_config_t eMMC_EN_config = {

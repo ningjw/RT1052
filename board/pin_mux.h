@@ -112,25 +112,25 @@ void BOARD_InitBootPins(void);
 #define BOARD_BTM_MODE_PORT                                                GPIO1   /*!< PORT device name: GPIO1 */
 #define BOARD_BTM_MODE_PIN                                                   10U   /*!< GPIO1 pin index: 10 */
 
-/* GPIO_B1_04 (coord E12), LED_POWER_RED */
-#define BOARD_LED_POWER_RED_GPIO                                           GPIO2   /*!< GPIO device name: GPIO2 */
-#define BOARD_LED_POWER_RED_PORT                                           GPIO2   /*!< PORT device name: GPIO2 */
-#define BOARD_LED_POWER_RED_PIN                                              20U   /*!< GPIO2 pin index: 20 */
+/* GPIO_B1_04 (coord E12), LED_PWR_RED */
+#define BOARD_LED_PWR_RED_GPIO                                             GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_PWR_RED_PORT                                             GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_PWR_RED_PIN                                                20U   /*!< GPIO2 pin index: 20 */
 
-/* GPIO_B1_05 (coord D12), LED_POWER_GREEN */
-#define BOARD_LED_POWER_GREEN_GPIO                                         GPIO2   /*!< GPIO device name: GPIO2 */
-#define BOARD_LED_POWER_GREEN_PORT                                         GPIO2   /*!< PORT device name: GPIO2 */
-#define BOARD_LED_POWER_GREEN_PIN                                            21U   /*!< GPIO2 pin index: 21 */
+/* GPIO_B1_05 (coord D12), LED_PWR_GREEN */
+#define BOARD_LED_PWR_GREEN_GPIO                                           GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_PWR_GREEN_PORT                                           GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_PWR_GREEN_PIN                                              21U   /*!< GPIO2 pin index: 21 */
 
-/* GPIO_B1_06 (coord C12), LED_BATTERY_RED */
-#define BOARD_LED_BATTERY_RED_GPIO                                         GPIO2   /*!< GPIO device name: GPIO2 */
-#define BOARD_LED_BATTERY_RED_PORT                                         GPIO2   /*!< PORT device name: GPIO2 */
-#define BOARD_LED_BATTERY_RED_PIN                                            22U   /*!< GPIO2 pin index: 22 */
+/* GPIO_B1_06 (coord C12), LED_BAT_RED */
+#define BOARD_LED_BAT_RED_GPIO                                             GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_BAT_RED_PORT                                             GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_BAT_RED_PIN                                                22U   /*!< GPIO2 pin index: 22 */
 
-/* GPIO_B1_07 (coord B12), LED_BATTERY_GREEN */
-#define BOARD_LED_BATTERY_GREEN_GPIO                                       GPIO2   /*!< GPIO device name: GPIO2 */
-#define BOARD_LED_BATTERY_GREEN_PORT                                       GPIO2   /*!< PORT device name: GPIO2 */
-#define BOARD_LED_BATTERY_GREEN_PIN                                          23U   /*!< GPIO2 pin index: 23 */
+/* GPIO_B1_07 (coord B12), ED_BAT_GREEN */
+#define BOARD_LED_BAT_GREEN_GPIO                                           GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_BAT_GREEN_PORT                                           GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_BAT_GREEN_PIN                                              23U   /*!< GPIO2 pin index: 23 */
 
 /* GPIO_B1_08 (coord A12), LED_BLE_RED */
 #define BOARD_LED_BLE_RED_GPIO                                             GPIO2   /*!< GPIO device name: GPIO2 */
@@ -142,15 +142,15 @@ void BOARD_InitBootPins(void);
 #define BOARD_LED_BLE_GREEN_PORT                                           GPIO2   /*!< PORT device name: GPIO2 */
 #define BOARD_LED_BLE_GREEN_PIN                                              25U   /*!< GPIO2 pin index: 25 */
 
-/* GPIO_B1_10 (coord B13), LED_STATUS_RED */
-#define BOARD_LED_STATUS_RED_GPIO                                          GPIO2   /*!< GPIO device name: GPIO2 */
-#define BOARD_LED_STATUS_RED_PORT                                          GPIO2   /*!< PORT device name: GPIO2 */
-#define BOARD_LED_STATUS_RED_PIN                                             26U   /*!< GPIO2 pin index: 26 */
+/* GPIO_B1_10 (coord B13), LED_SYS_RED */
+#define BOARD_LED_SYS_RED_GPIO                                             GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_SYS_RED_PORT                                             GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_SYS_RED_PIN                                                26U   /*!< GPIO2 pin index: 26 */
 
-/* GPIO_B1_11 (coord C13), LED_STATUS_GREEN */
-#define BOARD_LED_STATUS_GREEN_GPIO                                        GPIO2   /*!< GPIO device name: GPIO2 */
-#define BOARD_LED_STATUS_GREEN_PORT                                        GPIO2   /*!< PORT device name: GPIO2 */
-#define BOARD_LED_STATUS_GREEN_PIN                                           27U   /*!< GPIO2 pin index: 27 */
+/* GPIO_B1_11 (coord C13), LED_SYS_GREEN */
+#define BOARD_LED_SYS_GREEN_GPIO                                           GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_LED_SYS_GREEN_PORT                                           GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_LED_SYS_GREEN_PIN                                              27U   /*!< GPIO2 pin index: 27 */
 
 /* GPIO_AD_B1_08 (coord H13), CHARGING */
 #define BOARD_CHARGING_GPIO                                                GPIO1   /*!< GPIO device name: GPIO1 */

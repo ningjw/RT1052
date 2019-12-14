@@ -2,6 +2,7 @@
 .\objects\main.o: .\User\inc\main.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: .\board\clock_config.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
@@ -49,6 +50,7 @@
 .\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\list.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\semphr.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
+.\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\event_groups.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
 .\objects\main.o: .\User\inc\task_app.h
 .\objects\main.o: .\cjson\cJSON.h
@@ -62,3 +64,4 @@
 .\objects\main.o: .\User\inc\ble_app.h
 .\objects\main.o: .\User\inc\adc_app.h
 .\objects\main.o: .\User\inc\battery_app.h
+.\objects\main.o: .\User\inc\led_app.h

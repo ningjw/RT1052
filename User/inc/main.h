@@ -1,10 +1,12 @@
 #ifndef __MAIN_H
-
-
 #define __MAIN_H
+
+#define SOFT_VERSION       "V0.01"
+#define POWER_ON_TIMER_ID  1
 
 #include "stdint.h"
 #include "string.h"
+#include "stdio.h"
 
 #include "clock_config.h"
 #include "peripherals.h"
@@ -19,6 +21,8 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "semphr.h"
+#include "event_groups.h"
+#include "queue.h"
 #include "timers.h"
 #include "task_app.h"
 
@@ -34,7 +38,24 @@
 #include "ble_app.h"
 #include "adc_app.h"
 #include "battery_app.h"
+#include "led_app.h"
 
-#define VERSION "V0.01"
+//该结构体定义了需要保存到EEPROM中的参数
+typedef struct{
+    uint8_t inactiveTime;//用于设置活动时间
+    uint8_t batAlarmValue; //
+}SysPara1;
+
+
+//该结构体定义了不需要保存的系统参数
+typedef struct{
+    uint8_t inactiveCount;//用于设置活动时间
+    uint8_t batStatus;//电池状态
+    uint8_t bleStatus;//蓝牙状态
+    uint8_t sysStatus;
+}SysPara2;
+
+extern SysPara1 g_sys_para1;
+extern SysPara2 g_sys_para2;
 
 #endif

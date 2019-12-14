@@ -1,9 +1,7 @@
 #include "main.h"
 
 
-
-
-TaskHandle_t Battery_TaskHandle = NULL;  /* 电池管理任务句柄 */
+TaskHandle_t BAT_TaskHandle = NULL;  /* 电池管理任务句柄 */
 
 /***************************************************************************************
   * @brief   
@@ -22,12 +20,12 @@ uint8_t getChargeSta(void)
 }
 
 /***********************************************************************
-  * @ 函数名  ： ADC_AppTask
-  * @ 功能说明： 为了方便管理，所有的任务创建函数都放在这个函数里面
+  * @ 函数名  ： BAT_AppTask
+  * @ 功能说明： 
   * @ 参数    ： 无
   * @ 返回值  ： 无
   **********************************************************************/
-void Battery_AppTask(void)
+void BAT_AppTask(void)
 {
 //    uint32_t i,j,k;
     // Enable auto measurement of battery voltage and temperature

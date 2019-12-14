@@ -46,14 +46,14 @@
                <pin_label pin_num="G10" pin_signal="GPIO_AD_B0_11" label="E103_SETDF" identifier="E103_SETDF"/>
                <pin_label pin_num="L12" pin_signal="GPIO_AD_B1_04" label="BTM_EN" identifier="BTM_EN"/>
                <pin_label pin_num="L10" pin_signal="GPIO_AD_B0_15" label="PWR_AL" identifier="PWR_AL"/>
-               <pin_label pin_num="E12" pin_signal="GPIO_B1_04" label="LED_POWER_RED" identifier="LED_POWER_RED"/>
-               <pin_label pin_num="D12" pin_signal="GPIO_B1_05" label="LED_POWER_GREEN" identifier="LED_POWER_GREEN"/>
-               <pin_label pin_num="C12" pin_signal="GPIO_B1_06" label="LED_BATTERY_RED" identifier="LED_BATTERY_RED"/>
-               <pin_label pin_num="B12" pin_signal="GPIO_B1_07" label="LED_BATTERY_GREEN" identifier="LED_BATTERY_GREEN"/>
+               <pin_label pin_num="E12" pin_signal="GPIO_B1_04" label="LED_PWR_RED" identifier="LED_POWER_RED;LED_PWR_RED"/>
+               <pin_label pin_num="D12" pin_signal="GPIO_B1_05" label="LED_PWR_GREEN" identifier="LED_POWER_GREEN;LED_PWR_GREEN"/>
+               <pin_label pin_num="C12" pin_signal="GPIO_B1_06" label="LED_BAT_RED" identifier="LED_BATTERY_RED;LED_BAT_RED"/>
+               <pin_label pin_num="B12" pin_signal="GPIO_B1_07" label="ED_BAT_GREEN" identifier="LED_BATTERY_GREEN;LED_BAT_GREEN"/>
                <pin_label pin_num="A12" pin_signal="GPIO_B1_08" label="LED_BLE_RED" identifier="LED_BT_RED;LED_BLE_RED"/>
                <pin_label pin_num="A13" pin_signal="GPIO_B1_09" label="LED_BLE_GREEN" identifier="LED_BT_GREEN;LED_BLE_GREEN"/>
-               <pin_label pin_num="B13" pin_signal="GPIO_B1_10" label="LED_STATUS_RED" identifier="LED_STATUS_RED"/>
-               <pin_label pin_num="C13" pin_signal="GPIO_B1_11" label="LED_STATUS_GREEN" identifier="LED_STATUS_GREEN"/>
+               <pin_label pin_num="B13" pin_signal="GPIO_B1_10" label="LED_SYS_RED" identifier="LED_STATUS_RED;LED_SYS_RED"/>
+               <pin_label pin_num="C13" pin_signal="GPIO_B1_11" label="LED_SYS_GREEN" identifier="LED_STATUS_GREEN;LED_SYS_GREEN"/>
             </pin_labels>
          </pins_profile>
          <functions_list>
@@ -276,24 +276,28 @@
                   </pin>
                   <pin peripheral="GPIO2" signal="gpio_io, 20" pin_num="E12" pin_signal="GPIO_B1_04">
                      <pin_features>
+                        <pin_feature name="identifier" value="LED_PWR_RED"/>
                         <pin_feature name="direction" value="OUTPUT"/>
                         <pin_feature name="gpio_init_state" value="true"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="GPIO2" signal="gpio_io, 21" pin_num="D12" pin_signal="GPIO_B1_05">
                      <pin_features>
+                        <pin_feature name="identifier" value="LED_PWR_GREEN"/>
                         <pin_feature name="direction" value="OUTPUT"/>
                         <pin_feature name="gpio_init_state" value="true"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="GPIO2" signal="gpio_io, 22" pin_num="C12" pin_signal="GPIO_B1_06">
                      <pin_features>
+                        <pin_feature name="identifier" value="LED_BAT_RED"/>
                         <pin_feature name="direction" value="OUTPUT"/>
                         <pin_feature name="gpio_init_state" value="true"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="GPIO2" signal="gpio_io, 23" pin_num="B12" pin_signal="GPIO_B1_07">
                      <pin_features>
+                        <pin_feature name="identifier" value="LED_BAT_GREEN"/>
                         <pin_feature name="direction" value="OUTPUT"/>
                         <pin_feature name="gpio_init_state" value="true"/>
                      </pin_features>
@@ -314,12 +318,14 @@
                   </pin>
                   <pin peripheral="GPIO2" signal="gpio_io, 26" pin_num="B13" pin_signal="GPIO_B1_10">
                      <pin_features>
+                        <pin_feature name="identifier" value="LED_SYS_RED"/>
                         <pin_feature name="direction" value="OUTPUT"/>
                         <pin_feature name="gpio_init_state" value="true"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="GPIO2" signal="gpio_io, 27" pin_num="C13" pin_signal="GPIO_B1_11">
                      <pin_features>
+                        <pin_feature name="identifier" value="LED_SYS_GREEN"/>
                         <pin_feature name="direction" value="OUTPUT"/>
                         <pin_feature name="gpio_init_state" value="true"/>
                      </pin_features>

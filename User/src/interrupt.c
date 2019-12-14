@@ -34,9 +34,9 @@ void PIT_IRQHandler(void)
         /* 获取日期 */
         SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
         /* 打印日期&时间 */ 
-        PRINTF("%02d-%02d-%02d  %02d:%02d:%02d \r\n", 
-               rtcDate.year,rtcDate.month, rtcDate.day,rtcDate.hour,
-               rtcDate.minute, rtcDate.second);
+//        PRINTF("%02d-%02d-%02d  %02d:%02d:%02d \r\n", 
+//               rtcDate.year,rtcDate.month, rtcDate.day,rtcDate.hour,
+//               rtcDate.minute, rtcDate.second);
     }
 
     __DSB();
