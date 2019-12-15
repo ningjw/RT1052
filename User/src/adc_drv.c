@@ -1,5 +1,5 @@
 /* -------------------------------------------------------------------------- 
- * QTIMER3_TIMER0 输出PWM波，用于控制采样频率，通过底板A-23引脚输出。
+ * QTIMER3_TIMER0 输出PWM波，用于控制采样频率，通过底板A-21引脚输出。
  * QTIMER1_TIMER0 配置为输入捕获，通底底板A-37引脚输出。
  * ADC_MODE: 0:High-Speed mode; float:High-Resolution mode; 1:Low-Power mode
  * 

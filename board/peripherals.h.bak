@@ -66,16 +66,8 @@ extern "C" {
 #define QUADTIMER3_PERIPHERAL TMR3
 /* Definition of the timer channel Channel_0. */
 #define QUADTIMER3_CHANNEL_0_CHANNEL kQTMR_Channel_0
-/* Definition of the timer channel Channel_3. */
-#define QUADTIMER3_CHANNEL_3_CHANNEL kQTMR_Channel_3
 /* Definition of the timer channel Channel_0 clock source frequency. */
-#define QUADTIMER3_CHANNEL_0_CLOCK_SOURCE 132000000UL
-/* Definition of the timer channel Channel_3 clock source frequency. */
-#define QUADTIMER3_CHANNEL_3_CLOCK_SOURCE 66000000UL
-/* QuadTimer3 interrupt vector ID (number). */
-#define QUADTIMER3_IRQN TMR3_IRQn
-/* QuadTimer3 interrupt handler identifier. */
-#define QUADTIMER3_IRQHANDLER TMR3_IRQHandler
+#define QUADTIMER3_CHANNEL_0_CLOCK_SOURCE 66000000UL
 /* Definition of peripheral ID */
 #define LPUART2_PERIPHERAL LPUART2
 /* Definition of the clock source frequency */
@@ -133,7 +125,7 @@ extern "C" {
 /* Definition of the timer channel Channel_0. */
 #define QUADTIMER1_CHANNEL_0_CHANNEL kQTMR_Channel_0
 /* Definition of the timer channel Channel_0 clock source frequency. */
-#define QUADTIMER1_CHANNEL_0_CLOCK_SOURCE 66000000UL
+#define QUADTIMER1_CHANNEL_0_CLOCK_SOURCE 1031000UL
 /* QuadTimer1 interrupt vector ID (number). */
 #define QUADTIMER1_IRQN TMR1_IRQn
 /* QuadTimer1 interrupt handler identifier. */
@@ -143,6 +135,10 @@ extern "C" {
 #define ADC1_PERIPHERAL ADC1
 /* Definition of special channel interconnected with ADC_ETC which takes real channel to be measured from ADC_ETC. */
 #define ADC1_CHANNEL_DRIVEN_BY_ADC_ETC 16U
+/* ADC1 interrupt vector ID (number). */
+#define ADC1_IRQN ADC1_IRQn
+/* ADC1 interrupt handler identifier. */
+#define ADC1_IRQHANDLER ADC1_IRQHandler
 
 /***********************************************************************************************************************
  * Global variables
@@ -152,7 +148,6 @@ extern const lpuart_config_t LPUART1_config;
 extern const pit_config_t PIT1_config;
 extern const lpi2c_master_config_t LPI2C1_masterConfig;
 extern const qtmr_config_t QuadTimer3_Channel_0_config;
-extern const qtmr_config_t QuadTimer3_Channel_3_config;
 extern const lpuart_config_t LPUART2_config;
 extern edma_handle_t LPUART2_RX_Handle;
 extern lpuart_edma_handle_t LPUART2_eDMA_Handle;
@@ -163,6 +158,7 @@ extern const lpspi_master_config_t LPSPI4_config;
 extern const lpi2c_master_config_t LPI2C3_masterConfig;
 extern const qtmr_config_t QuadTimer1_Channel_0_config;
 extern const adc_config_t ADC1_config;
+extern const adc_channel_config_t ADC1_channels_config[1];
 
 /***********************************************************************************************************************
  * Initialization functions

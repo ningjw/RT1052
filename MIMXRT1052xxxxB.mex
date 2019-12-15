@@ -325,7 +325,11 @@
                         <pin_feature name="gpio_init_state" value="true"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="ADC1" signal="IN, 0" pin_num="J13" pin_signal="GPIO_AD_B1_11"/>
+                  <pin peripheral="ADC1" signal="IN, 0" pin_num="J13" pin_signal="GPIO_AD_B1_11">
+                     <pin_features>
+                        <pin_feature name="pull_keeper_enable" value="Disable"/>
+                     </pin_features>
+                  </pin>
                   <pin peripheral="TMR1" signal="TIMER, 0" pin_num="D7" pin_signal="GPIO_B0_00">
                      <pin_features>
                         <pin_feature name="hysteresis_enable" value="Enable"/>
@@ -782,6 +786,11 @@
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="ADC1.adc_in.0" description="Signal IN of the channel 0 of the peripheral ADC1 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
                </dependencies>
                <instances>
                   <instance name="eDMA" type="edma" type_id="edma_a23fca76a894e1bcdf9d01a687505ff9" mode="basic" peripheral="DMA0" enabled="true">
@@ -908,7 +917,7 @@
                            <struct name="0">
                               <setting name="channel_prefix_id" value="Channel_0"/>
                               <setting name="channel" value="kQTMR_Channel_0"/>
-                              <setting name="primarySource" value="kQTMR_ClockDivide_1"/>
+                              <setting name="primarySource" value="kQTMR_ClockDivide_2"/>
                               <setting name="secondarySource" value="kQTMR_Counter0InputPin"/>
                               <setting name="countingMode" value="kQTMR_PriSrcRiseEdge"/>
                               <setting name="enableMasterMode" value="false"/>
@@ -918,7 +927,7 @@
                               <setting name="debugMode" value="kQTMR_RunNormalInDebug"/>
                               <setting name="timerModeInit" value="pwmOutput"/>
                               <struct name="pwmMode">
-                                 <setting name="freq_value_str" value="3300"/>
+                                 <setting name="freq_value_str" value="660"/>
                                  <setting name="dutyCyclePercent" value="50"/>
                                  <setting name="outputPolarity" value="false"/>
                               </struct>
@@ -926,7 +935,7 @@
                            </struct>
                         </array>
                         <struct name="interruptVector">
-                           <setting name="enable_irq" value="true"/>
+                           <setting name="enable_irq" value="false"/>
                            <struct name="interrupt">
                               <setting name="IRQn" value="TMR3_IRQn"/>
                               <setting name="enable_priority" value="false"/>
@@ -1193,7 +1202,7 @@
                            <struct name="0">
                               <setting name="channel_prefix_id" value="Channel_0"/>
                               <setting name="channel" value="kQTMR_Channel_0"/>
-                              <setting name="primarySource" value="kQTMR_ClockDivide_2"/>
+                              <setting name="primarySource" value="kQTMR_ClockDivide_1"/>
                               <setting name="secondarySource" value="kQTMR_Counter0InputPin"/>
                               <setting name="countingMode" value="kQTMR_PriSrcRiseEdge"/>
                               <setting name="enableMasterMode" value="false"/>
@@ -1237,17 +1246,17 @@
                         </struct>
                         <struct name="conversionConfig">
                            <setting name="resolution" value="kADC_Resolution12Bit"/>
-                           <setting name="hardwareAverageMode" value="kADC_HardwareAverageDisable"/>
+                           <setting name="hardwareAverageMode" value="kADC_HardwareAverageCount32"/>
                            <setting name="enableHardwareTrigger" value="software"/>
                            <setting name="enableHighSpeed" value="false"/>
                            <setting name="enableLowPower" value="false"/>
-                           <setting name="enableContinuousConversion" value="false"/>
-                           <setting name="enableOverWrite" value="false"/>
+                           <setting name="enableContinuousConversion" value="true"/>
+                           <setting name="enableOverWrite" value="true"/>
                            <setting name="enableDma" value="false"/>
                         </struct>
                         <struct name="resultingTime"/>
                         <struct name="resultCorrection">
-                           <setting name="doAutoCalibration" value="false"/>
+                           <setting name="doAutoCalibration" value="true"/>
                            <setting name="offset" value="0"/>
                         </struct>
                         <struct name="hardwareCompareConfiguration">
@@ -1255,14 +1264,22 @@
                            <setting name="value1" value="0"/>
                            <setting name="value2" value="0"/>
                         </struct>
-                        <setting name="enableInterrupt" value="false"/>
+                        <setting name="enableInterrupt" value="true"/>
                         <struct name="adc_interrupt">
                            <setting name="IRQn" value="ADC1_IRQn"/>
                            <setting name="enable_priority" value="false"/>
                            <setting name="priority" value="0"/>
                            <setting name="enable_custom_name" value="false"/>
                         </struct>
-                        <array name="adc_channels_config"/>
+                        <array name="adc_channels_config">
+                           <struct name="0">
+                              <setting name="channelNumber" value="IN.0"/>
+                              <setting name="channelName" value=""/>
+                              <setting name="channelGroup" value="0"/>
+                              <setting name="initializeChannel" value="true"/>
+                              <setting name="enableInterruptOnConversionCompleted" value="true"/>
+                           </struct>
+                        </array>
                      </config_set>
                   </instance>
                </instances>

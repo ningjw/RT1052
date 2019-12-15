@@ -119,8 +119,7 @@ BOARD:
   - {pin_num: K1, peripheral: USDHC1, signal: 'usdhc_data, 1', pin_signal: GPIO_SD_B0_03}
   - {pin_num: H2, peripheral: USDHC1, signal: 'usdhc_data, 2', pin_signal: GPIO_SD_B0_04}
   - {pin_num: J2, peripheral: USDHC1, signal: 'usdhc_data, 3', pin_signal: GPIO_SD_B0_05}
-  - {pin_num: M12, peripheral: TMR3, signal: 'TIMER, 3', pin_signal: GPIO_AD_B1_03, hysteresis_enable: Enable, pull_up_down_config: Pull_Up_22K_Ohm, pull_keeper_enable: Disable,
-    open_drain: Enable, drive_strength: Disabled, slew_rate: Slow}
+  - {pin_num: M12, peripheral: LPUART2, signal: RX, pin_signal: GPIO_AD_B1_03}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -340,7 +339,7 @@ void BOARD(void) {
       IOMUXC_GPIO_AD_B1_02_LPUART2_TX,        /* GPIO_AD_B1_02 is configured as LPUART2_TX */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
-      IOMUXC_GPIO_AD_B1_03_QTIMER3_TIMER3,    /* GPIO_AD_B1_03 is configured as QTIMER3_TIMER3 */
+      IOMUXC_GPIO_AD_B1_03_LPUART2_RX,        /* GPIO_AD_B1_03 is configured as LPUART2_RX */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
       IOMUXC_GPIO_AD_B1_04_GPIO1_IO20,        /* GPIO_AD_B1_04 is configured as GPIO1_IO20 */
@@ -460,10 +459,9 @@ void BOARD(void) {
       IOMUXC_GPIO_SD_B0_05_USDHC1_DATA3,      /* GPIO_SD_B0_05 is configured as USDHC1_DATA3 */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_GPR->GPR6 = ((IOMUXC_GPR->GPR6 &
-    (~(IOMUXC_GPR_GPR6_QTIMER1_TRM0_INPUT_SEL_MASK | IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL_MASK | IOMUXC_GPR_GPR6_QTIMER3_TRM3_INPUT_SEL_MASK))) /* Mask bits to zero which are setting */
+    (~(IOMUXC_GPR_GPR6_QTIMER1_TRM0_INPUT_SEL_MASK | IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL_MASK))) /* Mask bits to zero which are setting */
       | IOMUXC_GPR_GPR6_QTIMER1_TRM0_INPUT_SEL(0x00U) /* QTIMER1 TMR0 input select: input from IOMUX */
       | IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL(0x00U) /* QTIMER3 TMR0 input select: input from IOMUX */
-      | IOMUXC_GPR_GPR6_QTIMER3_TRM3_INPUT_SEL(0x00U) /* QTIMER3 TMR3 input select: input from IOMUX */
     );
   IOMUXC_SetPinConfig(
       IOMUXC_GPIO_AD_B1_00_LPI2C1_SCL,        /* GPIO_AD_B1_00 PAD functional properties : */
@@ -485,16 +483,6 @@ void BOARD(void) {
                                                  Pull / Keep Select Field: Pull
                                                  Pull Up / Down Config. Field: 100K Ohm Pull Down
                                                  Hyst. Enable Field: Hysteresis Disabled */
-  IOMUXC_SetPinConfig(
-      IOMUXC_GPIO_AD_B1_03_QTIMER3_TIMER3,    /* GPIO_AD_B1_03 PAD functional properties : */
-      0x01C880U);                             /* Slew Rate Field: Slow Slew Rate
-                                                 Drive Strength Field: output driver disabled;
-                                                 Speed Field: medium(100MHz)
-                                                 Open Drain Enable Field: Open Drain Enabled
-                                                 Pull / Keep Enable Field: Pull/Keeper Disabled
-                                                 Pull / Keep Select Field: Keeper
-                                                 Pull Up / Down Config. Field: 22K Ohm Pull Up
-                                                 Hyst. Enable Field: Hysteresis Enabled */
   IOMUXC_SetPinConfig(
       IOMUXC_GPIO_AD_B1_06_LPI2C3_SDA,        /* GPIO_AD_B1_06 PAD functional properties : */
       0x38B0U);                               /* Slew Rate Field: Slow Slew Rate

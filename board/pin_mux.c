@@ -108,7 +108,7 @@ BOARD:
   - {pin_num: A13, peripheral: GPIO2, signal: 'gpio_io, 25', pin_signal: GPIO_B1_09, identifier: LED_BLE_GREEN, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: B13, peripheral: GPIO2, signal: 'gpio_io, 26', pin_signal: GPIO_B1_10, identifier: LED_SYS_RED, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: C13, peripheral: GPIO2, signal: 'gpio_io, 27', pin_signal: GPIO_B1_11, identifier: LED_SYS_GREEN, direction: OUTPUT, gpio_init_state: 'true'}
-  - {pin_num: J13, peripheral: ADC1, signal: 'IN, 0', pin_signal: GPIO_AD_B1_11}
+  - {pin_num: J13, peripheral: ADC1, signal: 'IN, 0', pin_signal: GPIO_AD_B1_11, pull_keeper_enable: Disable}
   - {pin_num: D7, peripheral: TMR1, signal: 'TIMER, 0', pin_signal: GPIO_B0_00, hysteresis_enable: Enable, pull_up_down_config: Pull_Up_22K_Ohm, pull_keeper_select: Keeper,
     pull_keeper_enable: Disable, open_drain: Enable, drive_strength: Disabled, slew_rate: Slow}
   - {pin_num: H13, peripheral: GPIO1, signal: 'gpio_io, 24', pin_signal: GPIO_AD_B1_08}
@@ -501,6 +501,16 @@ void BOARD(void) {
                                                  Open Drain Enable Field: Open Drain Enabled
                                                  Pull / Keep Enable Field: Pull/Keeper Enabled
                                                  Pull / Keep Select Field: Pull
+                                                 Pull Up / Down Config. Field: 100K Ohm Pull Down
+                                                 Hyst. Enable Field: Hysteresis Disabled */
+  IOMUXC_SetPinConfig(
+      IOMUXC_GPIO_AD_B1_11_GPIO1_IO27,        /* GPIO_AD_B1_11 PAD functional properties : */
+      0xB0U);                                 /* Slew Rate Field: Slow Slew Rate
+                                                 Drive Strength Field: R0/6
+                                                 Speed Field: medium(100MHz)
+                                                 Open Drain Enable Field: Open Drain Disabled
+                                                 Pull / Keep Enable Field: Pull/Keeper Disabled
+                                                 Pull / Keep Select Field: Keeper
                                                  Pull Up / Down Config. Field: 100K Ohm Pull Down
                                                  Hyst. Enable Field: Hysteresis Disabled */
   IOMUXC_SetPinConfig(
