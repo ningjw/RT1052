@@ -135,6 +135,11 @@
                         <data>true</data>
                      </feature>
                   </dependency>
+                  <dependency resourceType="Peripheral" resourceId="ADC_ETC" description="Peripheral ADC_ETC is not initialized" problem_level="1" source="Pins:BOARD">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
                   <dependency resourceType="SWComponent" resourceId="platform.drivers.common" description="Pins initialization requires the COMMON Driver in the project." problem_level="2" source="Pins:BOARD">
                      <feature name="enabled" evaluation="equal" configuration="core0">
                         <data>true</data>
@@ -146,6 +151,11 @@
                      </feature>
                   </dependency>
                   <dependency resourceType="SWComponent" resourceId="platform.drivers.igpio" description="Pins initialization requires the IGPIO Driver in the project." problem_level="2" source="Pins:BOARD">
+                     <feature name="enabled" evaluation="equal" configuration="core0">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="SWComponent" resourceId="platform.drivers.xbara" description="Pins initialization requires the XBARA Driver in the project." problem_level="2" source="Pins:BOARD">
                      <feature name="enabled" evaluation="equal" configuration="core0">
                         <data>true</data>
                      </feature>
@@ -350,6 +360,7 @@
                   <pin peripheral="USDHC1" signal="usdhc_data, 2" pin_num="H2" pin_signal="GPIO_SD_B0_04"/>
                   <pin peripheral="USDHC1" signal="usdhc_data, 3" pin_num="J2" pin_signal="GPIO_SD_B0_05"/>
                   <pin peripheral="LPUART2" signal="RX" pin_num="M12" pin_signal="GPIO_AD_B1_03"/>
+                  <pin peripheral="ADC_ETC" signal="XBAR0_TRIG, 0" pin_num="" pin_signal="PIT_TRIGGER0"/>
                </pins>
             </function>
          </functions_list>
@@ -623,6 +634,16 @@
                   <data type="Version">2.0.0</data>
                </feature>
             </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.adc_etc" description="在工具链/IDT 工程中未找到 ADC_ETC Driver。" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.adc_etc" description="工具链/IDT 工程中，该版本的 ADC_ETC Driver 不被支持。所需的：${required_value},，实际的： ${actual_value}。" problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">2.0.0</data>
+               </feature>
+            </dependency>
          </dependencies>
          <generated_project_files>
             <file path="board/peripherals.c" update_enabled="true"/>
@@ -786,9 +807,26 @@
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="ADC1.adc_in.0" description="Signal IN of the channel 0 of the peripheral ADC1 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                  <dependency resourceType="Peripheral" resourceId="ADC_ETC" description="At least one of ADC_ETC hardware triggers needs to be routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routedUnifiedSignals" evaluation="includesAny">
+                        <data type="String">ADC_ETC.adc_etc_xbar0_trig.0</data>
+                        <data type="String">ADC_ETC.adc_etc_xbar0_trig.1</data>
+                        <data type="String">ADC_ETC.adc_etc_xbar0_trig.2</data>
+                        <data type="String">ADC_ETC.adc_etc_xbar0_trig.3</data>
+                        <data type="String">ADC_ETC.adc_etc_xbar1_trig.0</data>
+                        <data type="String">ADC_ETC.adc_etc_xbar1_trig.1</data>
+                        <data type="String">ADC_ETC.adc_etc_xbar1_trig.2</data>
+                        <data type="String">ADC_ETC.adc_etc_xbar1_trig.3</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="ADC1.adc_channel_driven_by_adc_etc.channel_driven_by_adc_etc" description="Signal CHANNEL_DRIVEN_BY_ADC_ETC of the channel CHANNEL_DRIVEN_BY_ADC_ETC of the peripheral ADC1 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="">
                         <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="ClockOutput" resourceId="IPG_CLK_ROOT" description="IPG_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
                      </feature>
                   </dependency>
                </dependencies>
@@ -863,7 +901,7 @@
                            <struct name="0">
                               <setting name="channelNumber" value="0"/>
                               <setting name="enableChain" value="false"/>
-                              <setting name="timerPeriod" value="1ms"/>
+                              <setting name="timerPeriod" value="1000ms"/>
                               <setting name="startTimer" value="true"/>
                               <setting name="enableInterrupt" value="true"/>
                            </struct>
@@ -1247,10 +1285,10 @@
                         <struct name="conversionConfig">
                            <setting name="resolution" value="kADC_Resolution12Bit"/>
                            <setting name="hardwareAverageMode" value="kADC_HardwareAverageCount32"/>
-                           <setting name="enableHardwareTrigger" value="software"/>
+                           <setting name="enableHardwareTrigger" value="hardware"/>
                            <setting name="enableHighSpeed" value="false"/>
                            <setting name="enableLowPower" value="false"/>
-                           <setting name="enableContinuousConversion" value="true"/>
+                           <setting name="enableContinuousConversion" value="false"/>
                            <setting name="enableOverWrite" value="true"/>
                            <setting name="enableDma" value="false"/>
                         </struct>
@@ -1264,7 +1302,7 @@
                            <setting name="value1" value="0"/>
                            <setting name="value2" value="0"/>
                         </struct>
-                        <setting name="enableInterrupt" value="true"/>
+                        <setting name="enableInterrupt" value="false"/>
                         <struct name="adc_interrupt">
                            <setting name="IRQn" value="ADC1_IRQn"/>
                            <setting name="enable_priority" value="false"/>
@@ -1273,13 +1311,41 @@
                         </struct>
                         <array name="adc_channels_config">
                            <struct name="0">
-                              <setting name="channelNumber" value="IN.0"/>
+                              <setting name="channelNumber" value="CHANNEL_DRIVEN_BY_ADC_ETC"/>
                               <setting name="channelName" value=""/>
                               <setting name="channelGroup" value="0"/>
                               <setting name="initializeChannel" value="true"/>
-                              <setting name="enableInterruptOnConversionCompleted" value="true"/>
+                              <setting name="enableInterruptOnConversionCompleted" value="false"/>
                            </struct>
                         </array>
+                     </config_set>
+                  </instance>
+                  <instance name="ADC_ETC" type="adc_etc" type_id="adc_etc_f54f0f22e1814a87101dbc3d3da0f030" mode="ADC_ETC_SW" peripheral="ADC_ETC" enabled="true">
+                     <config_set name="fsl_adc_etc">
+                        <struct name="config">
+                           <struct name="clockConfig_t">
+                              <setting name="clockSource" value="BusInterfaceClock"/>
+                              <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
+                              <setting name="clockPreDivider" value="1"/>
+                           </struct>
+                           <setting name="dmaMode" value="kADC_ETC_TrigDMAWithPulsedSignal"/>
+                        </struct>
+                        <struct name="tscConfig">
+                           <setting name="enableTSCBypass" value="false"/>
+                           <setting name="enableTSC0Trigger" value="false"/>
+                           <setting name="TSC0triggerPriority" value="0"/>
+                           <setting name="enableTSC1Trigger" value="false"/>
+                           <setting name="TSC1triggerPriority" value="0"/>
+                        </struct>
+                        <array name="triggers_config"/>
+                        <setting name="enableInterrupt" value="true"/>
+                        <struct name="adc_etc_interrupt_err">
+                           <setting name="IRQn" value="ADC_ETC_ERROR_IRQ_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="true"/>
+                           <setting name="handler_custom_name" value="ADC_ETC_ERROR_IRQHANDLER"/>
+                        </struct>
                      </config_set>
                   </instance>
                </instances>

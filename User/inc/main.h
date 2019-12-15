@@ -17,6 +17,8 @@
 #include "fsl_debug_console.h"
 #include "fsl_snvs_hp.h"
 #include "fsl_iomuxc.h"
+#include "fsl_xbara.h"
+
 
 #include "FreeRTOS.h"
 #include "task.h"

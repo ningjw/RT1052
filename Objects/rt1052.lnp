@@ -58,6 +58,8 @@
 ".\objects\fsl_str.o"
 ".\objects\startup_mimxrt1052.o"
 ".\objects\system_mimxrt1052.o"
+".\objects\fsl_adc_etc.o"
+".\objects\fsl_xbara.o"
 ".\objects\freertos_evr.o"
 ".\objects\croutine.o"
 ".\objects\event_groups.o"

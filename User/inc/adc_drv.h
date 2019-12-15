@@ -7,5 +7,9 @@
 
 //对应核心板的A-19脚
 #define ADC_READY() GPIO_PinRead(BOARD_ADC_RDY_GPIO, BOARD_ADC_RDY_PIN)
+                   
+
+void XBARA_Configuration(void);
+void ADC_ETC_Config(void);
 
 #endif

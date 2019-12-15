@@ -21,6 +21,7 @@
 #include "fsl_lpspi.h"
 #include "fsl_gpio.h"
 #include "fsl_adc.h"
+#include "fsl_adc_etc.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -48,7 +49,7 @@ extern "C" {
 /* Definition of clock source frequency. */
 #define PIT1_CLK_FREQ 66000000UL
 /* Definition of ticks count for channel 0. */
-#define PIT1_0_TICKS 65999U
+#define PIT1_0_TICKS 65999999U
 /* Definition of ticks count for channel 1. */
 #define PIT1_1_TICKS 65999999U
 /* PIT1 interrupt vector ID (number). */
@@ -135,10 +136,21 @@ extern "C" {
 #define ADC1_PERIPHERAL ADC1
 /* Definition of special channel interconnected with ADC_ETC which takes real channel to be measured from ADC_ETC. */
 #define ADC1_CHANNEL_DRIVEN_BY_ADC_ETC 16U
-/* ADC1 interrupt vector ID (number). */
-#define ADC1_IRQN ADC1_IRQn
-/* ADC1 interrupt handler identifier. */
-#define ADC1_IRQHANDLER ADC1_IRQHandler
+/* BOARD_InitPeripherals defines for ADC_ETC */
+/* Definition of peripheral ID */
+#define ADC_ETC_PERIPHERAL ADC_ETC
+/* Definition of the names for trigger configurations. Used as index to ADC_ETC_trigger_config array. */
+/* Definition of the names for trigger group parameter of multiple functions, like ADC_ETC_SetTriggerConfig() and ADC_ETC_SetTriggerChainConfig(). */
+/* ADC_ETC interrupt vector ID (number). */
+#define ADC_ETC_ADC_ETC_0_IRQN ADC_ETC_IRQ0_IRQn
+/* ADC_ETC interrupt vector ID (number). */
+#define ADC_ETC_ADC_ETC_1_IRQN ADC_ETC_IRQ1_IRQn
+/* ADC_ETC interrupt vector ID (number). */
+#define ADC_ETC_ADC_ETC_2_IRQN ADC_ETC_IRQ2_IRQn
+/* ADC_ETC interrupt vector ID (number). */
+#define ADC_ETC_ADC_ETC_ERROR_IRQN ADC_ETC_ERROR_IRQ_IRQn
+/* ADC_ETC interrupt handler identifier. */
+#define ADC_ETC_ERROR_IRQHANDLER ADC_ETC_ERROR_IRQ_IRQHandler
 
 /***********************************************************************************************************************
  * Global variables
@@ -159,6 +171,7 @@ extern const lpi2c_master_config_t LPI2C3_masterConfig;
 extern const qtmr_config_t QuadTimer1_Channel_0_config;
 extern const adc_config_t ADC1_config;
 extern const adc_channel_config_t ADC1_channels_config[1];
+extern const adc_etc_config_t ADC_ETC_config;
 
 /***********************************************************************************************************************
  * Initialization functions

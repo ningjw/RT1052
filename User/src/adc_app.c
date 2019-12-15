@@ -27,11 +27,11 @@ void GPIO2_Combined_0_15_IRQHandler(void)
 ***************************************************************************************/
 void TMR1_IRQHandler(void)
 {
-    uint32_t timerCount = 0;
     /* 清除中断标志 */
     QTMR_ClearStatusFlags(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_EdgeFlag);
     timeCapt = QUADTIMER1_PERIPHERAL->CHANNEL[QUADTIMER1_CHANNEL_0_CHANNEL].CAPT;//读取寄存器值
-    xSemaphoreGive(ADCRdySem);//获取信号量
+//    xSemaphoreGive(ADCRdySem);//发送信号量
+    __DSB();
 }
 
 
@@ -40,12 +40,15 @@ void TMR1_IRQHandler(void)
   * @input
   * @return
 ***************************************************************************************/
-void ADC1_IRQHandler(void)
+void ADC_ETC_IRQ0_IRQHandler(void)
 {
-    /*读取转换结果，读取之后硬件自动清除转换完成中断标志位*/
-    ADC_ConvertedValue = ADC_GetChannelConversionValue(ADC1, 0U);
-
+  /*清除转换完成中断标志位*/
+  ADC_ETC_ClearInterruptStatusFlags(ADC_ETC, (adc_etc_external_trigger_source_t)ADC_ETC_XBARA_TRIGGER_CHANNELx, kADC_ETC_Done0StatusFlagMask);
+  /*读取转换结果*/
+  ADC_ConvertedValue = ADC_ETC_GetADCConversionValue(ADC_ETC, ADC_ETC_XBARA_TRIGGER_CHANNELx, 0U); /* Get trigger0 chain0 result. */
+  xSemaphoreGive(ADCRdySem);//发送信号量
 }
+
 
 /***************************************************************************************
   * @brief
@@ -60,12 +63,15 @@ void ADC1_IRQHandler(void)
 void ADC_AppTask(void)
 {
     ADCRdySem = xSemaphoreCreateBinary();      //创建 二值 信号量
+    ADC_ETC_Config();
+    XBARA_Configuration();
     counterClock = QUADTIMER1_CHANNEL_0_CLOCK_SOURCE / 1000;
     PRINTF("ADC Task Create and Running\r\n");
     while(1)
     {
         xSemaphoreTake(ADCRdySem, portMAX_DELAY);//获取信号量
-        PRINTF("\r\nCaptured Period time=%d us\n", (timeCapt * 1000) / counterClock);
+//        PRINTF("\r\nCaptured Period time=%d us\n", (timeCapt * 1000) / counterClock);
+        PRINTF("\r\nADC Value = %d \n", ADC_ConvertedValue);
     }
 }
 
