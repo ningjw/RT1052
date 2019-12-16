@@ -63,6 +63,9 @@
 .\objects\interrupt.o: .\User\inc\emmc_drv.h
 .\objects\interrupt.o: .\User\inc\adc_drv.h
 .\objects\interrupt.o: .\User\inc\battery_drv.h
+.\objects\interrupt.o: .\User\inc\iic_temp_drv.h
+.\objects\interrupt.o: .\User\inc\core_delay.h
+.\objects\interrupt.o: .\User\inc\ble_protocol.h
 .\objects\interrupt.o: .\User\inc\ble_app.h
 .\objects\interrupt.o: .\User\inc\adc_app.h
 .\objects\interrupt.o: .\User\inc\battery_app.h

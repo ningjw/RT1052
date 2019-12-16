@@ -42,6 +42,14 @@ void BOARD_InitBootPins(void);
 #define BOARD_LED_PORT                                                     GPIO1   /*!< PORT device name: GPIO1 */
 #define BOARD_LED_PIN                                                         9U   /*!< GPIO1 pin index: 9 */
 
+/* GPIO_B0_01 (coord E7), ADC_SDI */
+#define BOARD_ADC_SDI_PERIPHERAL                                          LPSPI4   /*!< Device name: LPSPI4 */
+#define BOARD_ADC_SDI_SIGNAL                                                 SDI   /*!< LPSPI4 signal: SDI */
+
+/* GPIO_B0_03 (coord D8), ADC_SCK */
+#define BOARD_ADC_SCK_PERIPHERAL                                          LPSPI4   /*!< Device name: LPSPI4 */
+#define BOARD_ADC_SCK_SIGNAL                                                 SCK   /*!< LPSPI4 signal: SCK */
+
 /* GPIO_B1_03 (coord D11), RST_4G */
 #define BOARD_RST_4G_GPIO                                                  GPIO2   /*!< GPIO device name: GPIO2 */
 #define BOARD_RST_4G_PORT                                                  GPIO2   /*!< PORT device name: GPIO2 */
@@ -161,6 +169,16 @@ void BOARD_InitBootPins(void);
 #define BOARD_CHARGE_COMPELETE_GPIO                                        GPIO1   /*!< GPIO device name: GPIO1 */
 #define BOARD_CHARGE_COMPELETE_PORT                                        GPIO1   /*!< PORT device name: GPIO1 */
 #define BOARD_CHARGE_COMPELETE_PIN                                           25U   /*!< GPIO1 pin index: 25 */
+
+/* GPIO_AD_B1_06 (coord J12), SDA_TEMP */
+#define BOARD_SDA_TEMP_GPIO                                                GPIO1   /*!< GPIO device name: GPIO1 */
+#define BOARD_SDA_TEMP_PORT                                                GPIO1   /*!< PORT device name: GPIO1 */
+#define BOARD_SDA_TEMP_PIN                                                   22U   /*!< GPIO1 pin index: 22 */
+
+/* GPIO_AD_B1_07 (coord K10), SCL_TEMP */
+#define BOARD_SCL_TEMP_GPIO                                                GPIO1   /*!< GPIO device name: GPIO1 */
+#define BOARD_SCL_TEMP_PORT                                                GPIO1   /*!< PORT device name: GPIO1 */
+#define BOARD_SCL_TEMP_PIN                                                   23U   /*!< GPIO1 pin index: 23 */
 
 
 /*!

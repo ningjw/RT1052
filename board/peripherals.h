@@ -116,11 +116,6 @@ extern "C" {
 #define GPIO2_GPIO_COMB_0_15_IRQ_PRIORITY 0
 /* GPIO2 interrupt handler identifier. */
 #define GPIO2_COMB_0_15_IRQHANDLER GPIO2_Combined_0_15_IRQHandler
-/* BOARD_InitPeripherals defines for LPI2C3 */
-/* Definition of peripheral ID */
-#define LPI2C3_PERIPHERAL LPI2C3
-/* Definition of clock source */
-#define LPI2C3_CLOCK_FREQ 1000000UL
 /* Definition of peripheral ID */
 #define QUADTIMER1_PERIPHERAL TMR1
 /* Definition of the timer channel Channel_0. */
@@ -167,7 +162,6 @@ extern const lpuart_config_t LPUART4_config;
 extern const lpuart_config_t LPUART3_config;
 extern const lpuart_config_t LPUART5_config;
 extern const lpspi_master_config_t LPSPI4_config;
-extern const lpi2c_master_config_t LPI2C3_masterConfig;
 extern const qtmr_config_t QuadTimer1_Channel_0_config;
 extern const adc_config_t ADC1_config;
 extern const adc_channel_config_t ADC1_channels_config[1];

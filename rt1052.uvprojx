@@ -420,6 +420,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\src\led_app.c</FilePath>
             </File>
+            <File>
+              <FileName>ble_protocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\ble_protocol.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -469,6 +474,11 @@
               <FileName>led_drv.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\led_drv.c</FilePath>
+            </File>
+            <File>
+              <FileName>iic_temp_drv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\iic_temp_drv.c</FilePath>
             </File>
           </Files>
         </Group>

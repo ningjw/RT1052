@@ -108,9 +108,8 @@ uint8_t AT_SendData(const char *send_buf, uint8_t buf_len, const char *recv_str,
 }
 
 
-
-
-
+char set_rtc[] = "{\"Id\":1,\"Sid\":0,\"Y\":2019,\"Mon\":12,\"D\":16,\"H\":9,\"Min\":0,\"S\":0}";
+char get_rtc[] = "{\"Id\":2,\"Sid\":0}";
 /***********************************************************************
   * @ 函数名  ： BLE_AppTask
   * @ 功能说明： 为了方便管理，所有的任务创建函数都放在这个函数里面
@@ -120,6 +119,9 @@ uint8_t AT_SendData(const char *send_buf, uint8_t buf_len, const char *recv_str,
 void BLE_AppTask(void)
 {
     uint8_t ret = false;
+    
+    ParseProtocol(get_rtc);
+    
     /*使能空闲中断*/
 	LPUART_EnableInterrupts(LPUART2, kLPUART_IdleLineInterruptEnable);
 	/*使能串口中断**/

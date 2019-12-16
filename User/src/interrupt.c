@@ -32,7 +32,7 @@ void PIT_IRQHandler(void)
         BOARD_LED_PORT->DR ^= (1 << BOARD_LED_PIN);
         
         /* 获取日期 */
-        SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
+//        SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
         /* 打印日期&时间 */ 
 //        PRINTF("%02d-%02d-%02d  %02d:%02d:%02d \r\n", 
 //               rtcDate.year,rtcDate.month, rtcDate.day,rtcDate.hour,

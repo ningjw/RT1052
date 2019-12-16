@@ -63,6 +63,9 @@
 .\objects\led_drv_1.o: .\User\inc\emmc_drv.h
 .\objects\led_drv_1.o: .\User\inc\adc_drv.h
 .\objects\led_drv_1.o: .\User\inc\battery_drv.h
+.\objects\led_drv_1.o: .\User\inc\iic_temp_drv.h
+.\objects\led_drv_1.o: .\User\inc\core_delay.h
+.\objects\led_drv_1.o: .\User\inc\ble_protocol.h
 .\objects\led_drv_1.o: .\User\inc\ble_app.h
 .\objects\led_drv_1.o: .\User\inc\adc_app.h
 .\objects\led_drv_1.o: .\User\inc\battery_app.h

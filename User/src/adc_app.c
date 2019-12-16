@@ -43,10 +43,11 @@ void TMR1_IRQHandler(void)
 void ADC_ETC_IRQ0_IRQHandler(void)
 {
   /*清除转换完成中断标志位*/
-  ADC_ETC_ClearInterruptStatusFlags(ADC_ETC, (adc_etc_external_trigger_source_t)ADC_ETC_XBARA_TRIGGER_CHANNELx, kADC_ETC_Done0StatusFlagMask);
+  ADC_ETC_ClearInterruptStatusFlags(ADC_ETC, (adc_etc_external_trigger_source_t)0U, kADC_ETC_Done0StatusFlagMask);
   /*读取转换结果*/
-  ADC_ConvertedValue = ADC_ETC_GetADCConversionValue(ADC_ETC, ADC_ETC_XBARA_TRIGGER_CHANNELx, 0U); /* Get trigger0 chain0 result. */
-  xSemaphoreGive(ADCRdySem);//发送信号量
+  ADC_ConvertedValue = ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
+  //发送信号量
+  xSemaphoreGive(ADCRdySem);
 }
 
 

@@ -36,8 +36,8 @@
                <pin_label pin_num="A10" pin_signal="GPIO_B0_11" label="ADC_MODE" identifier="ADC_MODE"/>
                <pin_label pin_num="E11" pin_signal="GPIO_B0_15" label="ADC_FORMAT" identifier="ADC_FORMAT"/>
                <pin_label pin_num="E10" pin_signal="GPIO_B0_14" label="ADC_SYNC" identifier="ADC_SYNC"/>
-               <pin_label pin_num="E7" pin_signal="GPIO_B0_01" label="ADC_SDI"/>
-               <pin_label pin_num="D8" pin_signal="GPIO_B0_03" label="ADC_SCK"/>
+               <pin_label pin_num="E7" pin_signal="GPIO_B0_01" label="ADC_SDI" identifier="ADC_SDI"/>
+               <pin_label pin_num="D8" pin_signal="GPIO_B0_03" label="ADC_SCK" identifier="ADC_SCK"/>
                <pin_label pin_num="C8" pin_signal="GPIO_B0_04" label="ADC_RDY" identifier="ADC_RDY"/>
                <pin_label pin_num="C14" pin_signal="GPIO_B1_14" label="eMMC_EN" identifier="eMMC_EN"/>
                <pin_label pin_num="F11" pin_signal="GPIO_AD_B0_04" label="BOOT_MODE0" identifier="BOOT_MODE0"/>
@@ -54,6 +54,8 @@
                <pin_label pin_num="A13" pin_signal="GPIO_B1_09" label="LED_BLE_GREEN" identifier="LED_BT_GREEN;LED_BLE_GREEN"/>
                <pin_label pin_num="B13" pin_signal="GPIO_B1_10" label="LED_SYS_RED" identifier="LED_STATUS_RED;LED_SYS_RED"/>
                <pin_label pin_num="C13" pin_signal="GPIO_B1_11" label="LED_SYS_GREEN" identifier="LED_STATUS_GREEN;LED_SYS_GREEN"/>
+               <pin_label pin_num="J12" pin_signal="GPIO_AD_B1_06" label="SDA_TEMP" identifier="SDA_TEMP"/>
+               <pin_label pin_num="K10" pin_signal="GPIO_AD_B1_07" label="SCL_TEMP" identifier="SCL_TEMP"/>
             </pin_labels>
          </pins_profile>
          <functions_list>
@@ -71,11 +73,6 @@
                      </feature>
                   </dependency>
                   <dependency resourceType="Peripheral" resourceId="LPI2C1" description="Peripheral LPI2C1 is not initialized" problem_level="1" source="Pins:BOARD">
-                     <feature name="initialized" evaluation="equal">
-                        <data>true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="Peripheral" resourceId="LPI2C3" description="Peripheral LPI2C3 is not initialized" problem_level="1" source="Pins:BOARD">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
@@ -186,29 +183,21 @@
                         <pin_feature name="open_drain" value="Enable"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="LPI2C3" signal="SDA" pin_num="J12" pin_signal="GPIO_AD_B1_06">
-                     <pin_features>
-                        <pin_feature name="software_input_on" value="Enable"/>
-                        <pin_feature name="pull_up_down_config" value="Pull_Down_100K_Ohm"/>
-                        <pin_feature name="pull_keeper_select" value="Pull"/>
-                        <pin_feature name="open_drain" value="Enable"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="LPI2C3" signal="SCL" pin_num="K10" pin_signal="GPIO_AD_B1_07">
-                     <pin_features>
-                        <pin_feature name="software_input_on" value="Enable"/>
-                        <pin_feature name="pull_up_down_config" value="Pull_Down_100K_Ohm"/>
-                        <pin_feature name="pull_keeper_select" value="Pull"/>
-                        <pin_feature name="open_drain" value="Enable"/>
-                     </pin_features>
-                  </pin>
                   <pin peripheral="TMR3" signal="TIMER, 0" pin_num="A8" pin_signal="GPIO_B0_06">
                      <pin_features>
                         <pin_feature name="slew_rate" value="Fast"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="LPSPI4" signal="SDI" pin_num="E7" pin_signal="GPIO_B0_01"/>
-                  <pin peripheral="LPSPI4" signal="SCK" pin_num="D8" pin_signal="GPIO_B0_03"/>
+                  <pin peripheral="LPSPI4" signal="SDI" pin_num="E7" pin_signal="GPIO_B0_01">
+                     <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="LPSPI4" signal="SCK" pin_num="D8" pin_signal="GPIO_B0_03">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                     </pin_features>
+                  </pin>
                   <pin peripheral="GPIO2" signal="gpio_io, 19" pin_num="D11" pin_signal="GPIO_B1_03"/>
                   <pin peripheral="GPIO2" signal="gpio_io, 18" pin_num="C11" pin_signal="GPIO_B1_02"/>
                   <pin peripheral="LPUART4" signal="RX" pin_num="B11" pin_signal="GPIO_B1_01"/>
@@ -361,6 +350,18 @@
                   <pin peripheral="USDHC1" signal="usdhc_data, 3" pin_num="J2" pin_signal="GPIO_SD_B0_05"/>
                   <pin peripheral="LPUART2" signal="RX" pin_num="M12" pin_signal="GPIO_AD_B1_03"/>
                   <pin peripheral="ADC_ETC" signal="XBAR0_TRIG, 0" pin_num="" pin_signal="PIT_TRIGGER0"/>
+                  <pin peripheral="GPIO1" signal="gpio_io, 22" pin_num="J12" pin_signal="GPIO_AD_B1_06">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO1" signal="gpio_io, 23" pin_num="K10" pin_signal="GPIO_AD_B1_07">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
+                     </pin_features>
+                  </pin>
                </pins>
             </function>
          </functions_list>
@@ -782,21 +783,6 @@
                         <data type="Frequency" unit="Hz">0</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="ClockOutput" resourceId="LPI2C_CLK_ROOT" description="LPI2C_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="frequency" evaluation="greaterThan">
-                        <data type="Frequency" unit="Hz">0</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPI2C3.lpi2c_scl" description="Signal serial clock of the peripheral LPI2C3 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPI2C3.lpi2c_sda" description="Signal serial data of the peripheral LPI2C3 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
                   <dependency resourceType="ClockOutput" resourceId="IPG_CLK_ROOT" description="IPG_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="frequency" evaluation="greaterThan">
                         <data type="Frequency" unit="Hz">0</data>
@@ -1197,38 +1183,6 @@
                            <setting name="enable_priority" value="false"/>
                            <setting name="priority" value="0"/>
                            <setting name="enable_custom_name" value="false"/>
-                        </struct>
-                     </config_set>
-                  </instance>
-                  <instance name="LPI2C3" type="lpi2c" type_id="lpi2c_db68d4f4f06a22e25ab51fe9bd6db4d2" mode="master" peripheral="LPI2C3" enabled="true">
-                     <config_set name="main" quick_selection="qs_interrupt">
-                        <setting name="clockSource" value="Lpi2cClock"/>
-                        <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
-                        <struct name="interrupt">
-                           <setting name="IRQn" value="LPI2C3_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
-                        </struct>
-                     </config_set>
-                     <config_set name="master">
-                        <setting name="mode" value="polling"/>
-                        <struct name="config">
-                           <setting name="enableMaster" value="true"/>
-                           <setting name="enableDoze" value="true"/>
-                           <setting name="debugEnable" value="false"/>
-                           <setting name="ignoreAck" value="false"/>
-                           <setting name="pinConfig" value="kLPI2C_2PinOpenDrain"/>
-                           <setting name="baudRate_Hz" value="400000"/>
-                           <setting name="busIdleTimeout_ns" value="0"/>
-                           <setting name="pinLowTimeout_ns" value="0"/>
-                           <setting name="sdaGlitchFilterWidth_ns" value="0"/>
-                           <setting name="sclGlitchFilterWidth_ns" value="0"/>
-                           <struct name="hostRequest">
-                              <setting name="enable" value="false"/>
-                              <setting name="source" value="kLPI2C_HostRequestExternalPin"/>
-                              <setting name="polarity" value="kLPI2C_HostRequestPinActiveHigh"/>
-                           </struct>
                         </struct>
                      </config_set>
                   </instance>

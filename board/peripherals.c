@@ -709,69 +709,6 @@ void GPIO2_init(void) {
 }
 
 /***********************************************************************************************************************
- * LPI2C3 initialization code
- **********************************************************************************************************************/
-/* clang-format off */
-/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
-instance:
-- name: 'LPI2C3'
-- type: 'lpi2c'
-- mode: 'master'
-- type_id: 'lpi2c_db68d4f4f06a22e25ab51fe9bd6db4d2'
-- functional_group: 'BOARD_InitPeripherals'
-- peripheral: 'LPI2C3'
-- config_sets:
-  - main:
-    - clockSource: 'Lpi2cClock'
-    - clockSourceFreq: 'BOARD_BootClockRUN'
-    - interrupt:
-      - IRQn: 'LPI2C3_IRQn'
-      - enable_priority: 'false'
-      - priority: '0'
-      - enable_custom_name: 'false'
-    - quick_selection: 'qs_interrupt'
-  - master:
-    - mode: 'polling'
-    - config:
-      - enableMaster: 'true'
-      - enableDoze: 'true'
-      - debugEnable: 'false'
-      - ignoreAck: 'false'
-      - pinConfig: 'kLPI2C_2PinOpenDrain'
-      - baudRate_Hz: '400000'
-      - busIdleTimeout_ns: '0'
-      - pinLowTimeout_ns: '0'
-      - sdaGlitchFilterWidth_ns: '0'
-      - sclGlitchFilterWidth_ns: '0'
-      - hostRequest:
-        - enable: 'false'
-        - source: 'kLPI2C_HostRequestExternalPin'
-        - polarity: 'kLPI2C_HostRequestPinActiveHigh'
- * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
-/* clang-format on */
-const lpi2c_master_config_t LPI2C3_masterConfig = {
-  .enableMaster = true,
-  .enableDoze = true,
-  .debugEnable = false,
-  .ignoreAck = false,
-  .pinConfig = kLPI2C_2PinOpenDrain,
-  .baudRate_Hz = 400000,
-  .busIdleTimeout_ns = 0,
-  .pinLowTimeout_ns = 0,
-  .sdaGlitchFilterWidth_ns = 0,
-  .sclGlitchFilterWidth_ns = 0,
-  .hostRequest = {
-    .enable = false,
-    .source = kLPI2C_HostRequestExternalPin,
-    .polarity = kLPI2C_HostRequestPinActiveHigh
-  }
-};
-
-void LPI2C3_init(void) {
-  LPI2C_MasterInit(LPI2C3_PERIPHERAL, &LPI2C3_masterConfig, LPI2C3_CLOCK_FREQ);
-}
-
-/***********************************************************************************************************************
  * QuadTimer1 initialization code
  **********************************************************************************************************************/
 /* clang-format off */
@@ -998,7 +935,6 @@ void BOARD_InitPeripherals(void)
   LPUART5_init();
   LPSPI4_init();
   GPIO2_init();
-  LPI2C3_init();
   QuadTimer1_init();
   ADC1_init();
   ADC_ETC_init();

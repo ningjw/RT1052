@@ -63,6 +63,9 @@
 .\objects\adc_app.o: .\User\inc\emmc_drv.h
 .\objects\adc_app.o: .\User\inc\adc_drv.h
 .\objects\adc_app.o: .\User\inc\battery_drv.h
+.\objects\adc_app.o: .\User\inc\iic_temp_drv.h
+.\objects\adc_app.o: .\User\inc\core_delay.h
+.\objects\adc_app.o: .\User\inc\ble_protocol.h
 .\objects\adc_app.o: .\User\inc\ble_app.h
 .\objects\adc_app.o: .\User\inc\adc_app.h
 .\objects\adc_app.o: .\User\inc\battery_app.h

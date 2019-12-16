@@ -170,7 +170,7 @@ instance:
       - 0:
         - channelNumber: '0'
         - enableChain: 'false'
-        - timerPeriod: '100ms'
+        - timerPeriod: '1000ms'
         - startTimer: 'true'
         - enableInterrupt: 'true'
       - 1:
@@ -188,7 +188,7 @@ const pit_config_t PIT1_config = {
 void PIT1_init(void) {
   /* Initialize the PIT. */
   PIT_Init(PIT1_PERIPHERAL, &PIT1_config);
-  /* Set channel 0 period to 100 ms (6600000 ticks). */
+  /* Set channel 0 period to 1 s (66000000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_0_TICKS);
   /* Set channel 1 period to 1 s (66000000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_1_TICKS);

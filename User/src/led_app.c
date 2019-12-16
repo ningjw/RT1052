@@ -20,7 +20,7 @@ void LED_AppTask(void)
     while(1)
     {
         //ÏµÍ³×´Ì¬Ö¸Ê¾µÆ
-        switch(g_sys_para2.sysStatus)
+        switch(g_sys_para2.sampLedStatus)
         {
             case WORK_FINE://ºìµÆÃð,ÂÌµÆÁÁ
                 GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, OFF);
@@ -41,7 +41,7 @@ void LED_AppTask(void)
         }
         
         //µç³Ø×´Ì¬Ö¸Ê¾µÆ
-        switch(g_sys_para2.batStatus)
+        switch(g_sys_para2.batLedStatus)
         {
             case BAT_FULL://ºìµÆÃð,ÂÌµÆÁÁ
                 GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
@@ -66,7 +66,7 @@ void LED_AppTask(void)
         }
         
         //À¶ÑÀ×´Ì¬Ö¸Ê¾µÆ
-        switch(g_sys_para2.bleStatus)
+        switch(g_sys_para2.bleLedStatus)
         {
             case BLE_CLOSE://ºìµÆÃð,ÂÌµÆÃð
                 GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
