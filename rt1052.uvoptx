@@ -101,8 +101,6 @@
         <sRunDeb>0</sRunDeb>
         <sLrtime>0</sLrtime>
         <bEvRecOn>1</bEvRecOn>
-        <bSchkAxf>0</bSchkAxf>
-        <bTchkAxf>0</bTchkAxf>
         <nTsel>5</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
@@ -120,7 +118,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>ST-LINKIII-KEIL_SWO</Key>
-          <Name>-U56FF71066578555435240667 -O206 -SF1000 -C0 -A0 -I0 -HNlocalhost -HP7184 -P1 -N00("ARM CoreSight SW-DP (ARM Core") -D00(0BD11477) -L00(0) -TO65554 -TC10000000 -TP21 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO15 -FD20000000 -FC8000 -FN1 -FF0MIMXRT105x_QuadSPI_4KB_SEC.FLM -FS060000000 -FL0800000 -FP0($$Device:MIMXRT1052CVL5B$arm\MIMXRT105x_QuadSPI_4KB_SEC.FLM)</Name>
+          <Name>-U56FF71066578555435240667 -O198 -SF10000 -C0 -A0 -I0 -HNlocalhost -HP7184 -P1 -N00("ARM CoreSight SW-DP") -D00(0BD11477) -L00(0) -TO65554 -TC10000000 -TP21 -TDS8004 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC8000 -FN1 -FF0Embedfire_RT1052_QSPI_R1 -FS060000000 -FL02000000</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -130,7 +128,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGTARM</Key>
-          <Name>(1010=-1,-1,-1,-1,0)(6017=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(6016=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)</Name>
+          <Name>(1010=-1,-1,-1,-1,0)(6017=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(6016=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -145,7 +143,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>CMSIS_AGDI</Key>
-          <Name>-X"Fire CMSIS-DAP" -UHS-00006747 -O1007 -S0 -C0 -P00 -N00("ARM CoreSight SW-DP") -D00(0BD11477) -L00(0) -TO65554 -TC10000000 -TT10000000 -TP20 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO11 -FD20000000 -FC8000 -FN1 -FF0Embedfire_RT1052_QSPI_R1 -FS060000000 -FL02000000</Name>
+          <Name>-X"Fire CMSIS-DAP" -UHS-00006747 -O1007 -S8 -C0 -P00 -N00("ARM CoreSight SW-DP") -D00(0BD11477) -L00(0) -TO65554 -TC10000000 -TP20 -TDS8007 -TDT0 -TDC1F -TIEFFFFFFFF -TIP8 -FO7 -FD20000000 -FC8000 -FN1 -FF0Embedfire_RT1052_QSPI_R1 -FS060000000 -FL02000000</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -157,18 +155,82 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>1001</LineNumber>
+          <LineNumber>81</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>1610622398</Address>
+          <Address>-2147450450</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>RTE\Device\MIMXRT1052CVL5B\startup_MIMXRT1052.s</Filename>
+          <Filename>.\User\src\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\rt1052\RTE/Device/MIMXRT1052CVL5B/startup_MIMXRT1052.s\1001</Expression>
+          <Expression>\\rt1052\User/src/main.c\81</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>234</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>-2147474538</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\board\clock_config.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\rt1052\board/clock_config.c\234</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>369</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>-2147473984</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\board\clock_config.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\rt1052\board/clock_config.c\369</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>86</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>-2147450418</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\User\src\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\rt1052\User/src/main.c\86</Expression>
+        </Bp>
+        <Bp>
+          <Number>4</Number>
+          <Type>0</Type>
+          <LineNumber>248</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>-2147467464</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\User\src\i2c_eeprom_drv.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\rt1052\User/src/i2c_eeprom_drv.c\248</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -195,25 +257,15 @@
         <Ww>
           <count>4</count>
           <WinNumber>1</WinNumber>
-          <ItemText>ADC_ConvertedValue,0x0A</ItemText>
+          <ItemText>pSub,0x0A</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>1</WinNumber>
-          <ItemText>counterClock,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>6</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>pSub,0x0A</ItemText>
-        </Ww>
-        <Ww>
-          <count>7</count>
-          <WinNumber>1</WinNumber>
           <ItemText>rtcDate,0x0A</ItemText>
         </Ww>
         <Ww>
-          <count>8</count>
+          <count>6</count>
           <WinNumber>1</WinNumber>
           <ItemText>p</ItemText>
         </Ww>
@@ -267,10 +319,9 @@
       <pMultCmdsp></pMultCmdsp>
       <DebugDescription>
         <Enable>1</Enable>
-        <EnableFlashSeq>0</EnableFlashSeq>
         <EnableLog>0</EnableLog>
         <Protocol>2</Protocol>
-        <DbgClock>1000000</DbgClock>
+        <DbgClock>10000000</DbgClock>
       </DebugDescription>
     </TargetOption>
   </Target>
@@ -369,7 +420,7 @@
 
   <Group>
     <GroupName>Driver</GroupName>
-    <tvExp>1</tvExp>
+    <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -665,7 +716,7 @@
 
   <Group>
     <GroupName>xip</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>

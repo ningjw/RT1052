@@ -10,7 +10,7 @@
       <TargetName>Target 1</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
+      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -80,9 +80,9 @@
             <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name></UserProg1Name>
+            <UserProg1Name>fromelf --bin ".\Objects\@L.axf" --output ".\Objects\@L.bin"</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -110,11 +110,11 @@
         </CommonProperty>
         <DllOption>
           <SimDllName>SARMCM3.DLL</SimDllName>
-          <SimDllArguments> -REMAP -MPU</SimDllArguments>
+          <SimDllArguments></SimDllArguments>
           <SimDlgDll>DCM.DLL</SimDlgDll>
           <SimDlgDllArguments>-pCM7</SimDlgDllArguments>
           <TargetDllName>SARMCM3.DLL</TargetDllName>
-          <TargetDllArguments> -MPU</TargetDllArguments>
+          <TargetDllArguments></TargetDllArguments>
           <TargetDlgDll>TCM.DLL</TargetDlgDll>
           <TargetDlgDllArguments>-pCM7</TargetDlgDllArguments>
         </DllOption>
@@ -184,7 +184,6 @@
             <hadXRAM>1</hadXRAM>
             <uocXRam>0</uocXRam>
             <RvdsVP>3</RvdsVP>
-            <RvdsMve>0</RvdsMve>
             <hadIRAM2>1</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>0</StupSel>
@@ -312,7 +311,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>4</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -325,7 +324,6 @@
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>1</uC99>
-            <uGnu>0</uGnu>
             <useXO>0</useXO>
             <v6Lang>3</v6Lang>
             <v6LangP>3</v6LangP>
@@ -340,7 +338,7 @@
 --diag_suppress=66,1296,186 
  
 </MiscControls>
-              <Define>CPU_MIMXRT1052CVL5B,XIP_EXTERNAL_FLASH=1, XIP_BOOT_HEADER_ENABLE =1,XIP_BOOT_HEADER_DCD_ENABLE =1,PRINTF_FLOAT_ENABLE=1,PRINTF_ADVANCED_ENABLE=1</Define>
+              <Define>SKIP_SYSCLK_INIT, CPU_MIMXRT1052CVL5B,XIP_EXTERNAL_FLASH=1, XIP_BOOT_HEADER_ENABLE =1,XIP_BOOT_HEADER_DCD_ENABLE =1,PRINTF_FLOAT_ENABLE=1, SCANF_FLOAT_ENABLE=1, PRINTF_ADVANCED_ENABLE=1, SCANF_ADVANCED_ENABLE=1,USE_RAM_VECTOR_TABLE</Define>
               <Undefine></Undefine>
               <IncludePath>.\board;.\User\inc;.\xip;.\sdmmc\inc;.\sdmmc\port\freertos;.\fatfs;.\fatfs\fsl_mmc_disk;.\cjson</IncludePath>
             </VariousControls>
@@ -373,7 +371,7 @@
             <TextAddressRange>0x00000000</TextAddressRange>
             <DataAddressRange>0x20000000</DataAddressRange>
             <pXoBase></pXoBase>
-            <ScatterFile>.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052xxxxx_flexspi_nor.scf</ScatterFile>
+            <ScatterFile>.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052xxxxx_flexspi_nor_sdram.scf</ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
             <Misc>--keep=*(.boot_hdr.ivt)
