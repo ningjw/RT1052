@@ -27,32 +27,32 @@ uint8_t getChargeSta(void)
   **********************************************************************/
 void BAT_AppTask(void)
 {
-//    uint32_t i,j,k;
+    uint32_t i,j,k;
     // Enable auto measurement of battery voltage and temperature
-//	LTC2942_SetADCMode(LTC2942_ADC_AUTO);
+	LTC2942_SetADCMode(LTC2942_ADC_AUTO);
 
-//	// Enable analog section of the chip (in case if it disabled)
-//	LTC2942_SetAnalog(LTC2942_AN_ENABLED);
+	// Enable analog section of the chip (in case if it disabled)
+	LTC2942_SetAnalog(LTC2942_AN_ENABLED);
 
-//	// Set prescaler M value
-//	// M=16 for 600mAh battery, the 1LSB of AC value is 0,010625mAh
-//	LTC2942_SetPrescaler(LTC2942_PSCM_16);
+	// Set prescaler M value
+	// M=16 for 600mAh battery, the 1LSB of AC value is 0,010625mAh
+	LTC2942_SetPrescaler(LTC2942_PSCM_16);
 
-//	// Disable AL/CC pin
-//	LTC2942_SetALCCMode(LTC2942_ALCC_DISABLED);
+	// Disable AL/CC pin
+	LTC2942_SetALCCMode(LTC2942_ALCC_DISABLED);
 //    
     PRINTF("Battery Task Create and Running\r\n");
     
     while(1)
     {
         // Battery voltage
-//		i = LTC2942_GetVoltage();
+		i = LTC2942_GetVoltage();
 
-//		// Chip temperature
-//		j = LTC2942_GetTemperature();
-//        
-//		// Accumulated charge
-//		k = LTC2942_GetAC();
+		// Chip temperature
+		j = LTC2942_GetTemperature();
+        
+		// Accumulated charge
+		k = LTC2942_GetAC();
 //        
 //		// Dump values to log
 //		PRINTF("Vbat: %.3uV  Temp: %.2iC  Charge: %.2u%% ~%umAh [0x%04X %u]\r\n",

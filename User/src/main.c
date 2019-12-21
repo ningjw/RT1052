@@ -32,16 +32,16 @@ static void AppTaskCreate(void)
     taskENTER_CRITICAL();           //进入临界区
     
     /* 创建LED_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )LED_AppTask,"LED_Task",128,NULL, 1,&LED_TaskHandle);
+    xTaskCreate((TaskFunction_t )LED_AppTask,"LED_Task",256,NULL, 1,&LED_TaskHandle);
     
     /* 创建Battery_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )BAT_AppTask,"BAT_Task",512,NULL, 2,&BAT_TaskHandle);
+    xTaskCreate((TaskFunction_t )BAT_AppTask,"BAT_Task",512,NULL, 1,&BAT_TaskHandle);
 
     /* 创建BLE_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )BLE_AppTask,"BLE_Task",512,NULL, 3,&BLE_TaskHandle);
+    xTaskCreate((TaskFunction_t )BLE_AppTask,"BLE_Task",512,NULL, 1,&BLE_TaskHandle);
     
     /* 创建ADC_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )ADC_AppTask, "ADC_Task",512,NULL, 4,&ADC_TaskHandle);
+    xTaskCreate((TaskFunction_t )ADC_AppTask, "ADC_Task",512,NULL, 1,&ADC_TaskHandle);
     
     //创建软件定时器。参数一次为：定时器名称、定时周期、周期模式、唯一id、回调函数
     InactiveTmr = xTimerCreate("PwrOnTmr", 60*1000, pdTRUE, (void*)POWER_ON_TIMER_ID, (TimerCallbackFunction_t)InactiveTmr_Callback);
@@ -60,6 +60,9 @@ static void InitSysPara()
 {
     g_sys_para1.inactiveTime = 15;//默认15分钟没有活动后，自动关机。
     g_sys_para2.inactiveCount = 0;
+    g_sys_para2.sampLedStatus = WORK_FINE;
+	g_sys_para2.batLedStatus = BAT_FULL;
+	g_sys_para2.bleLedStatus = BLE_CLOSE;
 }
 
 
