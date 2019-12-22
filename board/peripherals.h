@@ -67,7 +67,7 @@ extern "C" {
 /* Definition of the timer channel Channel_0. */
 #define QUADTIMER3_CHANNEL_0_CHANNEL kQTMR_Channel_0
 /* Definition of the timer channel Channel_0 clock source frequency. */
-#define QUADTIMER3_CHANNEL_0_CLOCK_SOURCE 66000000UL
+#define QUADTIMER3_CHANNEL_0_CLOCK_SOURCE 132000000UL
 /* Definition of peripheral ID */
 #define LPUART2_PERIPHERAL LPUART2
 /* Definition of the clock source frequency */

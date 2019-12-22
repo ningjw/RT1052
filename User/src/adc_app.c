@@ -1,5 +1,11 @@
 #include "main.h"
 
+//对应核心板的A-26脚
+#define ADC_MODE_LOW_POWER       GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 1)  //低功耗模式
+#define ADC_MODE_HIGH_SPEED      GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 0)   //高速模式
+#define ADC_MODE_HIGH_RESOLUTION   //高精度模式(浮空)
+#define ADC_READY                GPIO_PinRead(BOARD_ADC_RDY_GPIO, BOARD_ADC_RDY_PIN)
+
 TaskHandle_t ADC_TaskHandle = NULL;  /* ADC任务句柄 */
 SemaphoreHandle_t ADCRdySem = NULL;//ADC ready信号量，
 
@@ -7,18 +13,6 @@ volatile uint32_t ADC_ConvertedValue;
 uint32_t counterClock = 0;
 uint32_t timeCapt = 0;
 
-/***************************************************************************************
-  * @brief   ADC_READY 引脚中断，下降沿中断
-  * @input
-  * @return
-***************************************************************************************/
-void GPIO2_Combined_0_15_IRQHandler(void)
-{
-    /* 清除中断标志位 */
-    GPIO_PortClearInterruptFlags(BOARD_ADC_RDY_GPIO, 1U << BOARD_ADC_RDY_PIN);
-//    xSemaphoreGive( ADCRdySem );
-    __DSB();
-}
 
 /***************************************************************************************
   * @brief
@@ -49,8 +43,8 @@ void ADC_ETC_IRQ0_IRQHandler(void)
   //发送信号量
   xSemaphoreGive(ADCRdySem);
 }
-
-
+uint8_t rxData[3] = {0};
+uint32_t ADC1271_Value = 0;
 /***************************************************************************************
   * @brief
   * @input
@@ -66,13 +60,17 @@ void ADC_AppTask(void)
     ADCRdySem = xSemaphoreCreateBinary();      //创建 二值 信号量
     ADC_ETC_Config();
     XBARA_Configuration();
+    LPSPI_Enable(LPSPI4,true);                          //使能LPSPI3
     counterClock = QUADTIMER1_CHANNEL_0_CLOCK_SOURCE / 1000;
     PRINTF("ADC Task Create and Running\r\n");
     while(1)
     {
-        xSemaphoreTake(ADCRdySem, portMAX_DELAY);//获取信号量
-//        PRINTF("\r\nCaptured Period time=%d us\n", (timeCapt * 1000) / counterClock);
-        PRINTF("\r\nADC Value = %d \n", ADC_ConvertedValue);
+//        xSemaphoreTake(ADCRdySem, portMAX_DELAY);//获取信号量
+////        PRINTF("\r\nCaptured Period time=%d us\n", (timeCapt * 1000) / counterClock);
+//        PRINTF("\r\nADC Value = %d \n", ADC_ConvertedValue);
+        if (ADC_READY == 0){//低电平有效
+            LPSPI4_ReadWriteByte();
+        }
     }
 }
 

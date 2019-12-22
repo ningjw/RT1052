@@ -75,9 +75,9 @@ BOARD:
     open_drain: Enable}
   - {pin_num: J11, peripheral: LPI2C1, signal: SCL, pin_signal: GPIO_AD_B1_00, software_input_on: Enable, pull_up_down_config: Pull_Down_100K_Ohm, pull_keeper_select: Pull,
     open_drain: Enable}
-  - {pin_num: A8, peripheral: TMR3, signal: 'TIMER, 0', pin_signal: GPIO_B0_06, slew_rate: Fast}
-  - {pin_num: E7, peripheral: LPSPI4, signal: SDI, pin_signal: GPIO_B0_01, direction: INPUT}
-  - {pin_num: D8, peripheral: LPSPI4, signal: SCK, pin_signal: GPIO_B0_03, direction: OUTPUT}
+  - {pin_num: A8, peripheral: TMR3, signal: 'TIMER, 0', pin_signal: GPIO_B0_06, drive_strength: R0_2, slew_rate: Fast}
+  - {pin_num: E7, peripheral: LPSPI4, signal: SDI, pin_signal: GPIO_B0_01, direction: INPUT, speed: MHZ_100, drive_strength: R0_2, slew_rate: Fast}
+  - {pin_num: D8, peripheral: LPSPI4, signal: SCK, pin_signal: GPIO_B0_03, direction: OUTPUT, speed: MHZ_100, slew_rate: Fast}
   - {pin_num: D11, peripheral: GPIO2, signal: 'gpio_io, 19', pin_signal: GPIO_B1_03}
   - {pin_num: C11, peripheral: GPIO2, signal: 'gpio_io, 18', pin_signal: GPIO_B1_02}
   - {pin_num: B11, peripheral: LPUART4, signal: RX, pin_signal: GPIO_B1_01}
@@ -88,7 +88,7 @@ BOARD:
   - {pin_num: A10, peripheral: GPIO2, signal: 'gpio_io, 11', pin_signal: GPIO_B0_11, direction: OUTPUT, gpio_init_state: 'false'}
   - {pin_num: E11, peripheral: GPIO2, signal: 'gpio_io, 15', pin_signal: GPIO_B0_15, direction: OUTPUT}
   - {pin_num: E10, peripheral: GPIO2, signal: 'gpio_io, 14', pin_signal: GPIO_B0_14, direction: OUTPUT, gpio_init_state: 'true'}
-  - {pin_num: C8, peripheral: GPIO2, signal: 'gpio_io, 04', pin_signal: GPIO_B0_04, direction: INPUT, gpio_interrupt: kGPIO_IntFallingEdge, slew_rate: Fast}
+  - {pin_num: C8, peripheral: GPIO2, signal: 'gpio_io, 04', pin_signal: GPIO_B0_04, direction: INPUT, slew_rate: Slow}
   - {pin_num: C14, peripheral: GPIO2, signal: 'gpio_io, 30', pin_signal: GPIO_B1_14, direction: OUTPUT}
   - {pin_num: D14, peripheral: LPUART5, signal: RX, pin_signal: GPIO_B1_13}
   - {pin_num: D13, peripheral: LPUART5, signal: TX, pin_signal: GPIO_B1_12}
@@ -213,12 +213,10 @@ void BOARD(void) {
   gpio_pin_config_t ADC_RDY_config = {
       .direction = kGPIO_DigitalInput,
       .outputLogic = 0U,
-      .interruptMode = kGPIO_IntFallingEdge
+      .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_B0_04 (pin C8) */
   GPIO_PinInit(GPIO2, 4U, &ADC_RDY_config);
-  /* Enable GPIO pin interrupt on GPIO_B0_04 (pin C8) */
-  GPIO_PortEnableInterrupts(GPIO2, 1U << 4U);
 
   /* GPIO configuration of ADC_MODE on GPIO_B0_11 (pin A10) */
   gpio_pin_config_t ADC_MODE_config = {
@@ -540,7 +538,17 @@ void BOARD(void) {
                                                  Pull Up / Down Config. Field: 22K Ohm Pull Up
                                                  Hyst. Enable Field: Hysteresis Enabled */
   IOMUXC_SetPinConfig(
-      IOMUXC_GPIO_B0_04_GPIO2_IO04,           /* GPIO_B0_04 PAD functional properties : */
+      IOMUXC_GPIO_B0_01_LPSPI4_SDI,           /* GPIO_B0_01 PAD functional properties : */
+      0x1091U);                               /* Slew Rate Field: Fast Slew Rate
+                                                 Drive Strength Field: R0/2
+                                                 Speed Field: medium(100MHz)
+                                                 Open Drain Enable Field: Open Drain Disabled
+                                                 Pull / Keep Enable Field: Pull/Keeper Enabled
+                                                 Pull / Keep Select Field: Keeper
+                                                 Pull Up / Down Config. Field: 100K Ohm Pull Down
+                                                 Hyst. Enable Field: Hysteresis Disabled */
+  IOMUXC_SetPinConfig(
+      IOMUXC_GPIO_B0_03_LPSPI4_SCK,           /* GPIO_B0_03 PAD functional properties : */
       0x10B1U);                               /* Slew Rate Field: Fast Slew Rate
                                                  Drive Strength Field: R0/6
                                                  Speed Field: medium(100MHz)
@@ -550,9 +558,19 @@ void BOARD(void) {
                                                  Pull Up / Down Config. Field: 100K Ohm Pull Down
                                                  Hyst. Enable Field: Hysteresis Disabled */
   IOMUXC_SetPinConfig(
-      IOMUXC_GPIO_B0_06_QTIMER3_TIMER0,       /* GPIO_B0_06 PAD functional properties : */
-      0x10B1U);                               /* Slew Rate Field: Fast Slew Rate
+      IOMUXC_GPIO_B0_04_GPIO2_IO04,           /* GPIO_B0_04 PAD functional properties : */
+      0x10B0U);                               /* Slew Rate Field: Slow Slew Rate
                                                  Drive Strength Field: R0/6
+                                                 Speed Field: medium(100MHz)
+                                                 Open Drain Enable Field: Open Drain Disabled
+                                                 Pull / Keep Enable Field: Pull/Keeper Enabled
+                                                 Pull / Keep Select Field: Keeper
+                                                 Pull Up / Down Config. Field: 100K Ohm Pull Down
+                                                 Hyst. Enable Field: Hysteresis Disabled */
+  IOMUXC_SetPinConfig(
+      IOMUXC_GPIO_B0_06_QTIMER3_TIMER0,       /* GPIO_B0_06 PAD functional properties : */
+      0x1091U);                               /* Slew Rate Field: Fast Slew Rate
+                                                 Drive Strength Field: R0/2
                                                  Speed Field: medium(100MHz)
                                                  Open Drain Enable Field: Open Drain Disabled
                                                  Pull / Keep Enable Field: Pull/Keeper Enabled

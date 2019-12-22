@@ -289,7 +289,7 @@ instance:
       - 0:
         - channel_prefix_id: 'Channel_0'
         - channel: 'kQTMR_Channel_0'
-        - primarySource: 'kQTMR_ClockDivide_2'
+        - primarySource: 'kQTMR_ClockDivide_1'
         - secondarySource: 'kQTMR_Counter0InputPin'
         - countingMode: 'kQTMR_PriSrcRiseEdge'
         - enableMasterMode: 'false'
@@ -299,7 +299,7 @@ instance:
         - debugMode: 'kQTMR_RunNormalInDebug'
         - timerModeInit: 'pwmOutput'
         - pwmMode:
-          - freq_value_str: '660'
+          - freq_value_str: '11'
           - dutyCyclePercent: '50'
           - outputPolarity: 'false'
         - dmaIntMode: 'polling'
@@ -313,7 +313,7 @@ instance:
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const qtmr_config_t QuadTimer3_Channel_0_config = {
-  .primarySource = kQTMR_ClockDivide_2,
+  .primarySource = kQTMR_ClockDivide_1,
   .secondarySource = kQTMR_Counter0InputPin,
   .enableMasterMode = false,
   .enableExternalForce = false,
@@ -326,7 +326,7 @@ void QuadTimer3_init(void) {
   /* Quad timer channel Channel_0 peripheral initialization */
   QTMR_Init(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, &QuadTimer3_Channel_0_config);
   /* Setup the PWM mode of the timer channel */
-  QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, 100000UL, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
+  QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, 12000000UL, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
   /* Start the timer - select the timer counting mode */
   QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 }
@@ -621,14 +621,14 @@ instance:
     - clockSource: 'LpspiClock'
     - clockSourceFreq: 'BOARD_BootClockRUN'
     - master:
-      - baudRate: '24000000'
+      - baudRate: '400000'
       - bitsPerFrame: '24'
       - cpol: 'kLPSPI_ClockPolarityActiveHigh'
       - cpha: 'kLPSPI_ClockPhaseFirstEdge'
       - direction: 'kLPSPI_MsbFirst'
-      - pcsToSckDelayInNanoSec: '1000'
-      - lastSckToPcsDelayInNanoSec: '1000'
-      - betweenTransferDelayInNanoSec: '1000'
+      - pcsToSckDelayInNanoSec: '0'
+      - lastSckToPcsDelayInNanoSec: '0'
+      - betweenTransferDelayInNanoSec: '0'
       - whichPcs: 'kLPSPI_Pcs0'
       - pcsActiveHighOrLow: 'kLPSPI_PcsActiveLow'
       - pinCfg: 'kLPSPI_SdiInSdoOut'
@@ -636,14 +636,14 @@ instance:
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const lpspi_master_config_t LPSPI4_config = {
-  .baudRate = 24000000,
+  .baudRate = 400000,
   .bitsPerFrame = 24,
   .cpol = kLPSPI_ClockPolarityActiveHigh,
   .cpha = kLPSPI_ClockPhaseFirstEdge,
   .direction = kLPSPI_MsbFirst,
-  .pcsToSckDelayInNanoSec = 1000,
-  .lastSckToPcsDelayInNanoSec = 1000,
-  .betweenTransferDelayInNanoSec = 1000,
+  .pcsToSckDelayInNanoSec = 0,
+  .lastSckToPcsDelayInNanoSec = 0,
+  .betweenTransferDelayInNanoSec = 0,
   .whichPcs = kLPSPI_Pcs0,
   .pcsActiveHighOrLow = kLPSPI_PcsActiveLow,
   .pinCfg = kLPSPI_SdiInSdoOut,
@@ -960,7 +960,7 @@ void QuadTimer2_init(void) {
   /* Enable interrupt TMR2_IRQn request in the NVIC */
   EnableIRQ(QUADTIMER2_IRQN);
   /* Start the timer - select the timer counting mode */
-  QTMR_StartTimer(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
+//  QTMR_StartTimer(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 }
 
 /***********************************************************************************************************************
