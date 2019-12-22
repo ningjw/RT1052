@@ -73,7 +73,7 @@ void ADC_ETC_Config(void)
   * @input
   * @return
 ***************************************************************************************/
-uint32_t LPSPI3_ReadWriteByte(void)
+uint32_t LPSPI4_ReadWriteByte(void)
 {
     uint8_t spiRxData[4];
     uint8_t spiTxData = 0xFF;
@@ -83,7 +83,7 @@ uint32_t LPSPI3_ReadWriteByte(void)
     spi_tranxfer.txData = &spiTxData;                //要发送的数据
     spi_tranxfer.rxData = spiRxData;                 //接收到的数据
     spi_tranxfer.dataSize = 3;                        //数据长度
-    LPSPI_MasterTransferBlocking(LPSPI3, &spi_tranxfer);	   //SPI阻塞发送
+    LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI阻塞发送
     return (spiRxData[0] << 16) | (spiRxData[1] << 8) | spiRxData[0];
 }
 

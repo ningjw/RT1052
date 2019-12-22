@@ -732,16 +732,6 @@
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="SWComponent" resourceId="platform.drivers.lpuart_edma" description="The fsl_uart_edma driver is missing in the project (required for the eDMA mode)." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="enabled" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="SWComponent" resourceId="platform.drivers.lpuart_edma" description="The compatible version of the fsl_uart_edma driver is not available in the project (required for the eDMA mode)." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="version" evaluation="compatible">
-                        <data type="Version">2.2.4</data>
-                     </feature>
-                  </dependency>
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART4.uart_tx" description="Signal TX of the peripheral LPUART4 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="equal">
                         <data type="Boolean">true</data>
@@ -824,6 +814,16 @@
                         <data type="Frequency" unit="Hz">0</data>
                      </feature>
                   </dependency>
+                  <dependency resourceType="ClockOutput" resourceId="IPG_CLK_ROOT" description="IPG_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="TMR2.tmr_sec_in.0" description="Timer input 0 of peripheral TMR2 is not routed" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="equal">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
                </dependencies>
                <instances>
                   <instance name="eDMA" type="edma" type_id="edma_a23fca76a894e1bcdf9d01a687505ff9" mode="basic" peripheral="DMA0" enabled="true">
@@ -849,7 +849,7 @@
                            <setting name="isMsb" value="false"/>
                            <setting name="stopBitCount" value="kLPUART_OneStopBit"/>
                            <setting name="txFifoWatermark" value="0"/>
-                           <setting name="rxFifoWatermark" value="1"/>
+                           <setting name="rxFifoWatermark" value="0"/>
                            <setting name="enableRxRTS" value="false"/>
                            <setting name="enableTxCTS" value="false"/>
                            <setting name="txCtsSource" value="kLPUART_CtsSourcePin"/>
@@ -978,7 +978,7 @@
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="LPUART2" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="edma" peripheral="LPUART2" enabled="true">
+                  <instance name="LPUART2" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="interrupts" peripheral="LPUART2" enabled="true">
                      <config_set name="lpuartConfig_t">
                         <struct name="lpuartConfig">
                            <setting name="clockSource" value="LpuartClock"/>
@@ -989,38 +989,32 @@
                            <setting name="isMsb" value="false"/>
                            <setting name="stopBitCount" value="kLPUART_OneStopBit"/>
                            <setting name="txFifoWatermark" value="0"/>
-                           <setting name="rxFifoWatermark" value="1"/>
+                           <setting name="rxFifoWatermark" value="0"/>
                            <setting name="enableRxRTS" value="false"/>
                            <setting name="enableTxCTS" value="false"/>
                            <setting name="txCtsSource" value="kLPUART_CtsSourcePin"/>
                            <setting name="txCtsConfig" value="kLPUART_CtsSampleAtStart"/>
-                           <setting name="rxIdleType" value="kLPUART_IdleTypeStopBit"/>
+                           <setting name="rxIdleType" value="kLPUART_IdleTypeStartBit"/>
                            <setting name="rxIdleConfig" value="kLPUART_IdleCharacter1"/>
                            <setting name="enableTx" value="true"/>
                            <setting name="enableRx" value="true"/>
                         </struct>
                      </config_set>
-                     <config_set name="edmaCfg">
-                        <struct name="edma_channels">
-                           <setting name="enable_rx_edma_channel" value="true"/>
-                           <struct name="edma_rx_channel">
-                              <setting name="eDMAn" value="0"/>
-                              <setting name="eDMA_source" value="kDmaRequestMuxLPUART2Rx"/>
+                     <config_set name="interruptsCfg">
+                        <set name="interrupts">
+                           <selected>
+                              <id>kLPUART_RxDataRegFullInterruptEnable</id>
+                              <id>kLPUART_RxOverrunInterruptEnable</id>
+                           </selected>
+                        </set>
+                        <struct name="interrupt_vectors">
+                           <setting name="enable_rx_tx_irq" value="true"/>
+                           <struct name="interrupt_rx_tx">
+                              <setting name="IRQn" value="LPUART2_IRQn"/>
+                              <setting name="enable_priority" value="false"/>
+                              <setting name="priority" value="0"/>
                               <setting name="enable_custom_name" value="false"/>
                            </struct>
-                           <setting name="enable_tx_edma_channel" value="false"/>
-                           <struct name="edma_tx_channel">
-                              <setting name="eDMAn" value="0"/>
-                              <setting name="eDMA_source" value="kDmaRequestMuxLPUART2Tx"/>
-                              <setting name="enable_custom_name" value="false"/>
-                           </struct>
-                        </struct>
-                        <struct name="lpuart_edma_handle">
-                           <setting name="enable_custom_name" value="true"/>
-                           <setting name="handle_custom_name" value="LPUART2_eDMA_Handle"/>
-                           <setting name="init_callback" value="false"/>
-                           <setting name="callback_fcn" value="LPUART2_UserCallback"/>
-                           <setting name="user_data" value=""/>
                         </struct>
                      </config_set>
                   </instance>
@@ -1035,7 +1029,7 @@
                            <setting name="isMsb" value="false"/>
                            <setting name="stopBitCount" value="kLPUART_OneStopBit"/>
                            <setting name="txFifoWatermark" value="0"/>
-                           <setting name="rxFifoWatermark" value="1"/>
+                           <setting name="rxFifoWatermark" value="0"/>
                            <setting name="enableRxRTS" value="false"/>
                            <setting name="enableTxCTS" value="false"/>
                            <setting name="txCtsSource" value="kLPUART_CtsSourcePin"/>
@@ -1075,7 +1069,7 @@
                            <setting name="isMsb" value="false"/>
                            <setting name="stopBitCount" value="kLPUART_OneStopBit"/>
                            <setting name="txFifoWatermark" value="0"/>
-                           <setting name="rxFifoWatermark" value="1"/>
+                           <setting name="rxFifoWatermark" value="0"/>
                            <setting name="enableRxRTS" value="false"/>
                            <setting name="enableTxCTS" value="false"/>
                            <setting name="txCtsSource" value="kLPUART_CtsSourcePin"/>
@@ -1115,7 +1109,7 @@
                            <setting name="isMsb" value="false"/>
                            <setting name="stopBitCount" value="kLPUART_OneStopBit"/>
                            <setting name="txFifoWatermark" value="0"/>
-                           <setting name="rxFifoWatermark" value="1"/>
+                           <setting name="rxFifoWatermark" value="0"/>
                            <setting name="enableRxRTS" value="false"/>
                            <setting name="enableTxCTS" value="false"/>
                            <setting name="txCtsSource" value="kLPUART_CtsSourcePin"/>
@@ -1308,6 +1302,45 @@
                            <setting name="priority" value="0"/>
                            <setting name="enable_custom_name" value="true"/>
                            <setting name="handler_custom_name" value="ADC_ETC_ERROR_IRQHANDLER"/>
+                        </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="QuadTimer2" type="qtmr" type_id="qtmr_460dd7aa3f3371843c2548acd54252b0" mode="general" peripheral="TMR2" enabled="true">
+                     <config_set name="fsl_qtmr">
+                        <setting name="clockSource" value="BusInterfaceClock"/>
+                        <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
+                        <array name="qtmr_channels">
+                           <struct name="0">
+                              <setting name="channel_prefix_id" value="Channel_0"/>
+                              <setting name="channel" value="kQTMR_Channel_0"/>
+                              <setting name="primarySource" value="kQTMR_ClockDivide_8"/>
+                              <setting name="secondarySource" value="kQTMR_Counter0InputPin"/>
+                              <setting name="countingMode" value="kQTMR_PriSrcRiseEdge"/>
+                              <setting name="enableMasterMode" value="false"/>
+                              <setting name="enableExternalForce" value="false"/>
+                              <setting name="faultFilterCount" value="3"/>
+                              <setting name="faultFilterPeriod" value="0"/>
+                              <setting name="debugMode" value="kQTMR_RunNormalInDebug"/>
+                              <setting name="timerModeInit" value="timer"/>
+                              <struct name="timerMode">
+                                 <setting name="freq_value_str" value="3300"/>
+                              </struct>
+                              <setting name="dmaIntMode" value="interrupt"/>
+                              <set name="interrupts">
+                                 <selected>
+                                    <id>kQTMR_CompareInterruptEnable</id>
+                                 </selected>
+                              </set>
+                           </struct>
+                        </array>
+                        <struct name="interruptVector">
+                           <setting name="enable_irq" value="true"/>
+                           <struct name="interrupt">
+                              <setting name="IRQn" value="TMR2_IRQn"/>
+                              <setting name="enable_priority" value="false"/>
+                              <setting name="priority" value="0"/>
+                              <setting name="enable_custom_name" value="false"/>
+                           </struct>
                         </struct>
                      </config_set>
                   </instance>

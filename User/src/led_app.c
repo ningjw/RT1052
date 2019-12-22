@@ -17,6 +17,8 @@ TaskHandle_t LED_TaskHandle = NULL;  /* µç³Ø¹ÜÀíÈÎÎñ¾ä±ú */
 void LED_AppTask(void)
 {
     PRINTF("LED Task Create and Running\r\n");
+    GPIO_PinWrite(BOARD_LED_PWR_RED_GPIO, BOARD_LED_PWR_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_PWR_GREEN_GPIO, BOARD_LED_PWR_GREEN_PIN, ON);
     while(1)
     {
         //ÏµÍ³×´Ì¬Ö¸Ê¾µÆ
@@ -75,7 +77,7 @@ void LED_AppTask(void)
             case BLE_READY://ºìµÆÃð,ÂÌµÆ0.6ÃëÉÁ
                 GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
                 if(ble_led_cnt++ % 3 == 0){
-                    BOARD_LED_BLE_GREEN_GPIO->DR ^= BOARD_LED_BLE_GREEN_PIN;
+                    BOARD_LED_BLE_GREEN_GPIO->DR ^= (1<<BOARD_LED_BLE_GREEN_PIN);
                 }
                  break;
             case BLE_CONNECT:  //ºìµÆÃð,ÂÌµÆÁÁ

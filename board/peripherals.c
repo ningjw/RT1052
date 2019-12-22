@@ -97,7 +97,7 @@ instance:
       - isMsb: 'false'
       - stopBitCount: 'kLPUART_OneStopBit'
       - txFifoWatermark: '0'
-      - rxFifoWatermark: '1'
+      - rxFifoWatermark: '0'
       - enableRxRTS: 'false'
       - enableTxCTS: 'false'
       - txCtsSource: 'kLPUART_CtsSourcePin'
@@ -124,7 +124,7 @@ const lpuart_config_t LPUART1_config = {
   .isMsb = false,
   .stopBitCount = kLPUART_OneStopBit,
   .txFifoWatermark = 0,
-  .rxFifoWatermark = 1,
+  .rxFifoWatermark = 0,
   .enableRxRTS = false,
   .enableTxCTS = false,
   .txCtsSource = kLPUART_CtsSourcePin,
@@ -339,7 +339,7 @@ void QuadTimer3_init(void) {
 instance:
 - name: 'LPUART2'
 - type: 'lpuart'
-- mode: 'edma'
+- mode: 'interrupts'
 - type_id: 'lpuart_bebe3e12b6ec22bbd14199038f2bf459'
 - functional_group: 'BOARD_InitPeripherals'
 - peripheral: 'LPUART2'
@@ -354,33 +354,24 @@ instance:
       - isMsb: 'false'
       - stopBitCount: 'kLPUART_OneStopBit'
       - txFifoWatermark: '0'
-      - rxFifoWatermark: '1'
+      - rxFifoWatermark: '0'
       - enableRxRTS: 'false'
       - enableTxCTS: 'false'
       - txCtsSource: 'kLPUART_CtsSourcePin'
       - txCtsConfig: 'kLPUART_CtsSampleAtStart'
-      - rxIdleType: 'kLPUART_IdleTypeStopBit'
+      - rxIdleType: 'kLPUART_IdleTypeStartBit'
       - rxIdleConfig: 'kLPUART_IdleCharacter1'
       - enableTx: 'true'
       - enableRx: 'true'
-  - edmaCfg:
-    - edma_channels:
-      - enable_rx_edma_channel: 'true'
-      - edma_rx_channel:
-        - eDMAn: '0'
-        - eDMA_source: 'kDmaRequestMuxLPUART2Rx'
+  - interruptsCfg:
+    - interrupts: 'kLPUART_RxDataRegFullInterruptEnable kLPUART_RxOverrunInterruptEnable'
+    - interrupt_vectors:
+      - enable_rx_tx_irq: 'true'
+      - interrupt_rx_tx:
+        - IRQn: 'LPUART2_IRQn'
+        - enable_priority: 'false'
+        - priority: '0'
         - enable_custom_name: 'false'
-      - enable_tx_edma_channel: 'false'
-      - edma_tx_channel:
-        - eDMAn: '0'
-        - eDMA_source: 'kDmaRequestMuxLPUART2Tx'
-        - enable_custom_name: 'false'
-    - lpuart_edma_handle:
-      - enable_custom_name: 'true'
-      - handle_custom_name: 'LPUART2_eDMA_Handle'
-      - init_callback: 'false'
-      - callback_fcn: 'LPUART2_UserCallback'
-      - user_data: ''
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const lpuart_config_t LPUART2_config = {
@@ -390,29 +381,22 @@ const lpuart_config_t LPUART2_config = {
   .isMsb = false,
   .stopBitCount = kLPUART_OneStopBit,
   .txFifoWatermark = 0,
-  .rxFifoWatermark = 1,
+  .rxFifoWatermark = 0,
   .enableRxRTS = false,
   .enableTxCTS = false,
   .txCtsSource = kLPUART_CtsSourcePin,
   .txCtsConfig = kLPUART_CtsSampleAtStart,
-  .rxIdleType = kLPUART_IdleTypeStopBit,
+  .rxIdleType = kLPUART_IdleTypeStartBit,
   .rxIdleConfig = kLPUART_IdleCharacter1,
   .enableTx = true,
   .enableRx = true
 };
-edma_handle_t LPUART2_RX_Handle;
-lpuart_edma_handle_t LPUART2_eDMA_Handle;
 
 void LPUART2_init(void) {
   LPUART_Init(LPUART2_PERIPHERAL, &LPUART2_config, LPUART2_CLOCK_SOURCE);
-  /* Set the source kDmaRequestMuxLPUART2Rx request in the DMAMUX */
-  DMAMUX_SetSource(LPUART2_RX_DMAMUX_BASEADDR, LPUART2_RX_DMA_CHANNEL, LPUART2_RX_DMA_REQUEST);
-  /* Enable the 0 channel in the DMAMUX */
-  DMAMUX_EnableChannel(LPUART2_RX_DMAMUX_BASEADDR, LPUART2_RX_DMA_CHANNEL);
-  /* Create the eDMA LPUART2_RX_Handle handle */
-  EDMA_CreateHandle(&LPUART2_RX_Handle, LPUART2_RX_DMA_BASEADDR, LPUART2_RX_DMA_CHANNEL);
-  /* Create the LPUART eDMA handle */
-  LPUART_TransferCreateHandleEDMA(LPUART2_PERIPHERAL, &LPUART2_eDMA_Handle, NULL, NULL, NULL, &LPUART2_RX_Handle);
+  LPUART_EnableInterrupts(LPUART2_PERIPHERAL, kLPUART_RxDataRegFullInterruptEnable | kLPUART_RxOverrunInterruptEnable);
+  /* Enable interrupt LPUART2_IRQn request in the NVIC */
+  EnableIRQ(LPUART2_SERIAL_RX_TX_IRQN);
 }
 
 /***********************************************************************************************************************
@@ -438,7 +422,7 @@ instance:
       - isMsb: 'false'
       - stopBitCount: 'kLPUART_OneStopBit'
       - txFifoWatermark: '0'
-      - rxFifoWatermark: '1'
+      - rxFifoWatermark: '0'
       - enableRxRTS: 'false'
       - enableTxCTS: 'false'
       - txCtsSource: 'kLPUART_CtsSourcePin'
@@ -465,7 +449,7 @@ const lpuart_config_t LPUART4_config = {
   .isMsb = false,
   .stopBitCount = kLPUART_OneStopBit,
   .txFifoWatermark = 0,
-  .rxFifoWatermark = 1,
+  .rxFifoWatermark = 0,
   .enableRxRTS = false,
   .enableTxCTS = false,
   .txCtsSource = kLPUART_CtsSourcePin,
@@ -506,7 +490,7 @@ instance:
       - isMsb: 'false'
       - stopBitCount: 'kLPUART_OneStopBit'
       - txFifoWatermark: '0'
-      - rxFifoWatermark: '1'
+      - rxFifoWatermark: '0'
       - enableRxRTS: 'false'
       - enableTxCTS: 'false'
       - txCtsSource: 'kLPUART_CtsSourcePin'
@@ -533,7 +517,7 @@ const lpuart_config_t LPUART3_config = {
   .isMsb = false,
   .stopBitCount = kLPUART_OneStopBit,
   .txFifoWatermark = 0,
-  .rxFifoWatermark = 1,
+  .rxFifoWatermark = 0,
   .enableRxRTS = false,
   .enableTxCTS = false,
   .txCtsSource = kLPUART_CtsSourcePin,
@@ -574,7 +558,7 @@ instance:
       - isMsb: 'false'
       - stopBitCount: 'kLPUART_OneStopBit'
       - txFifoWatermark: '0'
-      - rxFifoWatermark: '1'
+      - rxFifoWatermark: '0'
       - enableRxRTS: 'false'
       - enableTxCTS: 'false'
       - txCtsSource: 'kLPUART_CtsSourcePin'
@@ -601,7 +585,7 @@ const lpuart_config_t LPUART5_config = {
   .isMsb = false,
   .stopBitCount = kLPUART_OneStopBit,
   .txFifoWatermark = 0,
-  .rxFifoWatermark = 1,
+  .rxFifoWatermark = 0,
   .enableRxRTS = false,
   .enableTxCTS = false,
   .txCtsSource = kLPUART_CtsSourcePin,
@@ -915,6 +899,71 @@ void ADC_ETC_init(void) {
 }
 
 /***********************************************************************************************************************
+ * QuadTimer2 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'QuadTimer2'
+- type: 'qtmr'
+- mode: 'general'
+- type_id: 'qtmr_460dd7aa3f3371843c2548acd54252b0'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'TMR2'
+- config_sets:
+  - fsl_qtmr:
+    - clockSource: 'BusInterfaceClock'
+    - clockSourceFreq: 'BOARD_BootClockRUN'
+    - qtmr_channels:
+      - 0:
+        - channel_prefix_id: 'Channel_0'
+        - channel: 'kQTMR_Channel_0'
+        - primarySource: 'kQTMR_ClockDivide_8'
+        - secondarySource: 'kQTMR_Counter0InputPin'
+        - countingMode: 'kQTMR_PriSrcRiseEdge'
+        - enableMasterMode: 'false'
+        - enableExternalForce: 'false'
+        - faultFilterCount: '3'
+        - faultFilterPeriod: '0'
+        - debugMode: 'kQTMR_RunNormalInDebug'
+        - timerModeInit: 'timer'
+        - timerMode:
+          - freq_value_str: '3300'
+        - dmaIntMode: 'interrupt'
+        - interrupts: 'kQTMR_CompareInterruptEnable'
+    - interruptVector:
+      - enable_irq: 'true'
+      - interrupt:
+        - IRQn: 'TMR2_IRQn'
+        - enable_priority: 'false'
+        - priority: '0'
+        - enable_custom_name: 'false'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const qtmr_config_t QuadTimer2_Channel_0_config = {
+  .primarySource = kQTMR_ClockDivide_8,
+  .secondarySource = kQTMR_Counter0InputPin,
+  .enableMasterMode = false,
+  .enableExternalForce = false,
+  .faultFilterCount = 0,
+  .faultFilterPeriod = 0,
+  .debugMode = kQTMR_RunNormalInDebug
+};
+
+void QuadTimer2_init(void) {
+  /* Quad timer channel Channel_0 peripheral initialization */
+  QTMR_Init(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, &QuadTimer2_Channel_0_config);
+  /* Setup the timer period of the channel */
+  QTMR_SetTimerPeriod(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, 3300U);
+  /* Enable interrupt requests of the timer channel */
+  QTMR_EnableInterrupts(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_CompareInterruptEnable);
+  /* Enable interrupt TMR2_IRQn request in the NVIC */
+  EnableIRQ(QUADTIMER2_IRQN);
+  /* Start the timer - select the timer counting mode */
+  QTMR_StartTimer(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
+}
+
+/***********************************************************************************************************************
  * Initialization functions
  **********************************************************************************************************************/
 void BOARD_InitPeripherals(void)
@@ -938,6 +987,7 @@ void BOARD_InitPeripherals(void)
   QuadTimer1_init();
   ADC1_init();
   ADC_ETC_init();
+  QuadTimer2_init();
 }
 
 /***********************************************************************************************************************

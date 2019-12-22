@@ -12,7 +12,7 @@
 #define LPUART2_BUFF_LEN 164
 AT_NONCACHEABLE_SECTION_INIT(uint8_t g_lpuart2RxBuf[LPUART2_BUFF_LEN]) = {0};            //串口接收缓冲区
 AT_NONCACHEABLE_SECTION_INIT(uint8_t g_lpuart2TxBuf[LPUART2_BUFF_LEN]) = {0};            //串口发送缓冲区
-lpuart_transfer_t receiveXfer;
+uint8_t g_puart2RxCnt = 0;
 
 TaskHandle_t        BLE_TaskHandle = NULL;//蓝牙任务句柄
 EventGroupHandle_t  RecvAckEvt = NULL;//串口收到AT指令回令的信号量，可在串口接收空闲后发出
@@ -57,6 +57,8 @@ uint8_t AT_SendCmd(const char *cmd, const char *param, const char *recv_str, ATC
     strcat(send_str, "\r\n");
     
 retry:
+    g_puart2RxCnt = 0;
+    xEventGroupClearBits(RecvAckEvt, EVT_OK);//发送数据前先清除该事件
     LPUART2_SendString(send_str);//发送AT指令
     
     if (NULL == recv_str ) {
@@ -73,7 +75,7 @@ retry:
     if( (at_event & EVT_OK) == EVT_OK ){
         xEventGroupClearBits(RecvAckEvt, EVT_OK);//清除事件
         //接收到的数据中包含响应的数据
-        if(strstr((char *)receiveXfer.data, recv_str) != NULL){
+        if(strstr((char *)g_lpuart2RxBuf, recv_str) != NULL){
             return true;
         }else {
             if(p_at_cfg->try_cnt++ > p_at_cfg->try_times){
@@ -123,28 +125,18 @@ char get_rtc[] = "{\"Id\":2,\"Sid\":0}";
 void BLE_AppTask(void)
 {
     uint8_t ret = false;
-    
-    ParseProtocol(get_rtc);
-    
-    /*使能空闲中断*/
-	LPUART_EnableInterrupts(LPUART2, kLPUART_IdleLineInterruptEnable);
-	/*使能串口中断**/
-	EnableIRQ(LPUART2_IRQn);
-    
-    RecvAckEvt = xEventGroupCreate();/*  创建 事件组 */
-    
-    receiveXfer.data     = g_lpuart2RxBuf;
-    receiveXfer.dataSize = LPUART2_BUFF_LEN;
 
-    LPUART_ReceiveEDMA(LPUART2, &LPUART2_eDMA_Handle, &receiveXfer);  //使用eDMA接收
+    RecvAckEvt = xEventGroupCreate();/*  创建 事件组 */
     
     PRINTF("BLE Task Create and Running\r\n");
     
     ret = AT_SendCmd(BT_NAME, DEVICE_BLE_NAME, RESP_OK, &g_at_cfg);//设置蓝牙名称
-    if( ret == true ){//显示蓝牙错误状态指示等.
+    
+    if( ret == true ){
         g_sys_para2.bleLedStatus = BLE_READY;
-        SET_THROUGHPUT_MODE();
     }
+    SET_THROUGHPUT_MODE();//进入透传模式
+    
     while(1)
     {
         /*  等待接收事件标志 */
@@ -153,9 +145,10 @@ void BLE_AppTask(void)
                             pdTRUE, /*  退出时清除事件位 */
                             pdTRUE, /*  满足感兴趣的所有事件 */
                             portMAX_DELAY);/*  指定超时事件, 一直等 */
-
-        LPUART2_SendString((char *)receiveXfer.data);
-        LPUART_WriteByte(LPUART2, receiveXfer.dataSize);
+        
+        LPUART2_SendString((char *)g_lpuart2RxBuf);
+//        ParseProtocol((char *)receiveXfer.data);//处理蓝牙数据协议
+        memset(g_lpuart2RxBuf,0,LPUART2_BUFF_LEN);
     }
 }
 
@@ -166,21 +159,39 @@ void BLE_AppTask(void)
 ***************************************************************************************/
 void LPUART2_IRQHandler(void)
 {
-    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
-   /*	接收到数据满了触发中断	*/
-    if ((kLPUART_IdleLineFlag) & LPUART_GetStatusFlags(LPUART2))
+    uint8_t ucTemp;
+    /*串口接收到数据*/
+    if ((kLPUART_RxDataRegFullFlag)&LPUART_GetStatusFlags(LPUART2))
     {
-		/*清除空闲中断*/
-		LPUART2->STAT |= LPUART_STAT_IDLE_MASK; 
+         /*读取数据*/
+        ucTemp = LPUART_ReadByte(LPUART2);
+        if(g_puart2RxCnt < LPUART2_BUFF_LEN){
+            QUADTIMER2_PERIPHERAL->CHANNEL[QUADTIMER2_CHANNEL_0_CHANNEL].CNTR = 0;
+            if(g_puart2RxCnt == 0){
+                QTMR_SetTimerPeriod(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, 3300U);
+                QTMR_StartTimer(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
+            }
+            g_lpuart2RxBuf[g_puart2RxCnt++] = ucTemp;
+        }else{
+            g_puart2RxCnt = 0;
+        }
         
-		/*接收eDMA的数据量*/
-		LPUART_TransferGetReceiveCountEDMA(LPUART2, &LPUART2_eDMA_Handle, &receiveXfer.dataSize); 
-		LPUART_TransferAbortReceiveEDMA(LPUART2, &LPUART2_eDMA_Handle);   //eDMA终止接收数据
-		LPUART_ReceiveEDMA(LPUART2, &LPUART2_eDMA_Handle, &receiveXfer);  //使用eDMA接收
-        g_sys_para2.inactiveCount = 0;//接受到蓝牙数据，计数器清空
-        xEventGroupSetBitsFromISR(RecvAckEvt, EVT_OK, &xHigherPriorityTaskWoken); /*设置事件 */
     }
     __DSB();
+}
+
+/***************************************************************************************
+  * @brief   
+  * @input
+  * @return
+***************************************************************************************/
+void TMR2_IRQHandler(void)
+{
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    g_puart2RxCnt = 0;
+    QTMR_ClearStatusFlags(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_CompareFlag);//清中断标志
+    QTMR_StopTimer(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL);//停止计数器
+    xEventGroupSetBitsFromISR(RecvAckEvt, EVT_OK, &xHigherPriorityTaskWoken); /*设置事件 */
 }
 
 

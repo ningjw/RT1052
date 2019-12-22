@@ -60,11 +60,10 @@ static void InitSysPara()
 {
     g_sys_para1.inactiveTime = 15;//默认15分钟没有活动后，自动关机。
     g_sys_para2.inactiveCount = 0;
+    g_sys_para2.sampLedStatus = WORK_FINE;
+    g_sys_para2.batLedStatus = BAT_FULL;
+    g_sys_para2.bleLedStatus = BLE_CLOSE;
 }
-
-
-
-extern void QuadTimer3_init(void);
 
 
 
@@ -76,14 +75,14 @@ extern void QuadTimer3_init(void);
 int main(void)
 {
     BaseType_t xReturn = pdPASS;/* 定义一个创建信息返回值，默认为pdPASS */
-
+    
     BOARD_BootClockRUN();
     BOARD_InitBootPins();
     BOARD_InitPeripherals();
     BOARD_InitDebugConsole();
     PRINTF("***** Welcome *****\r\n");
     InitSysPara();
-    EEPROM_Test();
+//    EEPROM_Test();
     RTC_Config();//实时时钟初始化
     
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);//1ms中断，FreeRTOS使用
