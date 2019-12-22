@@ -5,7 +5,7 @@
 #define LTC2942_I2C_MASTER_BASE         LPI2C1_BASE // I2C port where the LTC2942 connected
 #define LTC2942_I2C_MASTER              ((LPI2C_Type *)LTC2942_I2C_MASTER_BASE)
 // LTC2942 address
-#define LTC2942_ADDR                    (0x64)
+#define LTC2942_ADDR                    (0x64 << 1)
 
 
 // LTC2942 register definitions

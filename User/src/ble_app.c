@@ -1,11 +1,15 @@
 #include "main.h"
 
-#define LPUART2_BUFF_LEN 64
 
+#define DEVICE_BLE_NAME "BLE Communication"
+#define SET_COMMOND_MODE()       GPIO_PinWrite(BOARD_BTM_MODE_GPIO, BOARD_BTM_MODE_PIN, 1);
+#define SET_THROUGHPUT_MODE()    GPIO_PinWrite(BOARD_BTM_MODE_GPIO, BOARD_BTM_MODE_PIN, 0);
+#define BLE_POWER_ON()           GPIO_PinWrite(BOARD_PWR_WIFI_BLE_GPIO, BOARD_PWR_WIFI_BLE_PIN, 1);
+#define BLE_RESET()              GPIO_PinWrite(BOARD_PWR_WIFI_BLE_GPIO, BOARD_PWR_WIFI_BLE_PIN, 0);
 #define EVT_OK       (1 << 0)//接受到数据事件
 
 
-SendMsgFunc_t SendMsgCallback;
+#define LPUART2_BUFF_LEN 164
 AT_NONCACHEABLE_SECTION_INIT(uint8_t g_lpuart2RxBuf[LPUART2_BUFF_LEN]) = {0};            //串口接收缓冲区
 AT_NONCACHEABLE_SECTION_INIT(uint8_t g_lpuart2TxBuf[LPUART2_BUFF_LEN]) = {0};            //串口发送缓冲区
 lpuart_transfer_t receiveXfer;
@@ -136,11 +140,10 @@ void BLE_AppTask(void)
     
     PRINTF("BLE Task Create and Running\r\n");
     
-    AT_SendCmd(BT_NAME, "NINGJW", RESP_OK, &g_at_cfg);//设置蓝牙名称
-    
-    AT_SendCmd(BT_NAME, NULL, BT_NAME, &g_at_cfg);//获取蓝牙名称,判断是否设置成功
-    if( ret == false ){//显示蓝牙错误状态指示等.
-        
+    ret = AT_SendCmd(BT_NAME, DEVICE_BLE_NAME, RESP_OK, &g_at_cfg);//设置蓝牙名称
+    if( ret == true ){//显示蓝牙错误状态指示等.
+        g_sys_para2.bleLedStatus = BLE_READY;
+        SET_THROUGHPUT_MODE();
     }
     while(1)
     {
@@ -151,7 +154,8 @@ void BLE_AppTask(void)
                             pdTRUE, /*  满足感兴趣的所有事件 */
                             portMAX_DELAY);/*  指定超时事件, 一直等 */
 
-//        LPUART2_SendString((char *)receiveXfer.data);
+        LPUART2_SendString((char *)receiveXfer.data);
+        LPUART_WriteByte(LPUART2, receiveXfer.dataSize);
     }
 }
 

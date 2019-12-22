@@ -56,6 +56,7 @@
                <pin_label pin_num="C13" pin_signal="GPIO_B1_11" label="LED_SYS_GREEN" identifier="LED_STATUS_GREEN;LED_SYS_GREEN"/>
                <pin_label pin_num="J12" pin_signal="GPIO_AD_B1_06" label="SDA_TEMP" identifier="SDA_TEMP"/>
                <pin_label pin_num="K10" pin_signal="GPIO_AD_B1_07" label="SCL_TEMP" identifier="SCL_TEMP"/>
+               <pin_label pin_num="C10" pin_signal="GPIO_B0_12" label="PWR_WIFI_BLE" identifier="PWR_WIFI_BLE"/>
             </pin_labels>
          </pins_profile>
          <functions_list>
@@ -261,11 +262,13 @@
                   <pin peripheral="GPIO1" signal="gpio_io, 20" pin_num="L12" pin_signal="GPIO_AD_B1_04">
                      <pin_features>
                         <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="GPIO1" signal="gpio_io, 10" pin_num="G13" pin_signal="GPIO_AD_B0_10">
                      <pin_features>
                         <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="GPIO2" signal="gpio_io, 20" pin_num="E12" pin_signal="GPIO_B1_04">
@@ -357,6 +360,12 @@
                      </pin_features>
                   </pin>
                   <pin peripheral="GPIO1" signal="gpio_io, 23" pin_num="K10" pin_signal="GPIO_AD_B1_07">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO2" signal="gpio_io, 12" pin_num="C10" pin_signal="GPIO_B0_12">
                      <pin_features>
                         <pin_feature name="direction" value="OUTPUT"/>
                         <pin_feature name="gpio_init_state" value="true"/>

@@ -14,37 +14,17 @@
   * @return  
 ***************************************************************************************/
 static void LTC2942_WriteReg(uint8_t reg, uint8_t value) {
-    status_t reVal = kStatus_Fail;
-    uint8_t g_master_txBuff[2] = {reg, value};
-    size_t txCount     = 0xFFU;
-
-        /* Send Start and addr */
-    if (kStatus_Success == LPI2C_MasterStart(LTC2942_I2C_MASTER, LTC2942_ADDR, kLPI2C_Write))
-    {
-        /* Check master tx FIFO empty or not */
-        LPI2C_MasterGetFifoCounts(LTC2942_I2C_MASTER, NULL, &txCount);
-        while (txCount)
-        {
-            LPI2C_MasterGetFifoCounts(LTC2942_I2C_MASTER, NULL, &txCount);
-        }
-        /* Check communicate with slave successful or not */
-        while (LPI2C_MasterGetStatusFlags(LTC2942_I2C_MASTER) & kLPI2C_MasterNackDetectFlag)
-        {
-        }
-         /*   start + reg + reg + value + stop*/
-        reVal = LPI2C_MasterSend(LTC2942_I2C_MASTER, g_master_txBuff, 2);
-        if (reVal != kStatus_Success)
-        {
-            PRINTF("I2C1 ·¢ËÍ´íÎó");
-        }
-
-
-        reVal = LPI2C_MasterStop(LTC2942_I2C_MASTER);
-        if (reVal != kStatus_Success)
-        {
-            PRINTF("I2C1 ·¢ËÍ´íÎó");
-        }
-    }
+    lpi2c_master_transfer_t masterXfer = {0};
+    uint8_t regValue[1] = {value};
+    masterXfer.slaveAddress = LTC2942_ADDR;
+    masterXfer.direction = kLPI2C_Write;
+    masterXfer.subaddress = reg;
+    masterXfer.subaddressSize = 1;
+    masterXfer.data  = regValue;
+    masterXfer.dataSize = 1;
+    masterXfer.flags = kLPI2C_TransferDefaultFlag;
+    
+	LPI2C_MasterTransferBlocking(LTC2942_I2C_MASTER, &masterXfer);
 }
 
 
@@ -54,51 +34,20 @@ static void LTC2942_WriteReg(uint8_t reg, uint8_t value) {
   * @return  register value
 ***************************************************************************************/
 static uint8_t LTC2942_ReadReg(uint8_t reg) {
-    status_t reVal = kStatus_Fail;
-    uint8_t g_master_Buff[1] = {reg};
-    size_t  txCount = 0xFFU;
+	lpi2c_master_transfer_t masterXfer = {0};
+    uint8_t value;
     
-     if (kStatus_Success == LPI2C_MasterStart(LTC2942_I2C_MASTER, LTC2942_ADDR , kLPI2C_Write))//read = 1
-    {
-        /* Check master tx FIFO empty or not */
-        LPI2C_MasterGetFifoCounts(LTC2942_I2C_MASTER, NULL, &txCount);
-        while (txCount)
-        {
-            LPI2C_MasterGetFifoCounts(LTC2942_I2C_MASTER, NULL, &txCount);
-        }
-        /* Check communicate with slave successful or not */
-        while (LPI2C_MasterGetStatusFlags(LTC2942_I2C_MASTER) & kLPI2C_MasterNackDetectFlag)
-        {
-        }
+    masterXfer.slaveAddress = LTC2942_ADDR;
+    masterXfer.direction = kLPI2C_Read;
+    masterXfer.subaddress = (uint32_t)reg;
+    masterXfer.subaddressSize = 1;
+    masterXfer.data = &value;
+    masterXfer.dataSize = 1;
+    masterXfer.flags = kLPI2C_TransferDefaultFlag;
 
-        reVal = LPI2C_MasterSend(LTC2942_I2C_MASTER, g_master_Buff, 1);
-        if (reVal != kStatus_Success)
-        {
-            PRINTF("I2C1 ·¢ËÍ´íÎó");
-        }
-        
-         reVal = LPI2C_MasterRepeatedStart(LTC2942_I2C_MASTER, LTC2942_ADDR, kLPI2C_Read);
-        if (reVal != kStatus_Success)
-        {
-             PRINTF("I2C1 ·¢ËÍ´íÎó");
-        }
-        
-        reVal = LPI2C_MasterReceive(LTC2942_I2C_MASTER, g_master_Buff, 1);
-        if (reVal != kStatus_Success)
-        {
-            PRINTF("I2C1 ½ÓÊÜÊý¾Ý´íÎó");
-        }
-
-        reVal = LPI2C_MasterStop(LTC2942_I2C_MASTER);
-        if (reVal != kStatus_Success)
-        {
-            PRINTF("I2C1 ·¢ËÍ´íÎó");
-        }
-    }
-    
-	return g_master_Buff[0];
+    LPI2C_MasterTransferBlocking(EEPROM_I2C_MASTER, &masterXfer);
+	return value;
 }
-
 
 
 /***************************************************************************************

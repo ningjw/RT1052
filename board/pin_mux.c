@@ -43,6 +43,7 @@ pin_labels:
 - {pin_num: C13, pin_signal: GPIO_B1_11, label: LED_SYS_GREEN, identifier: LED_STATUS_GREEN;LED_SYS_GREEN}
 - {pin_num: J12, pin_signal: GPIO_AD_B1_06, label: SDA_TEMP, identifier: SDA_TEMP}
 - {pin_num: K10, pin_signal: GPIO_AD_B1_07, label: SCL_TEMP, identifier: SCL_TEMP}
+- {pin_num: C10, pin_signal: GPIO_B0_12, label: PWR_WIFI_BLE, identifier: PWR_WIFI_BLE}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -97,8 +98,8 @@ BOARD:
   - {pin_num: H14, peripheral: GPIO1, signal: 'gpio_io, 14', pin_signal: GPIO_AD_B0_14, direction: OUTPUT}
   - {pin_num: K12, peripheral: GPIO1, signal: 'gpio_io, 21', pin_signal: GPIO_AD_B1_05, direction: OUTPUT}
   - {pin_num: G10, peripheral: GPIO1, signal: 'gpio_io, 11', pin_signal: GPIO_AD_B0_11, direction: OUTPUT}
-  - {pin_num: L12, peripheral: GPIO1, signal: 'gpio_io, 20', pin_signal: GPIO_AD_B1_04, direction: OUTPUT}
-  - {pin_num: G13, peripheral: GPIO1, signal: 'gpio_io, 10', pin_signal: GPIO_AD_B0_10, direction: OUTPUT}
+  - {pin_num: L12, peripheral: GPIO1, signal: 'gpio_io, 20', pin_signal: GPIO_AD_B1_04, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: G13, peripheral: GPIO1, signal: 'gpio_io, 10', pin_signal: GPIO_AD_B0_10, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: E12, peripheral: GPIO2, signal: 'gpio_io, 20', pin_signal: GPIO_B1_04, identifier: LED_PWR_RED, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: D12, peripheral: GPIO2, signal: 'gpio_io, 21', pin_signal: GPIO_B1_05, identifier: LED_PWR_GREEN, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: C12, peripheral: GPIO2, signal: 'gpio_io, 22', pin_signal: GPIO_B1_06, identifier: LED_BAT_RED, direction: OUTPUT, gpio_init_state: 'true'}
@@ -122,6 +123,7 @@ BOARD:
   - {peripheral: ADC_ETC, signal: 'XBAR0_TRIG, 0', pin_signal: PIT_TRIGGER0}
   - {pin_num: J12, peripheral: GPIO1, signal: 'gpio_io, 22', pin_signal: GPIO_AD_B1_06, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: K10, peripheral: GPIO1, signal: 'gpio_io, 23', pin_signal: GPIO_AD_B1_07, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: C10, peripheral: GPIO2, signal: 'gpio_io, 12', pin_signal: GPIO_B0_12, direction: OUTPUT, gpio_init_state: 'true'}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -147,7 +149,7 @@ void BOARD(void) {
   /* GPIO configuration of BTM_MODE on GPIO_AD_B0_10 (pin G13) */
   gpio_pin_config_t BTM_MODE_config = {
       .direction = kGPIO_DigitalOutput,
-      .outputLogic = 0U,
+      .outputLogic = 1U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_AD_B0_10 (pin G13) */
@@ -174,7 +176,7 @@ void BOARD(void) {
   /* GPIO configuration of BTM_EN on GPIO_AD_B1_04 (pin L12) */
   gpio_pin_config_t BTM_EN_config = {
       .direction = kGPIO_DigitalOutput,
-      .outputLogic = 0U,
+      .outputLogic = 1U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_AD_B1_04 (pin L12) */
@@ -226,6 +228,15 @@ void BOARD(void) {
   };
   /* Initialize GPIO functionality on GPIO_B0_11 (pin A10) */
   GPIO_PinInit(GPIO2, 11U, &ADC_MODE_config);
+
+  /* GPIO configuration of PWR_WIFI_BLE on GPIO_B0_12 (pin C10) */
+  gpio_pin_config_t PWR_WIFI_BLE_config = {
+      .direction = kGPIO_DigitalOutput,
+      .outputLogic = 1U,
+      .interruptMode = kGPIO_NoIntmode
+  };
+  /* Initialize GPIO functionality on GPIO_B0_12 (pin C10) */
+  GPIO_PinInit(GPIO2, 12U, &PWR_WIFI_BLE_config);
 
   /* GPIO configuration of ADC_SYNC on GPIO_B0_14 (pin E10) */
   gpio_pin_config_t ADC_SYNC_config = {
@@ -409,6 +420,9 @@ void BOARD(void) {
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
       IOMUXC_GPIO_B0_11_GPIO2_IO11,           /* GPIO_B0_11 is configured as GPIO2_IO11 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B0_12_GPIO2_IO12,           /* GPIO_B0_12 is configured as GPIO2_IO12 */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
       IOMUXC_GPIO_B0_14_GPIO2_IO14,           /* GPIO_B0_14 is configured as GPIO2_IO14 */

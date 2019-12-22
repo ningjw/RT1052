@@ -180,6 +180,11 @@ void BOARD_InitBootPins(void);
 #define BOARD_SCL_TEMP_PORT                                                GPIO1   /*!< PORT device name: GPIO1 */
 #define BOARD_SCL_TEMP_PIN                                                   23U   /*!< GPIO1 pin index: 23 */
 
+/* GPIO_B0_12 (coord C10), PWR_WIFI_BLE */
+#define BOARD_PWR_WIFI_BLE_GPIO                                            GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_PWR_WIFI_BLE_PORT                                            GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_PWR_WIFI_BLE_PIN                                               12U   /*!< GPIO2 pin index: 12 */
+
 
 /*!
  * @brief Configures pin routing and optionally pin electrical features.

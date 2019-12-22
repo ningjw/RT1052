@@ -72,7 +72,7 @@
 ".\objects\stream_buffer.o"
 ".\objects\tasks.o"
 ".\objects\timers.o"
---library_type=microlib --diag_suppress 6314 --strict --scatter ".\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052xxxxx_flexspi_nor_sdram.scf"
+--library_type=microlib --diag_suppress 6314 --strict --scatter ".\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052xxxxx_flexspi_nor.scf"
 --keep=*(.boot_hdr.ivt) --keep=*(.boot_hdr.boot_data) --keep=*(.boot_hdr.dcd_data) --keep=*(.boot_hdr.conf) --predefine="-DXIP_BOOT_HEADER_ENABLE=1" --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\Listings\rt1052.map" -o .\Objects\rt1052.axf
