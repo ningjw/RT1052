@@ -160,15 +160,15 @@ void BOARD_InitBootPins(void);
 #define BOARD_LED_SYS_GREEN_PORT                                           GPIO2   /*!< PORT device name: GPIO2 */
 #define BOARD_LED_SYS_GREEN_PIN                                              27U   /*!< GPIO2 pin index: 27 */
 
-/* GPIO_AD_B1_08 (coord H13), CHARGING */
-#define BOARD_CHARGING_GPIO                                                GPIO1   /*!< GPIO device name: GPIO1 */
-#define BOARD_CHARGING_PORT                                                GPIO1   /*!< PORT device name: GPIO1 */
-#define BOARD_CHARGING_PIN                                                   24U   /*!< GPIO1 pin index: 24 */
+/* GPIO_AD_B1_08 (coord H13), BAT_CHRG */
+#define BOARD_BAT_CHRG_GPIO                                                GPIO1   /*!< GPIO device name: GPIO1 */
+#define BOARD_BAT_CHRG_PORT                                                GPIO1   /*!< PORT device name: GPIO1 */
+#define BOARD_BAT_CHRG_PIN                                                   24U   /*!< GPIO1 pin index: 24 */
 
-/* GPIO_AD_B1_09 (coord M13), CHARGE_COMPELETE */
-#define BOARD_CHARGE_COMPELETE_GPIO                                        GPIO1   /*!< GPIO device name: GPIO1 */
-#define BOARD_CHARGE_COMPELETE_PORT                                        GPIO1   /*!< PORT device name: GPIO1 */
-#define BOARD_CHARGE_COMPELETE_PIN                                           25U   /*!< GPIO1 pin index: 25 */
+/* GPIO_AD_B1_09 (coord M13), BAT_STDBY */
+#define BOARD_BAT_STDBY_GPIO                                               GPIO1   /*!< GPIO device name: GPIO1 */
+#define BOARD_BAT_STDBY_PORT                                               GPIO1   /*!< PORT device name: GPIO1 */
+#define BOARD_BAT_STDBY_PIN                                                  25U   /*!< GPIO1 pin index: 25 */
 
 /* GPIO_AD_B1_06 (coord J12), SDA_TEMP */
 #define BOARD_SDA_TEMP_GPIO                                                GPIO1   /*!< GPIO device name: GPIO1 */
@@ -184,6 +184,11 @@ void BOARD_InitBootPins(void);
 #define BOARD_PWR_WIFI_BLE_GPIO                                            GPIO2   /*!< GPIO device name: GPIO2 */
 #define BOARD_PWR_WIFI_BLE_PORT                                            GPIO2   /*!< PORT device name: GPIO2 */
 #define BOARD_PWR_WIFI_BLE_PIN                                               12U   /*!< GPIO2 pin index: 12 */
+
+/* GPIO_AD_B0_15 (coord L10), PWR_CHG_COMPLETE */
+#define BOARD_PWR_CHG_COMPLETE_GPIO                                        GPIO1   /*!< GPIO device name: GPIO1 */
+#define BOARD_PWR_CHG_COMPLETE_PORT                                        GPIO1   /*!< PORT device name: GPIO1 */
+#define BOARD_PWR_CHG_COMPLETE_PIN                                           15U   /*!< GPIO1 pin index: 15 */
 
 
 /*!

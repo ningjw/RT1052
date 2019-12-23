@@ -25,10 +25,10 @@
             <processor_version>6.0.1</processor_version>
             <power_domains/>
             <pin_labels>
-               <pin_label pin_num="M13" pin_signal="GPIO_AD_B1_09" label="CHARGE_COMPELETE" identifier="CHARGE_COMPELETE"/>
+               <pin_label pin_num="M13" pin_signal="GPIO_AD_B1_09" label="BAT_STDBY" identifier="CHARGE_COMPELETE;BAT_STDBY"/>
                <pin_label pin_num="F14" pin_signal="GPIO_AD_B0_09" label="LED" identifier="CORE_BOARD_LED;LED"/>
                <pin_label pin_num="G13" pin_signal="GPIO_AD_B0_10" label="BTM_MODE" identifier="BTM_MODE"/>
-               <pin_label pin_num="H13" pin_signal="GPIO_AD_B1_08" label="CHARGING" identifier="CHARGING"/>
+               <pin_label pin_num="H13" pin_signal="GPIO_AD_B1_08" label="BAT_CHRG" identifier="CHARGING;BAT_CHARGING;BAT_STDBY;BAT_CHRG"/>
                <pin_label pin_num="L6" pin_signal="WAKEUP" label="CORE_BOARD_WAUP_KEY" identifier="CORE_BOARD_WAUP_KEY"/>
                <pin_label pin_num="G14" pin_signal="GPIO_AD_B0_05" label="BOOT_MODE1" identifier="BOOT_MODE1"/>
                <pin_label pin_num="D11" pin_signal="GPIO_B1_03" label="RST_4G" identifier="RST_4G"/>
@@ -45,7 +45,7 @@
                <pin_label pin_num="K12" pin_signal="GPIO_AD_B1_05" label="E103_PWR_EN" identifier="E103_PWR_EN"/>
                <pin_label pin_num="G10" pin_signal="GPIO_AD_B0_11" label="E103_SETDF" identifier="E103_SETDF"/>
                <pin_label pin_num="L12" pin_signal="GPIO_AD_B1_04" label="BTM_EN" identifier="BTM_EN"/>
-               <pin_label pin_num="L10" pin_signal="GPIO_AD_B0_15" label="PWR_AL" identifier="PWR_AL"/>
+               <pin_label pin_num="L10" pin_signal="GPIO_AD_B0_15" label="PWR_CHG_COMPLETE" identifier="PWR_AL;PWR_COMPELETE;PWR_COMPLETE;PWR_CHG_COMPLETE"/>
                <pin_label pin_num="E12" pin_signal="GPIO_B1_04" label="LED_PWR_RED" identifier="LED_POWER_RED;LED_PWR_RED"/>
                <pin_label pin_num="D12" pin_signal="GPIO_B1_05" label="LED_PWR_GREEN" identifier="LED_POWER_GREEN;LED_PWR_GREEN"/>
                <pin_label pin_num="C12" pin_signal="GPIO_B1_06" label="LED_BAT_RED" identifier="LED_BATTERY_RED;LED_BAT_RED"/>
@@ -179,6 +179,7 @@
                         <pin_feature name="pull_up_down_config" value="Pull_Down_100K_Ohm"/>
                         <pin_feature name="pull_keeper_select" value="Pull"/>
                         <pin_feature name="open_drain" value="Enable"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="LPI2C1" signal="SCL" pin_num="J11" pin_signal="GPIO_AD_B1_00">
@@ -187,6 +188,7 @@
                         <pin_feature name="pull_up_down_config" value="Pull_Down_100K_Ohm"/>
                         <pin_feature name="pull_keeper_select" value="Pull"/>
                         <pin_feature name="open_drain" value="Enable"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="TMR3" signal="TIMER, 0" pin_num="A8" pin_signal="GPIO_B0_06">
@@ -353,8 +355,16 @@
                         <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="GPIO1" signal="gpio_io, 24" pin_num="H13" pin_signal="GPIO_AD_B1_08"/>
-                  <pin peripheral="GPIO1" signal="gpio_io, 25" pin_num="M13" pin_signal="GPIO_AD_B1_09"/>
+                  <pin peripheral="GPIO1" signal="gpio_io, 24" pin_num="H13" pin_signal="GPIO_AD_B1_08">
+                     <pin_features>
+                        <pin_feature name="identifier" value="BAT_CHRG"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO1" signal="gpio_io, 25" pin_num="M13" pin_signal="GPIO_AD_B1_09">
+                     <pin_features>
+                        <pin_feature name="identifier" value="BAT_STDBY"/>
+                     </pin_features>
+                  </pin>
                   <pin peripheral="USDHC1" signal="usdhc_clk" pin_num="J3" pin_signal="GPIO_SD_B0_01"/>
                   <pin peripheral="USDHC1" signal="usdhc_cmd" pin_num="J4" pin_signal="GPIO_SD_B0_00"/>
                   <pin peripheral="USDHC1" signal="usdhc_data, 0" pin_num="J1" pin_signal="GPIO_SD_B0_02"/>
@@ -415,6 +425,12 @@
                      <pin_features>
                         <pin_feature name="speed" value="MHZ_200"/>
                         <pin_feature name="slew_rate" value="Fast"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="GPIO1" signal="gpio_io, 15" pin_num="L10" pin_signal="GPIO_AD_B0_15">
+                     <pin_features>
+                        <pin_feature name="identifier" value="PWR_CHG_COMPLETE"/>
+                        <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
                   </pin>
                </pins>
@@ -975,7 +991,7 @@
                            <setting name="debugEnable" value="false"/>
                            <setting name="ignoreAck" value="false"/>
                            <setting name="pinConfig" value="kLPI2C_2PinOpenDrain"/>
-                           <setting name="baudRate_Hz" value="400000"/>
+                           <setting name="baudRate_Hz" value="10000"/>
                            <setting name="busIdleTimeout_ns" value="0"/>
                            <setting name="pinLowTimeout_ns" value="0"/>
                            <setting name="sdaGlitchFilterWidth_ns" value="0"/>
@@ -1221,7 +1237,7 @@
                         <setting name="enable_irq_comb_0_15" value="true"/>
                         <struct name="gpio_interrupt_comb_0_15">
                            <setting name="IRQn" value="GPIO2_Combined_0_15_IRQn"/>
-                           <setting name="enable_priority" value="true"/>
+                           <setting name="enable_priority" value="false"/>
                            <setting name="priority" value="0"/>
                            <setting name="enable_custom_name" value="true"/>
                            <setting name="handler_custom_name" value="GPIO2_COMB_0_15_IRQHANDLER"/>
@@ -1387,6 +1403,80 @@
                               <setting name="priority" value="0"/>
                               <setting name="enable_custom_name" value="false"/>
                            </struct>
+                        </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="GPIO_1" type="igpio" type_id="igpio_b1c1fa279aa7069dca167502b8589cb7" mode="GPIO" peripheral="GPIO1" enabled="false">
+                     <config_set name="fsl_gpio">
+                        <setting name="enable_irq_comb_0_15" value="true"/>
+                        <struct name="gpio_interrupt_comb_0_15">
+                           <setting name="IRQn" value="GPIO1_Combined_0_15_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                        <setting name="enable_irq_comb_16_31" value="false"/>
+                        <struct name="gpio_interrupt_comb_16_31">
+                           <setting name="IRQn" value="GPIO1_Combined_16_31_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                        <setting name="enable_irq_int0" value="false"/>
+                        <struct name="gpio_interrupt_int0">
+                           <setting name="IRQn" value="GPIO1_INT0_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                        <setting name="enable_irq_int1" value="false"/>
+                        <struct name="gpio_interrupt_int1">
+                           <setting name="IRQn" value="GPIO1_INT1_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                        <setting name="enable_irq_int2" value="false"/>
+                        <struct name="gpio_interrupt_int2">
+                           <setting name="IRQn" value="GPIO1_INT2_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                        <setting name="enable_irq_int3" value="false"/>
+                        <struct name="gpio_interrupt_int3">
+                           <setting name="IRQn" value="GPIO1_INT3_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                        <setting name="enable_irq_int4" value="false"/>
+                        <struct name="gpio_interrupt_int4">
+                           <setting name="IRQn" value="GPIO1_INT4_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                        <setting name="enable_irq_int5" value="false"/>
+                        <struct name="gpio_interrupt_int5">
+                           <setting name="IRQn" value="GPIO1_INT5_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                        <setting name="enable_irq_int6" value="false"/>
+                        <struct name="gpio_interrupt_int6">
+                           <setting name="IRQn" value="GPIO1_INT6_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
+                        </struct>
+                        <setting name="enable_irq_int7" value="false"/>
+                        <struct name="gpio_interrupt_int7">
+                           <setting name="IRQn" value="GPIO1_INT7_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
                         </struct>
                      </config_set>
                   </instance>

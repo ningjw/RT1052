@@ -15,12 +15,12 @@
 ***************************************************************************************/
 static void LTC2942_WriteReg(uint8_t reg, uint8_t value) {
     lpi2c_master_transfer_t masterXfer = {0};
-    uint8_t regValue[1] = {value};
+    uint8_t data = value;
     masterXfer.slaveAddress = LTC2942_ADDR;
     masterXfer.direction = kLPI2C_Write;
     masterXfer.subaddress = reg;
     masterXfer.subaddressSize = 1;
-    masterXfer.data  = regValue;
+    masterXfer.data  = &data;;
     masterXfer.dataSize = 1;
     masterXfer.flags = kLPI2C_TransferDefaultFlag;
     
@@ -43,7 +43,7 @@ static uint8_t LTC2942_ReadReg(uint8_t reg) {
     masterXfer.subaddressSize = 1;
     masterXfer.data = &value;
     masterXfer.dataSize = 1;
-    masterXfer.flags = kLPI2C_TransferDefaultFlag;
+    masterXfer.flags = kLPI2C_TransferRepeatedStartFlag;
 
     LPI2C_MasterTransferBlocking(EEPROM_I2C_MASTER, &masterXfer);
 	return value;

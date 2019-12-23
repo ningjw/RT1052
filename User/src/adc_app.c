@@ -65,7 +65,7 @@ void ADC_AppTask(void)
     PRINTF("ADC Task Create and Running\r\n");
     while(1)
     {
-//        xSemaphoreTake(ADCRdySem, portMAX_DELAY);//获取信号量
+        xSemaphoreTake(ADCRdySem, portMAX_DELAY);//获取信号量
 ////        PRINTF("\r\nCaptured Period time=%d us\n", (timeCapt * 1000) / counterClock);
 //        PRINTF("\r\nADC Value = %d \n", ADC_ConvertedValue);
         if (ADC_READY == 0){//低电平有效

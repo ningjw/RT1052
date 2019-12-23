@@ -474,11 +474,6 @@
               <FilePath>.\User\src\battery_drv.c</FilePath>
             </File>
             <File>
-              <FileName>led_drv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\led_drv.c</FilePath>
-            </File>
-            <File>
               <FileName>iic_temp_drv.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\iic_temp_drv.c</FilePath>

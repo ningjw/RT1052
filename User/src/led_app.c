@@ -63,6 +63,10 @@ void LED_AppTask(void)
                 GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN,OFF);
                 BOARD_LED_BAT_RED_GPIO->DR ^= (1 << BOARD_LED_BAT_RED_PIN);
                 break;
+            case BAT_NORMAL://电池未充电,且电量大于20%
+                GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
+                GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO,BOARD_LED_BAT_GREEN_PIN, OFF);
+                break;
             default:
                 break;
         }

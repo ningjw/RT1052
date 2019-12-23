@@ -12,10 +12,10 @@ package_id: MIMXRT1052CVL5B
 mcu_data: ksdk2_0
 processor_version: 6.0.1
 pin_labels:
-- {pin_num: M13, pin_signal: GPIO_AD_B1_09, label: CHARGE_COMPELETE, identifier: CHARGE_COMPELETE}
+- {pin_num: M13, pin_signal: GPIO_AD_B1_09, label: BAT_STDBY, identifier: CHARGE_COMPELETE;BAT_STDBY}
 - {pin_num: F14, pin_signal: GPIO_AD_B0_09, label: LED, identifier: CORE_BOARD_LED;LED}
 - {pin_num: G13, pin_signal: GPIO_AD_B0_10, label: BTM_MODE, identifier: BTM_MODE}
-- {pin_num: H13, pin_signal: GPIO_AD_B1_08, label: CHARGING, identifier: CHARGING}
+- {pin_num: H13, pin_signal: GPIO_AD_B1_08, label: BAT_CHRG, identifier: CHARGING;BAT_CHARGING;BAT_STDBY;BAT_CHRG}
 - {pin_num: L6, pin_signal: WAKEUP, label: CORE_BOARD_WAUP_KEY, identifier: CORE_BOARD_WAUP_KEY}
 - {pin_num: G14, pin_signal: GPIO_AD_B0_05, label: BOOT_MODE1, identifier: BOOT_MODE1}
 - {pin_num: D11, pin_signal: GPIO_B1_03, label: RST_4G, identifier: RST_4G}
@@ -32,7 +32,7 @@ pin_labels:
 - {pin_num: K12, pin_signal: GPIO_AD_B1_05, label: E103_PWR_EN, identifier: E103_PWR_EN}
 - {pin_num: G10, pin_signal: GPIO_AD_B0_11, label: E103_SETDF, identifier: E103_SETDF}
 - {pin_num: L12, pin_signal: GPIO_AD_B1_04, label: BTM_EN, identifier: BTM_EN}
-- {pin_num: L10, pin_signal: GPIO_AD_B0_15, label: PWR_AL, identifier: PWR_AL}
+- {pin_num: L10, pin_signal: GPIO_AD_B0_15, label: PWR_CHG_COMPLETE, identifier: PWR_AL;PWR_COMPELETE;PWR_COMPLETE;PWR_CHG_COMPLETE}
 - {pin_num: E12, pin_signal: GPIO_B1_04, label: LED_PWR_RED, identifier: LED_POWER_RED;LED_PWR_RED}
 - {pin_num: D12, pin_signal: GPIO_B1_05, label: LED_PWR_GREEN, identifier: LED_POWER_GREEN;LED_PWR_GREEN}
 - {pin_num: C12, pin_signal: GPIO_B1_06, label: LED_BAT_RED, identifier: LED_BATTERY_RED;LED_BAT_RED}
@@ -72,9 +72,9 @@ BOARD:
   - {pin_num: L14, peripheral: LPUART1, signal: RX, pin_signal: GPIO_AD_B0_13}
   - {pin_num: F14, peripheral: GPIO1, signal: 'gpio_io, 09', pin_signal: GPIO_AD_B0_09, identifier: LED, direction: OUTPUT}
   - {pin_num: K11, peripheral: LPI2C1, signal: SDA, pin_signal: GPIO_AD_B1_01, software_input_on: Enable, pull_up_down_config: Pull_Down_100K_Ohm, pull_keeper_select: Pull,
-    open_drain: Enable}
+    open_drain: Enable, slew_rate: Fast}
   - {pin_num: J11, peripheral: LPI2C1, signal: SCL, pin_signal: GPIO_AD_B1_00, software_input_on: Enable, pull_up_down_config: Pull_Down_100K_Ohm, pull_keeper_select: Pull,
-    open_drain: Enable}
+    open_drain: Enable, slew_rate: Fast}
   - {pin_num: A8, peripheral: TMR3, signal: 'TIMER, 0', pin_signal: GPIO_B0_06, drive_strength: R0_2, slew_rate: Fast}
   - {pin_num: E7, peripheral: LPSPI4, signal: SDI, pin_signal: GPIO_B0_01, direction: INPUT, speed: MHZ_100, drive_strength: R0_2, slew_rate: Fast}
   - {pin_num: D8, peripheral: LPSPI4, signal: SCK, pin_signal: GPIO_B0_03, direction: OUTPUT, speed: MHZ_100, slew_rate: Fast}
@@ -111,8 +111,8 @@ BOARD:
   - {pin_num: J13, peripheral: ADC1, signal: 'IN, 0', pin_signal: GPIO_AD_B1_11, pull_keeper_enable: Disable}
   - {pin_num: D7, peripheral: TMR1, signal: 'TIMER, 0', pin_signal: GPIO_B0_00, hysteresis_enable: Enable, pull_up_down_config: Pull_Up_22K_Ohm, pull_keeper_select: Keeper,
     pull_keeper_enable: Disable, open_drain: Enable, drive_strength: Disabled, slew_rate: Slow}
-  - {pin_num: H13, peripheral: GPIO1, signal: 'gpio_io, 24', pin_signal: GPIO_AD_B1_08}
-  - {pin_num: M13, peripheral: GPIO1, signal: 'gpio_io, 25', pin_signal: GPIO_AD_B1_09}
+  - {pin_num: H13, peripheral: GPIO1, signal: 'gpio_io, 24', pin_signal: GPIO_AD_B1_08, identifier: BAT_CHRG}
+  - {pin_num: M13, peripheral: GPIO1, signal: 'gpio_io, 25', pin_signal: GPIO_AD_B1_09, identifier: BAT_STDBY}
   - {pin_num: J3, peripheral: USDHC1, signal: usdhc_clk, pin_signal: GPIO_SD_B0_01}
   - {pin_num: J4, peripheral: USDHC1, signal: usdhc_cmd, pin_signal: GPIO_SD_B0_00}
   - {pin_num: J1, peripheral: USDHC1, signal: 'usdhc_data, 0', pin_signal: GPIO_SD_B0_02}
@@ -130,6 +130,7 @@ BOARD:
   - {pin_num: P5, peripheral: FLEXSPI, signal: FLEXSPI_A_DATA3, pin_signal: GPIO_SD_B1_11, speed: MHZ_200, slew_rate: Fast}
   - {pin_num: L4, peripheral: FLEXSPI, signal: FLEXSPI_A_SCLK, pin_signal: GPIO_SD_B1_07, speed: MHZ_200, slew_rate: Fast}
   - {pin_num: L3, peripheral: FLEXSPI, signal: FLEXSPI_A_SS0_B, pin_signal: GPIO_SD_B1_06, speed: MHZ_200, slew_rate: Fast}
+  - {pin_num: L10, peripheral: GPIO1, signal: 'gpio_io, 15', pin_signal: GPIO_AD_B0_15, identifier: PWR_CHG_COMPLETE, direction: OUTPUT}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -178,6 +179,15 @@ void BOARD(void) {
   };
   /* Initialize GPIO functionality on GPIO_AD_B0_14 (pin H14) */
   GPIO_PinInit(GPIO1, 14U, &E103_RST_config);
+
+  /* GPIO configuration of PWR_CHG_COMPLETE on GPIO_AD_B0_15 (pin L10) */
+  gpio_pin_config_t PWR_CHG_COMPLETE_config = {
+      .direction = kGPIO_DigitalOutput,
+      .outputLogic = 0U,
+      .interruptMode = kGPIO_NoIntmode
+  };
+  /* Initialize GPIO functionality on GPIO_AD_B0_15 (pin L10) */
+  GPIO_PinInit(GPIO1, 15U, &PWR_CHG_COMPLETE_config);
 
   /* GPIO configuration of BTM_EN on GPIO_AD_B1_04 (pin L12) */
   gpio_pin_config_t BTM_EN_config = {
@@ -366,6 +376,9 @@ void BOARD(void) {
       IOMUXC_GPIO_AD_B0_14_GPIO1_IO14,        /* GPIO_AD_B0_14 is configured as GPIO1_IO14 */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
+      IOMUXC_GPIO_AD_B0_15_GPIO1_IO15,        /* GPIO_AD_B0_15 is configured as GPIO1_IO15 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
       IOMUXC_GPIO_AD_B1_00_LPI2C1_SCL,        /* GPIO_AD_B1_00 is configured as LPI2C1_SCL */
       1U);                                    /* Software Input On Field: Force input path of pad GPIO_AD_B1_00 */
   IOMUXC_SetPinMux(
@@ -523,7 +536,7 @@ void BOARD(void) {
   XBARA_SetSignalsConnection(XBARA1, kXBARA1_InputPitTrigger0, kXBARA1_OutputAdcEtcXbar0Trig0); /* PIT_TRIGGER0 output assigned to XBARA1_IN56 input is connected to XBARA1_OUT103 output assigned to ADC_ETC_XBAR0_TRIG0 */
   IOMUXC_SetPinConfig(
       IOMUXC_GPIO_AD_B1_00_LPI2C1_SCL,        /* GPIO_AD_B1_00 PAD functional properties : */
-      0x38B0U);                               /* Slew Rate Field: Slow Slew Rate
+      0x38B1U);                               /* Slew Rate Field: Fast Slew Rate
                                                  Drive Strength Field: R0/6
                                                  Speed Field: medium(100MHz)
                                                  Open Drain Enable Field: Open Drain Enabled
@@ -533,7 +546,7 @@ void BOARD(void) {
                                                  Hyst. Enable Field: Hysteresis Disabled */
   IOMUXC_SetPinConfig(
       IOMUXC_GPIO_AD_B1_01_LPI2C1_SDA,        /* GPIO_AD_B1_01 PAD functional properties : */
-      0x38B0U);                               /* Slew Rate Field: Slow Slew Rate
+      0x38B1U);                               /* Slew Rate Field: Fast Slew Rate
                                                  Drive Strength Field: R0/6
                                                  Speed Field: medium(100MHz)
                                                  Open Drain Enable Field: Open Drain Enabled

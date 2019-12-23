@@ -71,6 +71,9 @@ typedef struct{
     uint8_t sampLedStatus;
     uint32_t sampPacks;
     bool     sampStart;
+    float   batVoltage;//电池电压
+    float   batTemp;   //电池温度
+    float   batChargePercent;//充电百分比
 }SysPara2;
 
 extern SysPara1 g_sys_para1;

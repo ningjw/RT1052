@@ -107,8 +107,6 @@ extern "C" {
 #define LPSPI4_CLOCK_FREQ 24000000UL
 /* GPIO2 interrupt vector ID (number). */
 #define GPIO2_GPIO_COMB_0_15_IRQN GPIO2_Combined_0_15_IRQn
-/* GPIO2 interrupt vector priority. */
-#define GPIO2_GPIO_COMB_0_15_IRQ_PRIORITY 0
 /* GPIO2 interrupt handler identifier. */
 #define GPIO2_COMB_0_15_IRQHANDLER GPIO2_Combined_0_15_IRQHandler
 /* Definition of peripheral ID */

@@ -236,7 +236,7 @@ instance:
       - debugEnable: 'false'
       - ignoreAck: 'false'
       - pinConfig: 'kLPI2C_2PinOpenDrain'
-      - baudRate_Hz: '400000'
+      - baudRate_Hz: '10000'
       - busIdleTimeout_ns: '0'
       - pinLowTimeout_ns: '0'
       - sdaGlitchFilterWidth_ns: '0'
@@ -253,7 +253,7 @@ const lpi2c_master_config_t LPI2C1_masterConfig = {
   .debugEnable = false,
   .ignoreAck = false,
   .pinConfig = kLPI2C_2PinOpenDrain,
-  .baudRate_Hz = 400000,
+  .baudRate_Hz = 10000,
   .busIdleTimeout_ns = 0,
   .pinLowTimeout_ns = 0,
   .sdaGlitchFilterWidth_ns = 0,
@@ -671,7 +671,7 @@ instance:
     - enable_irq_comb_0_15: 'true'
     - gpio_interrupt_comb_0_15:
       - IRQn: 'GPIO2_Combined_0_15_IRQn'
-      - enable_priority: 'true'
+      - enable_priority: 'false'
       - priority: '0'
       - enable_custom_name: 'true'
       - handler_custom_name: 'GPIO2_COMB_0_15_IRQHANDLER'
@@ -686,8 +686,6 @@ instance:
 
 void GPIO2_init(void) {
   /* Make sure, the clock gate for GPIO2 is enabled (e. g. in pin_mux.c) */
-  /* Interrupt vector GPIO2_Combined_0_15_IRQn priority settings in the NVIC */
-  NVIC_SetPriority(GPIO2_Combined_0_15_IRQn, GPIO2_GPIO_COMB_0_15_IRQ_PRIORITY);
   /* Enable interrupt GPIO2_Combined_0_15_IRQn request in the NVIC */
   EnableIRQ(GPIO2_Combined_0_15_IRQn);
 }

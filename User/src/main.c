@@ -61,7 +61,7 @@ static void InitSysPara()
     g_sys_para1.inactiveTime = 15;//默认15分钟没有活动后，自动关机。
     g_sys_para2.inactiveCount = 0;
     g_sys_para2.sampLedStatus = WORK_FINE;
-    g_sys_para2.batLedStatus = BAT_FULL;
+    g_sys_para2.batLedStatus = BAT_NORMAL;
     g_sys_para2.bleLedStatus = BLE_CLOSE;
 }
 
@@ -83,12 +83,12 @@ int main(void)
     PRINTF("***** Welcome *****\r\n");
     InitSysPara();
     RTC_Config();//实时时钟初始化
-    FlexSPI_NorFlash_Init();
+//    FlexSPI_NorFlash_Init();
+//    NorFlash_IPCommand_Test();
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);//1ms中断，FreeRTOS使用
     
-    EEPROM_Test();
-    NorFlash_IPCommand_Test();
-    
+//    EEPROM_Test();
+
     /* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xReturn = xTaskCreate((TaskFunction_t )AppTaskCreate, "AppTaskCreate",512,NULL,1,&AppTaskCreate_Handle);
     /* 启动任务调度 */
