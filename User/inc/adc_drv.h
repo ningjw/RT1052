@@ -4,5 +4,6 @@
 
 void XBARA_Configuration(void);
 void ADC_ETC_Config(void);
+uint32_t LPSPI4_ReadWriteByte(void);
 
 #endif

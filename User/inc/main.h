@@ -1,7 +1,7 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#define SOFT_VERSION       "V0.01"
+#define SOFT_VERSION       "V0.02"
 #define POWER_ON_TIMER_ID  1
 
 #include "stdint.h"
@@ -33,7 +33,6 @@
 #include "lpuart1.h"
 #include "i2c_eeprom_drv.h"
 #include "rtc_drv.h"
-#include "emmc_drv.h"
 #include "adc_drv.h"
 #include "battery_drv.h"
 #include "iic_temp_drv.h"

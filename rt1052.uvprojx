@@ -340,7 +340,7 @@
 </MiscControls>
               <Define>CPU_MIMXRT1052CVL5B,XIP_EXTERNAL_FLASH=1, XIP_BOOT_HEADER_ENABLE =1,XIP_BOOT_HEADER_DCD_ENABLE =1,PRINTF_FLOAT_ENABLE=1,PRINTF_ADVANCED_ENABLE=1</Define>
               <Undefine></Undefine>
-              <IncludePath>.\board;.\User\inc;.\xip;.\sdmmc\inc;.\sdmmc\port\freertos;.\fatfs;.\fatfs\fsl_mmc_disk;.\cjson</IncludePath>
+              <IncludePath>.\board;.\User\inc;.\xip;.\sdmmc\inc;.\sdmmc\port\freertos;.\fatfs;.\fatfs\fsl_sd_disk;.\cjson</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -514,19 +514,19 @@
               <FilePath>.\sdmmc\src\fsl_sdmmc_common.c</FilePath>
             </File>
             <File>
+              <FileName>fsl_sd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\sdmmc\src\fsl_sd.c</FilePath>
+            </File>
+            <File>
               <FileName>fsl_sdmmc_host.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\sdmmc\port\freertos\fsl_sdmmc_host.c</FilePath>
+              <FilePath>.\sdmmc\port\usdhc\polling\fsl_sdmmc_host.c</FilePath>
             </File>
             <File>
               <FileName>fsl_sdmmc_event.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\sdmmc\port\freertos\fsl_sdmmc_event.c</FilePath>
-            </File>
-            <File>
-              <FileName>fsl_mmc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\sdmmc\src\fsl_mmc.c</FilePath>
+              <FilePath>.\sdmmc\port\usdhc\polling\fsl_sdmmc_event.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -537,11 +537,6 @@
               <FileName>ff.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\fatfs\ff.c</FilePath>
-            </File>
-            <File>
-              <FileName>fsl_mmc_disk.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\fatfs\fsl_mmc_disk\fsl_mmc_disk.c</FilePath>
             </File>
             <File>
               <FileName>ffsystem.c</FileName>
@@ -557,6 +552,11 @@
               <FileName>diskio.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\fatfs\diskio.c</FilePath>
+            </File>
+            <File>
+              <FileName>fsl_sd_disk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\fatfs\fsl_sd_disk\fsl_sd_disk.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -577,16 +577,6 @@
               <FileName>fsl_flexspi_nor_boot.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\xip\fsl_flexspi_nor_boot.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>ReadMe</GroupName>
-          <Files>
-            <File>
-              <FileName>版本说明.txt</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\版本说明.txt</FilePath>
             </File>
           </Files>
         </Group>

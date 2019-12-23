@@ -62,7 +62,7 @@ DSTATUS disk_status (
             stat = USB_HostMsdGetDiskStatus(pdrv);
             return stat;
 #endif
-#ifdef SD_DISK_ENABLE
+#ifdef SD_DISK_ENABLE   
         case SDDISK:
             stat = sd_disk_status(pdrv);
             return stat;
@@ -295,4 +295,3 @@ DRESULT disk_ioctl (
     }
     return RES_PARERR;
 }
-

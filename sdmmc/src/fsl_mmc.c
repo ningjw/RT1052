@@ -1,9 +1,35 @@
 /*
+ * The Clear BSD License
  * Copyright (c) 2015, Freescale Semiconductor, Inc.
- * Copyright 2016-2018 NXP
+ * Copyright 2016-2017 NXP
  * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted (subject to the limitations in the disclaimer below) provided
+ *  that the following conditions are met:
  *
- * SPDX-License-Identifier: BSD-3-Clause
+ * o Redistributions of source code must retain the above copyright notice, this list
+ *   of conditions and the following disclaimer.
+ *
+ * o Redistributions in binary form must reproduce the above copyright notice, this
+ *   list of conditions and the following disclaimer in the documentation and/or
+ *   other materials provided with the distribution.
+ *
+ * o Neither the name of the copyright holder nor the names of its
+ *   contributors may be used to endorse or promote products derived from this
+ *   software without specific prior written permission.
+ *
+ * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS LICENSE.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #include <string.h>
@@ -465,7 +491,6 @@ static status_t MMC_Transfer(mmc_card_t *card, SDMMCHOST_TRANSFER *content, uint
     do
     {
         error = card->host.transfer(card->host.base, content);
-#if SDMMC_ENABLE_SOFTWARE_TUNING
         if (((error == SDMMCHOST_RETUNING_REQUEST) || (error == SDMMCHOST_TUNING_ERROR)) &&
             ((card->busTiming == kMMC_HighSpeed200Timing) || (card->busTiming == kMMC_HighSpeed400Timing)))
         {
@@ -485,9 +510,7 @@ static status_t MMC_Transfer(mmc_card_t *card, SDMMCHOST_TRANSFER *content, uint
                 continue;
             }
         }
-        else
-#endif
-            if (error != kStatus_Success)
+        else if (error != kStatus_Success)
         {
             error = kStatus_SDMMC_TransferFailed;
         }
@@ -504,7 +527,7 @@ static status_t MMC_Transfer(mmc_card_t *card, SDMMCHOST_TRANSFER *content, uint
             break;
         }
 
-    } while (error != kStatus_Success);
+    } while ((error != kStatus_Success) && (error != kStatus_SDMMC_TuningFail));
 
     return error;
 }
@@ -530,12 +553,12 @@ static status_t MMC_WaitWriteComplete(mmc_card_t *card)
         }
 
         /* check the response error */
-        if ((command.response[0U] & (SDMMC_R1_ALL_ERROR_FLAG | SDMMC_MASK(kSDMMC_R1SwitchErrorFlag))))
+        if ((command.response[0U] & (kSDMMC_R1ErrorAllFlag | kSDMMC_R1SwitchErrorFlag)))
         {
             return kStatus_SDMMC_WaitWriteCompleteFailed;
         }
 
-        if ((command.response[0U] & SDMMC_MASK(kSDMMC_R1ReadyForDataFlag)) &&
+        if ((command.response[0U] & kSDMMC_R1ReadyForDataFlag) &&
             (SDMMC_R1_CURRENT_STATE(command.response[0U]) != kSDMMC_R1StateProgram))
         {
             break;
@@ -556,7 +579,7 @@ static status_t MMC_StopTransmission(mmc_card_t *card)
     command.argument = 0U;
     command.type = kCARD_CommandTypeAbort;
     command.responseType = kCARD_ResponseTypeR1b;
-    command.responseErrorFlags = SDMMC_R1_ALL_ERROR_FLAG;
+    command.responseErrorFlags = kSDMMC_R1ErrorAllFlag;
 
     content.command = &command;
     content.data = 0U;
@@ -641,9 +664,6 @@ static status_t MMC_SendOperationCondition(mmc_card_t *card, uint32_t arg)
             return kStatus_SDMMC_TransferFailed;
         }
 
-        /* record OCR register */
-        card->ocr = command.response[0U];
-
         if ((arg == 0U) && (command.response[0U] != 0U))
         {
             error = kStatus_Success;
@@ -656,6 +676,7 @@ static status_t MMC_SendOperationCondition(mmc_card_t *card, uint32_t arg)
         else
         {
             error = kStatus_Success;
+            card->ocr = command.response[0U];
             if (((card->ocr & MMC_OCR_ACCESS_MODE_MASK) >> MMC_OCR_ACCESS_MODE_SHIFT) == kMMC_AccessModeSector)
             {
                 card->flags |= kMMC_SupportHighCapacityFlag;
@@ -682,7 +703,7 @@ static status_t MMC_SetRelativeAddress(mmc_card_t *card)
     content.command = &command;
     content.data = NULL;
     if ((kStatus_Success == card->host.transfer(card->host.base, &content)) ||
-        (!((command.response[0U]) & SDMMC_R1_ALL_ERROR_FLAG)))
+        (!((command.response[0U]) & kSDMMC_R1ErrorAllFlag)))
     {
         card->relativeAddress = MMC_DEFAULT_RELATIVE_ADDRESS;
         return kStatus_Success;
@@ -849,7 +870,7 @@ static status_t MMC_SetExtendedCsdConfig(mmc_card_t *card, const mmc_extended_cs
     command.index = kMMC_Switch;
     command.argument = parameter;
     command.responseType = kCARD_ResponseTypeR1b; /* Send switch command to set the pointed byte in Extended CSD. */
-    command.responseErrorFlags = SDMMC_R1_ALL_ERROR_FLAG | SDMMC_MASK(kSDMMC_R1SwitchErrorFlag);
+    command.responseErrorFlags = kSDMMC_R1ErrorAllFlag | kSDMMC_R1SwitchErrorFlag;
 
     content.command = &command;
     content.data = NULL;
@@ -979,7 +1000,7 @@ static status_t MMC_SendExtendedCsd(mmc_card_t *card, uint8_t *targetAddr, uint3
     content.command = &command;
     content.data = &data;
     if ((kStatus_Success == card->host.transfer(card->host.base, &content)) &&
-        (!(command.response[0U] & SDMMC_R1_ALL_ERROR_FLAG)))
+        (!(command.response[0U] & kSDMMC_R1ErrorAllFlag)))
     {
         /* The response is from bit 127:8 in R2, corresponding to command.response[3][31:0] to
         command.response[0U][31:8] */
@@ -1143,7 +1164,7 @@ static status_t MMC_SendTestPattern(mmc_card_t *card, uint32_t blockSize, uint32
     content.command = &command;
     content.data = &data;
     if ((kStatus_Success != card->host.transfer(card->host.base, &content)) ||
-        (command.response[0U] & SDMMC_R1_ALL_ERROR_FLAG))
+        (command.response[0U] & kSDMMC_R1ErrorAllFlag))
     {
         return kStatus_SDMMC_TransferFailed;
     }
@@ -1174,7 +1195,7 @@ static status_t MMC_ReceiveTestPattern(mmc_card_t *card, uint32_t blockSize, uin
     content.command = &command;
     content.data = &data;
     if ((kStatus_Success != card->host.transfer(card->host.base, &content)) ||
-        ((command.response[0U]) & SDMMC_R1_ALL_ERROR_FLAG))
+        ((command.response[0U]) & kSDMMC_R1ErrorAllFlag))
     {
         return kStatus_SDMMC_TransferFailed;
     }
@@ -1868,7 +1889,7 @@ static status_t MMC_Read(
         command.argument *= data.blockSize;
     }
     command.responseType = kCARD_ResponseTypeR1;
-    command.responseErrorFlags = SDMMC_R1_ALL_ERROR_FLAG;
+    command.responseErrorFlags = kSDMMC_R1ErrorAllFlag;
 
     content.command = &command;
     content.data = &data;
@@ -1953,7 +1974,7 @@ static status_t MMC_Write(
         command.argument *= blockSize;
     }
     command.responseType = kCARD_ResponseTypeR1;
-    command.responseErrorFlags = SDMMC_R1_ALL_ERROR_FLAG;
+    command.responseErrorFlags = kSDMMC_R1ErrorAllFlag;
 
     content.command = &command;
     content.data = &data;
@@ -2131,16 +2152,6 @@ void MMC_HostReset(SDMMCHOST_CONFIG *host)
     SDMMCHOST_Reset(host->base);
 }
 
-void MMC_PowerOnCard(SDMMCHOST_TYPE *base, const sdmmchost_pwr_card_t *pwr)
-{
-    SDMMCHOST_PowerOnCard(base, pwr);
-}
-
-void MMC_PowerOffCard(SDMMCHOST_TYPE *base, const sdmmchost_pwr_card_t *pwr)
-{
-    SDMMCHOST_PowerOffCard(base, pwr);
-}
-
 status_t MMC_Init(mmc_card_t *card)
 {
     assert(card);
@@ -2157,12 +2168,6 @@ status_t MMC_Init(mmc_card_t *card)
         /* reset the host */
         MMC_HostReset(&(card->host));
     }
-
-    /*first power off card*/
-    MMC_PowerOffCard(card->host.base, card->usrParam.pwr);
-
-    /*power on card*/
-    MMC_PowerOnCard(card->host.base, card->usrParam.pwr);
 
     return MMC_CardInit(card);
 }
@@ -2377,7 +2382,7 @@ status_t MMC_EraseGroups(mmc_card_t *card, uint32_t startGroup, uint32_t endGrou
     command.index = kMMC_EraseGroupStart;
     command.argument = startGroupAddress;
     command.responseType = kCARD_ResponseTypeR1;
-    command.responseErrorFlags = SDMMC_R1_ALL_ERROR_FLAG;
+    command.responseErrorFlags = kSDMMC_R1ErrorAllFlag;
 
     content.command = &command;
     content.data = NULL;
@@ -2401,7 +2406,7 @@ status_t MMC_EraseGroups(mmc_card_t *card, uint32_t startGroup, uint32_t endGrou
     command.index = kSDMMC_Erase;
     command.argument = 0U;
     command.responseType = kCARD_ResponseTypeR1b;
-    command.responseErrorFlags = SDMMC_R1_ALL_ERROR_FLAG;
+    command.responseErrorFlags = kSDMMC_R1ErrorAllFlag;
 
     content.command = &command;
     content.data = NULL;

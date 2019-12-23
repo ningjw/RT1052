@@ -59,7 +59,6 @@
 .\objects\led_drv_1.o: .\User\inc\lpuart1.h
 .\objects\led_drv_1.o: .\User\inc\i2c_eeprom_drv.h
 .\objects\led_drv_1.o: .\User\inc\rtc_drv.h
-.\objects\led_drv_1.o: .\User\inc\emmc_drv.h
 .\objects\led_drv_1.o: .\User\inc\adc_drv.h
 .\objects\led_drv_1.o: .\User\inc\battery_drv.h
 .\objects\led_drv_1.o: .\User\inc\iic_temp_drv.h

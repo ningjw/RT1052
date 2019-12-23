@@ -19,7 +19,7 @@
 .\objects\fsl_sdmmc_common.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h
 .\objects\fsl_sdmmc_common.o: .\sdmmc\inc\fsl_sdmmc_host.h
 .\objects\fsl_sdmmc_common.o: .\User\inc\emmc_drv.h
-.\objects\fsl_sdmmc_common.o: .\board\clock_config.h
-.\objects\fsl_sdmmc_common.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
+.\objects\fsl_sdmmc_common.o: .\User\inc\pad_config.h
 .\objects\fsl_sdmmc_common.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_usdhc.h
+.\objects\fsl_sdmmc_common.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_iomuxc.h
 .\objects\fsl_sdmmc_common.o: .\sdmmc\inc\fsl_sdmmc_spec.h

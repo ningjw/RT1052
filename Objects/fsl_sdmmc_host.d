@@ -1,5 +1,5 @@
-.\objects\fsl_sdmmc_host.o: sdmmc\port\freertos\fsl_sdmmc_host.c
-.\objects\fsl_sdmmc_host.o: .\sdmmc\inc\fsl_sdmmc_event.h
+.\objects\fsl_sdmmc_host.o: sdmmc\port\usdhc\polling\fsl_sdmmc_host.c
+.\objects\fsl_sdmmc_host.o: .\sdmmc\inc\fsl_sdmmc_host.h
 .\objects\fsl_sdmmc_host.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h
 .\objects\fsl_sdmmc_host.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
 .\objects\fsl_sdmmc_host.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
@@ -17,8 +17,9 @@
 .\objects\fsl_sdmmc_host.o: .\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h
 .\objects\fsl_sdmmc_host.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_clock.h
 .\objects\fsl_sdmmc_host.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h
-.\objects\fsl_sdmmc_host.o: .\sdmmc\inc\fsl_sdmmc_host.h
 .\objects\fsl_sdmmc_host.o: .\User\inc\emmc_drv.h
-.\objects\fsl_sdmmc_host.o: .\board\clock_config.h
-.\objects\fsl_sdmmc_host.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
+.\objects\fsl_sdmmc_host.o: .\User\inc\pad_config.h
 .\objects\fsl_sdmmc_host.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_usdhc.h
+.\objects\fsl_sdmmc_host.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_iomuxc.h
+.\objects\fsl_sdmmc_host.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
+.\objects\fsl_sdmmc_host.o: .\sdmmc\inc\fsl_sdmmc_event.h

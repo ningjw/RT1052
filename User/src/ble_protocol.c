@@ -325,7 +325,13 @@ char* ParseProtocol(char *pMsg)
             p_reply = ParseMsg7(pJson, pSub);
             break;
         case 8:
-            
+            p_reply = ParseMsg8();
+            break;
+        case 9:
+            p_reply = ParseMsg9();
+            break;
+        case 10:
+            p_reply = ParseMsg10(pJson, pSub);
             break;
     }
     

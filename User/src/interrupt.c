@@ -1,6 +1,5 @@
 #include "main.h"
 
-
 /**
 * @brief  发送一个字符
 * @param  base:选择端口
@@ -23,6 +22,7 @@ void PIT_IRQHandler(void)
     if ( PIT_GetStatusFlags(PIT, kPIT_Chnl_0) == true ) {
         /* 清除中断标志位.*/
         PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);
+        
     }
 
     if( PIT_GetStatusFlags(PIT, kPIT_Chnl_1) == true ) {

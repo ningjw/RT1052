@@ -20,7 +20,10 @@
 .\objects\fsl_sd.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h
 .\objects\fsl_sd.o: .\sdmmc\inc\fsl_sdmmc_host.h
 .\objects\fsl_sd.o: .\User\inc\emmc_drv.h
-.\objects\fsl_sd.o: .\board\clock_config.h
-.\objects\fsl_sd.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
+.\objects\fsl_sd.o: .\User\inc\pad_config.h
 .\objects\fsl_sd.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_usdhc.h
+.\objects\fsl_sd.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_iomuxc.h
 .\objects\fsl_sd.o: .\sdmmc\inc\fsl_sdmmc_spec.h
+.\objects\fsl_sd.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h
+.\objects\fsl_sd.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h
+.\objects\fsl_sd.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h

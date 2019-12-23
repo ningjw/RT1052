@@ -59,7 +59,6 @@
 .\objects\adc_app.o: .\User\inc\lpuart1.h
 .\objects\adc_app.o: .\User\inc\i2c_eeprom_drv.h
 .\objects\adc_app.o: .\User\inc\rtc_drv.h
-.\objects\adc_app.o: .\User\inc\emmc_drv.h
 .\objects\adc_app.o: .\User\inc\adc_drv.h
 .\objects\adc_app.o: .\User\inc\battery_drv.h
 .\objects\adc_app.o: .\User\inc\iic_temp_drv.h

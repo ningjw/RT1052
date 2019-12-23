@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include "diskio.h"
 #include "fsl_sd.h"
+#include "emmc_drv.h"  
 
 /*!
  * @addtogroup SD Disk

@@ -65,6 +65,9 @@ DRESULT sd_disk_read(uint8_t physicalDrive, uint8_t *buffer, uint32_t sector, ui
     return RES_OK;
 }
 
+
+
+sd_card_t g_sd;
 DRESULT sd_disk_ioctl(uint8_t physicalDrive, uint8_t command, void *buffer)
 {
     DRESULT result = RES_OK;
@@ -79,7 +82,7 @@ DRESULT sd_disk_ioctl(uint8_t physicalDrive, uint8_t command, void *buffer)
         case GET_SECTOR_COUNT:
             if (buffer)
             {
-                *(uint32_t *)buffer = g_sd.blockCount;
+                *(uint32_t *)buffer = g_sd.blockCount;  
             }
             else
             {
@@ -133,24 +136,33 @@ DSTATUS sd_disk_initialize(uint8_t physicalDrive)
     {
         return STA_NOINIT;
     }
-
-    if(g_sd.isHostReady)
-    {
-        /* reset host */
-        SD_HostReset(&(g_sd.host));
-    }
-    else
-    {
-        return STA_NOINIT;
-    }
-
-    if (kStatus_Success != SD_CardInit(&g_sd))
-    {
-        SD_CardDeinit(&g_sd);
-        memset(&g_sd, 0U, sizeof(g_sd));
-        return STA_NOINIT;
-    }
-
+   
+    /*初始化SD卡使用的GPIO*/
+    USDHC1_gpio_init();
+    /*初始化USDHC*/
+    USDHC_Host_Init(&g_sd);
+    /*初始化SD卡*/
+    SD_Card_Init(&g_sd);
+    
     return 0;
 }
 #endif /* SD_DISK_ENABLE */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
