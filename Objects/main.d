@@ -38,6 +38,8 @@
 .\objects\main.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_hp.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_iomuxc.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_xbara.h
+.\objects\main.o: .\User\inc\fsl_flexspi.h
+.\objects\main.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_flexio.h
 .\objects\main.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h
 .\objects\main.o: .\RTE\RTOS\FreeRTOSConfig.h
 .\objects\main.o: .\RTE\_Target_1\RTE_Components.h
@@ -63,6 +65,7 @@
 .\objects\main.o: .\User\inc\battery_drv.h
 .\objects\main.o: .\User\inc\iic_temp_drv.h
 .\objects\main.o: .\User\inc\core_delay.h
+.\objects\main.o: .\User\inc\norflash_drv.h
 .\objects\main.o: .\User\inc\ble_protocol.h
 .\objects\main.o: .\User\inc\ble_app.h
 .\objects\main.o: .\User\inc\adc_app.h

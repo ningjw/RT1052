@@ -138,6 +138,11 @@
                         <data>true</data>
                      </feature>
                   </dependency>
+                  <dependency resourceType="Peripheral" resourceId="FLEXSPI" description="Peripheral FLEXSPI is not initialized" problem_level="1" source="Pins:BOARD">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
                   <dependency resourceType="SWComponent" resourceId="platform.drivers.common" description="Pins initialization requires the COMMON Driver in the project." problem_level="2" source="Pins:BOARD">
                      <feature name="enabled" evaluation="equal" configuration="core0">
                         <data>true</data>
@@ -374,6 +379,42 @@
                      <pin_features>
                         <pin_feature name="direction" value="OUTPUT"/>
                         <pin_feature name="gpio_init_state" value="true"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="FLEXSPI" signal="FLEXSPI_A_DATA0" pin_num="P3" pin_signal="GPIO_SD_B1_08">
+                     <pin_features>
+                        <pin_feature name="speed" value="MHZ_200"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="FLEXSPI" signal="FLEXSPI_A_DATA1" pin_num="N4" pin_signal="GPIO_SD_B1_09">
+                     <pin_features>
+                        <pin_feature name="speed" value="MHZ_200"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="FLEXSPI" signal="FLEXSPI_A_DATA2" pin_num="P4" pin_signal="GPIO_SD_B1_10">
+                     <pin_features>
+                        <pin_feature name="speed" value="MHZ_200"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="FLEXSPI" signal="FLEXSPI_A_DATA3" pin_num="P5" pin_signal="GPIO_SD_B1_11">
+                     <pin_features>
+                        <pin_feature name="speed" value="MHZ_200"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="FLEXSPI" signal="FLEXSPI_A_SCLK" pin_num="L4" pin_signal="GPIO_SD_B1_07">
+                     <pin_features>
+                        <pin_feature name="speed" value="MHZ_200"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="FLEXSPI" signal="FLEXSPI_A_SS0_B" pin_num="L3" pin_signal="GPIO_SD_B1_06">
+                     <pin_features>
+                        <pin_feature name="speed" value="MHZ_200"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
                      </pin_features>
                   </pin>
                </pins>

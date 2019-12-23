@@ -18,6 +18,8 @@
 #include "fsl_snvs_hp.h"
 #include "fsl_iomuxc.h"
 #include "fsl_xbara.h"
+#include "fsl_flexspi.h"
+#include "fsl_flexio.h"
 
 
 #include "FreeRTOS.h"
@@ -37,6 +39,7 @@
 #include "battery_drv.h"
 #include "iic_temp_drv.h"
 #include "core_delay.h"
+#include "norflash_drv.h"
 
 #include "ble_protocol.h"
 #include "ble_app.h"

@@ -423,6 +423,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\src\ble_protocol.c</FilePath>
             </File>
+            <File>
+              <FileName>norflash_test.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\norflash_test.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -477,6 +482,16 @@
               <FileName>iic_temp_drv.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\iic_temp_drv.c</FilePath>
+            </File>
+            <File>
+              <FileName>norflash_drv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\norflash_drv.c</FilePath>
+            </File>
+            <File>
+              <FileName>fsl_flexspi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\fsl_flexspi.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -694,6 +709,12 @@
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="edma" Cvendor="NXP" Cversion="2.1.8" condition="device.MIMXRT1052_AND_driver.common_AND_driver.dmamux">
+        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="Target 1"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="flexio" Cvendor="NXP" Cversion="2.0.2" condition="device.MIMXRT1052_AND_driver.common">
         <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
         <targetInfos>
           <targetInfo name="Target 1"/>

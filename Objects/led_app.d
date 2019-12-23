@@ -38,6 +38,8 @@
 .\objects\led_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_hp.h
 .\objects\led_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_iomuxc.h
 .\objects\led_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_xbara.h
+.\objects\led_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_flexspi.h
+.\objects\led_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_flexio.h
 .\objects\led_app.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h
 .\objects\led_app.o: .\RTE\RTOS\FreeRTOSConfig.h
 .\objects\led_app.o: .\RTE\_Target_1\RTE_Components.h
@@ -63,6 +65,7 @@
 .\objects\led_app.o: .\User\inc\battery_drv.h
 .\objects\led_app.o: .\User\inc\iic_temp_drv.h
 .\objects\led_app.o: .\User\inc\core_delay.h
+.\objects\led_app.o: .\User\inc\norflash_drv.h
 .\objects\led_app.o: .\User\inc\ble_protocol.h
 .\objects\led_app.o: .\User\inc\ble_app.h
 .\objects\led_app.o: .\User\inc\adc_app.h

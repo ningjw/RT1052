@@ -82,10 +82,12 @@ int main(void)
     BOARD_InitDebugConsole();
     PRINTF("***** Welcome *****\r\n");
     InitSysPara();
-    EEPROM_Test();
     RTC_Config();//实时时钟初始化
-    
+    FlexSPI_NorFlash_Init();
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);//1ms中断，FreeRTOS使用
+    
+    EEPROM_Test();
+    NorFlash_IPCommand_Test();
     
     /* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xReturn = xTaskCreate((TaskFunction_t )AppTaskCreate, "AppTaskCreate",512,NULL,1,&AppTaskCreate_Handle);
