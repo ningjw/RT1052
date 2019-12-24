@@ -12,10 +12,10 @@ package_id: MIMXRT1052CVL5B
 mcu_data: ksdk2_0
 processor_version: 6.0.1
 pin_labels:
-- {pin_num: M13, pin_signal: GPIO_AD_B1_09, label: CHARGE_COMPELETE, identifier: CHARGE_COMPELETE}
+- {pin_num: M13, pin_signal: GPIO_AD_B1_09, label: BAT_STDBY, identifier: CHARGE_COMPELETE;BAT_STDBY}
 - {pin_num: F14, pin_signal: GPIO_AD_B0_09, label: LED, identifier: CORE_BOARD_LED;LED}
 - {pin_num: G13, pin_signal: GPIO_AD_B0_10, label: BTM_MODE, identifier: BTM_MODE}
-- {pin_num: H13, pin_signal: GPIO_AD_B1_08, label: BAT_STDBY, identifier: CHARGING;BAT_CHARGING;BAT_STDBY}
+- {pin_num: H13, pin_signal: GPIO_AD_B1_08, label: BAT_CHRG, identifier: CHARGING;BAT_CHARGING;BAT_STDBY;BAT_CHRG}
 - {pin_num: L6, pin_signal: WAKEUP, label: CORE_BOARD_WAUP_KEY, identifier: CORE_BOARD_WAUP_KEY}
 - {pin_num: G14, pin_signal: GPIO_AD_B0_05, label: BOOT_MODE1, identifier: BOOT_MODE1}
 - {pin_num: D11, pin_signal: GPIO_B1_03, label: RST_4G, identifier: RST_4G}
@@ -111,8 +111,8 @@ BOARD:
   - {pin_num: J13, peripheral: ADC1, signal: 'IN, 0', pin_signal: GPIO_AD_B1_11, pull_keeper_enable: Disable}
   - {pin_num: D7, peripheral: TMR1, signal: 'TIMER, 0', pin_signal: GPIO_B0_00, hysteresis_enable: Enable, pull_up_down_config: Pull_Up_22K_Ohm, pull_keeper_select: Keeper,
     pull_keeper_enable: Disable, open_drain: Enable, drive_strength: Disabled, slew_rate: Slow}
-  - {pin_num: H13, peripheral: GPIO1, signal: 'gpio_io, 24', pin_signal: GPIO_AD_B1_08, identifier: BAT_STDBY}
-  - {pin_num: M13, peripheral: GPIO1, signal: 'gpio_io, 25', pin_signal: GPIO_AD_B1_09}
+  - {pin_num: H13, peripheral: GPIO1, signal: 'gpio_io, 24', pin_signal: GPIO_AD_B1_08, identifier: BAT_CHRG}
+  - {pin_num: M13, peripheral: GPIO1, signal: 'gpio_io, 25', pin_signal: GPIO_AD_B1_09, identifier: BAT_STDBY}
   - {pin_num: J3, peripheral: USDHC1, signal: usdhc_clk, pin_signal: GPIO_SD_B0_01}
   - {pin_num: J4, peripheral: USDHC1, signal: usdhc_cmd, pin_signal: GPIO_SD_B0_00}
   - {pin_num: J1, peripheral: USDHC1, signal: 'usdhc_data, 0', pin_signal: GPIO_SD_B0_02}

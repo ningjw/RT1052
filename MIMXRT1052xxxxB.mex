@@ -249,6 +249,7 @@
                   <pin peripheral="GPIO2" signal="gpio_io, 30" pin_num="C14" pin_signal="GPIO_B1_14">
                      <pin_features>
                         <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="LPUART5" signal="RX" pin_num="D14" pin_signal="GPIO_B1_13"/>
@@ -965,7 +966,7 @@
                            <struct name="1">
                               <setting name="channelNumber" value="1"/>
                               <setting name="enableChain" value="false"/>
-                              <setting name="timerPeriod" value="1s"/>
+                              <setting name="timerPeriod" value="1ms"/>
                               <setting name="startTimer" value="true"/>
                               <setting name="enableInterrupt" value="true"/>
                            </struct>

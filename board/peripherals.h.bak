@@ -149,10 +149,6 @@ extern "C" {
 #define QUADTIMER2_IRQN TMR2_IRQn
 /* QuadTimer2 interrupt handler identifier. */
 #define QUADTIMER2_IRQHANDLER TMR2_IRQHandler
-/* GPIO_1 interrupt vector ID (number). */
-#define GPIO_1_GPIO_COMB_0_15_IRQN GPIO1_Combined_0_15_IRQn
-/* GPIO_1 interrupt handler identifier. */
-#define GPIO_1_GPIO_COMB_0_15_IRQHANDLER GPIO1_Combined_0_15_IRQHandler
 
 /***********************************************************************************************************************
  * Global variables

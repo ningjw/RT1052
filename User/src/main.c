@@ -82,9 +82,11 @@ int main(void)
     BOARD_InitPeripherals();
     BOARD_InitDebugConsole();
     PRINTF("***** Welcome *****\r\n");
+    emmc_init();
     InitSysPara();
     RTC_Config();//实时时钟初始化
-//    FlexSPI_NorFlash_Init();
+    FlexSPI_NorFlash_Init();
+    emmc_init();
 //    NorFlash_IPCommand_Test();
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);//1ms中断，FreeRTOS使用
 

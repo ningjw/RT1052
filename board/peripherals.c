@@ -176,7 +176,7 @@ instance:
       - 1:
         - channelNumber: '1'
         - enableChain: 'false'
-        - timerPeriod: '1s'
+        - timerPeriod: '1ms'
         - startTimer: 'true'
         - enableInterrupt: 'true'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
@@ -190,7 +190,7 @@ void PIT1_init(void) {
   PIT_Init(PIT1_PERIPHERAL, &PIT1_config);
   /* Set channel 0 period to 1 s (66000000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_0_TICKS);
-  /* Set channel 1 period to 1 s (66000000 ticks). */
+  /* Set channel 1 period to 1 ms (66000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_1_TICKS);
   /* Enable interrupts from channel 0. */
   PIT_EnableInterrupts(PIT1_PERIPHERAL, kPIT_Chnl_0, kPIT_TimerInterruptEnable);

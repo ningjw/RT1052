@@ -1,5 +1,5 @@
 #include "main.h"
-
+extern volatile uint32_t g_eventTimeMilliseconds;
 /**
 * @brief  发送一个字符
 * @param  base:选择端口
@@ -29,8 +29,8 @@ void PIT_IRQHandler(void)
         /* 清除中断标志位.*/
         PIT_ClearStatusFlags(PIT, kPIT_Chnl_1, kPIT_TimerFlag);
         //控制led灯闪烁
-        BOARD_LED_PORT->DR ^= (1 << BOARD_LED_PIN);
-        
+//        BOARD_LED_PORT->DR ^= (1 << BOARD_LED_PIN);
+        g_eventTimeMilliseconds++;
         /* 获取日期 */
 //        SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
         /* 打印日期&时间 */ 

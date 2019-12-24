@@ -595,10 +595,10 @@ static status_t MMC_SwitchVoltage(mmc_card_t *card, uint32_t *opCode)
 {
     mmc_voltage_window_t tempVoltage = kMMC_VoltageWindowNone;
     /* Get host's voltage window. */
-    if (((kSDMMCHOST_SupportV330 != SDMMCHOST_NOT_SUPPORT) || (kSDMMCHOST_SupportV300 != SDMMCHOST_NOT_SUPPORT)) &&
-        (card->ocr & MMC_OCR_V270TO360_MASK) && ((card->hostVoltageWindowVCC == kMMC_VoltageWindowNone) ||
-                                                 (card->hostVoltageWindowVCC == kMMC_VoltageWindows270to360)))
-    {
+//    if (((kSDMMCHOST_SupportV330 != SDMMCHOST_NOT_SUPPORT) || (kSDMMCHOST_SupportV300 != SDMMCHOST_NOT_SUPPORT)) &&
+//        (card->ocr & MMC_OCR_V270TO360_MASK) && ((card->hostVoltageWindowVCC == kMMC_VoltageWindowNone) ||
+//                                                 (card->hostVoltageWindowVCC == kMMC_VoltageWindows270to360)))
+//    {
         /* Save host intended voltage range */
         tempVoltage = kMMC_VoltageWindows270to360;
         /* set the opcode */
@@ -613,27 +613,27 @@ static status_t MMC_SwitchVoltage(mmc_card_t *card, uint32_t *opCode)
         SDMMCHOST_ENABLE_MMC_POWER(true);
         /* meet emmc spec, wait 1ms and 74 clocks */
         SDMMCHOST_Delay(2U);
-    }
+//    }
 
-    if ((kSDMMCHOST_SupportV180 != SDMMCHOST_NOT_SUPPORT) && (card->ocr & MMC_OCR_V170TO195_MASK) &&
-        ((card->hostVoltageWindowVCC == kMMC_VoltageWindowNone) ||
-         (card->hostVoltageWindowVCC == kMMC_VoltageWindow170to195)))
-    {
-        /* Save host intended voltage range */
-        tempVoltage = kMMC_VoltageWindow170to195;
-        /* set the opcode */
-        *opCode = MMC_OCR_V170TO195_MASK;
-        /* power off the card first */
-        SDMMCHOST_ENABLE_MMC_POWER(false);
-        /* power off time */
-        SDMMCHOST_Delay(1U);
-        /* switch voltage to 1.8V */
-        SDMMCHOST_SWITCH_VCC_TO_180V();
-        /* repower the card */
-        SDMMCHOST_ENABLE_MMC_POWER(true);
-        /* meet emmc spec, wait 1ms and 74 clocks */
-        SDMMCHOST_Delay(2U);
-    }
+//    if ((kSDMMCHOST_SupportV180 != SDMMCHOST_NOT_SUPPORT) && (card->ocr & MMC_OCR_V170TO195_MASK) &&
+//        ((card->hostVoltageWindowVCC == kMMC_VoltageWindowNone) ||
+//         (card->hostVoltageWindowVCC == kMMC_VoltageWindow170to195)))
+//    {
+//        /* Save host intended voltage range */
+//        tempVoltage = kMMC_VoltageWindow170to195;
+//        /* set the opcode */
+//        *opCode = MMC_OCR_V170TO195_MASK;
+//        /* power off the card first */
+//        SDMMCHOST_ENABLE_MMC_POWER(false);
+//        /* power off time */
+//        SDMMCHOST_Delay(1U);
+//        /* switch voltage to 1.8V */
+//        SDMMCHOST_SWITCH_VCC_TO_180V();
+//        /* repower the card */
+//        SDMMCHOST_ENABLE_MMC_POWER(true);
+//        /* meet emmc spec, wait 1ms and 74 clocks */
+//        SDMMCHOST_Delay(2U);
+//    }
 
     card->hostVoltageWindowVCC = tempVoltage;
 
@@ -2092,17 +2092,17 @@ status_t MMC_CardInit(mmc_card_t *card)
         return kStatus_SDMMC_SetCardBlockSizeFailed;
     }
 
-    /* switch to host support speed mode, then switch MMC data bus width and select power class */
-    if (kStatus_Success != MMC_SelectBusTiming(card))
-    {
-        return kStatus_SDMMC_SwitchBusTimingFailed;
-    }
+//    /* switch to host support speed mode, then switch MMC data bus width and select power class */
+//    if (kStatus_Success != MMC_SelectBusTiming(card))
+//    {
+//        return kStatus_SDMMC_SwitchBusTimingFailed;
+//    }
 
-    /* switch power class */
-    if (kStatus_Success != MMC_SetPowerClass(card))
-    {
-        return kStatus_SDMMC_SetPowerClassFail;
-    }
+//    /* switch power class */
+//    if (kStatus_Success != MMC_SetPowerClass(card))
+//    {
+//        return kStatus_SDMMC_SetPowerClassFail;
+//    }
 
     /* Set to max erase unit size */
     if (kStatus_Success != MMC_SetMaxEraseUnitSize(card))

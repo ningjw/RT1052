@@ -32,3 +32,5 @@
 .\objects\emmc_drv.o: .\sdmmc\inc\fsl_sdmmc_spec.h
 .\objects\emmc_drv.o: .\board\pin_mux.h
 .\objects\emmc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
+.\objects\emmc_drv.o: .\fatfs\diskio.h
+.\objects\emmc_drv.o: .\sdmmc\inc\fsl_mmc.h

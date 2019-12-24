@@ -4,12 +4,11 @@
 #include "fsl_sd.h"
 #include "pin_mux.h"
 #include "fsl_gpio.h"
-
-
+#include "diskio.h"
+#include "fsl_mmc.h"
 /*文件系统描述结构体*/
 FATFS g_fileSystem; /* File system object */
-/*Card结构描述符*/
-extern sd_card_t g_sd;
+
 
 /*定义发送缓冲区和接收发送缓冲区，并进行数据对齐
  *说明：
@@ -66,16 +65,6 @@ void USDHC1_gpio_init(void)
   IOMUXC_SetPinMux(USDHC1_CLK_IOMUXC, 0U);
   IOMUXC_SetPinConfig(USDHC1_CLK_IOMUXC, USDHC1_CLK_PAD_CONFIG_DATA);
   GPIO_PinInit(USDHC1_CLK_GPIO, USDHC1_CLK_GPIO_PIN, &gpt_config);
-  
-  /*SD1_POWER*/
-  gpt_config.outputLogic =  0;                //默认低电平
-  IOMUXC_SetPinMux(SD_POWER_IOMUXC, 0U);
-  IOMUXC_SetPinConfig(SD_POWER_IOMUXC, SD_POWER_PAD_CONFIG_DATA);
-  GPIO_PinInit(SD_POWER_GPIO, SD_POWER_GPIO_PIN, &gpt_config);
- /*选择 usdhc 输出电压
- *当使用UHS-I协议通讯时，需要把SD总线信号电压降为1.8V，默认为3.0V。本实验不使用UHS-I协议通讯，电压保持默认
- */
-  //UDSHC_SelectVoltage(SD_HOST_BASEADDR, SelectVoltage_for_UHS_I_1V8);
 }
 
 
@@ -91,53 +80,11 @@ void BOARD_USDHCClockConfiguration(void)
   CLOCK_SetMux(kCLOCK_Usdhc1Mux, 1U);
 }
 
-/**
-* 函数功能:初始化USDHC_Host
-* 函数参数: sd_struct,SD卡结构体指针；
-* 返回值 ：0，成功；-1：失败；
-*/
-int USDHC_Host_Init(sd_card_t* sd_struct)
-{
-  sd_card_t *card = sd_struct;
-  
-  /* 初始化SD外设时钟 */
-  BOARD_USDHCClockConfiguration();
-
-  card->host.base = SD_HOST_BASEADDR;
-  card->host.sourceClock_Hz = SD_HOST_CLK_FREQ;
-  
-  /* SD主机初始化函数 */
-  if (SD_HostInit(card) != kStatus_Success)
-  {
-    PRINTF("\r\nSD主机初始化失败\r\n");
-    return -1;
-  } 
-  
-  return 0;		
-}
 
 
-/**
-* 函数功能:初始化SD卡
-* 函数参数: sd_struct,SD卡结构体指针；
-* 返回值 ：0，成功；-1：失败；
-*/
-int SD_Card_Init(sd_card_t* sd_struct)
-{
-  sd_card_t *card = sd_struct;
-
-  /* Init card. */
-  if (SD_CardInit(card))//重新初始化SD卡
-  {
-    PRINTF("\r\nSD card init failed.\r\n");
-    return -1;
-  }
-  
-  return 0;
-}
-
-
-
+mmc_card_t g_mmc;
+char testBuf[] = "ningjw";
+char readBuf[10] = {0};
 /***************************************************************************************
   * @brief
   * @input
@@ -145,7 +92,25 @@ int SD_Card_Init(sd_card_t* sd_struct)
 ***************************************************************************************/
 void emmc_init(void)
 {
+    USDHC1_gpio_init();
+    /* 初始化SD外设时钟 */
+    BOARD_USDHCClockConfiguration();
 
+    g_mmc.host.base = USDHC1;
+    g_mmc.host.sourceClock_Hz = MMC_HOST_CLK_FREQ;
+    g_mmc.hostVoltageWindowVCC = kMMC_VoltageWindows270to360;
+    
+    /* SD主机初始化函数 */
+    if (MMC_Init(&g_mmc) != kStatus_Success)
+    {
+        PRINTF("\r\nSD主机初始化失败\r\n");
+        return;
+    }else{
+        PRINTF("\r\nSD主机初始化成功\r\n");
+        MMC_WriteBlocks(&g_mmc, testBuf, 10, 10);
+        MMC_ReadBlocks(&g_mmc, readBuf, 10, 10);
+    }
+    
 }
 
 
