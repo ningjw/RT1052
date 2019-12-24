@@ -15,7 +15,7 @@
   ******************************************************************
   */
 #include "main.h"
-
+#include "pad_config.h"
 
 /*******************************************************************************
 * Definitions
@@ -41,6 +41,25 @@
 
 /* 查找表的长度 */
 #define CUSTOM_LUT_LENGTH           90
+
+/* FLEXSPI的引脚使用同样的PAD配置 */
+#define FLEXSPI_PAD_CONFIG_DATA         (SRE_1_FAST_SLEW_RATE| \
+                                        DSE_6_R0_6| \
+                                        SPEED_3_MAX_200MHz| \
+                                        ODE_0_OPEN_DRAIN_DISABLED| \
+                                        PKE_1_PULL_KEEPER_ENABLED| \
+                                        PUE_0_KEEPER_SELECTED| \
+                                        PUS_0_100K_OHM_PULL_DOWN| \
+                                        HYS_0_HYSTERESIS_DISABLED)   
+    /* 配置说明 : */
+    /* 转换速率: 转换速率快
+        驱动强度: R0/6 
+        带宽配置 : max(200MHz)
+        开漏配置: 关闭 
+        拉/保持器配置: 使能
+        拉/保持器选择: 保持器
+        上拉/下拉选择: 100K欧姆下拉(选择了保持器此配置无效)
+        滞回器配置: 禁止 */ 
 
 
 /*******************************************************************************
@@ -243,6 +262,39 @@ static void FLEXSPI_GetDefaultConfig(flexspi_config_t *config)
     config->ahbConfig.enableAHBPrefetch = false;
     config->ahbConfig.enableAHBBufferable = false;
     config->ahbConfig.enableAHBCachable = false;
+}
+
+
+/**
+* @brief  初始化NORFLASH相关IOMUXC的MUX复用配置
+* @param  无
+* @retval 无
+*/
+static void FlexSPI_NorFlash_IOMUXC_MUX_Config(void)
+{
+  /* FlexSPI通讯引脚 */
+  IOMUXC_SetPinMux(NORFLASH_SS_IOMUXC, 1U);                                   
+  IOMUXC_SetPinMux(NORFLASH_SCLK_IOMUXC, 1U);  
+  IOMUXC_SetPinMux(NORFLASH_DATA00_IOMUXC, 1U);  
+  IOMUXC_SetPinMux(NORFLASH_DATA01_IOMUXC, 1U);  
+  IOMUXC_SetPinMux(NORFLASH_DATA02_IOMUXC, 1U);  
+  IOMUXC_SetPinMux(NORFLASH_DATA03_IOMUXC, 1U);  
+}
+
+/**
+* @brief  初始化NORFLASH相关IOMUXC的PAD属性配置
+* @param  无
+* @retval 无
+*/
+static void FlexSPI_NorFlash_IOMUXC_PAD_Config(void)
+{
+  /* FlexSPI通讯引脚使用同样的属性配置 */
+  IOMUXC_SetPinConfig(NORFLASH_SS_IOMUXC, FLEXSPI_PAD_CONFIG_DATA);   
+  IOMUXC_SetPinConfig(NORFLASH_SCLK_IOMUXC, FLEXSPI_PAD_CONFIG_DATA);                               
+  IOMUXC_SetPinConfig(NORFLASH_DATA00_IOMUXC, FLEXSPI_PAD_CONFIG_DATA);   
+  IOMUXC_SetPinConfig(NORFLASH_DATA01_IOMUXC, FLEXSPI_PAD_CONFIG_DATA);                               
+  IOMUXC_SetPinConfig(NORFLASH_DATA02_IOMUXC, FLEXSPI_PAD_CONFIG_DATA);   
+  IOMUXC_SetPinConfig(NORFLASH_DATA03_IOMUXC, FLEXSPI_PAD_CONFIG_DATA);                               
 }
 
 

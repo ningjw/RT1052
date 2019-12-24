@@ -1,5 +1,5 @@
-.\objects\fsl_flexspi.o: User\src\fsl_flexspi.c
-.\objects\fsl_flexspi.o: .\User\inc\fsl_flexspi.h
+.\objects\fsl_flexspi.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_flexspi.c
+.\objects\fsl_flexspi.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_flexspi.h
 .\objects\fsl_flexspi.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\fsl_flexspi.o: .\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h
 .\objects\fsl_flexspi.o: .\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h

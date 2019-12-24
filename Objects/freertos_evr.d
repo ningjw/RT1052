@@ -3,7 +3,7 @@
 .\objects\freertos_evr.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\freertos_evr.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\freertos_evr.o: .\RTE\RTOS\FreeRTOSConfig.h
-.\objects\freertos_evr.o: .\RTE\_Target_1\RTE_Components.h
+.\objects\freertos_evr.o: .\RTE\_nor_sdram\RTE_Components.h
 .\objects\freertos_evr.o: .\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h
 .\objects\freertos_evr.o: .\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h
 .\objects\freertos_evr.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm7.h

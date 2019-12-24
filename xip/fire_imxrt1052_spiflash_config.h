@@ -1,23 +1,50 @@
 /*
+ * The Clear BSD License
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
  * Copyright 2016-2017 NXP
  * All rights reserved.
  *
- * SPDX-License-Identifier: BSD-3-Clause
+ * Redistribution and use in source and binary forms, with or without
+ * modification,
+ * are permitted (subject to the limitations in the disclaimer below) provided
+ * that the following conditions are met:
+ *
+ * o Redistributions of source code must retain the above copyright notice, this
+ * list
+ *   of conditions and the following disclaimer.
+ *
+ * o Redistributions in binary form must reproduce the above copyright notice,
+ * this
+ *   list of conditions and the following disclaimer in the documentation and/or
+ *   other materials provided with the distribution.
+ *
+ * o Neither the name of Freescale Semiconductor, Inc. nor the names of its
+ *   contributors may be used to endorse or promote products derived from this
+ *   software without specific prior written permission.
+ *
+ * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS LICENSE.
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+ * FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON
+ * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __EVKBIMXRT1050_FLEXSPI_NOR_CONFIG__
-#define __EVKBIMXRT1050_FLEXSPI_NOR_CONFIG__
+#ifndef __EVKBIMXRT1050_HYPER_CONFIG__
+#define __EVKBIMXRT1050_HYPER_CONFIG__
 
 #include <stdint.h>
 #include <stdbool.h>
 #include "fsl_common.h"
-
-/*! @name Driver version */
-/*@{*/
-/*! @brief XIP_BOARD driver version 2.0.0. */
-#define FSL_XIP_BOARD_DRIVER_VERSION (MAKE_VERSION(2, 0, 0))
-/*@}*/
 
 /* FLEXSPI memory config block related defintions */
 #define FLEXSPI_CFG_BLK_TAG (0x42464346UL)     // ascii "FCFB" Big Endian
@@ -79,11 +106,11 @@
 //!@brief Definitions for FlexSPI Serial Clock Frequency
 typedef enum _FlexSpiSerialClockFreq
 {
-    kFlexSpiSerialClk_30MHz  = 1,
-    kFlexSpiSerialClk_50MHz  = 2,
-    kFlexSpiSerialClk_60MHz  = 3,
-    kFlexSpiSerialClk_75MHz  = 4,
-    kFlexSpiSerialClk_80MHz  = 5,
+    kFlexSpiSerialClk_30MHz = 1,
+    kFlexSpiSerialClk_50MHz = 2,
+    kFlexSpiSerialClk_60MHz = 3,
+    kFlexSpiSerialClk_75MHz = 4,
+    kFlexSpiSerialClk_80MHz = 5,
     kFlexSpiSerialClk_100MHz = 6,
     kFlexSpiSerialClk_133MHz = 7,
     kFlexSpiSerialClk_166MHz = 8,
@@ -100,38 +127,38 @@ enum
 //!@brief FlexSPI Read Sample Clock Source definition
 typedef enum _FlashReadSampleClkSource
 {
-    kFlexSPIReadSampleClk_LoopbackInternally      = 0,
-    kFlexSPIReadSampleClk_LoopbackFromDqsPad      = 1,
-    kFlexSPIReadSampleClk_LoopbackFromSckPad      = 2,
+    kFlexSPIReadSampleClk_LoopbackInternally = 0,
+    kFlexSPIReadSampleClk_LoopbackFromDqsPad = 1,
+    kFlexSPIReadSampleClk_LoopbackFromSckPad = 2,
     kFlexSPIReadSampleClk_ExternalInputFromDqsPad = 3,
 } flexspi_read_sample_clk_t;
 
 //!@brief Misc feature bit definitions
 enum
 {
-    kFlexSpiMiscOffset_DiffClkEnable            = 0, //!< Bit for Differential clock enable
-    kFlexSpiMiscOffset_Ck2Enable                = 1, //!< Bit for CK2 enable
-    kFlexSpiMiscOffset_ParallelEnable           = 2, //!< Bit for Parallel mode enable
-    kFlexSpiMiscOffset_WordAddressableEnable    = 3, //!< Bit for Word Addressable enable
-    kFlexSpiMiscOffset_SafeConfigFreqEnable     = 4, //!< Bit for Safe Configuration Frequency enable
+    kFlexSpiMiscOffset_DiffClkEnable = 0,            //!< Bit for Differential clock enable
+    kFlexSpiMiscOffset_Ck2Enable = 1,                //!< Bit for CK2 enable
+    kFlexSpiMiscOffset_ParallelEnable = 2,           //!< Bit for Parallel mode enable
+    kFlexSpiMiscOffset_WordAddressableEnable = 3,    //!< Bit for Word Addressable enable
+    kFlexSpiMiscOffset_SafeConfigFreqEnable = 4,     //!< Bit for Safe Configuration Frequency enable
     kFlexSpiMiscOffset_PadSettingOverrideEnable = 5, //!< Bit for Pad setting override enable
-    kFlexSpiMiscOffset_DdrModeEnable            = 6, //!< Bit for DDR clock confiuration indication.
+    kFlexSpiMiscOffset_DdrModeEnable = 6,            //!< Bit for DDR clock confiuration indication.
 };
 
 //!@brief Flash Type Definition
 enum
 {
-    kFlexSpiDeviceType_SerialNOR    = 1,    //!< Flash devices are Serial NOR
-    kFlexSpiDeviceType_SerialNAND   = 2,    //!< Flash devices are Serial NAND
-    kFlexSpiDeviceType_SerialRAM    = 3,    //!< Flash devices are Serial RAM/HyperFLASH
+    kFlexSpiDeviceType_SerialNOR = 1,       //!< Flash devices are Serial NOR
+    kFlexSpiDeviceType_SerialNAND = 2,      //!< Flash devices are Serial NAND
+    kFlexSpiDeviceType_SerialRAM = 3,       //!< Flash devices are Serial RAM/HyperFLASH
     kFlexSpiDeviceType_MCP_NOR_NAND = 0x12, //!< Flash device is MCP device, A1 is Serial NOR, A2 is Serial NAND
-    kFlexSpiDeviceType_MCP_NOR_RAM  = 0x13, //!< Flash deivce is MCP device, A1 is Serial NOR, A2 is Serial RAMs
+    kFlexSpiDeviceType_MCP_NOR_RAM = 0x13,  //!< Flash deivce is MCP device, A1 is Serial NOR, A2 is Serial RAMs
 };
 
 //!@brief Flash Pad Definitions
 enum
 {
-    kSerialFlash_1Pad  = 1,
+    kSerialFlash_1Pad = 1,
     kSerialFlash_2Pads = 2,
     kSerialFlash_4Pads = 4,
     kSerialFlash_8Pads = 8,
@@ -266,4 +293,4 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-#endif /* __EVKBIMXRT1050_FLEXSPI_NOR_CONFIG__ */
+#endif /* __EVKBIMXRT1050_HYPER_CONFIG__ */

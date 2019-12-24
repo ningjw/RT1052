@@ -4,7 +4,7 @@
 .\objects\list.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\list.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\list.o: .\RTE\RTOS\FreeRTOSConfig.h
-.\objects\list.o: .\RTE\_Target_1\RTE_Components.h
+.\objects\list.o: .\RTE\_nor_sdram\RTE_Components.h
 .\objects\list.o: .\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h
 .\objects\list.o: .\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h
 .\objects\list.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm7.h

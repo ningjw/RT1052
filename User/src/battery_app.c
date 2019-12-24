@@ -23,11 +23,11 @@ void BAT_AppTask(void)
 	LTC2942_SetAnalog(LTC2942_AN_ENABLED);
 
 	// Set prescaler M value
-	// M=64 for 2000mAh battery, 
-	LTC2942_SetPrescaler(LTC2942_PSCM_64);
+	// M=32 for 2000mAh battery, 
+	LTC2942_SetPrescaler(LTC2942_PSCM_32);
 
 	// Disable AL/CC pin
-	LTC2942_SetALCCMode(LTC2942_ALCC_DISABLED);
+	LTC2942_SetALCCMode(LTC2942_ALCC_CHG);
     
     PRINTF("Battery Task Create and Running\r\n");
     
