@@ -27,7 +27,6 @@
 .\objects\battery_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h
 .\objects\battery_drv.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\battery_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h
-.\objects\battery_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h
 .\objects\battery_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
 .\objects\battery_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc.h
 .\objects\battery_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc_etc.h

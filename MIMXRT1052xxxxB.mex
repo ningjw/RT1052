@@ -83,7 +83,7 @@
                         <data>true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="Peripheral" resourceId="LPSPI4" description="Peripheral LPSPI4 is not initialized" problem_level="1" source="Pins:BOARD">
+                  <dependency resourceType="Peripheral" resourceId="GPIO2" description="Peripheral GPIO2 is not initialized" problem_level="1" source="Pins:BOARD">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
@@ -103,12 +103,12 @@
                         <data>true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="Peripheral" resourceId="GPIO2" description="Peripheral GPIO2 is not initialized" problem_level="1" source="Pins:BOARD">
+                  <dependency resourceType="Peripheral" resourceId="LPUART5" description="Peripheral LPUART5 is not initialized" problem_level="1" source="Pins:BOARD">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="Peripheral" resourceId="LPUART5" description="Peripheral LPUART5 is not initialized" problem_level="1" source="Pins:BOARD">
+                  <dependency resourceType="Peripheral" resourceId="LPSPI4" description="Peripheral LPSPI4 is not initialized" problem_level="1" source="Pins:BOARD">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
@@ -179,7 +179,7 @@
                         <pin_feature name="pull_up_down_config" value="Pull_Down_100K_Ohm"/>
                         <pin_feature name="pull_keeper_select" value="Pull"/>
                         <pin_feature name="open_drain" value="Enable"/>
-                        <pin_feature name="slew_rate" value="Fast"/>
+                        <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="LPI2C1" signal="SCL" pin_num="J11" pin_signal="GPIO_AD_B1_00">
@@ -188,7 +188,7 @@
                         <pin_feature name="pull_up_down_config" value="Pull_Down_100K_Ohm"/>
                         <pin_feature name="pull_keeper_select" value="Pull"/>
                         <pin_feature name="open_drain" value="Enable"/>
-                        <pin_feature name="slew_rate" value="Fast"/>
+                        <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="TMR3" signal="TIMER, 0" pin_num="A8" pin_signal="GPIO_B0_06">
@@ -197,19 +197,19 @@
                         <pin_feature name="slew_rate" value="Fast"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="LPSPI4" signal="SDI" pin_num="E7" pin_signal="GPIO_B0_01">
+                  <pin peripheral="GPIO2" signal="gpio_io, 01" pin_num="E7" pin_signal="GPIO_B0_01">
                      <pin_features>
                         <pin_feature name="direction" value="INPUT"/>
                         <pin_feature name="speed" value="MHZ_100"/>
-                        <pin_feature name="drive_strength" value="R0_2"/>
-                        <pin_feature name="slew_rate" value="Fast"/>
+                        <pin_feature name="drive_strength" value="R0_6"/>
+                        <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="LPSPI4" signal="SCK" pin_num="D8" pin_signal="GPIO_B0_03">
+                  <pin peripheral="GPIO2" signal="gpio_io, 03" pin_num="D8" pin_signal="GPIO_B0_03">
                      <pin_features>
                         <pin_feature name="direction" value="OUTPUT"/>
                         <pin_feature name="speed" value="MHZ_100"/>
-                        <pin_feature name="slew_rate" value="Fast"/>
+                        <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="GPIO2" signal="gpio_io, 19" pin_num="D11" pin_signal="GPIO_B1_03"/>
@@ -703,16 +703,6 @@
                   <data type="Version">2.0.0</data>
                </feature>
             </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.lpspi" description="在工具链/IDT 工程中未找到 LPSPI Driver。" problem_level="2" source="Peripherals">
-               <feature name="enabled" evaluation="equal">
-                  <data type="Boolean">true</data>
-               </feature>
-            </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.lpspi" description="工具链/IDT 工程中，该版本的 LPSPI Driver 不被支持。所需的：${required_value},，实际的： ${actual_value}。" problem_level="1" source="Peripherals">
-               <feature name="version" evaluation="equivalent">
-                  <data type="Version">2.0.3</data>
-               </feature>
-            </dependency>
             <dependency resourceType="SWComponent" resourceId="platform.drivers.igpio" description="在工具链/IDT 工程中未找到 igpio。" problem_level="2" source="Peripherals">
                <feature name="enabled" evaluation="equal">
                   <data type="Boolean">true</data>
@@ -851,26 +841,6 @@
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPSPI4.lpspi_sck" description="Signal serial clock of the peripheral LPSPI4 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPSPI4.lpspi_sin" description="Signal serial data input of the peripheral LPSPI4 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPSPI4.lpspi_sout" description="Signal serial data output of the peripheral LPSPI4 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="ClockOutput" resourceId="LPSPI_CLK_ROOT" description="LPSPI_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="frequency" evaluation="greaterThan">
-                        <data type="Frequency" unit="Hz">0</data>
-                     </feature>
-                  </dependency>
                   <dependency resourceType="ClockOutput" resourceId="IPG_CLK_ROOT" description="IPG_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="frequency" evaluation="greaterThan">
                         <data type="Frequency" unit="Hz">0</data>
@@ -879,6 +849,11 @@
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="TMR1.tmr_sec_in.0" description="Timer input 0 of peripheral TMR1 is not routed" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="equal">
                         <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="ClockOutput" resourceId="IPG_CLK_ROOT" description="IPG_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
                      </feature>
                   </dependency>
                   <dependency resourceType="Peripheral" resourceId="ADC_ETC" description="At least one of ADC_ETC hardware triggers needs to be routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
@@ -1227,16 +1202,16 @@
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="LPSPI4" type="lpspi" type_id="lpspi_6e21a1e0a09f0a012d683c4f91752db8" mode="polling" peripheral="LPSPI4" enabled="true">
+                  <instance name="LPSPI4" type="lpspi" type_id="lpspi_6e21a1e0a09f0a012d683c4f91752db8" mode="polling" peripheral="LPSPI4" enabled="false">
                      <config_set name="main">
                         <setting name="mode" value="kLPSPI_Master"/>
                         <setting name="clockSource" value="LpspiClock"/>
                         <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
                         <struct name="master">
-                           <setting name="baudRate" value="400000"/>
+                           <setting name="baudRate" value="10000000"/>
                            <setting name="bitsPerFrame" value="24"/>
                            <setting name="cpol" value="kLPSPI_ClockPolarityActiveHigh"/>
-                           <setting name="cpha" value="kLPSPI_ClockPhaseFirstEdge"/>
+                           <setting name="cpha" value="kLPSPI_ClockPhaseSecondEdge"/>
                            <setting name="direction" value="kLPSPI_MsbFirst"/>
                            <setting name="pcsToSckDelayInNanoSec" value="0"/>
                            <setting name="lastSckToPcsDelayInNanoSec" value="0"/>
@@ -1322,17 +1297,17 @@
                   <instance name="ADC1" type="adc_12b1msps_sar" type_id="adc_12b1msps_sar_6a490e886349a7b2b07bed10ce7b299b" mode="ADC_GENERAL" peripheral="ADC1" enabled="true">
                      <config_set name="fsl_adc">
                         <struct name="clockConfig">
-                           <setting name="clockSource" value="kADC_ClockSourceAD"/>
-                           <setting name="clockSourceFreq" value="custom:10 MHz"/>
-                           <setting name="clockDriver" value="kADC_ClockDriver2"/>
-                           <setting name="samplePeriodMode" value="kADC_SamplePeriodShort2Clocks"/>
+                           <setting name="clockSource" value="kADC_ClockSourceIPG"/>
+                           <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
+                           <setting name="clockDriver" value="kADC_ClockDriver1"/>
+                           <setting name="samplePeriodMode" value="kADC_SamplePeriodShort6Clocks"/>
                            <setting name="enableAsynchronousClockOutput" value="true"/>
                         </struct>
                         <struct name="conversionConfig">
                            <setting name="resolution" value="kADC_Resolution12Bit"/>
-                           <setting name="hardwareAverageMode" value="kADC_HardwareAverageCount32"/>
+                           <setting name="hardwareAverageMode" value="kADC_HardwareAverageCount4"/>
                            <setting name="enableHardwareTrigger" value="hardware"/>
-                           <setting name="enableHighSpeed" value="false"/>
+                           <setting name="enableHighSpeed" value="true"/>
                            <setting name="enableLowPower" value="false"/>
                            <setting name="enableContinuousConversion" value="false"/>
                            <setting name="enableOverWrite" value="true"/>
@@ -1430,80 +1405,6 @@
                               <setting name="priority" value="0"/>
                               <setting name="enable_custom_name" value="false"/>
                            </struct>
-                        </struct>
-                     </config_set>
-                  </instance>
-                  <instance name="GPIO_1" type="igpio" type_id="igpio_b1c1fa279aa7069dca167502b8589cb7" mode="GPIO" peripheral="GPIO1" enabled="false">
-                     <config_set name="fsl_gpio">
-                        <setting name="enable_irq_comb_0_15" value="true"/>
-                        <struct name="gpio_interrupt_comb_0_15">
-                           <setting name="IRQn" value="GPIO1_Combined_0_15_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
-                        </struct>
-                        <setting name="enable_irq_comb_16_31" value="false"/>
-                        <struct name="gpio_interrupt_comb_16_31">
-                           <setting name="IRQn" value="GPIO1_Combined_16_31_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
-                        </struct>
-                        <setting name="enable_irq_int0" value="false"/>
-                        <struct name="gpio_interrupt_int0">
-                           <setting name="IRQn" value="GPIO1_INT0_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
-                        </struct>
-                        <setting name="enable_irq_int1" value="false"/>
-                        <struct name="gpio_interrupt_int1">
-                           <setting name="IRQn" value="GPIO1_INT1_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
-                        </struct>
-                        <setting name="enable_irq_int2" value="false"/>
-                        <struct name="gpio_interrupt_int2">
-                           <setting name="IRQn" value="GPIO1_INT2_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
-                        </struct>
-                        <setting name="enable_irq_int3" value="false"/>
-                        <struct name="gpio_interrupt_int3">
-                           <setting name="IRQn" value="GPIO1_INT3_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
-                        </struct>
-                        <setting name="enable_irq_int4" value="false"/>
-                        <struct name="gpio_interrupt_int4">
-                           <setting name="IRQn" value="GPIO1_INT4_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
-                        </struct>
-                        <setting name="enable_irq_int5" value="false"/>
-                        <struct name="gpio_interrupt_int5">
-                           <setting name="IRQn" value="GPIO1_INT5_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
-                        </struct>
-                        <setting name="enable_irq_int6" value="false"/>
-                        <struct name="gpio_interrupt_int6">
-                           <setting name="IRQn" value="GPIO1_INT6_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
-                        </struct>
-                        <setting name="enable_irq_int7" value="false"/>
-                        <struct name="gpio_interrupt_int7">
-                           <setting name="IRQn" value="GPIO1_INT7_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
                         </struct>
                      </config_set>
                   </instance>

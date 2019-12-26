@@ -604,57 +604,6 @@ void LPUART5_init(void) {
 }
 
 /***********************************************************************************************************************
- * LPSPI4 initialization code
- **********************************************************************************************************************/
-/* clang-format off */
-/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
-instance:
-- name: 'LPSPI4'
-- type: 'lpspi'
-- mode: 'polling'
-- type_id: 'lpspi_6e21a1e0a09f0a012d683c4f91752db8'
-- functional_group: 'BOARD_InitPeripherals'
-- peripheral: 'LPSPI4'
-- config_sets:
-  - main:
-    - mode: 'kLPSPI_Master'
-    - clockSource: 'LpspiClock'
-    - clockSourceFreq: 'BOARD_BootClockRUN'
-    - master:
-      - baudRate: '400000'
-      - bitsPerFrame: '24'
-      - cpol: 'kLPSPI_ClockPolarityActiveHigh'
-      - cpha: 'kLPSPI_ClockPhaseFirstEdge'
-      - direction: 'kLPSPI_MsbFirst'
-      - pcsToSckDelayInNanoSec: '0'
-      - lastSckToPcsDelayInNanoSec: '0'
-      - betweenTransferDelayInNanoSec: '0'
-      - whichPcs: 'kLPSPI_Pcs0'
-      - pcsActiveHighOrLow: 'kLPSPI_PcsActiveLow'
-      - pinCfg: 'kLPSPI_SdiInSdoOut'
-      - dataOutConfig: 'kLpspiDataOutRetained'
- * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
-/* clang-format on */
-const lpspi_master_config_t LPSPI4_config = {
-  .baudRate = 400000,
-  .bitsPerFrame = 24,
-  .cpol = kLPSPI_ClockPolarityActiveHigh,
-  .cpha = kLPSPI_ClockPhaseFirstEdge,
-  .direction = kLPSPI_MsbFirst,
-  .pcsToSckDelayInNanoSec = 0,
-  .lastSckToPcsDelayInNanoSec = 0,
-  .betweenTransferDelayInNanoSec = 0,
-  .whichPcs = kLPSPI_Pcs0,
-  .pcsActiveHighOrLow = kLPSPI_PcsActiveLow,
-  .pinCfg = kLPSPI_SdiInSdoOut,
-  .dataOutConfig = kLpspiDataOutRetained
-};
-
-void LPSPI4_init(void) {
-  LPSPI_MasterInit(LPSPI4_PERIPHERAL, &LPSPI4_config, LPSPI4_CLOCK_FREQ);
-}
-
-/***********************************************************************************************************************
  * GPIO2 initialization code
  **********************************************************************************************************************/
 /* clang-format off */
@@ -772,16 +721,16 @@ instance:
 - config_sets:
   - fsl_adc:
     - clockConfig:
-      - clockSource: 'kADC_ClockSourceAD'
-      - clockSourceFreq: 'custom:10 MHz'
-      - clockDriver: 'kADC_ClockDriver2'
-      - samplePeriodMode: 'kADC_SamplePeriodShort2Clocks'
+      - clockSource: 'kADC_ClockSourceIPG'
+      - clockSourceFreq: 'BOARD_BootClockRUN'
+      - clockDriver: 'kADC_ClockDriver1'
+      - samplePeriodMode: 'kADC_SamplePeriodShort6Clocks'
       - enableAsynchronousClockOutput: 'true'
     - conversionConfig:
       - resolution: 'kADC_Resolution12Bit'
-      - hardwareAverageMode: 'kADC_HardwareAverageCount32'
+      - hardwareAverageMode: 'kADC_HardwareAverageCount4'
       - enableHardwareTrigger: 'hardware'
-      - enableHighSpeed: 'false'
+      - enableHighSpeed: 'true'
       - enableLowPower: 'false'
       - enableContinuousConversion: 'false'
       - enableOverWrite: 'true'
@@ -812,14 +761,14 @@ instance:
 const adc_config_t ADC1_config = {
   .enableOverWrite = true,
   .enableContinuousConversion = false,
-  .enableHighSpeed = false,
+  .enableHighSpeed = true,
   .enableLowPower = false,
   .enableLongSample = false,
   .enableAsynchronousClockOutput = true,
   .referenceVoltageSource = kADC_ReferenceVoltageSourceAlt0,
-  .samplePeriodMode = kADC_SamplePeriodShort2Clocks,
-  .clockSource = kADC_ClockSourceAD,
-  .clockDriver = kADC_ClockDriver2,
+  .samplePeriodMode = kADC_SamplePeriodShort6Clocks,
+  .clockSource = kADC_ClockSourceIPG,
+  .clockDriver = kADC_ClockDriver1,
   .resolution = kADC_Resolution12Bit
 };
 const adc_channel_config_t ADC1_channels_config[1] = {
@@ -831,8 +780,8 @@ const adc_channel_config_t ADC1_channels_config[1] = {
 void ADC1_init(void) {
   /* Initialize ADC1 peripheral. */
   ADC_Init(ADC1_PERIPHERAL, &ADC1_config);
-  /* Configure ADC1 peripheral to average 32 conversions in one measurement. */
-  ADC_SetHardwareAverageConfig(ADC1_PERIPHERAL, kADC_HardwareAverageCount32);
+  /* Configure ADC1 peripheral to average 4 conversions in one measurement. */
+  ADC_SetHardwareAverageConfig(ADC1_PERIPHERAL, kADC_HardwareAverageCount4);
   /* Perform ADC1 auto calibration. */
   ADC_DoAutoCalibration(ADC1_PERIPHERAL);
   /* Enable ADC1 hardware trigger. */
@@ -980,7 +929,6 @@ void BOARD_InitPeripherals(void)
   LPUART4_init();
   LPUART3_init();
   LPUART5_init();
-  LPSPI4_init();
   GPIO2_init();
   QuadTimer1_init();
   ADC1_init();

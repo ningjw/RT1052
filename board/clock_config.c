@@ -62,7 +62,7 @@ outputs:
 - {id: ENET_25M_REF_CLK.outFreq, value: 1.2 MHz}
 - {id: FLEXIO1_CLK_ROOT.outFreq, value: 6 MHz}
 - {id: FLEXIO2_CLK_ROOT.outFreq, value: 6 MHz}
-- {id: FLEXSPI_CLK_ROOT.outFreq, value: 264 MHz}
+- {id: FLEXSPI_CLK_ROOT.outFreq, value: 8 MHz}
 - {id: GPT1_ipg_clk_highfreq.outFreq, value: 66 MHz}
 - {id: GPT2_ipg_clk_highfreq.outFreq, value: 66 MHz}
 - {id: IPG_CLK_ROOT.outFreq, value: 132 MHz}
@@ -85,11 +85,11 @@ outputs:
 - {id: SAI3_MCLK3.outFreq, value: 3 MHz}
 - {id: SEMC_CLK_ROOT.outFreq, value: 132 MHz}
 - {id: SPDIF0_CLK_ROOT.outFreq, value: 3 MHz}
-- {id: TRACE_CLK_ROOT.outFreq, value: 132 MHz}
+- {id: TRACE_CLK_ROOT.outFreq, value: 8 MHz}
 - {id: UART_CLK_ROOT.outFreq, value: 4 MHz}
 - {id: USBPHY1_CLK.outFreq, value: 24 MHz}
-- {id: USDHC1_CLK_ROOT.outFreq, value: 44 MHz}
-- {id: USDHC2_CLK_ROOT.outFreq, value: 198 MHz}
+- {id: USDHC1_CLK_ROOT.outFreq, value: 24 MHz}
+- {id: USDHC2_CLK_ROOT.outFreq, value: 6 MHz}
 settings:
 - {id: CCM.AHB_PODF.scale, value: '1', locked: true}
 - {id: CCM.ARM_PODF.scale, value: '2', locked: true}
@@ -112,7 +112,7 @@ settings:
 - {id: CCM.TRACE_CLK_SEL.sel, value: CCM_ANALOG.PLL2_PFD1_CLK}
 - {id: CCM.TRACE_PODF.scale, value: '3', locked: true}
 - {id: CCM.USDHC1_CLK_SEL.sel, value: CCM_ANALOG.PLL2_PFD0_CLK}
-- {id: CCM.USDHC1_PODF.scale, value: '8', locked: true}
+- {id: CCM.USDHC1_PODF.scale, value: '1', locked: true}
 - {id: CCM.USDHC2_PODF.scale, value: '4', locked: true}
 - {id: CCM_ANALOG.ENET_DIV.scale, value: '4', locked: true}
 - {id: CCM_ANALOG.PLL1_BYPASS.sel, value: CCM_ANALOG.PLL1}
@@ -121,14 +121,9 @@ settings:
 - {id: CCM_ANALOG.PLL2.denom, value: '1'}
 - {id: CCM_ANALOG.PLL2.div, value: '22'}
 - {id: CCM_ANALOG.PLL2.num, value: '0'}
-- {id: CCM_ANALOG.PLL2_BYPASS.sel, value: CCM_ANALOG.PLL2_OUT_CLK}
-- {id: CCM_ANALOG.PLL2_PFD0_BYPASS.sel, value: CCM_ANALOG.PLL2_PFD0}
-- {id: CCM_ANALOG.PLL2_PFD1_BYPASS.sel, value: CCM_ANALOG.PLL2_PFD1}
 - {id: CCM_ANALOG.PLL2_PFD1_DIV.scale, value: '24'}
-- {id: CCM_ANALOG.PLL2_PFD2_BYPASS.sel, value: CCM_ANALOG.PLL2_PFD2}
 - {id: CCM_ANALOG.PLL2_PFD2_DIV.scale, value: '12', locked: true}
 - {id: CCM_ANALOG.PLL2_PFD2_MUL.scale, value: '18', locked: true}
-- {id: CCM_ANALOG.PLL2_PFD3_BYPASS.sel, value: CCM_ANALOG.PLL2_PFD3}
 - {id: CCM_ANALOG.PLL3_PFD0_DIV.scale, value: '15'}
 - {id: CCM_ANALOG.PLL3_PFD1_DIV.scale, value: '18'}
 - {id: CCM_ANALOG.PLL3_PFD2_DIV.scale, value: '12', locked: true}
@@ -218,7 +213,7 @@ void BOARD_BootClockRUN(void)
     /* Disable USDHC1 clock gate. */
     CLOCK_DisableClock(kCLOCK_Usdhc1);
     /* Set USDHC1_PODF. */
-    CLOCK_SetDiv(kCLOCK_Usdhc1Div, 7);
+    CLOCK_SetDiv(kCLOCK_Usdhc1Div, 0);
     /* Set Usdhc1 clock source. */
     CLOCK_SetMux(kCLOCK_Usdhc1Mux, 1);
     /* Disable USDHC2 clock gate. */
@@ -378,6 +373,8 @@ void BOARD_BootClockRUN(void)
     CLOCK_InitSysPfd(kCLOCK_Pfd3, 16);
     /* Disable pfd offset. */
     CCM_ANALOG->PLL_SYS &= ~CCM_ANALOG_PLL_SYS_PFD_OFFSET_EN_MASK;
+    /* Bypass System PLL. */
+    CLOCK_SetPllBypass(CCM_ANALOG, kCLOCK_PllSys, 1);
 #endif
     /* In SDK projects, external flash (configured by FLEXSPI) will be initialized by dcd.
      * With this macro XIP_EXTERNAL_FLASH, usb1 pll (selected to be FLEXSPI clock source in SDK projects) will be left unchanged.
