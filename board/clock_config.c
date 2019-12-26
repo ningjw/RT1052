@@ -88,7 +88,7 @@ outputs:
 - {id: TRACE_CLK_ROOT.outFreq, value: 132 MHz}
 - {id: UART_CLK_ROOT.outFreq, value: 4 MHz}
 - {id: USBPHY1_CLK.outFreq, value: 24 MHz}
-- {id: USDHC1_CLK_ROOT.outFreq, value: 198 MHz, locked: true, accuracy: '0.001'}
+- {id: USDHC1_CLK_ROOT.outFreq, value: 44 MHz}
 - {id: USDHC2_CLK_ROOT.outFreq, value: 198 MHz}
 settings:
 - {id: CCM.AHB_PODF.scale, value: '1', locked: true}
@@ -111,7 +111,8 @@ settings:
 - {id: CCM.SPDIF0_CLK_PODF.scale, value: '4', locked: true}
 - {id: CCM.TRACE_CLK_SEL.sel, value: CCM_ANALOG.PLL2_PFD1_CLK}
 - {id: CCM.TRACE_PODF.scale, value: '3', locked: true}
-- {id: CCM.USDHC1_PODF.scale, value: '4', locked: true}
+- {id: CCM.USDHC1_CLK_SEL.sel, value: CCM_ANALOG.PLL2_PFD0_CLK}
+- {id: CCM.USDHC1_PODF.scale, value: '8', locked: true}
 - {id: CCM.USDHC2_PODF.scale, value: '4', locked: true}
 - {id: CCM_ANALOG.ENET_DIV.scale, value: '4', locked: true}
 - {id: CCM_ANALOG.PLL1_BYPASS.sel, value: CCM_ANALOG.PLL1}
@@ -217,9 +218,9 @@ void BOARD_BootClockRUN(void)
     /* Disable USDHC1 clock gate. */
     CLOCK_DisableClock(kCLOCK_Usdhc1);
     /* Set USDHC1_PODF. */
-    CLOCK_SetDiv(kCLOCK_Usdhc1Div, 3);
+    CLOCK_SetDiv(kCLOCK_Usdhc1Div, 7);
     /* Set Usdhc1 clock source. */
-    CLOCK_SetMux(kCLOCK_Usdhc1Mux, 0);
+    CLOCK_SetMux(kCLOCK_Usdhc1Mux, 1);
     /* Disable USDHC2 clock gate. */
     CLOCK_DisableClock(kCLOCK_Usdhc2);
     /* Set USDHC2_PODF. */

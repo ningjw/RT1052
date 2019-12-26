@@ -40,6 +40,13 @@
 .\objects\rtc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_xbara.h
 .\objects\rtc_drv.o: .\User\inc\fsl_flexspi.h
 .\objects\rtc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_flexio.h
+.\objects\rtc_drv.o: .\sdmmc\inc\fsl_mmc.h
+.\objects\rtc_drv.o: .\sdmmc\inc\fsl_sdmmc_common.h
+.\objects\rtc_drv.o: .\sdmmc\inc\fsl_sdmmc_host.h
+.\objects\rtc_drv.o: .\User\inc\emmc_drv.h
+.\objects\rtc_drv.o: .\User\inc\pad_config.h
+.\objects\rtc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_usdhc.h
+.\objects\rtc_drv.o: .\sdmmc\inc\fsl_sdmmc_spec.h
 .\objects\rtc_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h
 .\objects\rtc_drv.o: .\RTE\RTOS\FreeRTOSConfig.h
 .\objects\rtc_drv.o: .\RTE\_nor_sdram\RTE_Components.h
@@ -66,6 +73,11 @@
 .\objects\rtc_drv.o: .\User\inc\iic_temp_drv.h
 .\objects\rtc_drv.o: .\User\inc\core_delay.h
 .\objects\rtc_drv.o: .\User\inc\norflash_drv.h
+.\objects\rtc_drv.o: .\User\inc\utility.h
+.\objects\rtc_drv.o: .\fatfs\ff.h
+.\objects\rtc_drv.o: .\fatfs\integer.h
+.\objects\rtc_drv.o: .\fatfs\ffconf.h
+.\objects\rtc_drv.o: .\fatfs\diskio.h
 .\objects\rtc_drv.o: .\User\inc\ble_protocol.h
 .\objects\rtc_drv.o: .\User\inc\ble_app.h
 .\objects\rtc_drv.o: .\User\inc\adc_app.h

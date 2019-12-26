@@ -1373,17 +1373,19 @@ static status_t MMC_SetMaxDataBusWidth(mmc_card_t *card, mmc_high_speed_timing_t
                 ((targetTiming == kMMC_HighSpeedTiming) || (targetTiming == kMMC_HighSpeed200Timing)))
             {
                 SDMMCHOST_SET_CARD_BUS_WIDTH(card->host.base, kSDMMCHOST_DATABUSWIDTH4BIT);
-                if ((kStatus_Success == MMC_TestDataBusWidth(card, kMMC_DataBusWidth4bit)) &&
-                    (kStatus_Success == MMC_SetDataBusWidth(card, kMMC_DataBusWidth4bit)))
+                if((kStatus_Success == MMC_SetDataBusWidth(card, kMMC_DataBusWidth4bit)))
                 {
-                    error = kStatus_Success;
-                    card->busWidth = kMMC_DataBusWidth4bit;
-                    break;
-                }
-                /* HS200 mode only support 4bit/8bit data bus */
-                else if (targetTiming == kMMC_HighSpeed200Timing)
-                {
-                    return kStatus_SDMMC_SetDataBusWidthFailed;
+                    if (kStatus_Success == MMC_TestDataBusWidth(card, kMMC_DataBusWidth4bit))
+                    {
+                        error = kStatus_Success;
+                        card->busWidth = kMMC_DataBusWidth4bit;
+                        break;
+                    }
+                    /* HS200 mode only support 4bit/8bit data bus */
+                    else if (targetTiming == kMMC_HighSpeed200Timing)
+                    {
+                        return kStatus_SDMMC_SetDataBusWidthFailed;
+                    }
                 }
             }
         default:
@@ -1436,7 +1438,7 @@ static status_t MMC_SwitchToHighSpeed(mmc_card_t *card)
     assert(card);
 
     uint32_t freq = 0U;
-
+    card->busWidth = kMMC_DataBusWidth4bit;
     /* check VCCQ voltage supply */
     if (kSDMMCHOST_SupportV180 != SDMMCHOST_NOT_SUPPORT)
     {
@@ -1628,7 +1630,7 @@ static status_t MMC_SwitchToHS400(mmc_card_t *card)
 static status_t MMC_SelectBusTiming(mmc_card_t *card)
 {
     assert(card);
-
+    card->busTiming = kMMC_HighSpeedTiming;
     mmc_high_speed_timing_t targetTiming = card->busTiming;
 
     switch (targetTiming)
@@ -2092,17 +2094,17 @@ status_t MMC_CardInit(mmc_card_t *card)
         return kStatus_SDMMC_SetCardBlockSizeFailed;
     }
 
-//    /* switch to host support speed mode, then switch MMC data bus width and select power class */
-//    if (kStatus_Success != MMC_SelectBusTiming(card))
-//    {
-//        return kStatus_SDMMC_SwitchBusTimingFailed;
-//    }
+    /* switch to host support speed mode, then switch MMC data bus width and select power class */
+    if (kStatus_Success != MMC_SelectBusTiming(card))
+    {
+        return kStatus_SDMMC_SwitchBusTimingFailed;
+    }
 
-//    /* switch power class */
-//    if (kStatus_Success != MMC_SetPowerClass(card))
-//    {
-//        return kStatus_SDMMC_SetPowerClassFail;
-//    }
+    /* switch power class */
+    if (kStatus_Success != MMC_SetPowerClass(card))
+    {
+        return kStatus_SDMMC_SetPowerClassFail;
+    }
 
     /* Set to max erase unit size */
     if (kStatus_Success != MMC_SetMaxEraseUnitSize(card))

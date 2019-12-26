@@ -23,9 +23,9 @@
 .\objects\fsl_mmc_disk.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h
 .\objects\fsl_mmc_disk.o: .\sdmmc\inc\fsl_sdmmc_host.h
 .\objects\fsl_mmc_disk.o: .\User\inc\emmc_drv.h
-.\objects\fsl_mmc_disk.o: .\board\clock_config.h
-.\objects\fsl_mmc_disk.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
+.\objects\fsl_mmc_disk.o: .\User\inc\pad_config.h
 .\objects\fsl_mmc_disk.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_usdhc.h
+.\objects\fsl_mmc_disk.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_iomuxc.h
 .\objects\fsl_mmc_disk.o: .\sdmmc\inc\fsl_sdmmc_spec.h
 .\objects\fsl_mmc_disk.o: fatfs\fsl_mmc_disk\fsl_mmc_disk.h
 .\objects\fsl_mmc_disk.o: .\fatfs\diskio.h

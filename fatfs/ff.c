@@ -5900,8 +5900,10 @@ FRESULT f_mkfs (
 			nsect = sz_fat;		/* Number of FAT sectors */
 			do {	/* Fill FAT sectors */
 				n = (nsect > sz_buf) ? sz_buf : nsect;
-				if (disk_write(pdrv, buf, sect, (UINT)n) != RES_OK) LEAVE_MKFS(FR_DISK_ERR);
+				if (disk_write(pdrv, buf, sect, (UINT)n) != RES_OK) 
+                    LEAVE_MKFS(FR_DISK_ERR);
 				mem_set(buf, 0, ss);
+//                CPU_TS_Tmr_Delay_US(10);
 				sect += n; nsect -= n;
 			} while (nsect);
 		}

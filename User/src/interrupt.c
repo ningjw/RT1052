@@ -1,16 +1,6 @@
 #include "main.h"
 extern volatile uint32_t g_eventTimeMilliseconds;
-/**
-* @brief  发送一个字符
-* @param  base:选择端口
-* @param  data:将要发送的数据
-* @retval 无
-*/
-void Uart_SendByte(LPUART_Type *base, uint8_t data)
-{
-    LPUART_WriteByte( base, data);
-    while (!(base->STAT & LPUART_STAT_TDRE_MASK));
-}
+
 
 /***************************************************************************************
   * @brief   kPIT_Chnl_0配置为1ms中断 ；kPIT_Chnl_1 配置为1s中断

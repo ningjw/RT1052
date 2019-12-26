@@ -89,7 +89,7 @@ BOARD:
   - {pin_num: E11, peripheral: GPIO2, signal: 'gpio_io, 15', pin_signal: GPIO_B0_15, direction: OUTPUT}
   - {pin_num: E10, peripheral: GPIO2, signal: 'gpio_io, 14', pin_signal: GPIO_B0_14, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: C8, peripheral: GPIO2, signal: 'gpio_io, 04', pin_signal: GPIO_B0_04, direction: INPUT, slew_rate: Slow}
-  - {pin_num: C14, peripheral: GPIO2, signal: 'gpio_io, 30', pin_signal: GPIO_B1_14, direction: OUTPUT}
+  - {pin_num: C14, peripheral: GPIO2, signal: 'gpio_io, 30', pin_signal: GPIO_B1_14, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: D14, peripheral: LPUART5, signal: RX, pin_signal: GPIO_B1_13}
   - {pin_num: D13, peripheral: LPUART5, signal: TX, pin_signal: GPIO_B1_12}
   - {pin_num: E8, peripheral: LPSPI4, signal: SDO, pin_signal: GPIO_B0_02}
@@ -345,7 +345,7 @@ void BOARD(void) {
   /* GPIO configuration of eMMC_EN on GPIO_B1_14 (pin C14) */
   gpio_pin_config_t eMMC_EN_config = {
       .direction = kGPIO_DigitalOutput,
-      .outputLogic = 0U,
+      .outputLogic = 1U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_B1_14 (pin C14) */

@@ -40,6 +40,13 @@
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_xbara.h
 .\objects\ble_app.o: .\User\inc\fsl_flexspi.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_flexio.h
+.\objects\ble_app.o: .\sdmmc\inc\fsl_mmc.h
+.\objects\ble_app.o: .\sdmmc\inc\fsl_sdmmc_common.h
+.\objects\ble_app.o: .\sdmmc\inc\fsl_sdmmc_host.h
+.\objects\ble_app.o: .\User\inc\emmc_drv.h
+.\objects\ble_app.o: .\User\inc\pad_config.h
+.\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_usdhc.h
+.\objects\ble_app.o: .\sdmmc\inc\fsl_sdmmc_spec.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h
 .\objects\ble_app.o: .\RTE\RTOS\FreeRTOSConfig.h
 .\objects\ble_app.o: .\RTE\_nor_sdram\RTE_Components.h
@@ -66,6 +73,11 @@
 .\objects\ble_app.o: .\User\inc\iic_temp_drv.h
 .\objects\ble_app.o: .\User\inc\core_delay.h
 .\objects\ble_app.o: .\User\inc\norflash_drv.h
+.\objects\ble_app.o: .\User\inc\utility.h
+.\objects\ble_app.o: .\fatfs\ff.h
+.\objects\ble_app.o: .\fatfs\integer.h
+.\objects\ble_app.o: .\fatfs\ffconf.h
+.\objects\ble_app.o: .\fatfs\diskio.h
 .\objects\ble_app.o: .\User\inc\ble_protocol.h
 .\objects\ble_app.o: .\User\inc\ble_app.h
 .\objects\ble_app.o: .\User\inc\adc_app.h

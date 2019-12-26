@@ -30,6 +30,7 @@
 #define BOARD_SD_POWER_RESET_GPIO (GPIO1)
 #define BOARD_SD_POWER_RESET_GPIO_PIN (5U)
 
+
 #define BOARD_USDHC_MMCCARD_POWER_CONTROL(state)
 
 #define BOARD_USDHC_MMCCARD_POWER_CONTROL_INIT()                                            \
@@ -69,7 +70,7 @@
 //#define BOARD_MMC_SUPPORT_8BIT_BUS (1U)
 
 #define BOARD_SD_HOST_SUPPORT_SDR104_FREQ (200000000U)
-#define BOARD_SD_HOST_SUPPORT_HS200_FREQ  (180000000U)
+//#define BOARD_SD_HOST_SUPPORT_HS200_FREQ  (180000000U)
 /* define for SD/MMC config IO driver strength dynamic */
 #define BOARD_SD_PIN_CONFIG(speed, strength)                                                      \
     {                                                                                             \
@@ -241,7 +242,7 @@
 #define DATA_BUFFER_SIZE (FSL_SDMMC_DEFAULT_BLOCK_SIZE * DATA_BLOCK_COUNT)
 
 
-
+void emmc_init(void);
 
 
 #endif

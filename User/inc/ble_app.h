@@ -17,6 +17,8 @@
 #define RESP_OK		"OK"
 #define RESP_ERROR	"ERROR"
 
+#define LPUART2_BUFF_LEN 164
+
 typedef void (*SendMsgFunc_t)(uint8_t * buf, uint32_t len);
 
 typedef struct
@@ -26,7 +28,8 @@ typedef struct
     uint8_t  try_cnt;         //用于记录当前重试次数
 }ATCfg_t;
 
-
+extern uint8_t g_puart2TxCnt;
+extern uint8_t g_puart2RxCnt;
 extern TaskHandle_t BLE_TaskHandle ;  /* 蓝牙任务句柄 */
 
 void BLE_AppTask(void);

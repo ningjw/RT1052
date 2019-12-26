@@ -1,6 +1,6 @@
 #ifndef __BLE_PROTOCOL_H
 #define __BLE_PROTOCOL_H
 
-char* ParseProtocol(char *pMsg);
+uint8_t* ParseProtocol(uint8_t *pMsg);
 
 #endif

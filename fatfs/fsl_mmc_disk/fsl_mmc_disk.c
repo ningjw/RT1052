@@ -21,7 +21,7 @@
 
 /* New project wizard guide note. */
 #ifndef BOARD_MMC_VCC_SUPPLY
-#warning Undefined macro. Define BOARD_MMC_VCC_SUPPLY in board.h
+//#warning Undefined macro. Define BOARD_MMC_VCC_SUPPLY in board.h
 /* Set default value for current build. */
 #define BOARD_MMC_VCC_SUPPLY kMMC_VoltageWindows270to360
 #endif
@@ -39,7 +39,7 @@
  ******************************************************************************/
 
 /*! @brief Card descriptor */
-static mmc_card_t g_mmc;
+mmc_card_t g_mmc;
 
 /*******************************************************************************
  * Code
@@ -143,7 +143,7 @@ DSTATUS mmc_disk_initialize(uint8_t physicalDrive)
     }
 
     /* Save host information. */
-    g_mmc.host.base = MMC_HOST_BASEADDR;
+    g_mmc.host.base = USDHC1;
     g_mmc.host.sourceClock_Hz = MMC_HOST_CLK_FREQ;
 
     /* MMC card VCC supply, only allow 3.3 or 1.8v, depend on your board config.

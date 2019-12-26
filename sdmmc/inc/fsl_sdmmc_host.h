@@ -227,7 +227,7 @@ enum _host_capability
     kSDMMCHOST_SupportV180 = SDMMCHOST_NOT_SUPPORT,
     kSDMMCHOST_SupportV120 = SDMMCHOST_NOT_SUPPORT,
     kSDMMCHOST_Support4BitBusWidth = kSDHC_Support4BitFlag,
-    kSDMMCHOST_Support8BitBusWidth = kSDHC_Support8BitFlag,
+    kSDMMCHOST_Support8BitBusWidth = SDMMCHOST_NOT_SUPPORT,
     kSDMMCHOST_SupportDDR50 = SDMMCHOST_NOT_SUPPORT,
     kSDMMCHOST_SupportSDR104 = SDMMCHOST_NOT_SUPPORT,
     kSDMMCHOST_SupportSDR50 = SDMMCHOST_NOT_SUPPORT,
@@ -562,27 +562,27 @@ enum _host_capability
     kSDMMCHOST_SupportDma = kUSDHC_SupportDmaFlag,
     kSDMMCHOST_SupportSuspendResume = kUSDHC_SupportSuspendResumeFlag,
     kSDMMCHOST_SupportV330 = kUSDHC_SupportV330Flag, /* this define should depend on your board config */
-    kSDMMCHOST_SupportV300 = kUSDHC_SupportV300Flag, /* this define should depend on your board config */
+    kSDMMCHOST_SupportV300 = SDMMCHOST_NOT_SUPPORT, /* this define should depend on your board config */
 #if defined(BOARD_SD_SUPPORT_180V) && !BOARD_SD_SUPPORT_180V
     kSDMMCHOST_SupportV180 = SDMMCHOST_NOT_SUPPORT, /* this define should depend on you board config */
 #else
-    kSDMMCHOST_SupportV180 = kUSDHC_SupportV180Flag, /* this define should depend on you board config */
+    kSDMMCHOST_SupportV180 = SDMMCHOST_NOT_SUPPORT, /* this define should depend on you board config */
 #endif
     kSDMMCHOST_SupportV120 = SDMMCHOST_NOT_SUPPORT,
     kSDMMCHOST_Support4BitBusWidth = kUSDHC_Support4BitFlag,
 #if defined(BOARD_MMC_SUPPORT_8BIT_BUS)
 #if BOARD_MMC_SUPPORT_8BIT_BUS
-    kSDMMCHOST_Support8BitBusWidth = kUSDHC_Support8BitFlag,
+    kSDMMCHOST_Support8BitBusWidth = SDMMCHOST_NOT_SUPPORT,
 #else
     kSDMMCHOST_Support8BitBusWidth = SDMMCHOST_NOT_SUPPORT,
 #endif
 #else
-    kSDMMCHOST_Support8BitBusWidth = kUSDHC_Support8BitFlag,
+    kSDMMCHOST_Support8BitBusWidth = SDMMCHOST_NOT_SUPPORT,
 #endif
     kSDMMCHOST_SupportDDR50 = kUSDHC_SupportDDR50Flag,
     kSDMMCHOST_SupportSDR104 = kUSDHC_SupportSDR104Flag,
     kSDMMCHOST_SupportSDR50 = kUSDHC_SupportSDR50Flag,
-    kSDMMCHOST_SupportHS200 = kUSDHC_SupportSDR104Flag,
+    kSDMMCHOST_SupportHS200 = SDMMCHOST_NOT_SUPPORT,
 #if FSL_FEATURE_USDHC_HAS_HS400_MODE
     kSDMMCHOST_SupportHS400 = SDMMCHOST_SUPPORT
 #else

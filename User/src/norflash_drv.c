@@ -265,37 +265,6 @@ static void FLEXSPI_GetDefaultConfig(flexspi_config_t *config)
 }
 
 
-/**
-* @brief  初始化NORFLASH相关IOMUXC的MUX复用配置
-* @param  无
-* @retval 无
-*/
-static void FlexSPI_NorFlash_IOMUXC_MUX_Config(void)
-{
-  /* FlexSPI通讯引脚 */
-  IOMUXC_SetPinMux(NORFLASH_SS_IOMUXC, 1U);                                   
-  IOMUXC_SetPinMux(NORFLASH_SCLK_IOMUXC, 1U);  
-  IOMUXC_SetPinMux(NORFLASH_DATA00_IOMUXC, 1U);  
-  IOMUXC_SetPinMux(NORFLASH_DATA01_IOMUXC, 1U);  
-  IOMUXC_SetPinMux(NORFLASH_DATA02_IOMUXC, 1U);  
-  IOMUXC_SetPinMux(NORFLASH_DATA03_IOMUXC, 1U);  
-}
-
-/**
-* @brief  初始化NORFLASH相关IOMUXC的PAD属性配置
-* @param  无
-* @retval 无
-*/
-static void FlexSPI_NorFlash_IOMUXC_PAD_Config(void)
-{
-  /* FlexSPI通讯引脚使用同样的属性配置 */
-  IOMUXC_SetPinConfig(NORFLASH_SS_IOMUXC, FLEXSPI_PAD_CONFIG_DATA);   
-  IOMUXC_SetPinConfig(NORFLASH_SCLK_IOMUXC, FLEXSPI_PAD_CONFIG_DATA);                               
-  IOMUXC_SetPinConfig(NORFLASH_DATA00_IOMUXC, FLEXSPI_PAD_CONFIG_DATA);   
-  IOMUXC_SetPinConfig(NORFLASH_DATA01_IOMUXC, FLEXSPI_PAD_CONFIG_DATA);                               
-  IOMUXC_SetPinConfig(NORFLASH_DATA02_IOMUXC, FLEXSPI_PAD_CONFIG_DATA);   
-  IOMUXC_SetPinConfig(NORFLASH_DATA03_IOMUXC, FLEXSPI_PAD_CONFIG_DATA);                               
-}
 
 
 /**

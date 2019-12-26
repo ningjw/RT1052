@@ -340,7 +340,7 @@
 </MiscControls>
               <Define>SKIP_SYSCLK_INIT=1,CPU_MIMXRT1052CVL5B,XIP_EXTERNAL_FLASH=1, XIP_BOOT_HEADER_ENABLE =1,XIP_BOOT_HEADER_DCD_ENABLE =1,PRINTF_FLOAT_ENABLE=1,PRINTF_ADVANCED_ENABLE=1</Define>
               <Undefine></Undefine>
-              <IncludePath>.\board;.\User\inc;.\xip;.\sdmmc\inc;.\sdmmc\port\freertos;.\fatfs;.\fatfs\fsl_sd_disk;.\cjson</IncludePath>
+              <IncludePath>.\board;.\User\inc;.\xip;.\sdmmc\inc;.\sdmmc\port\freertos;.\fatfs;.\fatfs\fsl_mmc_disk;.\cjson</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -483,6 +483,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\src\lpuart1.c</FilePath>
             </File>
+            <File>
+              <FileName>utility.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\utility.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -537,74 +542,6 @@
         </Group>
         <Group>
           <GroupName>fatfs</GroupName>
-          <GroupOption>
-            <CommonProperty>
-              <UseCPPCompiler>0</UseCPPCompiler>
-              <RVCTCodeConst>0</RVCTCodeConst>
-              <RVCTZI>0</RVCTZI>
-              <RVCTOtherData>0</RVCTOtherData>
-              <ModuleSelection>0</ModuleSelection>
-              <IncludeInBuild>0</IncludeInBuild>
-              <AlwaysBuild>2</AlwaysBuild>
-              <GenerateAssemblyFile>2</GenerateAssemblyFile>
-              <AssembleAssemblyFile>2</AssembleAssemblyFile>
-              <PublicsOnly>2</PublicsOnly>
-              <StopOnExitCode>11</StopOnExitCode>
-              <CustomArgument></CustomArgument>
-              <IncludeLibraryModules></IncludeLibraryModules>
-              <ComprImg>1</ComprImg>
-            </CommonProperty>
-            <GroupArmAds>
-              <Cads>
-                <interw>2</interw>
-                <Optim>0</Optim>
-                <oTime>2</oTime>
-                <SplitLS>2</SplitLS>
-                <OneElfS>2</OneElfS>
-                <Strict>2</Strict>
-                <EnumInt>2</EnumInt>
-                <PlainCh>2</PlainCh>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <wLevel>0</wLevel>
-                <uThumb>2</uThumb>
-                <uSurpInc>2</uSurpInc>
-                <uC99>2</uC99>
-                <useXO>2</useXO>
-                <v6Lang>0</v6Lang>
-                <v6LangP>0</v6LangP>
-                <vShortEn>2</vShortEn>
-                <vShortWch>2</vShortWch>
-                <v6Lto>2</v6Lto>
-                <v6WtE>2</v6WtE>
-                <v6Rtti>2</v6Rtti>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath></IncludePath>
-                </VariousControls>
-              </Cads>
-              <Aads>
-                <interw>2</interw>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <thumb>2</thumb>
-                <SplitLS>2</SplitLS>
-                <SwStkChk>2</SwStkChk>
-                <NoWarn>2</NoWarn>
-                <uSurpInc>2</uSurpInc>
-                <useXO>2</useXO>
-                <uClangAs>2</uClangAs>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath></IncludePath>
-                </VariousControls>
-              </Aads>
-            </GroupArmAds>
-          </GroupOption>
           <Files>
             <File>
               <FileName>ff.c</FileName>
@@ -627,9 +564,14 @@
               <FilePath>.\fatfs\diskio.c</FilePath>
             </File>
             <File>
-              <FileName>fsl_sd_disk.c</FileName>
+              <FileName>fsl_mmc_disk.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\fatfs\fsl_sd_disk\fsl_sd_disk.c</FilePath>
+              <FilePath>.\fatfs\fsl_mmc_disk\fsl_mmc_disk.c</FilePath>
+            </File>
+            <File>
+              <FileName>ffconf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\fatfs\ffconf.h</FilePath>
             </File>
           </Files>
         </Group>

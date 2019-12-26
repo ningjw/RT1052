@@ -10,7 +10,7 @@
 /*---------------------------------------------------------------------------/
 / MSDK adaptation configuration
 /---------------------------------------------------------------------------*/
-#define SD_DISK_ENABLE
+#define MMC_DISK_ENABLE
 
 /*---------------------------------------------------------------------------/
 / Function Configurations
@@ -76,7 +76,7 @@
 / Locale and Namespace Configurations
 /---------------------------------------------------------------------------*/
 
-#define FF_CODE_PAGE	936
+#define FF_CODE_PAGE	437
 /* This option specifies the OEM code page to be used on the target system.
 /  Incorrect code page setting can cause a file open failure.
 /
@@ -171,7 +171,7 @@
 / Drive/Volume Configurations
 /---------------------------------------------------------------------------*/
 
-#define FF_VOLUMES		3
+#define FF_VOLUMES		4
 /* Number of volumes (logical drives) to be used. (1-10) */
 
 

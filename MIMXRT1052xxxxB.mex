@@ -366,12 +366,42 @@
                         <pin_feature name="identifier" value="BAT_STDBY"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="USDHC1" signal="usdhc_clk" pin_num="J3" pin_signal="GPIO_SD_B0_01"/>
-                  <pin peripheral="USDHC1" signal="usdhc_cmd" pin_num="J4" pin_signal="GPIO_SD_B0_00"/>
-                  <pin peripheral="USDHC1" signal="usdhc_data, 0" pin_num="J1" pin_signal="GPIO_SD_B0_02"/>
-                  <pin peripheral="USDHC1" signal="usdhc_data, 1" pin_num="K1" pin_signal="GPIO_SD_B0_03"/>
-                  <pin peripheral="USDHC1" signal="usdhc_data, 2" pin_num="H2" pin_signal="GPIO_SD_B0_04"/>
-                  <pin peripheral="USDHC1" signal="usdhc_data, 3" pin_num="J2" pin_signal="GPIO_SD_B0_05"/>
+                  <pin peripheral="USDHC1" signal="usdhc_clk" pin_num="J3" pin_signal="GPIO_SD_B0_01">
+                     <pin_features>
+                        <pin_feature name="speed" value="MHZ_100"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="USDHC1" signal="usdhc_cmd" pin_num="J4" pin_signal="GPIO_SD_B0_00">
+                     <pin_features>
+                        <pin_feature name="speed" value="MHZ_100"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="USDHC1" signal="usdhc_data, 0" pin_num="J1" pin_signal="GPIO_SD_B0_02">
+                     <pin_features>
+                        <pin_feature name="speed" value="MHZ_100"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="USDHC1" signal="usdhc_data, 1" pin_num="K1" pin_signal="GPIO_SD_B0_03">
+                     <pin_features>
+                        <pin_feature name="speed" value="MHZ_100"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="USDHC1" signal="usdhc_data, 2" pin_num="H2" pin_signal="GPIO_SD_B0_04">
+                     <pin_features>
+                        <pin_feature name="speed" value="MHZ_100"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="USDHC1" signal="usdhc_data, 3" pin_num="J2" pin_signal="GPIO_SD_B0_05">
+                     <pin_features>
+                        <pin_feature name="speed" value="MHZ_100"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
+                     </pin_features>
+                  </pin>
                   <pin peripheral="LPUART2" signal="RX" pin_num="M12" pin_signal="GPIO_AD_B1_03"/>
                   <pin peripheral="ADC_ETC" signal="XBAR0_TRIG, 0" pin_num="" pin_signal="PIT_TRIGGER0"/>
                   <pin peripheral="GPIO1" signal="gpio_io, 22" pin_num="J12" pin_signal="GPIO_AD_B1_06">
@@ -519,7 +549,7 @@
                   <clock_output id="ENET_25M_REF_CLK.outFreq" value="1.2 MHz" locked="false" accuracy=""/>
                   <clock_output id="FLEXIO1_CLK_ROOT.outFreq" value="6 MHz" locked="false" accuracy=""/>
                   <clock_output id="FLEXIO2_CLK_ROOT.outFreq" value="6 MHz" locked="false" accuracy=""/>
-                  <clock_output id="FLEXSPI_CLK_ROOT.outFreq" value="264 MHz" locked="false" accuracy=""/>
+                  <clock_output id="FLEXSPI_CLK_ROOT.outFreq" value="8 MHz" locked="false" accuracy=""/>
                   <clock_output id="GPT1_ipg_clk_highfreq.outFreq" value="66 MHz" locked="false" accuracy=""/>
                   <clock_output id="GPT2_ipg_clk_highfreq.outFreq" value="66 MHz" locked="false" accuracy=""/>
                   <clock_output id="IPG_CLK_ROOT.outFreq" value="132 MHz" locked="false" accuracy=""/>
@@ -542,11 +572,11 @@
                   <clock_output id="SAI3_MCLK3.outFreq" value="3 MHz" locked="false" accuracy=""/>
                   <clock_output id="SEMC_CLK_ROOT.outFreq" value="132 MHz" locked="false" accuracy=""/>
                   <clock_output id="SPDIF0_CLK_ROOT.outFreq" value="3 MHz" locked="false" accuracy=""/>
-                  <clock_output id="TRACE_CLK_ROOT.outFreq" value="132 MHz" locked="false" accuracy=""/>
+                  <clock_output id="TRACE_CLK_ROOT.outFreq" value="8 MHz" locked="false" accuracy=""/>
                   <clock_output id="UART_CLK_ROOT.outFreq" value="4 MHz" locked="false" accuracy=""/>
                   <clock_output id="USBPHY1_CLK.outFreq" value="24 MHz" locked="false" accuracy=""/>
-                  <clock_output id="USDHC1_CLK_ROOT.outFreq" value="198 MHz" locked="true" accuracy="0.001"/>
-                  <clock_output id="USDHC2_CLK_ROOT.outFreq" value="198 MHz" locked="false" accuracy=""/>
+                  <clock_output id="USDHC1_CLK_ROOT.outFreq" value="24 MHz" locked="false" accuracy=""/>
+                  <clock_output id="USDHC2_CLK_ROOT.outFreq" value="6 MHz" locked="false" accuracy=""/>
                </clock_outputs>
                <clock_settings>
                   <setting id="CCM.AHB_PODF.scale" value="1" locked="true"/>
@@ -569,7 +599,8 @@
                   <setting id="CCM.SPDIF0_CLK_PODF.scale" value="4" locked="true"/>
                   <setting id="CCM.TRACE_CLK_SEL.sel" value="CCM_ANALOG.PLL2_PFD1_CLK" locked="false"/>
                   <setting id="CCM.TRACE_PODF.scale" value="3" locked="true"/>
-                  <setting id="CCM.USDHC1_PODF.scale" value="4" locked="true"/>
+                  <setting id="CCM.USDHC1_CLK_SEL.sel" value="CCM_ANALOG.PLL2_PFD0_CLK" locked="false"/>
+                  <setting id="CCM.USDHC1_PODF.scale" value="1" locked="true"/>
                   <setting id="CCM.USDHC2_PODF.scale" value="4" locked="true"/>
                   <setting id="CCM_ANALOG.ENET_DIV.scale" value="4" locked="true"/>
                   <setting id="CCM_ANALOG.PLL1_BYPASS.sel" value="CCM_ANALOG.PLL1" locked="false"/>
@@ -578,14 +609,9 @@
                   <setting id="CCM_ANALOG.PLL2.denom" value="1" locked="false"/>
                   <setting id="CCM_ANALOG.PLL2.div" value="22" locked="false"/>
                   <setting id="CCM_ANALOG.PLL2.num" value="0" locked="false"/>
-                  <setting id="CCM_ANALOG.PLL2_BYPASS.sel" value="CCM_ANALOG.PLL2_OUT_CLK" locked="false"/>
-                  <setting id="CCM_ANALOG.PLL2_PFD0_BYPASS.sel" value="CCM_ANALOG.PLL2_PFD0" locked="false"/>
-                  <setting id="CCM_ANALOG.PLL2_PFD1_BYPASS.sel" value="CCM_ANALOG.PLL2_PFD1" locked="false"/>
                   <setting id="CCM_ANALOG.PLL2_PFD1_DIV.scale" value="24" locked="false"/>
-                  <setting id="CCM_ANALOG.PLL2_PFD2_BYPASS.sel" value="CCM_ANALOG.PLL2_PFD2" locked="false"/>
                   <setting id="CCM_ANALOG.PLL2_PFD2_DIV.scale" value="12" locked="true"/>
                   <setting id="CCM_ANALOG.PLL2_PFD2_MUL.scale" value="18" locked="true"/>
-                  <setting id="CCM_ANALOG.PLL2_PFD3_BYPASS.sel" value="CCM_ANALOG.PLL2_PFD3" locked="false"/>
                   <setting id="CCM_ANALOG.PLL3_PFD0_DIV.scale" value="15" locked="false"/>
                   <setting id="CCM_ANALOG.PLL3_PFD1_DIV.scale" value="18" locked="false"/>
                   <setting id="CCM_ANALOG.PLL3_PFD2_DIV.scale" value="12" locked="true"/>

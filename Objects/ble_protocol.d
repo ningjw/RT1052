@@ -40,6 +40,13 @@
 .\objects\ble_protocol.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_xbara.h
 .\objects\ble_protocol.o: .\User\inc\fsl_flexspi.h
 .\objects\ble_protocol.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_flexio.h
+.\objects\ble_protocol.o: .\sdmmc\inc\fsl_mmc.h
+.\objects\ble_protocol.o: .\sdmmc\inc\fsl_sdmmc_common.h
+.\objects\ble_protocol.o: .\sdmmc\inc\fsl_sdmmc_host.h
+.\objects\ble_protocol.o: .\User\inc\emmc_drv.h
+.\objects\ble_protocol.o: .\User\inc\pad_config.h
+.\objects\ble_protocol.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_usdhc.h
+.\objects\ble_protocol.o: .\sdmmc\inc\fsl_sdmmc_spec.h
 .\objects\ble_protocol.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h
 .\objects\ble_protocol.o: .\RTE\RTOS\FreeRTOSConfig.h
 .\objects\ble_protocol.o: .\RTE\_nor_sdram\RTE_Components.h
@@ -66,6 +73,11 @@
 .\objects\ble_protocol.o: .\User\inc\iic_temp_drv.h
 .\objects\ble_protocol.o: .\User\inc\core_delay.h
 .\objects\ble_protocol.o: .\User\inc\norflash_drv.h
+.\objects\ble_protocol.o: .\User\inc\utility.h
+.\objects\ble_protocol.o: .\fatfs\ff.h
+.\objects\ble_protocol.o: .\fatfs\integer.h
+.\objects\ble_protocol.o: .\fatfs\ffconf.h
+.\objects\ble_protocol.o: .\fatfs\diskio.h
 .\objects\ble_protocol.o: .\User\inc\ble_protocol.h
 .\objects\ble_protocol.o: .\User\inc\ble_app.h
 .\objects\ble_protocol.o: .\User\inc\adc_app.h

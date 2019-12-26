@@ -20,7 +20,7 @@
 #include "fsl_xbara.h"
 #include "fsl_flexspi.h"
 #include "fsl_flexio.h"
-
+#include "fsl_mmc.h"
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -40,6 +40,11 @@
 #include "iic_temp_drv.h"
 #include "core_delay.h"
 #include "norflash_drv.h"
+#include "utility.h"
+
+#include "ff.h"
+#include "diskio.h"
+
 
 #include "ble_protocol.h"
 #include "ble_app.h"
@@ -50,16 +55,18 @@
 //该结构体定义了需要保存到EEPROM中的参数
 typedef struct{
     uint8_t  inactiveTime;//用于设置活动时间
-    uint8_t  batAlarmValue; //
-    uint8_t  inactiveCondition;
-    uint8_t  sampMode;
-    uint8_t  sampFreq;
-    uint8_t  sampBandwidth;
-    uint8_t  sampTime;
-    uint8_t  firmUpdate;
-    uint32_t firmPacks;
-    uint32_t firmSize;
-    uint32_t firmCrc16;
+    uint8_t  batAlarmValue; //电池电量报警值
+    uint8_t  inactiveCondition;//用于设置触发条件
+    uint8_t  sampMode;//取样模式
+    uint8_t  sampFreq;//取样频率
+    uint8_t  sampBandwidth;//取样带宽
+    uint8_t  sampTime;//取样时间
+    uint8_t  firmUpdate;//固件更新
+    uint32_t firmPacksTotal;//固件总包数
+    uint32_t firmPacksCount;//当前接受的固件包数
+    uint32_t firmSizeTotal;//固件总大小
+    uint32_t firmSizeCurrent;//当前接受到的固件大小
+    uint32_t firmCrc16;//固件校验码
 }SysPara1;
 
 
@@ -68,12 +75,13 @@ typedef struct{
     uint8_t inactiveCount;//用于设置活动时间
     uint8_t batLedStatus;//电池状态
     uint8_t bleLedStatus;//蓝牙状态
-    uint8_t sampLedStatus;
-    uint32_t sampPacks;
+    uint8_t sampLedStatus;//采样状态
+    uint8_t emmcIsOk;//eMMC文件系统
     bool     sampStart;
+    uint32_t sampPacks;
     float   batVoltage;//电池电压
     float   batTemp;   //电池温度
-    float   batChargePercent;//充电百分比
+    float batChargePercent;//充电百分比
 }SysPara2;
 
 extern SysPara1 g_sys_para1;
