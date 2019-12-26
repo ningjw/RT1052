@@ -58,7 +58,7 @@ void ADC_AppTask(void)
     ADCRdySem = xSemaphoreCreateBinary();      //创建 二值 信号量
     ADC_ETC_Config();
     XBARA_Configuration();
-//    LPSPI_Enable(LPSPI4, true);                         //使能LPSPI3
+    LPSPI_Enable(LPSPI4, true);                         //使能LPSPI3
     counterClock = QUADTIMER1_CHANNEL_0_CLOCK_SOURCE / 1000;
     PRINTF("ADC Task Create and Running\r\n");
     while(1)

@@ -78,25 +78,19 @@ float tempVoltage = 0;
 ***************************************************************************************/
 uint32_t LPSPI4_ReadWriteByte(void)
 {
-    uint32_t AdcData = 0;
-    taskENTER_CRITICAL();
+    GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 1);
     
-    for(uint8_t count = 0; count < 24; count++)
-    {
-        AdcData <<= 1;
-        SPI_CLK_LOW;
-        __NOP();
-        __NOP();
-        SPI_CLK_HIGH;
-        if(SPI_READ_DATA) {
-            AdcData |= 0x01;
-        }
-        __NOP();
-        __NOP();
-    }
-    taskEXIT_CRITICAL();
-    revData = AdcData;
-   tempVoltage = revData * 2.37 / 8388607;
+    uint8_t spiTxData[3] = {0xFF};
+    memset(spiRxData, 0, 3);
+    lpspi_transfer_t spi_tranxfer;
+    
+    spi_tranxfer.configFlags = kLPSPI_MasterPcs1 | kLPSPI_MasterPcsContinuous;     //PCS1
+    spi_tranxfer.txData = spiTxData;                //要发送的数据
+    spi_tranxfer.rxData = spiRxData;                 //接收到的数据
+    spi_tranxfer.dataSize = 3;                        //数据长度
+    LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI阻塞发送
+    revData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];
+    tempVoltage = revData * 2.37 *2 / 8388607;
     return revData;
 }
 

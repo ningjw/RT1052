@@ -83,7 +83,7 @@
                         <data>true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="Peripheral" resourceId="GPIO2" description="Peripheral GPIO2 is not initialized" problem_level="1" source="Pins:BOARD">
+                  <dependency resourceType="Peripheral" resourceId="LPSPI4" description="Peripheral LPSPI4 is not initialized" problem_level="1" source="Pins:BOARD">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
@@ -103,12 +103,12 @@
                         <data>true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="Peripheral" resourceId="LPUART5" description="Peripheral LPUART5 is not initialized" problem_level="1" source="Pins:BOARD">
+                  <dependency resourceType="Peripheral" resourceId="GPIO2" description="Peripheral GPIO2 is not initialized" problem_level="1" source="Pins:BOARD">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="Peripheral" resourceId="LPSPI4" description="Peripheral LPSPI4 is not initialized" problem_level="1" source="Pins:BOARD">
+                  <dependency resourceType="Peripheral" resourceId="LPUART5" description="Peripheral LPUART5 is not initialized" problem_level="1" source="Pins:BOARD">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
@@ -197,7 +197,7 @@
                         <pin_feature name="slew_rate" value="Fast"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="GPIO2" signal="gpio_io, 01" pin_num="E7" pin_signal="GPIO_B0_01">
+                  <pin peripheral="LPSPI4" signal="SDI" pin_num="E7" pin_signal="GPIO_B0_01">
                      <pin_features>
                         <pin_feature name="direction" value="INPUT"/>
                         <pin_feature name="speed" value="MHZ_100"/>
@@ -205,7 +205,7 @@
                         <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="GPIO2" signal="gpio_io, 03" pin_num="D8" pin_signal="GPIO_B0_03">
+                  <pin peripheral="LPSPI4" signal="SCK" pin_num="D8" pin_signal="GPIO_B0_03">
                      <pin_features>
                         <pin_feature name="direction" value="OUTPUT"/>
                         <pin_feature name="speed" value="MHZ_100"/>
@@ -703,6 +703,16 @@
                   <data type="Version">2.0.0</data>
                </feature>
             </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.lpspi" description="在工具链/IDT 工程中未找到 LPSPI Driver。" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.lpspi" description="工具链/IDT 工程中，该版本的 LPSPI Driver 不被支持。所需的：${required_value},，实际的： ${actual_value}。" problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">2.0.3</data>
+               </feature>
+            </dependency>
             <dependency resourceType="SWComponent" resourceId="platform.drivers.igpio" description="在工具链/IDT 工程中未找到 igpio。" problem_level="2" source="Peripherals">
                <feature name="enabled" evaluation="equal">
                   <data type="Boolean">true</data>
@@ -839,6 +849,26 @@
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART5.uart_rx" description="Signal RX of the peripheral LPUART5 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="equal">
                         <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPSPI4.lpspi_sck" description="Signal serial clock of the peripheral LPSPI4 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPSPI4.lpspi_sin" description="Signal serial data input of the peripheral LPSPI4 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPSPI4.lpspi_sout" description="Signal serial data output of the peripheral LPSPI4 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="routed" evaluation="">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="ClockOutput" resourceId="LPSPI_CLK_ROOT" description="LPSPI_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
                      </feature>
                   </dependency>
                   <dependency resourceType="ClockOutput" resourceId="IPG_CLK_ROOT" description="IPG_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
@@ -1202,7 +1232,7 @@
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="LPSPI4" type="lpspi" type_id="lpspi_6e21a1e0a09f0a012d683c4f91752db8" mode="polling" peripheral="LPSPI4" enabled="false">
+                  <instance name="LPSPI4" type="lpspi" type_id="lpspi_6e21a1e0a09f0a012d683c4f91752db8" mode="polling" peripheral="LPSPI4" enabled="true">
                      <config_set name="main">
                         <setting name="mode" value="kLPSPI_Master"/>
                         <setting name="clockSource" value="LpspiClock"/>

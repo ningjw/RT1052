@@ -604,6 +604,57 @@ void LPUART5_init(void) {
 }
 
 /***********************************************************************************************************************
+ * LPSPI4 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'LPSPI4'
+- type: 'lpspi'
+- mode: 'polling'
+- type_id: 'lpspi_6e21a1e0a09f0a012d683c4f91752db8'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'LPSPI4'
+- config_sets:
+  - main:
+    - mode: 'kLPSPI_Master'
+    - clockSource: 'LpspiClock'
+    - clockSourceFreq: 'BOARD_BootClockRUN'
+    - master:
+      - baudRate: '10000000'
+      - bitsPerFrame: '24'
+      - cpol: 'kLPSPI_ClockPolarityActiveHigh'
+      - cpha: 'kLPSPI_ClockPhaseSecondEdge'
+      - direction: 'kLPSPI_MsbFirst'
+      - pcsToSckDelayInNanoSec: '0'
+      - lastSckToPcsDelayInNanoSec: '0'
+      - betweenTransferDelayInNanoSec: '0'
+      - whichPcs: 'kLPSPI_Pcs0'
+      - pcsActiveHighOrLow: 'kLPSPI_PcsActiveLow'
+      - pinCfg: 'kLPSPI_SdiInSdoOut'
+      - dataOutConfig: 'kLpspiDataOutRetained'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const lpspi_master_config_t LPSPI4_config = {
+  .baudRate = 10000000,
+  .bitsPerFrame = 24,
+  .cpol = kLPSPI_ClockPolarityActiveHigh,
+  .cpha = kLPSPI_ClockPhaseSecondEdge,
+  .direction = kLPSPI_MsbFirst,
+  .pcsToSckDelayInNanoSec = 0,
+  .lastSckToPcsDelayInNanoSec = 0,
+  .betweenTransferDelayInNanoSec = 0,
+  .whichPcs = kLPSPI_Pcs0,
+  .pcsActiveHighOrLow = kLPSPI_PcsActiveLow,
+  .pinCfg = kLPSPI_SdiInSdoOut,
+  .dataOutConfig = kLpspiDataOutRetained
+};
+
+void LPSPI4_init(void) {
+  LPSPI_MasterInit(LPSPI4_PERIPHERAL, &LPSPI4_config, LPSPI4_CLOCK_FREQ);
+}
+
+/***********************************************************************************************************************
  * GPIO2 initialization code
  **********************************************************************************************************************/
 /* clang-format off */
@@ -929,6 +980,7 @@ void BOARD_InitPeripherals(void)
   LPUART4_init();
   LPUART3_init();
   LPUART5_init();
+  LPSPI4_init();
   GPIO2_init();
   QuadTimer1_init();
   ADC1_init();
