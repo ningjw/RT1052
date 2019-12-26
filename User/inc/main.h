@@ -21,6 +21,8 @@
 #include "fsl_flexspi.h"
 #include "fsl_flexio.h"
 #include "fsl_mmc.h"
+#include "fsl_dcdc.h"
+#include "fsl_src.h"
 
 #include "FreeRTOS.h"
 #include "task.h"

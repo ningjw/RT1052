@@ -19,9 +19,38 @@ void BOARD_USDHCClockConfiguration(void)
     CLOCK_SetMux(kCLOCK_Usdhc1Mux, 1U);
 }
 
+/*
+*函数功能:创建一个目录
+*函数参数：dir，目录路径。
+*返回值：错误状态，FR_OK 表示成功。
+*/
+FRESULT f_mkdir_test(char* dir)
+{
+  FRESULT error;
+  PRINTF("\r\n创建目录 “%s”......\r\n",dir);
+  error = f_mkdir(_T(dir));
+  if (error)
+  {
+    if (error == FR_EXIST)
+    {
+      PRINTF("目录已经存在\r\n");
+    }
+    else
+    {
+      PRINTF("创建目录失败.\r\n");
+      return error;
+    }
+  }
+  else
+  {
+    PRINTF("创建目录成功\r\n");
+  }
+  return error;
+}
 
 uint8_t txBuf[10] = "ningjw";
 uint8_t rxBuf[10] = {0};
+BYTE work[FF_MAX_SS];
 /***************************************************************************************
   * @brief
   * @input
@@ -30,7 +59,7 @@ uint8_t rxBuf[10] = {0};
 void emmc_init(void)
 {
     FRESULT ret = FR_OK;
-    BYTE work[FF_MAX_SS];
+    
     
     /* 初始化SD外设时钟 */
     BOARD_USDHCClockConfiguration();
@@ -56,11 +85,25 @@ void emmc_init(void)
         g_sys_para2.emmcIsOk = true;
     }
     
+  ret = f_chdrive((char const *)&driverNumberBuffer[0U]);
+  if (ret)
+  {
+    PRINTF("Change drive failed.\r\n");
+    while(1);
+  }
+  else
+  {
+    PRINTF("Change drive success.\r\n");
+  }
+  
+  /*在SD卡根目录创建一个目录*/
+  f_mkdir_test("/dir_1");
+    
 //    g_mmc.host.base = USDHC1;
 //    g_mmc.host.sourceClock_Hz = MMC_HOST_CLK_FREQ;
 //    g_mmc.hostVoltageWindowVCC = kMMC_VoltageWindows270to360;
 
-    /* SD主机初始化函数 */
+//    /* SD主机初始化函数 */
 //    if (MMC_Init(&g_mmc) != kStatus_Success)
 //    {
 //        PRINTF("\r\nSD主机初始化失败\r\n");
@@ -70,7 +113,8 @@ void emmc_init(void)
 //        for (uint32_t i =0 ;i < 10000;i++){
 //            MMC_WriteBlocks(&g_mmc, txBuf, i, 10);
 //            MMC_ReadBlocks(&g_mmc, rxBuf, i, 10);
-//            if ( memcmp(txBuf,rxBuf,6) != 0){
+//            ret = strcmp(txBuf,rxBuf);
+//            if ( ret != 0){
 //                PRINTF("\r\n读写测试失败\r\n");
 //                break;
 //            }

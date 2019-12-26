@@ -1395,7 +1395,7 @@ static status_t MMC_SetMaxDataBusWidth(mmc_card_t *card, mmc_high_speed_timing_t
     if (error == kStatus_Fail)
     {
         /* Card's data bus width will be default 1 bit mode. */
-        SDMMCHOST_SET_CARD_BUS_WIDTH(card->host.base, kSDMMCHOST_DATABUSWIDTH1BIT);
+//        SDMMCHOST_SET_CARD_BUS_WIDTH(card->host.base, kSDMMCHOST_DATABUSWIDTH1BIT);
     }
 
     return kStatus_Success;

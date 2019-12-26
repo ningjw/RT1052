@@ -88,6 +88,16 @@ static char * ParseChkSelf(void)
     if(NULL == pJsonRoot){
         return NULL;
     }
+    
+    // Battery voltage
+    g_sys_para2.batVoltage = LTC2942_GetVoltage() / 1000.0;
+    // Chip temperature
+    g_sys_para2.batTemp = LTC2942_GetTemperature() / 100.0;
+    // Accumulated charge
+    g_sys_para2.batChargePercent = LTC2942_GetAC() * 100.0 / 65536; 
+    
+    
+    
     cJSON_AddNumberToObject(pJsonRoot, "Id", 3);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
     cJSON_AddNumberToObject(pJsonRoot, "AdcV",3.3);//振动传感器偏置电压
@@ -134,8 +144,8 @@ static char * ParseGetVersion(void)
     cJSON_AddNumberToObject(pJsonRoot, "Id", 5);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
     cJSON_AddStringToObject(pJsonRoot, "HV", "1.0");//硬件版本号
-    cJSON_AddStringToObject(pJsonRoot, "SV", "1.0");//软件版本号
- 
+    cJSON_AddStringToObject(pJsonRoot, "SV", SOFT_VERSION);//软件版本号
+    
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     return p_reply;
@@ -146,20 +156,20 @@ static char * ParseGetVersion(void)
   * @input   
   * @return  
 ***************************************************************************************/
-static char * ParseMsg6(cJSON *pJson, cJSON * pSub)
+static char * ParseSetSysPara(cJSON *pJson, cJSON * pSub)
 {
     /*解析消息内容,*/
     pSub = cJSON_GetObjectItem(pJson, "OffT");
     if (NULL != pSub)
-        g_sys_para1.inactiveTime = pSub->valueint;
+        g_sys_para1.inactiveTime = pSub->valueint;//触发自动关机时间
     
     pSub = cJSON_GetObjectItem(pJson, "OffC");
     if (NULL != pSub)
-        g_sys_para1.inactiveCondition = pSub->valueint;
+        g_sys_para1.inactiveCondition = pSub->valueint;//触发自动关机条件
     
     pSub = cJSON_GetObjectItem(pJson, "BatL");
     if (NULL != pSub)
-        g_sys_para1.batAlarmValue = pSub->valueint;
+        g_sys_para1.batAlarmValue = pSub->valueint;//电池电量报警值
     
     /*制作cjson格式的回复消息*/
     cJSON *pJsonRoot = cJSON_CreateObject();
@@ -368,7 +378,7 @@ uint8_t* ParseJson(char *pMsg){
             p_reply = ParseGetVersion();//获取版本号
             break;
         case 6:
-            p_reply = ParseMsg6(pJson, pSub);//系统参数设置
+            p_reply = ParseSetSysPara(pJson, pSub);//系统参数设置
             break;
         case 7:
             p_reply = ParseSetSamplePara(pJson, pSub);//采集参数设置
