@@ -2,15 +2,18 @@
 
 /*文件系统描述结构体*/
 FATFS g_fileSystem; /* File system object */
+FIL   g_fileObject ;   /* File object */
 extern mmc_card_t g_mmc;
 const TCHAR driverNumberBuffer[3U] = {MMCDISK + '0', ':', '/'};
-FATFS g_fileSystem;
+
 
 #define BUFFER_SIZE (100U)
 SDK_ALIGN(uint8_t g_bufferWrite[SDK_SIZEALIGN(BUFFER_SIZE, SDMMC_DATA_BUFFER_ALIGN_CACHE)],
           MAX(SDMMC_DATA_BUFFER_ALIGN_CACHE, SDMMCHOST_DMA_BUFFER_ADDR_ALIGN));
 SDK_ALIGN(uint8_t g_bufferRead[SDK_SIZEALIGN(BUFFER_SIZE, SDMMC_DATA_BUFFER_ALIGN_CACHE)],
           MAX(SDMMC_DATA_BUFFER_ALIGN_CACHE, SDMMCHOST_DMA_BUFFER_ADDR_ALIGN));
+
+AT_NONCACHEABLE_SECTION_INIT(BYTE work[FF_MAX_SS]) = {0};
 
 /**
 * 函数功能:初始化USDHC时钟
@@ -124,7 +127,7 @@ FRESULT f_mount_test(FATFS* fileSystem)
 FRESULT f_touch_test(char* dir)
 {
     FRESULT error = FR_OK;
-    FIL g_fileObject ;   /* File object */
+    
     PRINTF("\r\n创建“%s”文件......\r\n", dir);
     error = f_open(&g_fileObject, _T(dir), FA_CREATE_NEW);
     if (error)
@@ -348,10 +351,6 @@ FRESULT f_write_read_test(char* dir, void* data_write, void* data_read)
 
 
 
-
-
-
-BYTE work[FF_MAX_SS];
 /***************************************************************************************
   * @brief
   * @input

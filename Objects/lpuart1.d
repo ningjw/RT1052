@@ -68,7 +68,6 @@
 .\objects\lpuart1.o: .\cjson\cJSON.h
 .\objects\lpuart1.o: .\User\inc\interrupt.h
 .\objects\lpuart1.o: .\User\inc\lpuart1.h
-.\objects\lpuart1.o: .\User\inc\i2c_eeprom_drv.h
 .\objects\lpuart1.o: .\User\inc\rtc_drv.h
 .\objects\lpuart1.o: .\User\inc\adc_drv.h
 .\objects\lpuart1.o: .\User\inc\battery_drv.h

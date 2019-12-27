@@ -64,11 +64,8 @@
 .\objects\utility.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
 .\objects\utility.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\event_groups.h
 .\objects\utility.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
-.\objects\utility.o: .\User\inc\task_app.h
 .\objects\utility.o: .\cjson\cJSON.h
 .\objects\utility.o: .\User\inc\interrupt.h
-.\objects\utility.o: .\User\inc\lpuart1.h
-.\objects\utility.o: .\User\inc\i2c_eeprom_drv.h
 .\objects\utility.o: .\User\inc\rtc_drv.h
 .\objects\utility.o: .\User\inc\adc_drv.h
 .\objects\utility.o: .\User\inc\battery_drv.h

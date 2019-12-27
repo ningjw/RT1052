@@ -1,40 +1,22 @@
 #include "main.h"
-extern volatile uint32_t g_eventTimeMilliseconds;
+
 
 
 /***************************************************************************************
-  * @brief   kPIT_Chnl_0配置为1ms中断 ；kPIT_Chnl_1 配置为1s中断
+  * @brief
   * @input
   * @return
 ***************************************************************************************/
-void PIT_IRQHandler(void)
+void LPUART1_IRQHandler(void)
 {
-    if ( PIT_GetStatusFlags(PIT, kPIT_Chnl_0) == true ) {
-        /* 清除中断标志位.*/
-        PIT_ClearStatusFlags(PIT, kPIT_Chnl_0, kPIT_TimerFlag);
-        
-    }
+    uint8_t ucCh = ucCh;
 
-    if( PIT_GetStatusFlags(PIT, kPIT_Chnl_1) == true ) {
-        /* 清除中断标志位.*/
-        PIT_ClearStatusFlags(PIT, kPIT_Chnl_1, kPIT_TimerFlag);
-        //控制led灯闪烁
-//        BOARD_LED_PORT->DR ^= (1 << BOARD_LED_PIN);
-        g_eventTimeMilliseconds++;
-        /* 获取日期 */
-//        SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
-        /* 打印日期&时间 */ 
-//        PRINTF("%02d-%02d-%02d  %02d:%02d:%02d \r\n", 
-//               rtcDate.year,rtcDate.month, rtcDate.day,rtcDate.hour,
-//               rtcDate.minute, rtcDate.second);
+    /*串口接收到数据*/
+    if (kLPUART_RxDataRegFullFlag & LPUART_GetStatusFlags(LPUART1) ) {
+        /*读取数据*/
+        ucCh = LPUART_ReadByte( LPUART1 );
     }
-
-    __DSB();
 }
-
-
-
-
 
 /***************************************************************************************
   * @brief

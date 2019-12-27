@@ -31,6 +31,7 @@ typedef struct
 extern uint8_t g_puart2TxCnt;
 extern uint8_t g_puart2RxCnt;
 extern TaskHandle_t BLE_TaskHandle ;  /* À¶ÑÀÈÎÎñ¾ä±ú */
+extern uint8_t g_lpuart2TxBuf[];
 
 void BLE_AppTask(void);
 

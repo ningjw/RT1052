@@ -68,9 +68,9 @@ void ADC_ETC_Config(void)
     /*使能中断 NVIC. */
     EnableIRQ(ADC_ETC_IRQ0_IRQn);
 }
-uint32_t revData = 0;
-uint8_t spiRxData[3] = {0x00};
-float tempVoltage = 0;
+
+
+
 /***************************************************************************************
   * @brief
   * @input
@@ -79,19 +79,20 @@ float tempVoltage = 0;
 uint32_t LPSPI4_ReadWriteByte(void)
 {
     GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 1);
-    
+    uint32_t spiData = 0;
     uint8_t spiTxData[3] = {0xFF};
+    uint8_t spiRxData[3] = {0x00};
     memset(spiRxData, 0, 3);
     lpspi_transfer_t spi_tranxfer;
     
-    spi_tranxfer.configFlags = kLPSPI_MasterPcs1 | kLPSPI_MasterPcsContinuous;     //PCS1
+    spi_tranxfer.configFlags = kLPSPI_MasterPcs1 | kLPSPI_MasterPcsContinuous;
     spi_tranxfer.txData = spiTxData;                //要发送的数据
     spi_tranxfer.rxData = spiRxData;                 //接收到的数据
     spi_tranxfer.dataSize = 3;                        //数据长度
     LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI阻塞发送
-    revData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];
-    tempVoltage = revData * 2.37 *2 / 8388607;
-    return revData;
+    spiData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];
+    g_sys_para2.voltageADS1271 = spiData * 2.37 * 2 / 8388607;
+    return spiData;
 }
 
 

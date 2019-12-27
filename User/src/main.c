@@ -4,6 +4,7 @@ TimerHandle_t       InactiveTmr = NULL;//软件定时器句柄,用于AT指令接受超时
 static TaskHandle_t AppTaskCreate_Handle = NULL;      /* 创建任务句柄 */
 static void AppTaskCreate(void);                      /* 用于创建任务 */
 void BOARD_ConfigMPU(void);
+void BOARD_InitDebugConsole(void);
 
 SysPara1 g_sys_para1;
 SysPara2 g_sys_para2;
@@ -14,10 +15,10 @@ SysPara2 g_sys_para2;
 ***************************************************************************************/
 static void InactiveTmr_Callback(void* parameter)
 {
-    PRINTF("1分钟定时到了");
     if(g_sys_para2.inactiveCount++ >= g_sys_para1.inactiveTime + 1){//定时时间到
-        SNVS->LPSR |= SNVS_LPCR_DP_EN(1);
-        SNVS->LPSR |= SNVS_LPCR_TOP(1);
+        GPIO_PinWrite(BOARD_SYS_PWR_OFF_GPIO,BOARD_SYS_PWR_OFF_PIN,1);
+//        SNVS->LPSR |= SNVS_LPCR_DP_EN(1);
+//        SNVS->LPSR |= SNVS_LPCR_TOP(1);
 //        SRC_DoSoftwareResetARMCore0(SRC);
     }
 }
@@ -50,7 +51,7 @@ static void AppTaskCreate(void)
     InactiveTmr = xTimerCreate("PwrOnTmr", 60*1000, pdTRUE, (void*)POWER_ON_TIMER_ID, (TimerCallbackFunction_t)InactiveTmr_Callback);
     
     vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
-    taskEXIT_CRITICAL();            //退出临界区
+    taskEXIT_CRITICAL();               //退出临界区
 }
 
 
@@ -100,6 +101,38 @@ int main(void)
     }else PRINTF("任务创建失败");
     
     while(1);
+}
+
+
+/***************************************************************************************
+  * @brief   Get debug console frequency.
+  * @input   
+  * @return  
+***************************************************************************************/
+uint32_t BOARD_DebugConsoleSrcFreq(void)
+{
+    uint32_t freq;
+
+    /* To make it simple, we assume default PLL and divider settings, and the only variable
+       from application is use PLL3 source or OSC source */
+    if (CLOCK_GetMux(kCLOCK_UartMux) == 0) /* PLL3 div6 80M */
+    {
+        freq = (CLOCK_GetPllFreq(kCLOCK_PllUsb1) / 6U) / (CLOCK_GetDiv(kCLOCK_UartDiv) + 1U);
+    }
+    else
+    {
+        freq = CLOCK_GetOscFreq() / (CLOCK_GetDiv(kCLOCK_UartDiv) + 1U);
+    }
+
+    return freq;
+}
+
+/* Initialize debug console. */
+void BOARD_InitDebugConsole(void)
+{
+    uint32_t uartClkSrcFreq = BOARD_DebugConsoleSrcFreq();
+
+    DbgConsole_Init(1, 115200, kSerialPort_Uart, uartClkSrcFreq);
 }
 
 
@@ -191,7 +224,7 @@ void BOARD_ConfigMPU(void)
     ARM_MPU_Enable(MPU_CTRL_PRIVDEFENA_Msk);
 
     /* Enable I cache and D cache */
-    SCB_DisableDCache();
+    SCB_EnableDCache();
     SCB_EnableICache();
 }
 

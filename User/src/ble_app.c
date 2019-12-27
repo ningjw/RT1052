@@ -6,18 +6,21 @@
 #define SET_THROUGHPUT_MODE()    GPIO_PinWrite(BOARD_BTM_MODE_GPIO, BOARD_BTM_MODE_PIN, 0);
 #define BLE_POWER_ON()           GPIO_PinWrite(BOARD_PWR_WIFI_BLE_GPIO, BOARD_PWR_WIFI_BLE_PIN, 1);
 #define BLE_RESET()              GPIO_PinWrite(BOARD_PWR_WIFI_BLE_GPIO, BOARD_PWR_WIFI_BLE_PIN, 0);
+
 #define EVT_OK       (1 << 0)//接受到数据事件
 
+char set_rtc[] = "{\"Id\":1,\"Sid\":0,\"Y\":2019,\"Mon\":12,\"D\":16,\"H\":9,\"Min\":0,\"S\":0}";
+char get_rtc[] = "{\"Id\":2,\"Sid\":0}";
 
-
+AT_NONCACHEABLE_SECTION_INIT(uint8_t g_lpuart2TxBuf[LPUART2_BUFF_LEN]) = {0};            //串口发送缓冲区
 AT_NONCACHEABLE_SECTION_INIT(uint8_t g_lpuart2RxBuf[LPUART2_BUFF_LEN]) = {0};            //串口接收缓冲区
 
 uint8_t g_puart2RxCnt = 0;
 uint8_t g_puart2TxCnt = 0;
 uint8_t g_puart2StartRx = 0;
+uint32_t ble_event = 0;
 
 TaskHandle_t        BLE_TaskHandle = NULL;//蓝牙任务句柄
-EventGroupHandle_t  RecvAckEvt = NULL;//串口收到AT指令回令的信号量，可在串口接收空闲后发出
 
 static char send_str[164] = {0};
 ATCfg_t g_at_cfg = {
@@ -46,8 +49,8 @@ void LPUART2_SendString(const char *str)
 ******************************************************************/
 uint8_t AT_SendCmd(const char *cmd, const char *param, const char *recv_str, ATCfg_t *p_at_cfg)
 {
+    uint8_t at_ret;
     p_at_cfg->try_cnt = 0;
-    EventBits_t at_event;
     
     memset(send_str, sizeof(send_str), 0);
     strcpy(send_str, "AT");
@@ -61,22 +64,14 @@ uint8_t AT_SendCmd(const char *cmd, const char *param, const char *recv_str, ATC
 retry:
     g_puart2StartRx = 0;
     g_puart2RxCnt = 0;
-    xEventGroupClearBits(RecvAckEvt, EVT_OK);//发送数据前先清除该事件
     LPUART2_SendString(send_str);//发送AT指令
     
     if (NULL == recv_str ) {
         return true;
     }
-    
-    /*  等待接收事件标志, */
-    at_event = xEventGroupWaitBits(RecvAckEvt,  /*  事件对象句柄 */
-                                EVT_OK,      /*  接收 任务 感兴趣的事件 */
-                                pdFALSE,     /*  退出不清除事件位 */
-                                pdFALSE,     /*  逻辑或等待事件 */
-                                p_at_cfg->resp_time);/*  指定超时时间*/
-    
-    if( (at_event & EVT_OK) == EVT_OK ){
-        xEventGroupClearBits(RecvAckEvt, EVT_OK);//清除事件
+    /*wait task notify*/
+    at_ret = xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, p_at_cfg->resp_time);
+    if( pdTRUE == at_ret ){
         //接收到的数据中包含响应的数据
         if(strstr((char *)g_lpuart2RxBuf, recv_str) != NULL){
             return true;
@@ -86,7 +81,6 @@ retry:
             }
             goto retry;//重试
         }
-        
     }else{//回复超时
         if(p_at_cfg->try_cnt++ > p_at_cfg->try_times){
             return false;
@@ -95,64 +89,38 @@ retry:
     }
 }
 
-/*****************************************************************
-* 功能：发送数组数据
-* 输入: send_buf:发送的数组
-		buf_len：数组长度
-		recv_str：期待回令中包含的子字符串
-        p_at_cfg：AT配置
-* 输出：执行结果代码
-******************************************************************/
-uint8_t AT_SendData(const char *send_buf, uint8_t buf_len, const char *recv_str, ATCfg_t *p_at_cfg)
-{
-    memset(send_str, sizeof(send_str), 0);
-    
-    sprintf(send_str, "AT+LESEND=%d,", buf_len);
-    
-    strcat(send_str,send_buf);
-    
-    LPUART2_SendString(send_str);//发送数据
-    
-    return 0;
-}
-
-
-char set_rtc[] = "{\"Id\":1,\"Sid\":0,\"Y\":2019,\"Mon\":12,\"D\":16,\"H\":9,\"Min\":0,\"S\":0}";
-char get_rtc[] = "{\"Id\":2,\"Sid\":0}";
 /***********************************************************************
   * @ 函数名  ： BLE_AppTask
-  * @ 功能说明： 为了方便管理，所有的任务创建函数都放在这个函数里面
+  * @ 功能说明： 
   * @ 参数    ： 无
   * @ 返回值  ： 无
   **********************************************************************/
 void BLE_AppTask(void)
 {
-    uint8_t ret = false;
-
-    RecvAckEvt = xEventGroupCreate();/*  创建 事件组 */
-    
+    uint8_t xReturn = pdFALSE;
     PRINTF("BLE Task Create and Running\r\n");
-    
-    ret = AT_SendCmd(BT_NAME, DEVICE_BLE_NAME, RESP_OK, &g_at_cfg);//设置蓝牙名称
-    
-    if( ret == true ){
+    uint8_t* sendBuf = NULL;
+    xReturn = AT_SendCmd(BT_NAME, DEVICE_BLE_NAME, RESP_OK, &g_at_cfg);//设置蓝牙名称
+    if( xReturn == true ){
         g_sys_para2.bleLedStatus = BLE_READY;
     }
     SET_THROUGHPUT_MODE();//进入透传模式
     
     while(1)
     {
-        /*  等待接收事件标志 */
-        xEventGroupWaitBits(RecvAckEvt,  /*  事件对象句柄 */
-                            EVT_OK,   /*  接收 任务 感兴趣的事件 */
-                            pdTRUE, /*  退出时清除事件位 */
-                            pdTRUE, /*  满足感兴趣的所有事件 */
-                            portMAX_DELAY);/*  指定超时事件, 一直等 */
-        
-//        LPUART2_SendString((char *)g_lpuart2RxBuf);
-        ParseProtocol(g_lpuart2RxBuf);//处理蓝牙数据协议
-        memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
-        g_puart2RxCnt = 0;
+        /*wait task notify*/
+        xReturn = xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, portMAX_DELAY);
+        if ( pdTRUE == xReturn ) {
+            sendBuf = ParseProtocol(g_lpuart2RxBuf);//处理蓝牙数据协议
+            if(g_lpuart2RxBuf[0] == 0xE7 && g_lpuart2RxBuf[1] == 0xE7){//升级数据包
+                LPUART_WriteBlocking(LPUART2, sendBuf, 7);
+            }else if(NULL != sendBuf){//json数据包
+                LPUART2_SendString((char *)g_lpuart2TxBuf);
+            }
+            
+            memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
+            g_puart2RxCnt = 0;
+        }
     }
 }
 
@@ -193,11 +161,10 @@ void LPUART2_IRQHandler(void)
 ***************************************************************************************/
 void TMR2_IRQHandler(void)
 {
-    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
     g_puart2StartRx = 0;
     QTMR_ClearStatusFlags(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_CompareFlag);//清中断标志
     QTMR_StopTimer(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL);//停止计数器
-    xEventGroupSetBitsFromISR(RecvAckEvt, EVT_OK, &xHigherPriorityTaskWoken); /*设置事件 */
+    xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);/*设置事件 */
 }
 
 

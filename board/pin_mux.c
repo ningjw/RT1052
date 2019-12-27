@@ -44,6 +44,7 @@ pin_labels:
 - {pin_num: J12, pin_signal: GPIO_AD_B1_06, label: SDA_TEMP, identifier: SDA_TEMP}
 - {pin_num: K10, pin_signal: GPIO_AD_B1_07, label: SCL_TEMP, identifier: SCL_TEMP}
 - {pin_num: C10, pin_signal: GPIO_B0_12, label: PWR_WIFI_BLE, identifier: PWR_WIFI_BLE}
+- {pin_num: B8, pin_signal: GPIO_B0_05, label: SYS_PWR_OFF, identifier: SYS_PWR_OFF}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -131,6 +132,7 @@ BOARD:
   - {pin_num: L4, peripheral: FLEXSPI, signal: FLEXSPI_A_SCLK, pin_signal: GPIO_SD_B1_07, speed: MHZ_200, slew_rate: Fast}
   - {pin_num: L3, peripheral: FLEXSPI, signal: FLEXSPI_A_SS0_B, pin_signal: GPIO_SD_B1_06, speed: MHZ_200, slew_rate: Fast}
   - {pin_num: L10, peripheral: GPIO1, signal: 'gpio_io, 15', pin_signal: GPIO_AD_B0_15, identifier: PWR_CHG_COMPLETE, direction: OUTPUT}
+  - {pin_num: B8, peripheral: GPIO2, signal: 'gpio_io, 05', pin_signal: GPIO_B0_05}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -425,6 +427,9 @@ void BOARD(void) {
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
       IOMUXC_GPIO_B0_04_GPIO2_IO04,           /* GPIO_B0_04 is configured as GPIO2_IO04 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B0_05_GPIO2_IO05,           /* GPIO_B0_05 is configured as GPIO2_IO05 */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
       IOMUXC_GPIO_B0_06_QTIMER3_TIMER0,       /* GPIO_B0_06 is configured as QTIMER3_TIMER0 */

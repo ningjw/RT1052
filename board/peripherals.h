@@ -48,7 +48,7 @@ extern "C" {
 /* Definition of clock source frequency. */
 #define PIT1_CLK_FREQ 66000000UL
 /* Definition of ticks count for channel 0. */
-#define PIT1_0_TICKS 65999999U
+#define PIT1_0_TICKS 6599U
 /* Definition of ticks count for channel 1. */
 #define PIT1_1_TICKS 65999U
 /* PIT1 interrupt vector ID (number). */
@@ -67,7 +67,7 @@ extern "C" {
 /* Definition of the timer channel Channel_0. */
 #define QUADTIMER3_CHANNEL_0_CHANNEL kQTMR_Channel_0
 /* Definition of the timer channel Channel_0 clock source frequency. */
-#define QUADTIMER3_CHANNEL_0_CLOCK_SOURCE 132000000UL
+#define QUADTIMER3_CHANNEL_0_CLOCK_SOURCE 16500000UL
 /* Definition of peripheral ID */
 #define LPUART2_PERIPHERAL LPUART2
 /* Definition of the clock source frequency */

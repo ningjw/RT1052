@@ -170,9 +170,9 @@ instance:
       - 0:
         - channelNumber: '0'
         - enableChain: 'false'
-        - timerPeriod: '1000ms'
+        - timerPeriod: '100us'
         - startTimer: 'true'
-        - enableInterrupt: 'true'
+        - enableInterrupt: 'false'
       - 1:
         - channelNumber: '1'
         - enableChain: 'false'
@@ -188,12 +188,10 @@ const pit_config_t PIT1_config = {
 void PIT1_init(void) {
   /* Initialize the PIT. */
   PIT_Init(PIT1_PERIPHERAL, &PIT1_config);
-  /* Set channel 0 period to 1 s (66000000 ticks). */
+  /* Set channel 0 period to 100 µs (6600 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_0_TICKS);
   /* Set channel 1 period to 1 ms (66000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_1_TICKS);
-  /* Enable interrupts from channel 0. */
-  PIT_EnableInterrupts(PIT1_PERIPHERAL, kPIT_Chnl_0, kPIT_TimerInterruptEnable);
   /* Enable interrupts from channel 1. */
   PIT_EnableInterrupts(PIT1_PERIPHERAL, kPIT_Chnl_1, kPIT_TimerInterruptEnable);
   /* Interrupt vector PIT1_IRQN priority settings in the NVIC */
@@ -289,7 +287,7 @@ instance:
       - 0:
         - channel_prefix_id: 'Channel_0'
         - channel: 'kQTMR_Channel_0'
-        - primarySource: 'kQTMR_ClockDivide_1'
+        - primarySource: 'kQTMR_ClockDivide_8'
         - secondarySource: 'kQTMR_Counter0InputPin'
         - countingMode: 'kQTMR_PriSrcRiseEdge'
         - enableMasterMode: 'false'
@@ -299,7 +297,7 @@ instance:
         - debugMode: 'kQTMR_RunNormalInDebug'
         - timerModeInit: 'pwmOutput'
         - pwmMode:
-          - freq_value_str: '11'
+          - freq_value_str: '1000'
           - dutyCyclePercent: '50'
           - outputPolarity: 'false'
         - dmaIntMode: 'polling'
@@ -313,7 +311,7 @@ instance:
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const qtmr_config_t QuadTimer3_Channel_0_config = {
-  .primarySource = kQTMR_ClockDivide_1,
+  .primarySource = kQTMR_ClockDivide_8,
   .secondarySource = kQTMR_Counter0InputPin,
   .enableMasterMode = false,
   .enableExternalForce = false,
@@ -326,7 +324,7 @@ void QuadTimer3_init(void) {
   /* Quad timer channel Channel_0 peripheral initialization */
   QTMR_Init(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, &QuadTimer3_Channel_0_config);
   /* Setup the PWM mode of the timer channel */
-  QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, 12000000UL, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
+  QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, 16500UL, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
   /* Start the timer - select the timer counting mode */
   QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 }
@@ -918,7 +916,7 @@ instance:
         - channel: 'kQTMR_Channel_0'
         - primarySource: 'kQTMR_ClockDivide_8'
         - secondarySource: 'kQTMR_Counter0InputPin'
-        - countingMode: 'kQTMR_PriSrcRiseEdge'
+        - countingMode: 'kQTMR_NoOperation'
         - enableMasterMode: 'false'
         - enableExternalForce: 'false'
         - faultFilterCount: '3'
@@ -958,7 +956,7 @@ void QuadTimer2_init(void) {
   /* Enable interrupt TMR2_IRQn request in the NVIC */
   EnableIRQ(QUADTIMER2_IRQN);
   /* Start the timer - select the timer counting mode */
-//  QTMR_StartTimer(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
+  QTMR_StartTimer(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_NoOperation);
 }
 
 /***********************************************************************************************************************

@@ -64,11 +64,8 @@
 .\objects\iic_temp_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
 .\objects\iic_temp_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\event_groups.h
 .\objects\iic_temp_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
-.\objects\iic_temp_drv.o: .\User\inc\task_app.h
 .\objects\iic_temp_drv.o: .\cjson\cJSON.h
 .\objects\iic_temp_drv.o: .\User\inc\interrupt.h
-.\objects\iic_temp_drv.o: .\User\inc\lpuart1.h
-.\objects\iic_temp_drv.o: .\User\inc\i2c_eeprom_drv.h
 .\objects\iic_temp_drv.o: .\User\inc\rtc_drv.h
 .\objects\iic_temp_drv.o: .\User\inc\adc_drv.h
 .\objects\iic_temp_drv.o: .\User\inc\battery_drv.h

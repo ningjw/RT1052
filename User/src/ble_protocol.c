@@ -1,6 +1,6 @@
 #include "main.h"
 
-AT_NONCACHEABLE_SECTION_INIT(uint8_t g_lpuart2TxBuf[LPUART2_BUFF_LEN]) = {0};            //串口发送缓冲区
+
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
   * @input   
@@ -35,6 +35,7 @@ static char* ParseSetTime(cJSON *pJson, cJSON * pSub)
     
     /*设置日期和时间*/
     SNVS_HP_RTC_SetDatetime(SNVS, &rtcDate);
+    g_sys_para2.bleLedStatus = BLE_CONNECT;
     
     /*制作cjson格式的回复消息*/
     cJSON *pJsonRoot = cJSON_CreateObject();
@@ -88,6 +89,7 @@ static char * ParseChkSelf(void)
     if(NULL == pJsonRoot){
         return NULL;
     }
+    
     
     // Battery voltage
     g_sys_para2.batVoltage = LTC2942_GetVoltage() / 1000.0;
@@ -196,16 +198,19 @@ static char * ParseSetSamplePara(cJSON *pJson, cJSON * pSub)
         g_sys_para1.sampMode = pSub->valueint;
     
     pSub = cJSON_GetObjectItem(pJson, "Freq");
-    if (NULL != pSub)
+    if (NULL != pSub){
         g_sys_para1.sampFreq = pSub->valueint;
-    
+        g_sys_para1.sampClk = 1000 * g_sys_para1.sampFreq / 25;
+    }
     pSub = cJSON_GetObjectItem(pJson, "Bw");
     if (NULL != pSub)
         g_sys_para1.sampBandwidth = pSub->valueint;
     
     pSub = cJSON_GetObjectItem(pJson, "Time");
-    if (NULL != pSub)
-        g_sys_para1.sampTime = pSub->valueint;
+    if (NULL != pSub){
+        g_sys_para1.sampTimeSet = pSub->valueint;
+        g_sys_para2.sampTimeCnt = g_sys_para1.sampTimeSet;
+    }
     
     /*制作cjson格式的回复消息*/
     cJSON *pJsonRoot = cJSON_CreateObject();
@@ -236,6 +241,7 @@ static char * ParseStartSample(void)
     cJSON_AddNumberToObject(pJsonRoot, "Packs",g_sys_para2.sampPacks);
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
+    ADC_SampleStart();
     return p_reply;
 }
 
@@ -249,7 +255,6 @@ float spdValue[5] = {0.6,0.7,0.8,0.9,1.0};
 ***************************************************************************************/
 static char * ParseGetSampleData(void)
 {
-    g_sys_para2.sampStart = true;
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot){
         return NULL;
@@ -327,8 +332,7 @@ static char * ParseStartUpdate(cJSON *pJson, cJSON * pSub)
     g_sys_para1.firmPacksCount = 0;
 	g_sys_para1.firmSizeCurrent = 0;
 	g_sys_para1.firmUpdate = false;
-	
-    g_sys_para2.sampStart = true;
+    
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot){
         return NULL;

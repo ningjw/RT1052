@@ -444,11 +444,6 @@
               <FilePath>.\User\src\core_delay.c</FilePath>
             </File>
             <File>
-              <FileName>i2c_eeprom_drv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\i2c_eeprom_drv.c</FilePath>
-            </File>
-            <File>
               <FileName>rtc_drv.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\rtc_drv.c</FilePath>
@@ -477,11 +472,6 @@
               <FileName>norflash_drv.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\norflash_drv.c</FilePath>
-            </File>
-            <File>
-              <FileName>lpuart1.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\lpuart1.c</FilePath>
             </File>
             <File>
               <FileName>utility.c</FileName>

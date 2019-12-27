@@ -1,16 +1,28 @@
 #include "main.h"
 
 
-
-/***************************************************************************************
-  * @brief   发送一个字符
-  * @input   base:选择端口   data:将要发送的数据
-  * @return   
-***************************************************************************************/
+  /**
+* @brief  发送一个字符 
+* @param  base:选择端口
+* @param  data:将要发送的数据
+* @retval 无
+*/
 void Uart_SendByte(LPUART_Type *base, uint8_t data)
 {
-    LPUART_WriteByte( base, data);
-    while (!(base->STAT & LPUART_STAT_TDRE_MASK));
+  LPUART_WriteByte( base, data);
+  while (!(base->STAT & LPUART_STAT_TDRE_MASK));
+}
+
+
+  /**
+* @brief  发送一个字符串 
+* @param  base:选择端口
+* @param  data:将要发送的数据
+* @retval 无
+*/
+void Uart_SendString( LPUART_Type *base,  const char *str)
+{
+  LPUART_WriteBlocking( base, (const uint8_t*)str, strlen(str));
 }
 
 

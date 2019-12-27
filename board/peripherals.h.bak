@@ -17,6 +17,7 @@
 #include "fsl_pit.h"
 #include "fsl_lpi2c.h"
 #include "fsl_qtmr.h"
+#include "fsl_lpspi.h"
 #include "fsl_gpio.h"
 #include "fsl_adc.h"
 #include "fsl_adc_etc.h"
@@ -66,7 +67,7 @@ extern "C" {
 /* Definition of the timer channel Channel_0. */
 #define QUADTIMER3_CHANNEL_0_CHANNEL kQTMR_Channel_0
 /* Definition of the timer channel Channel_0 clock source frequency. */
-#define QUADTIMER3_CHANNEL_0_CLOCK_SOURCE 132000000UL
+#define QUADTIMER3_CHANNEL_0_CLOCK_SOURCE 16500000UL
 /* Definition of peripheral ID */
 #define LPUART2_PERIPHERAL LPUART2
 /* Definition of the clock source frequency */
@@ -99,6 +100,11 @@ extern "C" {
 #define LPUART5_SERIAL_RX_TX_IRQN LPUART5_IRQn
 /* LPUART5 interrupt handler identifier. */
 #define LPUART5_SERIAL_RX_TX_IRQHANDLER LPUART5_IRQHandler
+/* BOARD_InitPeripherals defines for LPSPI4 */
+/* Definition of peripheral ID */
+#define LPSPI4_PERIPHERAL LPSPI4
+/* Definition of clock source */
+#define LPSPI4_CLOCK_FREQ 24000000UL
 /* GPIO2 interrupt vector ID (number). */
 #define GPIO2_GPIO_COMB_0_15_IRQN GPIO2_Combined_0_15_IRQn
 /* GPIO2 interrupt handler identifier. */
@@ -156,6 +162,7 @@ extern const lpuart_config_t LPUART2_config;
 extern const lpuart_config_t LPUART4_config;
 extern const lpuart_config_t LPUART3_config;
 extern const lpuart_config_t LPUART5_config;
+extern const lpspi_master_config_t LPSPI4_config;
 extern const qtmr_config_t QuadTimer1_Channel_0_config;
 extern const adc_config_t ADC1_config;
 extern const adc_channel_config_t ADC1_channels_config[1];

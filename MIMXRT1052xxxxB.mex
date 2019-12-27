@@ -57,6 +57,7 @@
                <pin_label pin_num="J12" pin_signal="GPIO_AD_B1_06" label="SDA_TEMP" identifier="SDA_TEMP"/>
                <pin_label pin_num="K10" pin_signal="GPIO_AD_B1_07" label="SCL_TEMP" identifier="SCL_TEMP"/>
                <pin_label pin_num="C10" pin_signal="GPIO_B0_12" label="PWR_WIFI_BLE" identifier="PWR_WIFI_BLE"/>
+               <pin_label pin_num="B8" pin_signal="GPIO_B0_05" label="SYS_PWR_OFF" identifier="SYS_PWR_OFF"/>
             </pin_labels>
          </pins_profile>
          <functions_list>
@@ -464,6 +465,7 @@
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
                   </pin>
+                  <pin peripheral="GPIO2" signal="gpio_io, 05" pin_num="B8" pin_signal="GPIO_B0_05"/>
                </pins>
             </function>
          </functions_list>
@@ -990,9 +992,9 @@
                            <struct name="0">
                               <setting name="channelNumber" value="0"/>
                               <setting name="enableChain" value="false"/>
-                              <setting name="timerPeriod" value="1000ms"/>
+                              <setting name="timerPeriod" value="100us"/>
                               <setting name="startTimer" value="true"/>
-                              <setting name="enableInterrupt" value="true"/>
+                              <setting name="enableInterrupt" value="false"/>
                            </struct>
                            <struct name="1">
                               <setting name="channelNumber" value="1"/>
@@ -1044,7 +1046,7 @@
                            <struct name="0">
                               <setting name="channel_prefix_id" value="Channel_0"/>
                               <setting name="channel" value="kQTMR_Channel_0"/>
-                              <setting name="primarySource" value="kQTMR_ClockDivide_1"/>
+                              <setting name="primarySource" value="kQTMR_ClockDivide_8"/>
                               <setting name="secondarySource" value="kQTMR_Counter0InputPin"/>
                               <setting name="countingMode" value="kQTMR_PriSrcRiseEdge"/>
                               <setting name="enableMasterMode" value="false"/>
@@ -1054,7 +1056,7 @@
                               <setting name="debugMode" value="kQTMR_RunNormalInDebug"/>
                               <setting name="timerModeInit" value="pwmOutput"/>
                               <struct name="pwmMode">
-                                 <setting name="freq_value_str" value="11"/>
+                                 <setting name="freq_value_str" value="1000"/>
                                  <setting name="dutyCyclePercent" value="50"/>
                                  <setting name="outputPolarity" value="false"/>
                               </struct>
@@ -1409,7 +1411,7 @@
                               <setting name="channel" value="kQTMR_Channel_0"/>
                               <setting name="primarySource" value="kQTMR_ClockDivide_8"/>
                               <setting name="secondarySource" value="kQTMR_Counter0InputPin"/>
-                              <setting name="countingMode" value="kQTMR_PriSrcRiseEdge"/>
+                              <setting name="countingMode" value="kQTMR_NoOperation"/>
                               <setting name="enableMasterMode" value="false"/>
                               <setting name="enableExternalForce" value="false"/>
                               <setting name="faultFilterCount" value="3"/>

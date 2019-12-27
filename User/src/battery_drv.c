@@ -45,7 +45,7 @@ static uint8_t LTC2942_ReadReg(uint8_t reg) {
     masterXfer.dataSize = 1;
     masterXfer.flags = kLPI2C_TransferRepeatedStartFlag;
 
-    LPI2C_MasterTransferBlocking(EEPROM_I2C_MASTER, &masterXfer);
+    LPI2C_MasterTransferBlocking(LTC2942_I2C_MASTER, &masterXfer);
 	return value;
 }
 

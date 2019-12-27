@@ -40,7 +40,7 @@ void BAT_AppTask(void)
 		g_sys_para2.batTemp = LTC2942_GetTemperature() / 100.0;
         
 		// Accumulated charge
-        g_sys_para2.batChargePercent = LTC2942_GetAC() * 100.0 / 65536; 
+        g_sys_para2.batChargePercent = LTC2942_GetAC() * 100.0 / 65535;
         
         if(READ_CHARGE_STA == 0 && READ_STDBY_STA == 1){//充电中
             g_sys_para2.batLedStatus = BAT_CHARGING;
@@ -48,10 +48,14 @@ void BAT_AppTask(void)
         }else if(READ_CHARGE_STA == 1 && READ_STDBY_STA == 0){//充电完成
             g_sys_para2.batLedStatus = BAT_FULL;
             BAT_CHG_COMPLETE;
+        }else if(g_sys_para2.batChargePercent <= g_sys_para1.batAlarmValue){//低于报警值
+            g_sys_para2.batLedStatus = BAT_ALARM;
+        }else if(g_sys_para2.batChargePercent <= 20){//电池电量小于百分之20
+            g_sys_para2.batLedStatus = BAT_LOW20;
         }else{
             g_sys_para2.batLedStatus = BAT_NORMAL;
         }
-        vTaskDelay(1000);
+        vTaskDelay(2000);
     }
 }
 

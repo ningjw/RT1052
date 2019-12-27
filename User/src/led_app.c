@@ -53,7 +53,7 @@ void LED_AppTask(void)
                 GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,   BOARD_LED_BAT_RED_PIN,  ON);
                 GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN,OFF);
                 break;
-            case BAT_LOW://ÂÌµÆÃð,ºìµÆ0.6ÃëÉÁË¸
+            case BAT_LOW20://ÂÌµÆÃð,ºìµÆ0.6ÃëÉÁË¸
                 GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN,OFF);
                 if(bat_led_cnt++ % 3 == 0){
                     BOARD_LED_BAT_RED_GPIO->DR ^= (1 << BOARD_LED_BAT_RED_PIN);
@@ -101,7 +101,7 @@ void LED_AppTask(void)
                 break;
         }
         
-        vTaskDelay(200);
+        vTaskDelay(300);
     }
 }
 
