@@ -209,7 +209,6 @@ static char * ParseSetSamplePara(cJSON *pJson, cJSON * pSub)
     pSub = cJSON_GetObjectItem(pJson, "Time");
     if (NULL != pSub){
         g_sys_para1.sampTimeSet = pSub->valueint;
-        g_sys_para2.sampTimeCnt = g_sys_para1.sampTimeSet;
     }
     
     /*制作cjson格式的回复消息*/

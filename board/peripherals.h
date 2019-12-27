@@ -51,10 +51,12 @@ extern "C" {
 #define PIT1_0_TICKS 6599U
 /* Definition of ticks count for channel 1. */
 #define PIT1_1_TICKS 65999U
+/* Definition of ticks count for channel 2. */
+#define PIT1_2_TICKS 3959999999U
 /* PIT1 interrupt vector ID (number). */
 #define PIT1_IRQN PIT_IRQn
 /* PIT1 interrupt vector priority. */
-#define PIT1_IRQ_PRIORITY 5
+#define PIT1_IRQ_PRIORITY 0
 /* PIT1 interrupt handler identifier. */
 #define PIT1_IRQHANDLER PIT_IRQHandler
 /* BOARD_InitPeripherals defines for LPI2C1 */

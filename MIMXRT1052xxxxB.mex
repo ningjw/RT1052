@@ -465,7 +465,12 @@
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="GPIO2" signal="gpio_io, 05" pin_num="B8" pin_signal="GPIO_B0_05"/>
+                  <pin peripheral="GPIO2" signal="gpio_io, 05" pin_num="B8" pin_signal="GPIO_B0_05">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="false"/>
+                     </pin_features>
+                  </pin>
                </pins>
             </function>
          </functions_list>
@@ -981,7 +986,7 @@
                         <struct name="sharedInterrupt">
                            <setting name="IRQn" value="PIT_IRQn"/>
                            <setting name="enable_priority" value="true"/>
-                           <setting name="priority" value="5"/>
+                           <setting name="priority" value="0"/>
                            <setting name="enable_custom_name" value="false"/>
                         </struct>
                         <struct name="timingConfig">
@@ -1000,6 +1005,13 @@
                               <setting name="channelNumber" value="1"/>
                               <setting name="enableChain" value="false"/>
                               <setting name="timerPeriod" value="1ms"/>
+                              <setting name="startTimer" value="true"/>
+                              <setting name="enableInterrupt" value="true"/>
+                           </struct>
+                           <struct name="2">
+                              <setting name="channelNumber" value="2"/>
+                              <setting name="enableChain" value="false"/>
+                              <setting name="timerPeriod" value="60s"/>
                               <setting name="startTimer" value="true"/>
                               <setting name="enableInterrupt" value="true"/>
                            </struct>

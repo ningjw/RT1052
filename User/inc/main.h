@@ -87,8 +87,8 @@ typedef struct{
     float    batTemp;      //电池温度
     float    batChargePercent;//充电百分比
     float    voltageADS1271;  //电压
+    float    voltageSpdSignal;//转速信号电压
 	uint32_t periodSpdSignal; //转速信号周期(us)
-	float    voltageSpdSignal;//转速信号电压
 }SysPara2;
 
 extern SysPara1 g_sys_para1;

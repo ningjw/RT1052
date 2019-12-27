@@ -9,6 +9,8 @@
 
 #define EVT_OK       (1 << 0)//接受到数据事件
 
+extern void LPUART2_init(void);
+
 char set_rtc[] = "{\"Id\":1,\"Sid\":0,\"Y\":2019,\"Mon\":12,\"D\":16,\"H\":9,\"Min\":0,\"S\":0}";
 char get_rtc[] = "{\"Id\":2,\"Sid\":0}";
 
@@ -74,6 +76,8 @@ retry:
     if( pdTRUE == at_ret ){
         //接收到的数据中包含响应的数据
         if(strstr((char *)g_lpuart2RxBuf, recv_str) != NULL){
+            memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
+            g_puart2RxCnt = 0;
             return true;
         }else {
             if(p_at_cfg->try_cnt++ > p_at_cfg->try_times){
@@ -105,7 +109,8 @@ void BLE_AppTask(void)
         g_sys_para2.bleLedStatus = BLE_READY;
     }
     SET_THROUGHPUT_MODE();//进入透传模式
-    
+    memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
+    g_puart2RxCnt = 0;
     while(1)
     {
         /*wait task notify*/
@@ -115,12 +120,12 @@ void BLE_AppTask(void)
             if(g_lpuart2RxBuf[0] == 0xE7 && g_lpuart2RxBuf[1] == 0xE7){//升级数据包
                 LPUART_WriteBlocking(LPUART2, sendBuf, 7);
             }else if(NULL != sendBuf){//json数据包
-                LPUART2_SendString((char *)g_lpuart2TxBuf);
+                LPUART2_SendString((char *)sendBuf);
+                free(sendBuf);
             }
-            
-            memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
-            g_puart2RxCnt = 0;
         }
+        memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
+        g_puart2RxCnt = 0;
     }
 }
 
@@ -133,7 +138,7 @@ void LPUART2_IRQHandler(void)
 {
     uint8_t ucTemp;
     /*串口接收到数据*/
-    if ((kLPUART_RxDataRegFullFlag)&LPUART_GetStatusFlags(LPUART2))
+    if ((kLPUART_RxDataRegFullFlag) & LPUART_GetStatusFlags(LPUART2))
     {
          /*读取数据*/
         ucTemp = LPUART_ReadByte(LPUART2);
@@ -149,7 +154,12 @@ void LPUART2_IRQHandler(void)
             g_puart2StartRx = 0;
             g_puart2RxCnt = 0;
         }
-        
+    }else{
+        g_puart2StartRx = 0;
+        memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
+        g_puart2RxCnt = 0;
+        LPUART_Deinit(LPUART2);
+        LPUART2_init();
     }
     __DSB();
 }
@@ -162,6 +172,7 @@ void LPUART2_IRQHandler(void)
 void TMR2_IRQHandler(void)
 {
     g_puart2StartRx = 0;
+    g_sys_para2.inactiveCount = 0;
     QTMR_ClearStatusFlags(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_CompareFlag);//清中断标志
     QTMR_StopTimer(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL);//停止计数器
     xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);/*设置事件 */

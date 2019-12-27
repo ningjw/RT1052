@@ -1,6 +1,5 @@
 #include "main.h"
 
-TimerHandle_t       InactiveTmr = NULL;//软件定时器句柄,用于AT指令接受超时
 static TaskHandle_t AppTaskCreate_Handle = NULL;      /* 创建任务句柄 */
 static void AppTaskCreate(void);                      /* 用于创建任务 */
 void BOARD_ConfigMPU(void);
@@ -8,21 +7,6 @@ void BOARD_InitDebugConsole(void);
 
 SysPara1 g_sys_para1;
 SysPara2 g_sys_para2;
-/***************************************************************************************
-  * @brief   定时处理函数,该参数用于记录开机多久了，每1分钟中断一次
-  * @input   
-  * @return  
-***************************************************************************************/
-static void InactiveTmr_Callback(void* parameter)
-{
-    if(g_sys_para2.inactiveCount++ >= g_sys_para1.inactiveTime + 1){//定时时间到
-        GPIO_PinWrite(BOARD_SYS_PWR_OFF_GPIO,BOARD_SYS_PWR_OFF_PIN,1);
-//        SNVS->LPSR |= SNVS_LPCR_DP_EN(1);
-//        SNVS->LPSR |= SNVS_LPCR_TOP(1);
-//        SRC_DoSoftwareResetARMCore0(SRC);
-    }
-}
-
 
 
 /***********************************************************************
@@ -46,9 +30,6 @@ static void AppTaskCreate(void)
     
     /* 创建ADC_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xTaskCreate((TaskFunction_t )ADC_AppTask, "ADC_Task",512,NULL, 4,&ADC_TaskHandle);
-    
-    //创建软件定时器。参数一次为：定时器名称、定时周期、周期模式、唯一id、回调函数
-    InactiveTmr = xTimerCreate("PwrOnTmr", 60*1000, pdTRUE, (void*)POWER_ON_TIMER_ID, (TimerCallbackFunction_t)InactiveTmr_Callback);
     
     vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
     taskEXIT_CRITICAL();               //退出临界区
@@ -224,7 +205,7 @@ void BOARD_ConfigMPU(void)
     ARM_MPU_Enable(MPU_CTRL_PRIVDEFENA_Msk);
 
     /* Enable I cache and D cache */
-    SCB_EnableDCache();
+    SCB_DisableDCache();
     SCB_EnableICache();
 }
 

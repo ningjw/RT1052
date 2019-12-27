@@ -20,7 +20,7 @@ static uint32_t timeCapt = 0;
 
 extern volatile uint32_t g_eventTimeMilliseconds;
 /***************************************************************************************
-  * @brief   kPIT_Chnl_0用于触发ADC采样 ；kPIT_Chnl_1 配置为1ms中断
+  * @brief   kPIT_Chnl_0用于触发ADC采样 ；kPIT_Chnl_1 配置为1ms中断; kPIT_Chnl_2用于定时关机
   * @input
   * @return
 ***************************************************************************************/
@@ -35,6 +35,16 @@ void PIT_IRQHandler(void)
             if(g_sys_para2.sampTimeCnt == 0){
                 ADC_SampleStop();
             }
+        }
+    }
+    if( PIT_GetStatusFlags(PIT, kPIT_Chnl_2) == true){
+        /* 清除中断标志位.*/
+        PIT_ClearStatusFlags(PIT, kPIT_Chnl_2, kPIT_TimerFlag);
+         if(g_sys_para2.inactiveCount++ >= g_sys_para1.inactiveTime + 1){//定时时间到
+            GPIO_PinWrite(BOARD_SYS_PWR_OFF_GPIO,BOARD_SYS_PWR_OFF_PIN,1);
+    //        SNVS->LPSR |= SNVS_LPCR_DP_EN(1);
+    //        SNVS->LPSR |= SNVS_LPCR_TOP(1);
+    //        SRC_DoSoftwareResetARMCore0(SRC);
         }
     }
     __DSB();
@@ -54,7 +64,7 @@ void TMR1_IRQHandler(void)
     xTaskNotify(ADC_TaskHandle, NOTIFY_TMR1, eSetBits);
 }
 
-float ADC_Voltage = 0;
+uint32_t ADC_Count = 0;
 /***************************************************************************************
   * @brief   用于获取转速信号的电压值,该采集通过PIT1的Channel0触发
   * @input
@@ -66,6 +76,9 @@ void ADC_ETC_IRQ0_IRQHandler(void)
     ADC_ETC_ClearInterruptStatusFlags(ADC_ETC, (adc_etc_external_trigger_source_t)0U, kADC_ETC_Done0StatusFlagMask);
     /*读取转换结果*/
     ADC_ConvertedValue = ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
+    if(g_sys_para2.sampStart == true){
+        ADC_Count++;
+    }
     /* 触发一个事件  */
     xTaskNotify(ADC_TaskHandle, NOTIFY_ADC, eSetBits);
 }
@@ -78,6 +91,9 @@ void ADC_ETC_IRQ0_IRQHandler(void)
 ***************************************************************************************/
 void ADC_SampleStart(void)
 {
+    ADC_Count = 0;
+    g_sys_para2.sampTimeCnt = g_sys_para1.sampTimeSet * 1000;
+    g_sys_para2.sampStart = true;
     /* Setup the PWM mode of the timer channel */
     QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para1.sampClk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
     /* Start the timer - select the timer counting mode */
@@ -86,8 +102,6 @@ void ADC_SampleStart(void)
     PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ/g_sys_para1.sampFreq - 1);
     /* Start channel 0. */
     PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
-    
-    g_sys_para2.sampStart = true;
 }
 
 
@@ -134,7 +148,7 @@ void ADC_AppTask(void)
             }
             if(r_event & NOTIFY_ADC) {
                 g_sys_para2.voltageSpdSignal = ADC_ConvertedValue * 3.3 / 4096.0;
-
+                
                 if (ADC_READY == 0) { //check ads1271 ready
                     LPSPI4_ReadWriteByte();
                 }
