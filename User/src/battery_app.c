@@ -18,7 +18,7 @@ void BAT_AppTask(void)
 {
     // Enable auto measurement of battery voltage and temperature
 	LTC2942_SetADCMode(LTC2942_ADC_AUTO);
-
+    
 	// Enable analog section of the chip (in case if it disabled)
 	LTC2942_SetAnalog(LTC2942_AN_ENABLED);
 
@@ -26,7 +26,7 @@ void BAT_AppTask(void)
 	// M=32 for 2000mAh battery, 
 	LTC2942_SetPrescaler(LTC2942_PSCM_32);
 
-	// Disable AL/CC pin
+	//Charge Mode
 	LTC2942_SetALCCMode(LTC2942_ALCC_CHG);
     
     PRINTF("Battery Task Create and Running\r\n");

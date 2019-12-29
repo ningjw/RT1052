@@ -61,12 +61,11 @@ typedef struct{
     uint32_t firmSizeCurrent;//当前接受到的固件大小
     uint32_t firmCrc16;      //固件校验码
     uint8_t  firmUpdate;     //固件更新
-    uint8_t  inactiveTime;     //用于设置活动时间
-    uint8_t  batAlarmValue;    //电池电量报警值
+    uint8_t  inactiveTime;   //用于设置活动时间
+    uint8_t  batAlarmValue;  //电池电量报警值
     uint8_t  inactiveCondition;//用于设置触发条件
     uint32_t sampBandwidth;   //取样带宽
     uint32_t sampFreq;        //取样频率
-    uint32_t sampClk;         //取样时钟频率
     float    sampTimeSet;     //取样时间
     uint8_t  sampMode;        //取样模式
     
@@ -80,7 +79,10 @@ typedef struct{
     uint8_t  bleLedStatus; //蓝牙状态
     uint8_t  sampLedStatus;//采样状态
     uint8_t  emmcIsOk;     //eMMC文件系统是否完好
+    DWORD    emmc_fre_size;//剩余空间
+    DWORD    emmc_tot_size;//总空间大小
     bool     sampStart;    //开始采样标志
+    uint32_t sampClk;      //取样时钟频率
     uint32_t sampTimeCnt;  //用于记录当前采样时间
     uint32_t sampPacks;    //总共采集道的数据,需要分多少个包发给Android
     float    batVoltage;   //电池电压
@@ -89,10 +91,49 @@ typedef struct{
     float    voltageADS1271;  //电压
     float    voltageSpdSignal;//转速信号电压
 	uint32_t periodSpdSignal; //转速信号周期(us)
+    uint32_t sampFileSize; //本次采样文件总大小
 }SysPara2;
+
+
+typedef struct{
+    char   start;
+    uint32_t sampSpdSize;  //本次采样速度的数据大小
+    uint32_t sampShakeSize;//本次采样震动的数据大小
+    char  IDPath[128];
+    char  NamePath[128];
+    float Speed;
+    char  SpeedUnits[8];
+    float Process;//平均温度
+    float ProcessMin;//最小值
+    float ProcessMax;//最大值
+    char  ProcessUnits[8];//温度单位
+    char  DAUID[20];
+    char  DetectionType;//手动检测0,定时检测1
+    float Senstivity;//灵敏度
+    float Zerodrift;//零点偏移
+    int   EUType;
+    char  EU[8];//单位
+    int   WindowsType;//
+    char  WindowName[20];//窗函数名称
+    int   StartFrequency;//起始频率
+    int   EndFrequency;//截止频率
+    int   SampleRate;//采样频率
+    int   Lines;//线数
+    int   Averages;//平均次数
+    float AverageOverlap;//重叠率
+    int   AverageType;//重叠方式
+    int   EnvFilterLow;
+    int   EnvFilterHigh;//包络滤波频段 
+    int   StorageReson;//采集方式
+    char  MeasurementComment[128];
+    int   IncludeMeasurements;//
+    char  Content[4];//保留
+    float Bias;//震动传感器偏置电压
+    char  end;
+}ADC_Set;
 
 extern SysPara1 g_sys_para1;
 extern SysPara2 g_sys_para2;
-
+extern ADC_Set g_adc_set;
 
 #endif

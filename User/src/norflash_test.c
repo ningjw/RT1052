@@ -17,7 +17,7 @@
 #include "main.h"
 
 #define EXAMPLE_SECTOR      4096      /* 要进行读写测试的扇区号 */
-#define EXAMPLE_SIZE        (4*1024)  /* 读写测试的数据量，单位为字节*/
+#define EXAMPLE_SIZE        128  /* 读写测试的数据量，单位为字节*/
 
 /* 读写测试使用的缓冲区 */
 static uint8_t s_nor_program_buffer[EXAMPLE_SIZE];
@@ -154,7 +154,7 @@ int NorFlash_AHBCommand_Test(void)
     status_t status;
     uint32_t JedecDeviceID = 0;
 
-    PRINTF("\r\nNorFlash AHB命令访问测试\r\n");
+
 
     /***************************读ID测试****************************/
     /* 获取JedecDevice ID. */

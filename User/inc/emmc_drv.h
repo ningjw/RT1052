@@ -242,7 +242,7 @@
 #define DATA_BUFFER_SIZE (FSL_SDMMC_DEFAULT_BLOCK_SIZE * DATA_BLOCK_COUNT)
 
 
-void emmc_init(void);
-
+void eMMC_Init(void);
+void eMMC_CheckFatfs(void);
 
 #endif

@@ -1,11 +1,16 @@
 #include "main.h"
 
+#define FILE_NAME_STR "300000000000"
+
 /*文件系统描述结构体*/
 FATFS g_fileSystem; /* File system object */
 FIL   g_fileObject ;   /* File object */
 extern mmc_card_t g_mmc;
+extern float SpeedADC[];
+extern float ShakeADC[];
 const TCHAR driverNumberBuffer[3U] = {MMCDISK + '0', ':', '/'};
 
+static DWORD fre_clust;
 
 #define BUFFER_SIZE (100U)
 SDK_ALIGN(uint8_t g_bufferWrite[SDK_SIZEALIGN(BUFFER_SIZE, SDMMC_DATA_BUFFER_ALIGN_CACHE)],
@@ -14,6 +19,129 @@ SDK_ALIGN(uint8_t g_bufferRead[SDK_SIZEALIGN(BUFFER_SIZE, SDMMC_DATA_BUFFER_ALIG
           MAX(SDMMC_DATA_BUFFER_ALIGN_CACHE, SDMMCHOST_DMA_BUFFER_ADDR_ALIGN));
 
 AT_NONCACHEABLE_SECTION_INIT(BYTE work[FF_MAX_SS]) = {0};
+
+/***************************************************************************************
+  * @brief   
+  * @input   
+  * @return  
+***************************************************************************************/
+void eMMC_GetFree(){
+    FRESULT res;
+    FATFS   *fs;
+    /* Get volume information and free clusters of drive 3 */
+    res = f_getfree("3", &fre_clust, &fs);
+    if (res == FR_OK){
+        g_sys_para2.emmcIsOk = true;
+        /* Get total sectors and free sectors */
+        g_sys_para2.emmc_tot_size = ((fs->n_fatent - 2) * fs->csize )/2;
+        g_sys_para2.emmc_fre_size = (fre_clust * fs->csize) / 2;
+    }else{
+        g_sys_para2.emmcIsOk = false;
+    }
+}
+    
+
+/***************************************************************************************
+  * @brief   扫描文件,找出创建最早的文件,并删除
+  * @input   
+  * @return  
+***************************************************************************************/
+void eMMC_ScanDelFile(void)
+{
+	FRESULT res;
+    DIR     dir;
+    FILINFO fno;	//文件信息
+    TCHAR   fPath[20] = {"3:/"};
+    TCHAR   temp[20] = {0};
+    strcpy(temp, FILE_NAME_STR);
+    res = f_opendir(&dir, driverNumberBuffer); //打开一个目录
+    if (res == FR_OK)
+	{
+		while(1)
+		{
+            res = f_readdir(&dir, &fno);                   //读取目录下的一个文件
+	        if (res != FR_OK || fno.fname[0] == 0)
+                break;  //到末尾了,退出
+            
+             if(strcmp(temp, fno.fname) >= 0){
+                 strcpy(temp,fno.fname);
+             }
+		}
+        if(strcmp(FILE_NAME_STR,temp) != 0){
+            strcat(fPath,temp);
+            f_unlink(fPath);
+        }
+    }
+}
+
+
+/***************************************************************************************
+  * @brief   保存采样数据,头部保存了三段数据的长度(采集设置/速度采样数据/震动采样数据),
+  * @input   
+  * @return  
+***************************************************************************************/
+void eMMC_SaveSampleData(void)
+{
+    FRESULT res;
+    TCHAR   fileName[20] = {0};
+    UINT    g_bytesWritten;
+    int     samp_set_size = 0;
+    //判断腾出的空间是否够本次采样.
+    while(g_sys_para2.emmc_fre_size <= g_sys_para2.sampFileSize){
+        eMMC_GetFree();
+        eMMC_ScanDelFile();
+    }
+    
+    /* 获取日期 */
+    SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
+    /*创建并打开文件*/
+    sprintf((char *)fileName, "%d%d%d%d%d%d",rtcDate.year%100, rtcDate.month,rtcDate.day,rtcDate.hour,rtcDate.minute,rtcDate.second);
+    res = f_open(&g_fileObject, _T(fileName), (FA_WRITE | FA_READ | FA_CREATE_ALWAYS));
+    if (res){ /* error or disk full */
+        g_sys_para2.emmcIsOk = false;
+        return;
+    }
+    
+    /* 向文件内写入内容 */
+    samp_set_size = (int)&g_adc_set.start - (int)&g_adc_set.end;
+    res = f_write(&g_fileObject, &g_adc_set.sampSpdSize, samp_set_size, &g_bytesWritten);
+    if (res == FR_OK && g_bytesWritten == samp_set_size){
+        g_sys_para2.emmcIsOk = true;
+    } else {
+        g_sys_para2.emmcIsOk = false;
+    }
+    
+    /* Move to end of the file to append data */
+    res = f_lseek(&g_fileObject, f_size(&g_fileObject));
+    
+    /* 向文件内写入内容 */
+    res = f_write(&g_fileObject, SpeedADC, g_adc_set.sampSpdSize, &g_bytesWritten);
+    if (res == FR_OK && g_bytesWritten == g_adc_set.sampSpdSize){
+        g_sys_para2.emmcIsOk = true;
+    } else {
+        g_sys_para2.emmcIsOk = false;
+    }
+    
+    /* Move to end of the file to append data */
+    res = f_lseek(&g_fileObject, f_size(&g_fileObject));
+    
+    /* 向文件内写入内容 */
+    res = f_write(&g_fileObject, ShakeADC, g_adc_set.sampShakeSize, &g_bytesWritten);
+    if (res == FR_OK && g_bytesWritten == g_adc_set.sampShakeSize){
+        g_sys_para2.emmcIsOk = true;
+    } else {
+        g_sys_para2.emmcIsOk = false;
+    }
+    
+    /*关闭文件*/
+    res = f_close(&g_fileObject);
+    if (res) {
+        g_sys_para2.emmcIsOk = false;
+    } else {
+        g_sys_para2.emmcIsOk = true;
+    }
+}
+
 
 /**
 * 函数功能:初始化USDHC时钟
@@ -28,338 +156,92 @@ void BOARD_USDHCClockConfiguration(void)
 }
 
 
-/*
-*函数功能：挂载文件系统
-*参数：文件名（带有路径）如（/dir_1/hello.txt）
-*返回值：错误状态，FR_OK 表示成功。
-*/
-FRESULT f_mount_test(FATFS* fileSystem)
-{
-    FRESULT error = FR_OK;
-    char ch = '0';
-    BYTE work[FF_MAX_SS];
-    const TCHAR driverNumberBuffer[3U] = {SDDISK + '0', ':', '/'};
-    FATFS* g_fileSystem = fileSystem;
-
-    error = f_mount(g_fileSystem, driverNumberBuffer, 0U);
-    if (error)
-    {
-        /*错误类型判断*/
-        if(error == FR_NO_FILESYSTEM)//还没有文件系统
-        {
-            PRINTF("SD卡还没有文件系统，创建文件系统将会格式化您的SD卡。\r\n 确定是否继续？\r\n");
-            PRINTF("输入‘y’确定格式化，输入‘n’取消\r\n");
-            while(true)
-            {
-                ch = GETCHAR();
-                PUTCHAR(ch);
-                if(ch == 'y' || ch == 'Y')
-                {
-                    /*为SD卡创建文件系统*/
-#if FF_USE_MKFS
-                    PRINTF("\r\n制作文件系统...... SD卡容量越大，该过程持续时间越长。\r\n");
-                    if (f_mkfs(driverNumberBuffer, FM_ANY, 0U, work, sizeof work))
-                    {
-                        PRINTF("z制作文件系统失败.\r\n");
-                        while(1);
-
-                    }
-                    else
-                    {
-                        PRINTF("制作文件系统成功.\r\n");
-                        error = f_mount(g_fileSystem, driverNumberBuffer, 0U);
-                        if(error)
-                        {
-                            PRINTF("挂载文件系统失败\r\n");
-                            while(1);
-                        }
-                        else
-                        {
-                            break;
-                        }
-
-                    }
-#endif /* FF_USE_MKFS */
-                }
-                else if(ch == 'n' || ch == 'N')
-                {
-                    /*程序停止*/
-                    while(1);
-                }
-
-                PRINTF("输入‘y’确定格式化，输入‘n’取消\r\n");
-            }
-        }
-        else//其他错误，暂时不处理，直接退出函数
-        {
-            PRINTF("挂载文件系统失败\r\n");
-            while(1);
-        }
-    }
-    else
-    {
-        PRINTF("挂载文件系统成功\r\n");
-    }
-    /*判断是否允许使用相对路径*/
-#if (FF_FS_RPATH >= 2U)
-    error = f_chdrive((char const *)&driverNumberBuffer[0U]);
-    if (error)
-    {
-        PRINTF("Change drive failed.\r\n");
-        while(1);
-    }
-    else
-    {
-        PRINTF("Change drive success.\r\n");
-    }
-#endif
-    return error;
-
-}
-
-
-
-/*
-*函数功能：创建一个空文件
-*参数：文件名（带有路径）如（/dir_1/hello.txt）
-*返回值：错误状态，FR_OK 表示成功。
-*/
-FRESULT f_touch_test(char* dir)
-{
-    FRESULT error = FR_OK;
-    
-    PRINTF("\r\n创建“%s”文件......\r\n", dir);
-    error = f_open(&g_fileObject, _T(dir), FA_CREATE_NEW);
-    if (error)
-    {
-        if (error == FR_EXIST)
-        {
-            PRINTF("文件已经存在.\r\n");
-        }
-        else
-        {
-            PRINTF("创建文件失败\r\n");
-            return error;
-        }
-
-    }
-    else
-    {
-        PRINTF("创建文件成功 \r\n");
-    }
-    return error;
-
-}
-
-/*
-*函数功能:创建一个目录
-*函数参数：dir，目录路径。
-*返回值：错误状态，FR_OK 表示成功。
-*/
-FRESULT f_mkdir_test(char* dir)
-{
-    FRESULT error;
-    PRINTF("\r\n创建目录 “%s”......\r\n", dir);
-    error = f_mkdir(_T(dir));
-    if (error)
-    {
-        if (error == FR_EXIST)
-        {
-            PRINTF("目录已经存在\r\n");
-        }
-        else
-        {
-            PRINTF("创建目录失败.\r\n");
-            return error;
-        }
-    }
-    else
-    {
-        PRINTF("创建目录成功\r\n");
-    }
-    return error;
-}
-
-
-/*
-*函数功能：以读和写的方式打开一个文件，如果文件不存在则创建文件并打开
-*函数参数：dir，文件路径。fileObject，保存文件描述符。
-*返回值：错误状态，FR_OK 表示成功。
-*/
-FRESULT f_open_test(char* dir, FIL* fileObject)
-{
-    FRESULT error = FR_OK;
-    FIL* g_fileObject = fileObject;   /* File object */
-    PRINTF("\r\n打开“%s”文件......\r\n", dir);
-    error = f_open(g_fileObject, _T(dir), (FA_WRITE | FA_READ ));
-    if (error)
-    {
-        if (error == FR_EXIST)
-        {
-            PRINTF("文件打开失败.\r\n");
-        }
-    }
-    else
-    {
-        PRINTF("文件打开成功 \r\n");
-    }
-
-    return error;
-}
-
-
-/*
-*函数功能：关闭一个打开的文件
-*函数参数：fileObject，保存文件描述符。
-*返回值：错误状态，FR_OK 表示成功。
-*/
-FRESULT f_close_test(FIL* fileObject)
-{
-    FRESULT error = FR_OK;
-    FIL* g_fileObject = fileObject;   /* File object */
-    PRINTF("\r\n关闭文件\r\n");
-    error = f_close(g_fileObject);
-    if (error)
-    {
-        PRINTF("关闭文件失败\r\n");
-        return error;
-    }
-    else
-    {
-        PRINTF("关闭文件成功\r\n");
-    }
-    return error;
-}
-
-
-/*
-*函数功能：读取一个路径下的内容
-*函数参数：dir，路径名。directory， 目录对象结构体，保存打开的目录信息。
-fileInformation，文件信息结构体，保存文件信息。
-*返回值：错误状态，FR_OK 表示成功。
-*/
-FRESULT f_readdir_test(char* dir, DIR* directory, FILINFO* fileInformation)
-{
-    FRESULT error = FR_OK;
-    DIR* g_directory = directory; /* Directory object */
-    FILINFO* g_fileInformation = fileInformation;
-
-
-    PRINTF("\r\n列出“/dir_1”目录下的内容......\r\n");
-
-    error = f_opendir(g_directory, dir);
-    if (error)
-    {
-        PRINTF("打开路径失败\r\n");
-        return error;
-    }
-
-    for (;;)
-    {
-        error = f_readdir(g_directory, g_fileInformation);
-
-        /* To the end. */
-        if ((error != FR_OK) || (g_fileInformation->fname[0U] == 0U))
-        {
-            break;
-        }
-        if (g_fileInformation->fname[0] == '.')
-        {
-            continue;
-        }
-        if (g_fileInformation->fattrib & AM_DIR)
-        {
-            PRINTF("文件夹 : %s\r\n", g_fileInformation->fname);
-        }
-        else
-        {
-            PRINTF("文件 : %s\r\n", g_fileInformation->fname);
-        }
-    }
-    return error;
-}
-
-
-/*
-*函数功能：读写测试
-*函数参数：dir，路径名。data_write,指定将要写入文件的数据起始地址。data_read，从文件件读回的数据保存地址。
-*返回值：错误状态，FR_OK 表示成功。
-*/
-FRESULT f_write_read_test(char* dir, void* data_write, void* data_read)
-{
-    FIL g_fileObject ;
-    void* g_data_write = data_write;
-    void* g_data_read = data_read;
-    UINT g_bytesWritten;
-    UINT g_bytesRead;
-    FRESULT error = FR_OK;
-
-    /*打开文件*/
-    f_open_test(dir, &g_fileObject);
-
-    /* 向文件内写入内容 */
-    PRINTF("\r\n写入内容到“%s”文件\r\n", dir);
-    error = f_write(&g_fileObject, g_data_write, sizeof(g_data_write), &g_bytesWritten);
-    if ((error) || (g_bytesWritten != sizeof(g_data_write)))
-    {
-        PRINTF("写入文件失败. \r\n");
-    }
-    else
-    {
-        PRINTF("写入文件成功 \r\n");
-    }
-
-    /* 移动文件读写指针到文件开始处 */
-    if (f_lseek(&g_fileObject, 0U))
-    {
-        PRINTF("设置文件读写指针失败 \r\n");
-    }
-    else
-    {
-        PRINTF("设置文件读写指针成功 \r\n");
-    }
-
-    /*读取"/dir_1/f_1.dat"文件的内容到 g_data_read 缓冲区*/
-    PRINTF("读取“%s”文件\r\n", dir);
-    memset(g_data_read, 0U, sizeof(g_data_read));
-    error = f_read(&g_fileObject, g_data_read, sizeof(g_data_read), &g_bytesRead);
-    if ((error) || (g_bytesRead != sizeof(g_data_read)))
-    {
-        PRINTF("读取文件失败 \r\n");
-    }
-    else
-    {
-        PRINTF("读取文件成功. \r\n");
-    }
-
-
-    /*比较读写内容是否一致*/
-    PRINTF("比较读写内容......\r\n");
-    if (memcmp(g_data_write, g_data_read, sizeof(g_data_write)))
-    {
-        PRINTF("文件读写内容不一致\r\n");
-    }
-    else
-    {
-        PRINTF("文件读写内容一致\r\n");
-    }
-
-    /*关闭文件*/
-    f_close_test(&g_fileObject);
-    return error;
-}
-
-
 
 /***************************************************************************************
-  * @brief
+  * @brief   文件系统自检函数
   * @input
   * @return
 ***************************************************************************************/
-void emmc_init(void)
+void eMMC_CheckFatfs(void)
+{
+    FRESULT error = FR_OK;
+    UINT    g_bytesWritten;
+    UINT    g_bytesRead;
+    
+    /*创建文件*/
+    error = f_open(&g_fileObject, _T("chk.txt"), FA_CREATE_NEW);
+    if (error == FR_OK || error == FR_EXIST){
+        g_sys_para2.emmcIsOk = true;
+    } else {
+        g_sys_para2.emmcIsOk = false;
+    }
+    
+    /*打开文件*/
+    error = f_open(&g_fileObject, _T("chk.txt"), (FA_WRITE | FA_READ ));
+    if (error == FR_OK || error == FR_EXIST){
+        g_sys_para2.emmcIsOk = true;
+    } else {
+        g_sys_para2.emmcIsOk = false;
+    }
+    
+    /*初始化数据缓冲区，为文件的读写做准备*/
+    memset(g_bufferWrite, 'a', sizeof(g_bufferWrite));
+    /* 向文件内写入内容 */
+    error = f_write(&g_fileObject, g_bufferWrite, sizeof(g_bufferWrite), &g_bytesWritten);
+    if (error == FR_OK && g_bytesWritten == sizeof(g_bufferWrite)){
+        g_sys_para2.emmcIsOk = true;
+    } else {
+        g_sys_para2.emmcIsOk = false;
+    }
+    
+    /* 移动文件读写指针到文件开始处 */
+    if (f_lseek(&g_fileObject, 0U)){
+        g_sys_para2.emmcIsOk = false;
+    } else {
+        g_sys_para2.emmcIsOk = true;
+    }
+    
+    /*读取文件的内容到 g_data_read 缓冲区*/
+    memset(g_bufferRead, 0U, sizeof(g_bufferRead));
+    error = f_read(&g_fileObject, g_bufferRead, sizeof(g_bufferRead), &g_bytesRead);
+    if ((error == FR_OK) && (g_bytesRead == sizeof(g_bufferRead))){
+        g_sys_para2.emmcIsOk = false;
+    } else {
+        g_sys_para2.emmcIsOk = true;
+    }
+    
+    /*比较读写内容是否一致*/
+    if (memcmp(g_bufferWrite, g_bufferRead, sizeof(g_bufferWrite))){
+        g_sys_para2.emmcIsOk = false;
+    } else {
+        g_sys_para2.emmcIsOk = true;
+    }
+    
+    /*关闭文件*/
+    error = f_close(&g_fileObject);
+    if (error) {
+        g_sys_para2.emmcIsOk = false;
+    } else {
+        g_sys_para2.emmcIsOk = true;
+    }
+    
+    eMMC_GetFree();
+    
+    /*判断文件系统是否测试成功*/
+    if(g_sys_para2.emmcIsOk == false){
+        g_sys_para2.sampLedStatus = WORK_ERR;
+    }
+}
+
+
+/***************************************************************************************
+  * @brief  初始化eMMC文件系统, 并检查文件系统.
+  * @input
+  * @return
+***************************************************************************************/
+void eMMC_Init(void)
 {
     FRESULT ret = FR_OK;
-
 
     /* 初始化SD外设时钟 */
     BOARD_USDHCClockConfiguration();
@@ -383,47 +265,10 @@ void emmc_init(void)
     } else {
         g_sys_para2.emmcIsOk = true;
     }
-    /*判断是否允许使用相对路径*/
-    ret = f_chdrive((char const *)&driverNumberBuffer[0U]);
-    if (ret)
-    {
-        PRINTF("Change drive failed.\r\n");
-        while(1);
-    }
-    else
-    {
-        PRINTF("Change drive success.\r\n");
-    }
-
-    FIL file_object;   //定义文件描述符，
-    DIR dir_object;    //目录对象结构体
-    FILINFO file_info; //文件信息描述结构体
-    /*在SD卡根目录创建一个目录*/
-    f_mkdir_test("/dir_1");
-
-    /*创建“/dir_1/f_1.txt”*/
-    f_touch_test("/dir_1/he.txt");
-
-    /*打开文件*/
-    f_open_test("/dir_1/he.txt", &file_object);
-
-    /*关闭文件*/
-    f_close_test(&file_object);
-
-    /*创建目录*/
-    f_mkdir_test("/dir_1/dir_2");
-
-    /*获取路径下的文件也文件夹*/
-    f_readdir_test("/dir_1", &dir_object, &file_info);
-
-    /*初始化数据缓冲区，为文件的读写做准备*/
-    memset(g_bufferWrite, 'a', sizeof(g_bufferWrite));
-    g_bufferWrite[BUFFER_SIZE - 2U] = '\r';
-    g_bufferWrite[BUFFER_SIZE - 1U] = '\n';
-
-    PRINTF("\r\n开始文件读写测试......  \r\n");
-
-    f_write_read_test("/dir_1/he.txt", g_bufferWrite, g_bufferRead);
+    /*允许使用相对路径*/
+    f_chdrive((char const *)&driverNumberBuffer[0U]);
+    
+    eMMC_CheckFatfs();
 }
 
 

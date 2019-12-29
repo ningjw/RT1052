@@ -114,6 +114,7 @@
  * º¯ÊýÉùÃ÷
  ******************************************************************************/
 void FlexSPI_NorFlash_Init(void);
+int NorFlash_AHBCommand_Test(void);
 status_t FlexSPI_NorFlash_Get_JedecDevice_ID(FLEXSPI_Type *base, uint32_t *vendorID);
 status_t FlexSPI_NorFlash_Get_Device_ID(FLEXSPI_Type *base, uint8_t *vendorID);
 status_t FlexSPI_NorFlash_Write_Enable(FLEXSPI_Type *base);

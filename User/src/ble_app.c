@@ -105,9 +105,9 @@ void BLE_AppTask(void)
     PRINTF("BLE Task Create and Running\r\n");
     uint8_t* sendBuf = NULL;
     xReturn = AT_SendCmd(BT_NAME, DEVICE_BLE_NAME, RESP_OK, &g_at_cfg);//设置蓝牙名称
-    if( xReturn == true ){
+//    if( xReturn == true ){
         g_sys_para2.bleLedStatus = BLE_READY;
-    }
+//    }
     SET_THROUGHPUT_MODE();//进入透传模式
     memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
     g_puart2RxCnt = 0;

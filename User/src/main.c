@@ -7,7 +7,7 @@ void BOARD_InitDebugConsole(void);
 
 SysPara1 g_sys_para1;
 SysPara2 g_sys_para2;
-
+ADC_Set  g_adc_set;
 
 /***********************************************************************
   * @ 函数名  ： AppTaskCreate
@@ -37,14 +37,20 @@ static void AppTaskCreate(void)
 
 
 /***************************************************************************************
-  * @brief   
+  * @brief   初始化系统变量
   * @input   
   * @return  
 ***************************************************************************************/
 static void InitSysPara()
 {
-    g_sys_para1.inactiveTime = 15;//默认15分钟没有活动后，自动关机。
-    g_sys_para2.inactiveCount = 0;
+    g_sys_para1.inactiveTime = 15;    //默认15分钟没有活动后，自动关机。
+    g_sys_para1.batAlarmValue = 10;   //电池电量报警值
+    g_sys_para1.inactiveCondition = 1;//蓝牙连接没有通信后,15分钟关机.
+    g_sys_para1.sampBandwidth = 10000;//取样带宽,默认10k
+    g_sys_para1.sampFreq = 1000;      //取样频率,默认1k
+    g_sys_para1.sampTimeSet = 1;      //取样时间,默认s
+    g_sys_para1.sampMode = 0;         //高精度模式
+    g_sys_para2.inactiveCount = 0;    //
     g_sys_para2.sampLedStatus = WORK_FINE;
     g_sys_para2.batLedStatus = BAT_NORMAL;
     g_sys_para2.bleLedStatus = BLE_CLOSE;
@@ -66,12 +72,12 @@ int main(void)
     BOARD_InitPeripherals();
     BOARD_InitDebugConsole();
     PRINTF("***** Welcome *****\r\n");
-    emmc_init();
+    eMMC_Init();
     InitSysPara();
     RTC_Config();//实时时钟初始化
     FlexSPI_NorFlash_Init();
-    
-//    NorFlash_IPCommand_Test();
+    NorFlash_AHBCommand_Test();
+
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);//1ms中断，FreeRTOS使用
     
     /* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 

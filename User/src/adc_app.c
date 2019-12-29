@@ -7,6 +7,10 @@
 #define NOTIFY_FINISH    (1<<4)
 
 
+#define ADC_LEN 40000
+AT_NONCACHEABLE_SECTION_INIT(float SpeedADC[ADC_LEN]);
+AT_NONCACHEABLE_SECTION_INIT(float ShakeADC[ADC_LEN]);
+
 #define ADC_MODE_LOW_POWER       GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 1)  //低功耗模式
 #define ADC_MODE_HIGH_SPEED      GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 0)   //高速模式
 #define ADC_MODE_HIGH_RESOLUTION //高精度模式(浮空)
@@ -93,9 +97,10 @@ void ADC_SampleStart(void)
 {
     ADC_Count = 0;
     g_sys_para2.sampTimeCnt = g_sys_para1.sampTimeSet * 1000;
+    g_sys_para2.sampClk = 1000 * g_sys_para1.sampFreq / 25;
     g_sys_para2.sampStart = true;
     /* Setup the PWM mode of the timer channel */
-    QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para1.sampClk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
+    QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para2.sampClk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
     /* Start the timer - select the timer counting mode */
     QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
     /* Set channel 0 period to 1 s (66000000 ticks). */

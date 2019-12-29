@@ -98,7 +98,7 @@ static char * ParseChkSelf(void)
     // Accumulated charge
     g_sys_para2.batChargePercent = LTC2942_GetAC() * 100.0 / 65536; 
     
-    
+    eMMC_CheckFatfs();
     
     cJSON_AddNumberToObject(pJsonRoot, "Id", 3);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
@@ -106,7 +106,7 @@ static char * ParseChkSelf(void)
     cJSON_AddNumberToObject(pJsonRoot, "Temp",g_sys_para2.batTemp);//温度传感器的温度
     cJSON_AddNumberToObject(pJsonRoot, "PwrV",g_sys_para2.batVoltage);//电源电压值
     cJSON_AddNumberToObject(pJsonRoot, "BatC", g_sys_para2.batChargePercent);//电池电量
-    cJSON_AddNumberToObject(pJsonRoot, "Flash",(uint8_t)g_sys_para2.emmcIsOk);
+    cJSON_AddNumberToObject(pJsonRoot, "Flash",(uint8_t)g_sys_para2.emmcIsOk);//文件系统是否OK
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     return p_reply;
@@ -200,7 +200,6 @@ static char * ParseSetSamplePara(cJSON *pJson, cJSON * pSub)
     pSub = cJSON_GetObjectItem(pJson, "Freq");
     if (NULL != pSub){
         g_sys_para1.sampFreq = pSub->valueint;
-        g_sys_para1.sampClk = 1000 * g_sys_para1.sampFreq / 25;
     }
     pSub = cJSON_GetObjectItem(pJson, "Bw");
     if (NULL != pSub)
@@ -252,7 +251,7 @@ float spdValue[5] = {0.6,0.7,0.8,0.9,1.0};
   * @input   
   * @return  
 ***************************************************************************************/
-static char * ParseGetSampleData(void)
+char * ParseGetSampleData(void)
 {
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot){
@@ -260,48 +259,49 @@ static char * ParseGetSampleData(void)
     }
     cJSON_AddNumberToObject(pJsonRoot, "Id",  9);
     cJSON_AddNumberToObject(pJsonRoot, "Sid", 1);
-    cJSON_AddStringToObject(pJsonRoot, "IDPath", "GroupID\\FactoryID\\EquipmentID\\PointID");
-    cJSON_AddStringToObject(pJsonRoot, "NamePath", "GroupID\\FactoryID\\EquipmentID\\PointID");
-    cJSON_AddNumberToObject(pJsonRoot, "Speed", 1);// 取转速波形平均转速
-    cJSON_AddStringToObject(pJsonRoot, "SpeedUnits", "RPM");
-    cJSON_AddNumberToObject(pJsonRoot, "Process", 1);
-    cJSON_AddNumberToObject(pJsonRoot, "ProcessMin", 65.0);
-    cJSON_AddNumberToObject(pJsonRoot, "ProcessMax", 68.0);
-    cJSON_AddStringToObject(pJsonRoot, "ProcessUnits", "℃");//可以取温度、流量功率等   
-    cJSON_AddStringToObject(pJsonRoot, "DAUID", "");//生成的DAUID
-    cJSON_AddStringToObject(pJsonRoot, "DetectionType", "0");//手动检测0，时间定时检测1
-    cJSON_AddNumberToObject(pJsonRoot, "Senstivity", 100.0);//灵敏度
-    cJSON_AddNumberToObject(pJsonRoot, "Zerodrift", 0.0);//零点偏移，用于将失调电压调节到零
-    cJSON_AddNumberToObject(pJsonRoot, "EUType", 4);//g:0，mm/s2:1，um:2,mm/s:3,, gse:4
-    cJSON_AddStringToObject(pJsonRoot, "EU", "mm/s");
-    cJSON_AddNumberToObject(pJsonRoot, "WindowsType", 1);// 矩形窗0，三角窗1，汉宁窗2，海明窗3，布莱克曼窗4，凯泽窗5
-    cJSON_AddStringToObject(pJsonRoot, "WindowName", "汉宁窗");//
-    cJSON_AddNumberToObject(pJsonRoot, "StartFrequency", 0);//采集起始频率
-    cJSON_AddNumberToObject(pJsonRoot, "EndFrequency", 2000);//采集起始频率
-    cJSON_AddNumberToObject(pJsonRoot, "SampleRate", 2560);//采样频率
-    cJSON_AddNumberToObject(pJsonRoot, "Lines", 1);//线数
-    cJSON_AddNumberToObject(pJsonRoot, "Averages", 1);//平均次数
-    cJSON_AddNumberToObject(pJsonRoot, "AverageOverlap", 0.5);//重叠率
-    cJSON_AddNumberToObject(pJsonRoot, "AverageType", 0);//重叠方式
-    cJSON_AddNumberToObject(pJsonRoot, "EnvFilterLow", 500);//包络滤波频段 低 
-    cJSON_AddNumberToObject(pJsonRoot, "EnvFilterHigh", 10000);//包络滤波频段 高
-    cJSON_AddNumberToObject(pJsonRoot, "StorageReson", 10000);//采集方式     0手动采集，1定时采集
-    cJSON_AddStringToObject(pJsonRoot, "MeasurementComment", "equipment condition description");//
-    cJSON_AddNumberToObject(pJsonRoot, "IncludeMeasurements", 1);
+//    cJSON_AddStringToObject(pJsonRoot, "IDPath", "GroupID\\FactoryID\\EquipmentID\\PointID");
+//    cJSON_AddStringToObject(pJsonRoot, "NamePath", "GroupID\\FactoryID\\EquipmentID\\PointID");
+//    cJSON_AddNumberToObject(pJsonRoot, "Speed", 1);// 取转速波形平均转速
+//    cJSON_AddStringToObject(pJsonRoot, "SpeedUnits", "RPM");
+//    cJSON_AddNumberToObject(pJsonRoot, "Process", 1);
+//    cJSON_AddNumberToObject(pJsonRoot, "ProcessMin", 65.0);
+//    cJSON_AddNumberToObject(pJsonRoot, "ProcessMax", 68.0);
+//    cJSON_AddStringToObject(pJsonRoot, "ProcessUnits", "℃");//可以取温度、流量功率等   
+//    cJSON_AddStringToObject(pJsonRoot, "DAUID", "");//生成的DAUID
+//    cJSON_AddStringToObject(pJsonRoot, "DetectionType", "0");//手动检测0，时间定时检测1
+//    cJSON_AddNumberToObject(pJsonRoot, "Senstivity", 100.0);//灵敏度
+//    cJSON_AddNumberToObject(pJsonRoot, "Zerodrift", 0.0);//零点偏移，用于将失调电压调节到零
+//    cJSON_AddNumberToObject(pJsonRoot, "EUType", 4);//g:0，mm/s2:1，um:2,mm/s:3,, gse:4
+//    cJSON_AddStringToObject(pJsonRoot, "EU", "mm/s");
+//    cJSON_AddNumberToObject(pJsonRoot, "WindowsType", 1);// 矩形窗0，三角窗1，汉宁窗2，海明窗3，布莱克曼窗4，凯泽窗5
+//    cJSON_AddStringToObject(pJsonRoot, "WindowName", "汉宁窗");//
+//    cJSON_AddNumberToObject(pJsonRoot, "StartFrequency", 0);//采集起始频率
+//    cJSON_AddNumberToObject(pJsonRoot, "EndFrequency", 2000);//采集起始频率
+//    cJSON_AddNumberToObject(pJsonRoot, "SampleRate", 2560);//采样频率
+//    cJSON_AddNumberToObject(pJsonRoot, "Lines", 1);//线数
+//    cJSON_AddNumberToObject(pJsonRoot, "Averages", 1);//平均次数
+//    cJSON_AddNumberToObject(pJsonRoot, "AverageOverlap", 0.5);//重叠率
+//    cJSON_AddNumberToObject(pJsonRoot, "AverageType", 0);//重叠方式
+//    cJSON_AddNumberToObject(pJsonRoot, "EnvFilterLow", 500);//包络滤波频段 低 
+//    cJSON_AddNumberToObject(pJsonRoot, "EnvFilterHigh", 10000);//包络滤波频段 高
+//    cJSON_AddNumberToObject(pJsonRoot, "StorageReson", 10000);//采集方式     0手动采集，1定时采集
+//    cJSON_AddStringToObject(pJsonRoot, "MeasurementComment", "equipment condition description");//
+//    cJSON_AddNumberToObject(pJsonRoot, "IncludeMeasurements", 1);
     cJSON_AddStringToObject(pJsonRoot, "Content", " ");
     cJSON_AddNumberToObject(pJsonRoot, "Bias", 10);
     
     cJSON *measureMents = cJSON_AddArrayToObject(pJsonRoot, "MeasureMents");
 
-    cJSON *pJsonSub = cJSON_CreateObject();
-    cJSON_AddStringToObject(measureMents, "MeasurementType", "VibRawData/EnvData");
-    cJSON_AddNumberToObject(measureMents, "Value", envValue[0]);
-    cJSON_AddItemToArray(measureMents, pJsonSub);
+    cJSON *pJsonSub1 = cJSON_CreateObject();
+    cJSON_AddStringToObject(pJsonSub1, "MeasurementType", "VibRawData/EnvData");
+    cJSON_AddNumberToObject(pJsonSub1, "Value", envValue[0]);
+    cJSON_AddNumberToObject(pJsonSub1, "Value", envValue[1]);
+    cJSON_AddItemToArray(measureMents, pJsonSub1);
     
-    pJsonSub = cJSON_CreateObject();
-    cJSON_AddStringToObject(measureMents, "MeasurementType", "RotationSpeed");
-    cJSON_AddNumberToObject(measureMents, "Value", envValue[0]);
-    cJSON_AddItemToArray(measureMents, pJsonSub);
+//    pJsonSub = cJSON_CreateObject();
+//    cJSON_AddStringToObject(measureMents, "MeasurementType", "RotationSpeed");
+//    cJSON_AddNumberToObject(measureMents, "Value", envValue[0]);
+//    cJSON_AddItemToArray(measureMents, pJsonSub);
     
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
