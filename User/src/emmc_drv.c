@@ -1,6 +1,6 @@
 #include "main.h"
 
-#define FILE_NAME_STR "220000000000"
+#define FILE_NAME_STR "210000000000"
 
 /*文件系统描述结构体*/
 FATFS g_fileSystem; /* File system object */
@@ -25,8 +25,7 @@ AT_NONCACHEABLE_SECTION_INIT(BYTE work[FF_MAX_SS]) = {0};
   * @input   
   * @return  
 ***************************************************************************************/
-void eMMC_GetFree(void)
-{
+void eMMC_GetFree(){
     FRESULT res;
     FATFS   *fs;
     /* Get volume information and free clusters of drive 3 */
@@ -159,7 +158,7 @@ void BOARD_USDHCClockConfiguration(void)
 
 
 /***************************************************************************************
-  * @brief   文件系统自检函数, 创建chk.txt文件,并进行写入与读取操作,并进行比较.
+  * @brief   文件系统自检函数
   * @input
   * @return
 ***************************************************************************************/

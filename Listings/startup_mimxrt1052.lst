@@ -1670,21 +1670,22 @@ ARM Macro Assembler    Page 26
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M7.fp.dp --apcs=
 interwork --depend=.\objects\startup_mimxrt1052.d -o.\objects\startup_mimxrt105
-2.o -I.\RTE\Device\MIMXRT1052CVL5B -I.\RTE\RTOS -I.\RTE\_release -IC:\Keil_v5\A
-RM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include -IC:\Keil_v5\ARM
-\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include -IC:\Keil_v5\ARM\PACK\ARM\CMSIS-
-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1 -IC:\Keil_v5\ARM\PACK\ARM\CMS
-IS\5.6.0\CMSIS\Core\Include -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\I
-nclude -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0 -IC:\Keil_v5\ARM\PACK\NX
-P\MIMXRT1052_DFP\12.0.0\components\lists -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_D
-FP\12.0.0\components\serial_manager -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12
-.0.0\components\uart -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers -I
-C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities -IC:\Keil_v5\ARM\PACK\N
-XP\MIMXRT1052_DFP\12.0.0\utilities\debug_console -IC:\Keil_v5\ARM\PACK\NXP\MIMX
-RT1052_DFP\12.0.0\utilities\str --predefine="__MICROLIB SETA 1" --predefine="__
-UVISION_VERSION SETA 524" --predefine="_RTE_ SETA 1" --predefine="CPU_MIMXRT105
-2CVL5B SETA 1" --predefine="__STARTUP_INITIALIZE_NONCACHEDATA SETA 1" --list=.\
-listings\startup_mimxrt1052.lst RTE\Device\MIMXRT1052CVL5B\startup_MIMXRT1052.s
+2.o -I.\RTE\Device\MIMXRT1052CVL5B -I.\RTE\RTOS -I.\RTE\_nor_sdram -IC:\Keil_v5
+\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include -IC:\Keil_v5\A
+RM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include -IC:\Keil_v5\ARM\PACK\ARM\CMSI
+S-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1 -IC:\Keil_v5\ARM\PACK\ARM\C
+MSIS\5.6.0\CMSIS\Core\Include -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2
+\Include -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0 -IC:\Keil_v5\ARM\PACK\
+NXP\MIMXRT1052_DFP\12.0.0\components\lists -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052
+_DFP\12.0.0\components\serial_manager -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\
+12.0.0\components\uart -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers 
+-IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities -IC:\Keil_v5\ARM\PACK
+\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console -IC:\Keil_v5\ARM\PACK\NXP\MI
+MXRT1052_DFP\12.0.0\utilities\str --predefine="__MICROLIB SETA 1" --predefine="
+__UVISION_VERSION SETA 524" --predefine="_RTE_ SETA 1" --predefine="CPU_MIMXRT1
+052CVL5B SETA 1" --predefine="__STARTUP_INITIALIZE_NONCACHEDATA SETA 1" --list=
+.\listings\startup_mimxrt1052.lst RTE\Device\MIMXRT1052CVL5B\startup_MIMXRT1052
+.s
 
 
 

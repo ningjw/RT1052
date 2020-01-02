@@ -1,6 +1,6 @@
 .\objects\cmsis_os2.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Source\cmsis_os2.c
 .\objects\cmsis_os2.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
-.\objects\cmsis_os2.o: .\RTE\_release\RTE_Components.h
+.\objects\cmsis_os2.o: .\RTE\_nor_sdram\RTE_Components.h
 .\objects\cmsis_os2.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include\cmsis_os2.h
 .\objects\cmsis_os2.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\cmsis_os2.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h

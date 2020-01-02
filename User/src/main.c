@@ -39,9 +39,9 @@ static void AppTaskCreate(void)
 {
     eMMC_Init();            /* 初始化eMMC模块,FatFS文件系统, 并对文件系统自检*/
     FlexSPI_NorFlash_Init();/* 初始化FlexSPI*/
-//    NorFlash_ChkSelf();/* 对FlexSPI自检*/
+    NorFlash_ChkSelf();/* 对FlexSPI自检*/
     
-    taskENTER_CRITICAL();   //进入临界区
+    taskENTER_CRITICAL();           //进入临界区
     
     /* 创建LED_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xTaskCreate((TaskFunction_t )LED_AppTask,"LED_Task",128,NULL, 1,&LED_TaskHandle);
@@ -60,8 +60,9 @@ static void AppTaskCreate(void)
 }
 
 
+
 /***************************************************************************************
-  * @brief   入口函数 release
+  * @brief   入口函数
   * @input   
   * @return  
 ***************************************************************************************/

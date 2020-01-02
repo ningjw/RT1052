@@ -1,7 +1,7 @@
 .\objects\os_systick.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Source\os_systick.c
 .\objects\os_systick.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include\os_tick.h
 .\objects\os_systick.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
-.\objects\os_systick.o: .\RTE\_release\RTE_Components.h
+.\objects\os_systick.o: .\RTE\_nor_sdram\RTE_Components.h
 .\objects\os_systick.o: .\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h
 .\objects\os_systick.o: .\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h
 .\objects\os_systick.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm7.h

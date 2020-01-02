@@ -5,7 +5,7 @@
 .\objects\tasks.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\tasks.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\tasks.o: .\RTE\RTOS\FreeRTOSConfig.h
-.\objects\tasks.o: .\RTE\_release\RTE_Components.h
+.\objects\tasks.o: .\RTE\_nor_sdram\RTE_Components.h
 .\objects\tasks.o: .\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h
 .\objects\tasks.o: .\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h
 .\objects\tasks.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm7.h
