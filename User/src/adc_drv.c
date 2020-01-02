@@ -76,9 +76,11 @@ void ADC_ETC_Config(void)
   * @input
   * @return
 ***************************************************************************************/
-uint32_t LPSPI4_ReadWriteByte(void)
+uint32_t LPSPI4_ReadData(void)
 {
-    GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 1);
+    status_t sta;
+    g_sys_para2.ads1271IsOk = false;
+//    GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 1);
     uint32_t spiData = 0;
     uint8_t spiTxData[3] = {0xFF};
     uint8_t spiRxData[3] = {0x00};
@@ -89,9 +91,11 @@ uint32_t LPSPI4_ReadWriteByte(void)
     spi_tranxfer.txData = spiTxData;                //要发送的数据
     spi_tranxfer.rxData = spiRxData;                 //接收到的数据
     spi_tranxfer.dataSize = 3;                        //数据长度
-    LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI阻塞发送
-    spiData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];
-    g_sys_para2.voltageADS1271 = spiData * 2.37 * 2 / 8388607;
+    sta = LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI阻塞发送
+    if(sta == kStatus_Success){
+        g_sys_para2.ads1271IsOk = true;
+        spiData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];
+    }
     return spiData;
 }
 

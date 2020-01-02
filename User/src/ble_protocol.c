@@ -90,21 +90,26 @@ static char * ParseChkSelf(void)
         return NULL;
     }
     
+    //指示灯自检
+    LED_CheckSelf();
     
-    // Battery voltage
-    g_sys_para2.batVoltage = LTC2942_GetVoltage() / 1000.0;
-    // Chip temperature
-    g_sys_para2.batTemp = LTC2942_GetTemperature() / 100.0;
-    // Accumulated charge
-    g_sys_para2.batChargePercent = LTC2942_GetAC() * 100.0 / 65536; 
+    //电池自检
+    g_sys_para2.batVoltage = LTC2942_GetVoltage() / 1000.0;// Battery voltage
+    g_sys_para2.batTemp = LTC2942_GetTemperature() / 100.0;// Chip temperature
+    g_sys_para2.batChargePercent = LTC2942_GetAC() * 100.0 / 65536; // Accumulated charge
     
+    //文件系统自检
     eMMC_CheckFatfs();
+    
+    //震动传感器电压
+    while (ADC_READY == 0);  //wait ads1271 ready
+    g_sys_para2.voltageADS1271 = LPSPI4_ReadData() * 2.37f * 2 / 8388607;
     
     cJSON_AddNumberToObject(pJsonRoot, "Id", 3);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
-    cJSON_AddNumberToObject(pJsonRoot, "AdcV",3.3);//振动传感器偏置电压
-    cJSON_AddNumberToObject(pJsonRoot, "Temp",g_sys_para2.batTemp);//温度传感器的温度
-    cJSON_AddNumberToObject(pJsonRoot, "PwrV",g_sys_para2.batVoltage);//电源电压值
+    cJSON_AddNumberToObject(pJsonRoot, "AdcV", g_sys_para2.voltageADS1271);  //振动传感器偏置电压
+    cJSON_AddNumberToObject(pJsonRoot, "Temp",g_sys_para2.batTemp);          //温度传感器的温度
+    cJSON_AddNumberToObject(pJsonRoot, "PwrV",g_sys_para2.batVoltage);       //电源电压值
     cJSON_AddNumberToObject(pJsonRoot, "BatC", g_sys_para2.batChargePercent);//电池电量
     cJSON_AddNumberToObject(pJsonRoot, "Flash",(uint8_t)g_sys_para2.emmcIsOk);//文件系统是否OK
     char *p_reply = cJSON_Print(pJsonRoot);
@@ -229,7 +234,6 @@ static char * ParseSetSamplePara(cJSON *pJson, cJSON * pSub)
 ***************************************************************************************/
 static char * ParseStartSample(void)
 {
-    g_sys_para2.sampStart = true;
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot){
         return NULL;

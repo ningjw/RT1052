@@ -171,13 +171,13 @@ instance:
         - channelNumber: '0'
         - enableChain: 'false'
         - timerPeriod: '100us'
-        - startTimer: 'true'
+        - startTimer: 'false'
         - enableInterrupt: 'false'
       - 1:
         - channelNumber: '1'
         - enableChain: 'false'
-        - timerPeriod: '1ms'
-        - startTimer: 'true'
+        - timerPeriod: '1s'
+        - startTimer: 'false'
         - enableInterrupt: 'true'
       - 2:
         - channelNumber: '2'
@@ -196,7 +196,7 @@ void PIT1_init(void) {
   PIT_Init(PIT1_PERIPHERAL, &PIT1_config);
   /* Set channel 0 period to 100 µs (6600 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_0_TICKS);
-  /* Set channel 1 period to 1 ms (66000 ticks). */
+  /* Set channel 1 period to 1 s (66000000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_1_TICKS);
   /* Set channel 2 period to 1 m (3960000000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_2, PIT1_2_TICKS);
@@ -208,10 +208,6 @@ void PIT1_init(void) {
   NVIC_SetPriority(PIT1_IRQN, PIT1_IRQ_PRIORITY);
   /* Enable interrupt PIT1_IRQN request in the NVIC */
   EnableIRQ(PIT1_IRQN);
-  /* Start channel 0. */
-  PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
-  /* Start channel 1. */
-  PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_1);
   /* Start channel 2. */
   PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
 }

@@ -8,7 +8,7 @@
   ******************************************************************
   * @attention
   *
-  * 实验平台:野火  i.MXRT1052开发板 
+  * 实验平台:野火  i.MXRT1052开发板
   * 论坛    :http://www.firebbs.cn
   * 淘宝    :http://firestm32.taobao.com
   *
@@ -50,16 +50,16 @@
                                         PKE_1_PULL_KEEPER_ENABLED| \
                                         PUE_0_KEEPER_SELECTED| \
                                         PUS_0_100K_OHM_PULL_DOWN| \
-                                        HYS_0_HYSTERESIS_DISABLED)   
-    /* 配置说明 : */
-    /* 转换速率: 转换速率快
-        驱动强度: R0/6 
-        带宽配置 : max(200MHz)
-        开漏配置: 关闭 
-        拉/保持器配置: 使能
-        拉/保持器选择: 保持器
-        上拉/下拉选择: 100K欧姆下拉(选择了保持器此配置无效)
-        滞回器配置: 禁止 */ 
+                                        HYS_0_HYSTERESIS_DISABLED)
+/* 配置说明 : */
+/* 转换速率: 转换速率快
+    驱动强度: R0/6
+    带宽配置 : max(200MHz)
+    开漏配置: 关闭
+    拉/保持器配置: 使能
+    拉/保持器选择: 保持器
+    上拉/下拉选择: 100K欧姆下拉(选择了保持器此配置无效)
+    滞回器配置: 禁止 */
 
 
 /*******************************************************************************
@@ -92,7 +92,7 @@ flexspi_device_config_t deviceconfig = {
     .AWRSeqNumber = 2,
     .ARDSeqIndex = NOR_CMD_LUT_SEQ_IDX_READ_FAST_QUAD,
     .ARDSeqNumber = 1,
-    /* W25Q256 typical time=0.7ms,max time=3ms 
+    /* W25Q256 typical time=0.7ms,max time=3ms
      *  fAHB = 528MHz,T AHB = 1/528us
      *  unit = 32768/528 = 62.06us
      *  取延时时间为1ms，
@@ -110,132 +110,132 @@ flexspi_device_config_t deviceconfig = {
  *
  * FLEXSPI_LUT_SEQ格式如下（LUT指令0，使用的数据线数目，指令的参数，
                             LUT指令1，使用的数据线数目，指令的参数）
- * 
+ *
  * 不满8条指令的序列应以STOP指令结束，即kFLEXSPI_Command_STOP，
  * 不过因为STOP指令中的所有参数均为0，而数组的初始值也都为0，
  * 所以部分序列的末尾忽略了STOP指令也能正常运行。
  */
 const uint32_t customLUT[CUSTOM_LUT_LENGTH] = {
-        /* 普通读指令，Normal read mode -SDR */
-        [4 * NOR_CMD_LUT_SEQ_IDX_READ_NORMAL] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_ReadData_4Addr, 
-                            kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
-            
-        [4 * NOR_CMD_LUT_SEQ_IDX_READ_NORMAL + 1] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04, 
-                            kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
+    /* 普通读指令，Normal read mode -SDR */
+    [4 * NOR_CMD_LUT_SEQ_IDX_READ_NORMAL] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_ReadData_4Addr,
+    kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
 
-        /* 快速读指令，Fast read mode - SDR */
-        [4 * NOR_CMD_LUT_SEQ_IDX_READ_FAST] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_FastReadData_4Addr, 
-                            kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
-            
-        [4 * NOR_CMD_LUT_SEQ_IDX_READ_FAST + 1] = 
-          FLEXSPI_LUT_SEQ(kFLEXSPI_Command_DUMMY_SDR, kFLEXSPI_1PAD, 0x08,
-                          kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04),
+    [4 * NOR_CMD_LUT_SEQ_IDX_READ_NORMAL + 1] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04,
+    kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
 
-        /* QUAD模式快速读指令，Fast read quad mode - SDR */
-        [4 * NOR_CMD_LUT_SEQ_IDX_READ_FAST_QUAD] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_FastReadQuad_4Addr, 
-                            kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_4PAD, FLASH_ADDR_LENGTH),
-        [4 * NOR_CMD_LUT_SEQ_IDX_READ_FAST_QUAD + 1] = 
-          FLEXSPI_LUT_SEQ(kFLEXSPI_Command_DUMMY_SDR, kFLEXSPI_4PAD, 0x06, 
-                          kFLEXSPI_Command_READ_SDR, kFLEXSPI_4PAD, 0x04),
+    /* 快速读指令，Fast read mode - SDR */
+    [4 * NOR_CMD_LUT_SEQ_IDX_READ_FAST] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_FastReadData_4Addr,
+    kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
 
-        /* 读取扩展参数，Read extend parameters */
-        [4 * NOR_CMD_LUT_SEQ_IDX_READSTATUS] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_ReadStatusReg, 
-                            kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04),
+    [4 * NOR_CMD_LUT_SEQ_IDX_READ_FAST + 1] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_DUMMY_SDR, kFLEXSPI_1PAD, 0x08,
+    kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04),
 
-        /* 写使能，Write Enable */
-        [4 * NOR_CMD_LUT_SEQ_IDX_WRITEENABLE] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_WriteEnable, 
-                            kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
+    /* QUAD模式快速读指令，Fast read quad mode - SDR */
+    [4 * NOR_CMD_LUT_SEQ_IDX_READ_FAST_QUAD] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_FastReadQuad_4Addr,
+    kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_4PAD, FLASH_ADDR_LENGTH),
+    [4 * NOR_CMD_LUT_SEQ_IDX_READ_FAST_QUAD + 1] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_DUMMY_SDR, kFLEXSPI_4PAD, 0x06,
+    kFLEXSPI_Command_READ_SDR, kFLEXSPI_4PAD, 0x04),
 
-        /* 擦除扇区，Erase Sector  */
-        [4 * NOR_CMD_LUT_SEQ_IDX_ERASESECTOR] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_SectorErase_4Addr, 
-                            kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
+    /* 读取扩展参数，Read extend parameters */
+    [4 * NOR_CMD_LUT_SEQ_IDX_READSTATUS] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_ReadStatusReg,
+    kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04),
 
-        /* SINGLE模式页写入，Page Program - single mode */
-        [4 * NOR_CMD_LUT_SEQ_IDX_PAGEPROGRAM_SINGLE] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_PageProgram_4Addr, 
-                            kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
-        [4 * NOR_CMD_LUT_SEQ_IDX_PAGEPROGRAM_SINGLE + 1] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_WRITE_SDR, kFLEXSPI_1PAD, 0x04, 
-                            kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
+    /* 写使能，Write Enable */
+    [4 * NOR_CMD_LUT_SEQ_IDX_WRITEENABLE] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_WriteEnable,
+    kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
 
-        /* QUAD模式页写入，Page Program - quad mode */
-        [4 * NOR_CMD_LUT_SEQ_IDX_PAGEPROGRAM_QUAD] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_PageProgramQuad_4Addr, 
-                            kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
-        [4 * NOR_CMD_LUT_SEQ_IDX_PAGEPROGRAM_QUAD + 1] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_WRITE_SDR, kFLEXSPI_4PAD, 0x04, 
-                            kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),  
+    /* 擦除扇区，Erase Sector  */
+    [4 * NOR_CMD_LUT_SEQ_IDX_ERASESECTOR] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_SectorErase_4Addr,
+    kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
 
-        /* 读ID，Read ID ，ID7-ID0*/
-        [4 * NOR_CMD_LUT_SEQ_IDX_READID] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_DeviceID, 
-                            kFLEXSPI_Command_DUMMY_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
-        [4 * NOR_CMD_LUT_SEQ_IDX_READID + 1] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04, 
-                            kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
-        
-        /* 读JedecDeviceID,MF7-MF0+ID15-ID0 */
-        [4 * NOR_CMD_LUT_SEQ_IDX_READJEDECID] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_JedecDeviceID, 
-                            kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04),
+    /* SINGLE模式页写入，Page Program - single mode */
+    [4 * NOR_CMD_LUT_SEQ_IDX_PAGEPROGRAM_SINGLE] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_PageProgram_4Addr,
+    kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
+    [4 * NOR_CMD_LUT_SEQ_IDX_PAGEPROGRAM_SINGLE + 1] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_WRITE_SDR, kFLEXSPI_1PAD, 0x04,
+    kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
 
-        /* 写状态寄存器，Enable Quad mode */
-        [4 * NOR_CMD_LUT_SEQ_IDX_WRITESTATUSREG] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_WriteStatusReg, 
-                            kFLEXSPI_Command_WRITE_SDR, kFLEXSPI_1PAD, 0x04),
+    /* QUAD模式页写入，Page Program - quad mode */
+    [4 * NOR_CMD_LUT_SEQ_IDX_PAGEPROGRAM_QUAD] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_PageProgramQuad_4Addr,
+    kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
+    [4 * NOR_CMD_LUT_SEQ_IDX_PAGEPROGRAM_QUAD + 1] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_WRITE_SDR, kFLEXSPI_4PAD, 0x04,
+    kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
 
-        /* 读状态寄存器，Read status register */
-        [4 * NOR_CMD_LUT_SEQ_IDX_READSTATUSREG] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_ReadStatusReg, 
-                            kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04),
+    /* 读ID，Read ID ，ID7-ID0*/
+    [4 * NOR_CMD_LUT_SEQ_IDX_READID] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_DeviceID,
+    kFLEXSPI_Command_DUMMY_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
+    [4 * NOR_CMD_LUT_SEQ_IDX_READID + 1] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04,
+    kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
 
-        /* 擦除整片FLASH，Erase Chip */
-        [4 * NOR_CMD_LUT_SEQ_IDX_ERASECHIP] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_ChipErase, 
-                            kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
-            
-        
-        /* 给AHB命令访问的 QUAD模式页写入 序列，包含写使能和页写入两条序列 */
-        /* 写使能，Write Enable */
-        [4 * NOR_CMD_LUT_SEQ_IDX_AHB_PAGEPROGRAM_QUAD_1] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_WriteEnable, 
-                            kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
-            
-        /* QUAD模式页写入，Page Program - quad mode */
-        [4 * NOR_CMD_LUT_SEQ_IDX_AHB_PAGEPROGRAM_QUAD_2] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_PageProgramQuad_4Addr, 
-                            kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
-        [4 * NOR_CMD_LUT_SEQ_IDX_AHB_PAGEPROGRAM_QUAD_2 + 1] =
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_WRITE_SDR, kFLEXSPI_4PAD, 0x04, 
-                            kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),  	
+    /* 读JedecDeviceID,MF7-MF0+ID15-ID0 */
+    [4 * NOR_CMD_LUT_SEQ_IDX_READJEDECID] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_JedecDeviceID,
+    kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04),
 
-        // 读唯一ID ISSI芯片，命令0X4B/
-        [4 * NOR_CMD_LUT_SEQ_IDX_READ_UUID_ISSI] 	=
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR,kFLEXSPI_1PAD,0x4B, 
-                              kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
-                              
-         [4 * NOR_CMD_LUT_SEQ_IDX_READ_UUID_ISSI + 1] 	=
-             FLEXSPI_LUT_SEQ(kFLEXSPI_Command_READ_SDR,kFLEXSPI_1PAD,0x04,
-                              kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
-                              
-        // 读唯一ID 华邦芯片，命令0X4B/
-        [4 * NOR_CMD_LUT_SEQ_IDX_READ_UUID_WB] 	=
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, 0x4B, 
-                              kFLEXSPI_Command_DUMMY_SDR, kFLEXSPI_1PAD, 0x18),
-                              
-        [4 * NOR_CMD_LUT_SEQ_IDX_READ_UUID_WB + 1] 	=
-            FLEXSPI_LUT_SEQ(kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04, 
-                              kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
+    /* 写状态寄存器，Enable Quad mode */
+    [4 * NOR_CMD_LUT_SEQ_IDX_WRITESTATUSREG] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_WriteStatusReg,
+    kFLEXSPI_Command_WRITE_SDR, kFLEXSPI_1PAD, 0x04),
+
+    /* 读状态寄存器，Read status register */
+    [4 * NOR_CMD_LUT_SEQ_IDX_READSTATUSREG] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_ReadStatusReg,
+    kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04),
+
+    /* 擦除整片FLASH，Erase Chip */
+    [4 * NOR_CMD_LUT_SEQ_IDX_ERASECHIP] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_ChipErase,
+    kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
 
 
- 
+    /* 给AHB命令访问的 QUAD模式页写入 序列，包含写使能和页写入两条序列 */
+    /* 写使能，Write Enable */
+    [4 * NOR_CMD_LUT_SEQ_IDX_AHB_PAGEPROGRAM_QUAD_1] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_WriteEnable,
+    kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
+
+    /* QUAD模式页写入，Page Program - quad mode */
+    [4 * NOR_CMD_LUT_SEQ_IDX_AHB_PAGEPROGRAM_QUAD_2] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, W25Q_PageProgramQuad_4Addr,
+    kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
+    [4 * NOR_CMD_LUT_SEQ_IDX_AHB_PAGEPROGRAM_QUAD_2 + 1] =
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_WRITE_SDR, kFLEXSPI_4PAD, 0x04,
+    kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
+
+    // 读唯一ID ISSI芯片，命令0X4B/
+    [4 * NOR_CMD_LUT_SEQ_IDX_READ_UUID_ISSI] 	=
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, 0x4B,
+    kFLEXSPI_Command_RADDR_SDR, kFLEXSPI_1PAD, FLASH_ADDR_LENGTH),
+
+    [4 * NOR_CMD_LUT_SEQ_IDX_READ_UUID_ISSI + 1] 	=
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04,
+    kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
+
+    // 读唯一ID 华邦芯片，命令0X4B/
+    [4 * NOR_CMD_LUT_SEQ_IDX_READ_UUID_WB] 	=
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_SDR, kFLEXSPI_1PAD, 0x4B,
+    kFLEXSPI_Command_DUMMY_SDR, kFLEXSPI_1PAD, 0x18),
+
+    [4 * NOR_CMD_LUT_SEQ_IDX_READ_UUID_WB + 1] 	=
+    FLEXSPI_LUT_SEQ(kFLEXSPI_Command_READ_SDR, kFLEXSPI_1PAD, 0x04,
+    kFLEXSPI_Command_STOP, kFLEXSPI_1PAD, 0),
+
+
+
 
 };
 
@@ -271,44 +271,44 @@ static void FLEXSPI_GetDefaultConfig(flexspi_config_t *config)
 * @brief  初始化NorFlash使用的FlexSPI外设模式及时钟
 * @param  无
 * @retval 无
-*/  
+*/
 static void NorFlash_FlexSPI_ModeInit(void)
 {
-  flexspi_config_t config;
+    flexspi_config_t config;
 
-  const clock_usb_pll_config_t g_ccmConfigUsbPll = {.loopDivider = 0U};
+    const clock_usb_pll_config_t g_ccmConfigUsbPll = {.loopDivider = 0U};
 
-  /* 初始化USB1PLL，即PLL3，loopDivider=0，
-      所以USB1PLL=PLL3 = 24*20 = 480MHz */
-  CLOCK_InitUsb1Pll(&g_ccmConfigUsbPll);
-  /* 设置PLL3 PFD0频率为：PLL3*18/24 = 360MHZ. */
-  CLOCK_InitUsb1Pfd(kCLOCK_Pfd0, 24);  
-  /* 选择PLL3 PFD0作为flexspi时钟源
-      00b derive clock from semc_clk_root_pre
-      01b derive clock from pll3_sw_clk
-      10b derive clock from PLL2 PFD2
-      11b derive clock from PLL3 PFD0 */  
-  CLOCK_SetMux(kCLOCK_FlexspiMux, 0x3); 
-  /* 设置flexspiDiv分频因子，得到FLEXSPI_CLK_ROOT = PLL3 PFD0/(flexspiDiv+1) = 120M. */
-  CLOCK_SetDiv(kCLOCK_FlexspiDiv, 2);  
-  
-  /* 关闭DCache功能 */
-  SCB_DisableDCache();
+    /* 初始化USB1PLL，即PLL3，loopDivider=0，
+        所以USB1PLL=PLL3 = 24*20 = 480MHz */
+    CLOCK_InitUsb1Pll(&g_ccmConfigUsbPll);
+    /* 设置PLL3 PFD0频率为：PLL3*18/24 = 360MHZ. */
+    CLOCK_InitUsb1Pfd(kCLOCK_Pfd0, 24);
+    /* 选择PLL3 PFD0作为flexspi时钟源
+        00b derive clock from semc_clk_root_pre
+        01b derive clock from pll3_sw_clk
+        10b derive clock from PLL2 PFD2
+        11b derive clock from PLL3 PFD0 */
+    CLOCK_SetMux(kCLOCK_FlexspiMux, 0x3);
+    /* 设置flexspiDiv分频因子，得到FLEXSPI_CLK_ROOT = PLL3 PFD0/(flexspiDiv+1) = 120M. */
+    CLOCK_SetDiv(kCLOCK_FlexspiDiv, 2);
 
-  /*获取 FlexSPI 常用默认设置 */
-  FLEXSPI_GetDefaultConfig(&config);
+    /* 关闭DCache功能 */
+    SCB_DisableDCache();
 
-  /* 允许AHB预读取的功能 */
-  config.ahbConfig.enableAHBPrefetch = true;
-  
-  /* 写入配置 */
-  FLEXSPI_Init(FLEXSPI, &config);
+    /*获取 FlexSPI 常用默认设置 */
+    FLEXSPI_GetDefaultConfig(&config);
 
-  /* 根据串行闪存功能配置闪存设置 */
-  FLEXSPI_SetFlashConfig(FLEXSPI, &deviceconfig, kFLEXSPI_PortA1);
+    /* 允许AHB预读取的功能 */
+    config.ahbConfig.enableAHBPrefetch = true;
 
-  /* 更新查找表 */
-  FLEXSPI_UpdateLUT(FLEXSPI, 0, customLUT, CUSTOM_LUT_LENGTH);
+    /* 写入配置 */
+    FLEXSPI_Init(FLEXSPI, &config);
+
+    /* 根据串行闪存功能配置闪存设置 */
+    FLEXSPI_SetFlashConfig(FLEXSPI, &deviceconfig, kFLEXSPI_PortA1);
+
+    /* 更新查找表 */
+    FLEXSPI_UpdateLUT(FLEXSPI, 0, customLUT, CUSTOM_LUT_LENGTH);
 }
 
 /**
@@ -318,18 +318,18 @@ static void NorFlash_FlexSPI_ModeInit(void)
 */
 void FlexSPI_NorFlash_Init(void)
 {
-	uint32_t JedecDeviceID;
-	
+    uint32_t JedecDeviceID;
+
     NorFlash_FlexSPI_ModeInit();
-	
-	/* 获取JedecDevice ID. */
+
+    /* 获取JedecDevice ID. */
     FlexSPI_NorFlash_Get_JedecDevice_ID(FLEXSPI, &JedecDeviceID);
-	
-	/* ISSI厂商的FLASH需要使能Quad模式,厂商ID为高8位 */
-	if((JedecDeviceID &0xFF0000) == (FLASH_ISSI_JEDECDEVICE_ID &0xFF0000))
-	{
-		FlexSPI_NorFlash_Enable_Quad_Mode(FLEXSPI);
-	}
+
+    /* ISSI厂商的FLASH需要使能Quad模式,厂商ID为高8位 */
+    if((JedecDeviceID & 0xFF0000) == (FLASH_ISSI_JEDECDEVICE_ID & 0xFF0000))
+    {
+        FlexSPI_NorFlash_Enable_Quad_Mode(FLEXSPI);
+    }
 }
 
 
@@ -343,7 +343,7 @@ status_t FlexSPI_NorFlash_Get_JedecDevice_ID(FLEXSPI_Type *base, uint32_t *vendo
 {
     uint32_t temp;
     flexspi_transfer_t flashXfer;
-    
+
     /* 要读写的FLASH内部存储单元地址，本命令不带地址 */
     flashXfer.deviceAddress = 0;
     /* 要使用的端口 */
@@ -363,7 +363,7 @@ status_t FlexSPI_NorFlash_Get_JedecDevice_ID(FLEXSPI_Type *base, uint32_t *vendo
     status_t status = FLEXSPI_TransferBlocking(base, &flashXfer);
 
     /* 调整高低字节，结果赋值到vendorId */
-    *vendorID = ((temp&0xFF)<<16) | (temp&0xFF00) | ((temp&0xFF0000)>>16);
+    *vendorID = ((temp & 0xFF) << 16) | (temp & 0xFF00) | ((temp & 0xFF0000) >> 16);
 
     return status;
 }
@@ -378,7 +378,7 @@ status_t FlexSPI_NorFlash_Get_Device_ID(FLEXSPI_Type *base, uint8_t *vendorID)
 {
     uint32_t temp;
     flexspi_transfer_t flashXfer;
-    
+
     /* 要读写的FLASH内部存储单元地址，本命令不带地址 */
     flashXfer.deviceAddress = 0;
     /* 要使用的端口 */
@@ -410,17 +410,17 @@ status_t FlexSPI_NorFlash_Get_Device_ID(FLEXSPI_Type *base, uint8_t *vendorID)
 */
 uint8_t FlexSPI_FlashUUID_Get_ISSI(uint8_t *buf)
 {
-    volatile uint32_t pid,uid,data;
+    volatile uint32_t pid, uid, data;
     flexspi_transfer_t FlashTransfer;
 
-    FlashTransfer.deviceAddress=0;                      //地址
-    FlashTransfer.port=kFLEXSPI_PortA1;                 //端口
-    FlashTransfer.cmdType=kFLEXSPI_Read;                //操作类型，读数据
-    FlashTransfer.SeqNumber=1;                          //序号
-    FlashTransfer.seqIndex=NOR_CMD_LUT_SEQ_IDX_READ_UUID_ISSI;  //LUT表中命令索引
-    FlashTransfer.data=(uint32_t*)buf;                 //数据缓冲区
-    FlashTransfer.dataSize=16;                           //数据长度
-    FLEXSPI_TransferBlocking(FLEXSPI,&FlashTransfer);
+    FlashTransfer.deviceAddress = 0;                    //地址
+    FlashTransfer.port = kFLEXSPI_PortA1;               //端口
+    FlashTransfer.cmdType = kFLEXSPI_Read;              //操作类型，读数据
+    FlashTransfer.SeqNumber = 1;                        //序号
+    FlashTransfer.seqIndex = NOR_CMD_LUT_SEQ_IDX_READ_UUID_ISSI; //LUT表中命令索引
+    FlashTransfer.data = (uint32_t*)buf;               //数据缓冲区
+    FlashTransfer.dataSize = 16;                         //数据长度
+    FLEXSPI_TransferBlocking(FLEXSPI, &FlashTransfer);
     return 1;
 
 }
@@ -432,17 +432,17 @@ uint8_t FlexSPI_FlashUUID_Get_ISSI(uint8_t *buf)
 */
 uint8_t FlexSPI_FlashUUID_Get_WB(uint8_t *buf)
 {
-    volatile uint32_t pid,uid,data;
+    volatile uint32_t pid, uid, data;
     flexspi_transfer_t FlashTransfer;
 
-    FlashTransfer.deviceAddress=0;                      //地址
-    FlashTransfer.port=kFLEXSPI_PortA1;                 //端口
-    FlashTransfer.cmdType=kFLEXSPI_Read;                //操作类型，读数据
-    FlashTransfer.SeqNumber=1;                          //序号
-    FlashTransfer.seqIndex=NOR_CMD_LUT_SEQ_IDX_READ_UUID_WB;  //LUT表中命令索引
-    FlashTransfer.data=(uint32_t*)buf;                 //数据缓冲区
-    FlashTransfer.dataSize=8;                           //数据长度
-    FLEXSPI_TransferBlocking(FLEXSPI,&FlashTransfer);
+    FlashTransfer.deviceAddress = 0;                    //地址
+    FlashTransfer.port = kFLEXSPI_PortA1;               //端口
+    FlashTransfer.cmdType = kFLEXSPI_Read;              //操作类型，读数据
+    FlashTransfer.SeqNumber = 1;                        //序号
+    FlashTransfer.seqIndex = NOR_CMD_LUT_SEQ_IDX_READ_UUID_WB; //LUT表中命令索引
+    FlashTransfer.data = (uint32_t*)buf;               //数据缓冲区
+    FlashTransfer.dataSize = 8;                         //数据长度
+    FLEXSPI_TransferBlocking(FLEXSPI, &FlashTransfer);
     return 1;
 
 }
@@ -550,11 +550,11 @@ status_t FlexSPI_NorFlash_Read_Status_Register(FLEXSPI_Type *base, uint8_t *SR_v
     flashXfer.data = &readValue;
     flashXfer.dataSize = 1;
 
-		status = FLEXSPI_TransferBlocking(base, &flashXfer);
-		
-		*SR_value = readValue;
-   
-		return status;
+    status = FLEXSPI_TransferBlocking(base, &flashXfer);
+
+    *SR_value = readValue;
+
+    return status;
 }
 
 /**
@@ -565,10 +565,10 @@ status_t FlexSPI_NorFlash_Read_Status_Register(FLEXSPI_Type *base, uint8_t *SR_v
 */
 status_t FlexSPI_NorFlash_Write_Status_Register(FLEXSPI_Type *base, uint8_t *config)
 {
-		flexspi_transfer_t flashXfer;
+    flexspi_transfer_t flashXfer;
     status_t status;
-		
-		 /* 写使能 */
+
+    /* 写使能 */
     status = FlexSPI_NorFlash_Write_Enable(base);
 
     if (status != kStatus_Success)
@@ -582,19 +582,19 @@ status_t FlexSPI_NorFlash_Write_Status_Register(FLEXSPI_Type *base, uint8_t *con
     flashXfer.cmdType = kFLEXSPI_Write;
     flashXfer.SeqNumber = 1;
     flashXfer.seqIndex = NOR_CMD_LUT_SEQ_IDX_WRITESTATUSREG;
-		flashXfer.data = (uint32_t *)config;
+    flashXfer.data = (uint32_t *)config;
     flashXfer.dataSize = 1;
 
     status = FLEXSPI_TransferBlocking(base, &flashXfer);
-		
-		if (status != kStatus_Success)
+
+    if (status != kStatus_Success)
     {
         return status;
     }
-    
+
     /* 等待FLASH至空闲状态 */
     status = FlexSPI_NorFlash_Wait_Bus_Busy(base);
-    
+
     return status;
 }
 
@@ -603,31 +603,31 @@ status_t FlexSPI_NorFlash_Write_Status_Register(FLEXSPI_Type *base, uint8_t *con
 * @note   ISSI厂商的FLASH，状态寄存器的bit6-QE用于配置该功能，该位为1时表示使能Quad模式
 *				 Winbond厂商的FLASH，状态寄存器的bit6-TB是配置写保护功能的
 *         所以在使用Winbond厂商的FLASH时不应调用本函数，
-*         而使用ISSI厂商的FLASH时必须调用本函数   		
+*         而使用ISSI厂商的FLASH时必须调用本函数
 * @param  base:使用的FlexSPI端口
 * @param  config:要写入的配置内容
 * @retval FlexSPI传输返回的状态值，正常为0
 */
 status_t FlexSPI_NorFlash_Enable_Quad_Mode(FLEXSPI_Type *base)
 {
-	uint8_t SR_value;
-	status_t status;
-	
-	/* 读取原寄存器的内容 */
-	status = FlexSPI_NorFlash_Read_Status_Register(base, &SR_value);
-	
-	if (status != kStatus_Success)
-	{
-		return status;
-	}
-	
-	/* 对bit6-QE位置1（ISSI厂商的FLASH） */
-	SR_value |= 0x40;
+    uint8_t SR_value;
+    status_t status;
 
-	/* 写入该值 */
-	status = FlexSPI_NorFlash_Write_Status_Register(base, &SR_value);
-	
-	return status;
+    /* 读取原寄存器的内容 */
+    status = FlexSPI_NorFlash_Read_Status_Register(base, &SR_value);
+
+    if (status != kStatus_Success)
+    {
+        return status;
+    }
+
+    /* 对bit6-QE位置1（ISSI厂商的FLASH） */
+    SR_value |= 0x40;
+
+    /* 写入该值 */
+    status = FlexSPI_NorFlash_Write_Status_Register(base, &SR_value);
+
+    return status;
 }
 
 
@@ -656,17 +656,17 @@ status_t FlexSPI_NorFlash_Erase_Sector(FLEXSPI_Type *base, uint32_t dstAddr)
     flashXfer.cmdType = kFLEXSPI_Command;
     flashXfer.SeqNumber = 1;
     flashXfer.seqIndex = NOR_CMD_LUT_SEQ_IDX_ERASESECTOR;
-    
+
     status = FLEXSPI_TransferBlocking(base, &flashXfer);
 
     if (status != kStatus_Success)
     {
         return status;
     }
-    
+
     /* 等待FLASH至空闲状态 */
     status = FlexSPI_NorFlash_Wait_Bus_Busy(base);
-    
+
     return status;
 }
 
@@ -678,8 +678,8 @@ status_t FlexSPI_NorFlash_Erase_Sector(FLEXSPI_Type *base, uint32_t dstAddr)
 * @param  dataSize:要写入的数据量，不能大于256
 * @retval FlexSPI传输返回的状态值，正常为0
 */
-status_t FlexSPI_NorFlash_Page_Program(FLEXSPI_Type *base, 
-                                       uint32_t dstAddr, 
+status_t FlexSPI_NorFlash_Page_Program(FLEXSPI_Type *base,
+                                       uint32_t dstAddr,
                                        uint8_t *src,
                                        uint16_t dataSize)
 {
@@ -702,7 +702,7 @@ status_t FlexSPI_NorFlash_Page_Program(FLEXSPI_Type *base,
     flashXfer.seqIndex = NOR_CMD_LUT_SEQ_IDX_PAGEPROGRAM_QUAD;
     flashXfer.data = (uint32_t *)src;
     flashXfer.dataSize = dataSize;
-    
+
     status = FLEXSPI_TransferBlocking(base, &flashXfer);
 
     if (status != kStatus_Success)
@@ -726,71 +726,71 @@ status_t FlexSPI_NorFlash_Page_Program(FLEXSPI_Type *base,
   * @param  dataSize:要写入的数据量，没有限制，确认空间是已被擦除过的即可
   * @retval 写入的返回值，为0是表示正常
   */
-status_t FlexSPI_NorFlash_Buffer_Program(FLEXSPI_Type *base, 
-                                         uint32_t dstAddr, 
-                                         uint8_t *src,
-                                         uint16_t dataSize)                              
+status_t FlexSPI_NorFlash_Buffer_Program(FLEXSPI_Type *base,
+        uint32_t dstAddr,
+        uint8_t *src,
+        uint16_t dataSize)
 {
-  status_t status = kStatus_Success;
-  uint16_t NumOfPage = 0, NumOfSingle = 0, Addr = 0, count = 0;
-  /* 后续要处理的字节数，初始值为NumByteToWrite*/
-  uint16_t NumByteToWriteRest = dataSize;
-  /* 根据以下情况进行处理：
-    1.写入的首地址是否对齐 
-    2.最后一次写入是否刚好写满一页 */
-  Addr = dstAddr % FLASH_PAGE_SIZE;
-  count = FLASH_PAGE_SIZE - Addr;
-  
-  /* 若NumByteToWrite > count：
-     第一页写入count个字节，对其余字节再进行后续处理，
-     所以用 (NumByteToWriteRest = dataSize - count) 求出后续的NumOfPage和NumOfSingle进行处理。
-     若NumByteToWrite < count：
-     即不足一页数据，直接用NumByteToWriteRest = NumByteToWrite求出NumOfPage和NumOfSingle即可 */
-  NumByteToWriteRest = (dataSize > count) ? (dataSize - count) : dataSize;
-  
-  /* 要完整写入的页数（不包括前count字节）*/
-  NumOfPage =  NumByteToWriteRest / FLASH_PAGE_SIZE;
-  /* 最后一页要写入的字节数（不包括前count字节）*/
-  NumOfSingle = NumByteToWriteRest % FLASH_PAGE_SIZE;
- 
-  /* dataSize > count时，需要先往第一页写入count个字节
-     dataSize < count时无需进行此操作 */
-  if(count != 0 && dataSize > count)
-  {  
-    status = FlexSPI_NorFlash_Page_Program(base, dstAddr, src, count);    
-    if(status != kStatus_Success) return status;
-    
-    dstAddr += count;
-    src += count;
-  }   
-  
-  /* 处理后续数据 */
-  if(NumOfPage== 0 ) 
-  {
-    status = FlexSPI_NorFlash_Page_Program(base, dstAddr, src, NumOfSingle);
-    if(status != kStatus_Success) return status;
-  }
-  else
-  {   
-    /* 后续数据大于一页 */
-    while(NumOfPage--)
-    {
-      status = FlexSPI_NorFlash_Page_Program(base, dstAddr, src, FLASH_PAGE_SIZE);
-      if(status != kStatus_Success) return status;
-      
-      dstAddr +=  FLASH_PAGE_SIZE;
-      src += FLASH_PAGE_SIZE;  
-    }
-    /* 最后一页 */
-    if(NumOfSingle != 0)
-    {
-      status = FlexSPI_NorFlash_Page_Program(base, dstAddr, src, NumOfSingle); 
-      if(status != kStatus_Success) return status;
+    status_t status = kStatus_Success;
+    uint16_t NumOfPage = 0, NumOfSingle = 0, Addr = 0, count = 0;
+    /* 后续要处理的字节数，初始值为NumByteToWrite*/
+    uint16_t NumByteToWriteRest = dataSize;
+    /* 根据以下情况进行处理：
+      1.写入的首地址是否对齐
+      2.最后一次写入是否刚好写满一页 */
+    Addr = dstAddr % FLASH_PAGE_SIZE;
+    count = FLASH_PAGE_SIZE - Addr;
 
-    }
-  }
+    /* 若NumByteToWrite > count：
+       第一页写入count个字节，对其余字节再进行后续处理，
+       所以用 (NumByteToWriteRest = dataSize - count) 求出后续的NumOfPage和NumOfSingle进行处理。
+       若NumByteToWrite < count：
+       即不足一页数据，直接用NumByteToWriteRest = NumByteToWrite求出NumOfPage和NumOfSingle即可 */
+    NumByteToWriteRest = (dataSize > count) ? (dataSize - count) : dataSize;
 
-  return status;
+    /* 要完整写入的页数（不包括前count字节）*/
+    NumOfPage =  NumByteToWriteRest / FLASH_PAGE_SIZE;
+    /* 最后一页要写入的字节数（不包括前count字节）*/
+    NumOfSingle = NumByteToWriteRest % FLASH_PAGE_SIZE;
+
+    /* dataSize > count时，需要先往第一页写入count个字节
+       dataSize < count时无需进行此操作 */
+    if(count != 0 && dataSize > count)
+    {
+        status = FlexSPI_NorFlash_Page_Program(base, dstAddr, src, count);
+        if(status != kStatus_Success) return status;
+
+        dstAddr += count;
+        src += count;
+    }
+
+    /* 处理后续数据 */
+    if(NumOfPage == 0 )
+    {
+        status = FlexSPI_NorFlash_Page_Program(base, dstAddr, src, NumOfSingle);
+        if(status != kStatus_Success) return status;
+    }
+    else
+    {
+        /* 后续数据大于一页 */
+        while(NumOfPage--)
+        {
+            status = FlexSPI_NorFlash_Page_Program(base, dstAddr, src, FLASH_PAGE_SIZE);
+            if(status != kStatus_Success) return status;
+
+            dstAddr +=  FLASH_PAGE_SIZE;
+            src += FLASH_PAGE_SIZE;
+        }
+        /* 最后一页 */
+        if(NumOfSingle != 0)
+        {
+            status = FlexSPI_NorFlash_Page_Program(base, dstAddr, src, NumOfSingle);
+            if(status != kStatus_Success) return status;
+
+        }
+    }
+
+    return status;
 }
 
 /**
@@ -801,8 +801,8 @@ status_t FlexSPI_NorFlash_Buffer_Program(FLEXSPI_Type *base,
 * @param  dataSize:要读取的数据量，不能大于65535
 * @retval FlexSPI传输返回的状态值，正常为0
 */
-status_t FlexSPI_NorFlash_Buffer_Read(FLEXSPI_Type *base, 
-                                      uint32_t address, 
+status_t FlexSPI_NorFlash_Buffer_Read(FLEXSPI_Type *base,
+                                      uint32_t address,
                                       uint8_t *dst,
                                       uint16_t dataSize)
 {
@@ -817,7 +817,7 @@ status_t FlexSPI_NorFlash_Buffer_Read(FLEXSPI_Type *base,
     flashXfer.seqIndex = NOR_CMD_LUT_SEQ_IDX_READ_FAST_QUAD;
     flashXfer.data = (uint32_t *)dst;
     flashXfer.dataSize = dataSize;
-    
+
     status = FLEXSPI_TransferBlocking(base, &flashXfer);
 
     return status;

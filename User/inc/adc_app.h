@@ -1,7 +1,7 @@
 #ifndef __ADC_APP_H
 #define __ADC_APP_H
 
-
+#define ADC_READY                GPIO_PinRead(BOARD_ADC_RDY_GPIO, BOARD_ADC_RDY_PIN)
 
 
 

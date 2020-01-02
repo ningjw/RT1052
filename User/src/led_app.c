@@ -8,29 +8,99 @@ static uint32_t bat_led_cnt = 0;
 static uint32_t ble_led_cnt = 0;
 
 TaskHandle_t LED_TaskHandle = NULL;  /* µç³Ø¹ÜÀíÈÎÎñ¾ä±ú */
+static bool flag_led_chk;
+/***************************************************************************************
+  * @brief   Ö¸Ê¾µÆ×Ô¼ì,ÏÈÏ¨ÃðËùÓÐµÄµÆ200ms,È»ºó½«ËùÓÐledµÆÉèÖÃÎªºìÉ«200ms,ÔÙ½²ËùÓÐµÄledµÆÉèÖÃÎªÂÌÉ«200ms,×îºóÏ¨Ãð.
+  * @input
+  * @return
+***************************************************************************************/
+void LED_CheckSelf(void)
+{
+    flag_led_chk = true;
+    GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, OFF);
+
+    GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
+
+    GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, OFF);
+
+    vTaskDelay(100);
+
+    GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, ON);
+    GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, OFF);
+
+    GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, ON);
+    GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
+
+    GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, ON);
+    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, OFF);
+
+    vTaskDelay(200);
+
+    GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, OFF);
+
+    GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
+
+    GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, OFF);
+
+    vTaskDelay(200);
+
+    GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, ON);
+
+    GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, ON);
+
+    GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, ON);
+
+    vTaskDelay(200);
+
+    GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, OFF);
+
+    GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
+
+    GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, OFF);
+
+    vTaskDelay(100);
+    flag_led_chk = false;
+}
 
 /***************************************************************************************
-  * @brief   
-  * @input   
-  * @return  
+  * @brief
+  * @input
+  * @return
 ***************************************************************************************/
 void LED_AppTask(void)
 {
     PRINTF("LED Task Create and Running\r\n");
-    GPIO_PinWrite(BOARD_LED_PWR_RED_GPIO, BOARD_LED_PWR_RED_PIN, OFF);
-    GPIO_PinWrite(BOARD_LED_PWR_GREEN_GPIO, BOARD_LED_PWR_GREEN_PIN, ON);
+    GPIO_PinWrite(BOARD_LED_PWR_RED_GPIO, BOARD_LED_PWR_RED_PIN, OFF);//±¸ÓÃµÄledµÆ
+    GPIO_PinWrite(BOARD_LED_PWR_GREEN_GPIO, BOARD_LED_PWR_GREEN_PIN, OFF);
     while(1)
     {
-        //ÏµÍ³×´Ì¬Ö¸Ê¾µÆ
-        switch(g_sys_para2.sampLedStatus)
+        if(flag_led_chk) { //µ±Ç°ledµÆÕýÔÚ×Ô¼ì
+            vTaskDelay(200);
+        }
+        else 
         {
+            //ÏµÍ³×´Ì¬Ö¸Ê¾µÆ
+            switch(g_sys_para2.sampLedStatus)
+            {
             case WORK_FINE://ºìµÆÃð,ÂÌµÆÁÁ
                 GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, OFF);
                 GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, ON);
                 break;
             case WORK_ERR://ÂÌµÆÃð,ºìµÆ0.6ÃëÉÁË¸
                 GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, OFF);
-                if(sys_led_cnt++ % 3 == 0){
+                if(sys_led_cnt++ % 3 == 0) {
                     BOARD_LED_SYS_RED_GPIO->DR ^= (1 << BOARD_LED_SYS_RED_PIN);
                 }
                 break;
@@ -40,67 +110,68 @@ void LED_AppTask(void)
                 break;
             default:
                 break;
-        }
-        
-        //µç³Ø×´Ì¬Ö¸Ê¾µÆ
-        switch(g_sys_para2.batLedStatus)
-        {
+            }
+
+            //µç³Ø×´Ì¬Ö¸Ê¾µÆ
+            switch(g_sys_para2.batLedStatus)
+            {
             case BAT_FULL://ºìµÆÃð,ÂÌµÆÁÁ
                 GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
-                GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO,BOARD_LED_BAT_GREEN_PIN, ON);
+                GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, ON);
                 break;
             case BAT_CHARGING://ºìµÆÁÁ,ÂÌµÆÃð
                 GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,   BOARD_LED_BAT_RED_PIN,  ON);
-                GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN,OFF);
+                GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
                 break;
             case BAT_LOW20://ÂÌµÆÃð,ºìµÆ0.6ÃëÉÁË¸
-                GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN,OFF);
-                if(bat_led_cnt++ % 3 == 0){
+                GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
+                if(bat_led_cnt++ % 3 == 0) {
                     BOARD_LED_BAT_RED_GPIO->DR ^= (1 << BOARD_LED_BAT_RED_PIN);
                 }
                 break;
             case BAT_ALARM://ÂÌµÆÃð,ºìµÆ0.2ÃëÉÁË¸
-                GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN,OFF);
+                GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
                 BOARD_LED_BAT_RED_GPIO->DR ^= (1 << BOARD_LED_BAT_RED_PIN);
                 break;
             case BAT_NORMAL://µç³ØÎ´³äµç,ÇÒµçÁ¿´óÓÚ20%
                 GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
-                GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO,BOARD_LED_BAT_GREEN_PIN, OFF);
+                GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
                 break;
             default:
                 break;
-        }
-        
-        //À¶ÑÀ×´Ì¬Ö¸Ê¾µÆ
-        switch(g_sys_para2.bleLedStatus)
-        {
+            }
+
+            //À¶ÑÀ×´Ì¬Ö¸Ê¾µÆ
+            switch(g_sys_para2.bleLedStatus)
+            {
             case BLE_CLOSE://ºìµÆÃð,ÂÌµÆÃð
                 GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
-                GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO,BOARD_LED_BLE_GREEN_PIN,OFF);
+                GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, OFF);
                 break;
             case BLE_READY://ºìµÆÃð,ÂÌµÆ0.6ÃëÉÁ
                 GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
-                if(ble_led_cnt++ % 3 == 0){
-                    BOARD_LED_BLE_GREEN_GPIO->DR ^= (1<<BOARD_LED_BLE_GREEN_PIN);
+                if(ble_led_cnt++ % 3 == 0) {
+                    BOARD_LED_BLE_GREEN_GPIO->DR ^= (1 << BOARD_LED_BLE_GREEN_PIN);
                 }
-                 break;
+                break;
             case BLE_CONNECT:  //ºìµÆÃð,ÂÌµÆÁÁ
                 GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
-                GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO,BOARD_LED_BLE_GREEN_PIN,ON);
-                 break;
+                GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, ON);
+                break;
             case BLE_UPDATE://ºìÂÌµÆ½»ÌæÉÁË¸
-                if(ble_led_cnt++ % 2 == 0){
+                if(ble_led_cnt++ % 2 == 0) {
                     GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
-                    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO,BOARD_LED_BLE_GREEN_PIN,ON);
-                }else{
+                    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, ON);
+                } else {
                     GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, ON);
-                    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO,BOARD_LED_BLE_GREEN_PIN,OFF);
+                    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, OFF);
                 }
-                 break;
+                break;
             default:
                 break;
+            }
         }
-        
+
         vTaskDelay(300);
     }
 }

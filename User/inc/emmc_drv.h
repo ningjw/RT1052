@@ -244,5 +244,6 @@
 
 void eMMC_Init(void);
 void eMMC_CheckFatfs(void);
+void eMMC_SaveSampleData(void);
 
 #endif

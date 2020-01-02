@@ -9,33 +9,6 @@ SysPara1 g_sys_para1;
 SysPara2 g_sys_para2;
 ADC_Set  g_adc_set;
 
-/***********************************************************************
-  * @ 函数名  ： AppTaskCreate
-  * @ 功能说明： 为了方便管理，所有的任务创建函数都放在这个函数里面
-  * @ 参数    ： 无
-  * @ 返回值  ： 无
-  **********************************************************************/
-static void AppTaskCreate(void)
-{
-    taskENTER_CRITICAL();           //进入临界区
-    
-    /* 创建LED_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )LED_AppTask,"LED_Task",128,NULL, 1,&LED_TaskHandle);
-    
-    /* 创建Battery_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )BAT_AppTask,"BAT_Task",512,NULL, 2,&BAT_TaskHandle);
-
-    /* 创建BLE_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )BLE_AppTask,"BLE_Task",512,NULL, 3,&BLE_TaskHandle);
-    
-    /* 创建ADC_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )ADC_AppTask, "ADC_Task",512,NULL, 4,&ADC_TaskHandle);
-    
-    vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
-    taskEXIT_CRITICAL();               //退出临界区
-}
-
-
 /***************************************************************************************
   * @brief   初始化系统变量
   * @input   
@@ -56,29 +29,53 @@ static void InitSysPara()
     g_sys_para2.bleLedStatus = BLE_CLOSE;
 }
 
+/***********************************************************************
+  * @ 函数名  ： AppTaskCreate
+  * @ 功能说明： 为了方便管理，所有的任务创建函数都放在这个函数里面
+  * @ 参数    ： 无
+  * @ 返回值  ： 无
+  **********************************************************************/
+static void AppTaskCreate(void)
+{
+    eMMC_Init();            /* 初始化eMMC模块,FatFS文件系统, 并对文件系统自检*/
+    FlexSPI_NorFlash_Init();/* 初始化FlexSPI*/
+//    NorFlash_ChkSelf();/* 对FlexSPI自检*/
+    
+    taskENTER_CRITICAL();   //进入临界区
+    
+    /* 创建LED_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
+    xTaskCreate((TaskFunction_t )LED_AppTask,"LED_Task",128,NULL, 1,&LED_TaskHandle);
+    
+    /* 创建Battery_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
+    xTaskCreate((TaskFunction_t )BAT_AppTask,"BAT_Task",512,NULL, 2,&BAT_TaskHandle);
+
+    /* 创建BLE_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
+    xTaskCreate((TaskFunction_t )BLE_AppTask,"BLE_Task",512,NULL, 3,&BLE_TaskHandle);
+    
+    /* 创建ADC_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
+    xTaskCreate((TaskFunction_t )ADC_AppTask, "ADC_Task",512,NULL, 4,&ADC_TaskHandle);
+    
+    vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
+    taskEXIT_CRITICAL();               //退出临界区
+}
 
 
 /***************************************************************************************
-  * @brief   入口函数
+  * @brief   入口函数 release
   * @input   
   * @return  
 ***************************************************************************************/
 int main(void)
 {
     BaseType_t xReturn = pdPASS;/* 定义一个创建信息返回值，默认为pdPASS */
-    BOARD_ConfigMPU();
-    BOARD_BootClockRUN();
-    BOARD_InitBootPins();
-    BOARD_InitPeripherals();
-    BOARD_InitDebugConsole();
-    PRINTF("***** Welcome *****\r\n");
-    eMMC_Init();
-    InitSysPara();
-    RTC_Config();//实时时钟初始化
-    FlexSPI_NorFlash_Init();
-    NorFlash_AHBCommand_Test();
-
-    SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);//1ms中断，FreeRTOS使用
+    BOARD_ConfigMPU();          /* 配置MPU */
+    BOARD_BootClockRUN();       /* 配置Clock */
+    BOARD_InitBootPins();       /* 配置GPIO */
+    BOARD_InitPeripherals();    /* 配置外设 */
+    BOARD_InitDebugConsole();   /* 配置调试串口 */
+    InitSysPara();              /* 初始化系统变量*/
+    RTC_Config();               /* 初始化RTC实时时钟*/
+    SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);/*1ms中断，FreeRTOS使用*/
     
     /* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xReturn = xTaskCreate((TaskFunction_t )AppTaskCreate, "AppTaskCreate",512,NULL,1,&AppTaskCreate_Handle);
@@ -206,10 +203,10 @@ void BOARD_ConfigMPU(void)
     /* Memory with Normal type, not shareable, non-cacheable */
     MPU->RBAR = ARM_MPU_RBAR(8, 0x81E00000U);
     MPU->RASR = ARM_MPU_RASR(0, ARM_MPU_AP_FULL, 1, 0, 0, 0, 0, ARM_MPU_REGION_SIZE_2MB);
-
+    
     /* Enable MPU */
     ARM_MPU_Enable(MPU_CTRL_PRIVDEFENA_Msk);
-
+    
     /* Enable I cache and D cache */
     SCB_DisableDCache();
     SCB_EnableICache();

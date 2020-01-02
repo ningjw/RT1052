@@ -4,7 +4,7 @@
 .\objects\stream_buffer.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h
 .\objects\stream_buffer.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\stream_buffer.o: .\RTE\RTOS\FreeRTOSConfig.h
-.\objects\stream_buffer.o: .\RTE\_nor_sdram\RTE_Components.h
+.\objects\stream_buffer.o: .\RTE\_release\RTE_Components.h
 .\objects\stream_buffer.o: .\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h
 .\objects\stream_buffer.o: .\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h
 .\objects\stream_buffer.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm7.h

@@ -161,7 +161,7 @@ instance:
     - sharedInterrupt:
       - IRQn: 'PIT_IRQn'
       - enable_priority: 'true'
-      - priority: '5'
+      - priority: '0'
       - enable_custom_name: 'false'
     - timingConfig:
       - clockSource: 'BusInterfaceClock'
@@ -209,7 +209,7 @@ void PIT1_init(void) {
   /* Enable interrupt PIT1_IRQN request in the NVIC */
   EnableIRQ(PIT1_IRQN);
   /* Start channel 0. */
-  PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
+//  PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
   /* Start channel 1. */
   PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_1);
   /* Start channel 2. */

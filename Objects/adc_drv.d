@@ -51,7 +51,7 @@
 .\objects\adc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_src.h
 .\objects\adc_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h
 .\objects\adc_drv.o: .\RTE\RTOS\FreeRTOSConfig.h
-.\objects\adc_drv.o: .\RTE\_nor_sdram\RTE_Components.h
+.\objects\adc_drv.o: .\RTE\_release\RTE_Components.h
 .\objects\adc_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h
 .\objects\adc_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\projdefs.h
 .\objects\adc_drv.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\portable.h

@@ -998,14 +998,14 @@
                               <setting name="channelNumber" value="0"/>
                               <setting name="enableChain" value="false"/>
                               <setting name="timerPeriod" value="100us"/>
-                              <setting name="startTimer" value="true"/>
+                              <setting name="startTimer" value="false"/>
                               <setting name="enableInterrupt" value="false"/>
                            </struct>
                            <struct name="1">
                               <setting name="channelNumber" value="1"/>
                               <setting name="enableChain" value="false"/>
-                              <setting name="timerPeriod" value="1ms"/>
-                              <setting name="startTimer" value="true"/>
+                              <setting name="timerPeriod" value="1s"/>
+                              <setting name="startTimer" value="false"/>
                               <setting name="enableInterrupt" value="true"/>
                            </struct>
                            <struct name="2">

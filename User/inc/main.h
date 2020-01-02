@@ -61,9 +61,11 @@ typedef struct{
     uint32_t firmSizeCurrent;//当前接受到的固件大小
     uint32_t firmCrc16;      //固件校验码
     uint8_t  firmUpdate;     //固件更新
+    
     uint8_t  inactiveTime;   //用于设置活动时间
     uint8_t  batAlarmValue;  //电池电量报警值
     uint8_t  inactiveCondition;//用于设置触发条件
+    
     uint32_t sampBandwidth;   //取样带宽
     uint32_t sampFreq;        //取样频率
     float    sampTimeSet;     //取样时间
@@ -78,18 +80,17 @@ typedef struct{
     uint8_t  batLedStatus; //电池状态
     uint8_t  bleLedStatus; //蓝牙状态
     uint8_t  sampLedStatus;//采样状态
-    uint8_t  emmcIsOk;     //eMMC文件系统是否完好
+    bool     emmcIsOk;     //eMMC文件系统是否完好
+    bool     ads1271IsOk;  //ADC芯片是否完好
     DWORD    emmc_fre_size;//剩余空间
     DWORD    emmc_tot_size;//总空间大小
-    bool     sampStart;    //开始采样标志
     uint32_t sampClk;      //取样时钟频率
-    uint32_t sampTimeCnt;  //用于记录当前采样时间
     uint32_t sampPacks;    //总共采集道的数据,需要分多少个包发给Android
     float    batVoltage;   //电池电压
     float    batTemp;      //电池温度
     float    batChargePercent;//充电百分比
-    float    voltageADS1271;  //电压
-    float    voltageSpdSignal;//转速信号电压
+    float    voltageSpd;
+    float    voltageADS1271;
 	uint32_t periodSpdSignal; //转速信号周期(us)
     uint32_t sampFileSize; //本次采样文件总大小
 }SysPara2;

@@ -20,6 +20,6 @@ typedef enum{
 
 extern TaskHandle_t LED_TaskHandle;
 void LED_AppTask(void);
-
+void LED_CheckSelf(void);
 
 #endif
