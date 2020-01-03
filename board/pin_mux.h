@@ -195,6 +195,10 @@ void BOARD_InitBootPins(void);
 #define BOARD_SYS_PWR_OFF_PORT                                             GPIO2   /*!< PORT device name: GPIO2 */
 #define BOARD_SYS_PWR_OFF_PIN                                                 5U   /*!< GPIO2 pin index: 5 */
 
+/* ONOFF (coord M6), ONOFF */
+#define BOARD_ONOFF_PERIPHERAL                                               SRC   /*!< Device name: SRC */
+#define BOARD_ONOFF_SIGNAL                                               RESET_B   /*!< SRC signal: RESET_B */
+
 
 /*!
  * @brief Configures pin routing and optionally pin electrical features.

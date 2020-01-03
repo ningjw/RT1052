@@ -58,6 +58,7 @@
                <pin_label pin_num="K10" pin_signal="GPIO_AD_B1_07" label="SCL_TEMP" identifier="SCL_TEMP"/>
                <pin_label pin_num="C10" pin_signal="GPIO_B0_12" label="PWR_WIFI_BLE" identifier="PWR_WIFI_BLE"/>
                <pin_label pin_num="B8" pin_signal="GPIO_B0_05" label="SYS_PWR_OFF" identifier="SYS_PWR_OFF"/>
+               <pin_label pin_num="M6" pin_signal="ONOFF" label="ONOFF" identifier="ONOFF"/>
             </pin_labels>
          </pins_profile>
          <functions_list>
@@ -471,6 +472,7 @@
                         <pin_feature name="gpio_init_state" value="false"/>
                      </pin_features>
                   </pin>
+                  <pin peripheral="SRC" signal="RESET_B" pin_num="M6" pin_signal="ONOFF"/>
                </pins>
             </function>
          </functions_list>
@@ -998,14 +1000,14 @@
                               <setting name="channelNumber" value="0"/>
                               <setting name="enableChain" value="false"/>
                               <setting name="timerPeriod" value="100us"/>
-                              <setting name="startTimer" value="true"/>
+                              <setting name="startTimer" value="false"/>
                               <setting name="enableInterrupt" value="false"/>
                            </struct>
                            <struct name="1">
                               <setting name="channelNumber" value="1"/>
                               <setting name="enableChain" value="false"/>
-                              <setting name="timerPeriod" value="1ms"/>
-                              <setting name="startTimer" value="true"/>
+                              <setting name="timerPeriod" value="1s"/>
+                              <setting name="startTimer" value="false"/>
                               <setting name="enableInterrupt" value="true"/>
                            </struct>
                            <struct name="2">
@@ -1450,6 +1452,36 @@
                               <setting name="enable_custom_name" value="false"/>
                            </struct>
                         </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="SNVS_LP" type="snvs_lp" type_id="snvs_lp_3b9e952b0ef37d4c4fffea74821e74e2" mode="general" peripheral="SNVS" enabled="false">
+                     <config_set name="fsl_snvs_lp">
+                        <struct name="snvs_lp_config">
+                           <setting name="init" value="true"/>
+                           <struct name="mc">
+                              <setting name="enable" value="false"/>
+                           </struct>
+                        </struct>
+                        <setting name="initRTC" value="false"/>
+                        <struct name="snvs_lp_srtc_config">
+                           <setting name="srtcCalEnable" value="false"/>
+                           <setting name="srtcCalValueInt" value="0"/>
+                           <setting name="start" value="false"/>
+                           <setting name="setDateTime" value="false"/>
+                        </struct>
+                        <struct name="interruptsCfg">
+                           <set name="interruptSources">
+                              <selected/>
+                           </set>
+                           <setting name="isInterruptEnabled" value="true"/>
+                           <struct name="interrupt">
+                              <setting name="IRQn" value="SNVS_HP_WRAPPER_IRQn"/>
+                              <setting name="enable_priority" value="false"/>
+                              <setting name="priority" value="0"/>
+                              <setting name="enable_custom_name" value="false"/>
+                           </struct>
+                        </struct>
+                        <array name="enableExternalTampers"/>
                      </config_set>
                   </instance>
                </instances>

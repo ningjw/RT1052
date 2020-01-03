@@ -71,17 +71,12 @@ typedef struct{
     float    sampTimeSet;     //取样时间
     uint8_t  sampMode;        //取样模式
     
-}SysPara1;
-
-
-//该结构体定义了不需要保存的系统参数
-typedef struct{
     uint8_t  inactiveCount;//用于设置活动时间
     uint8_t  batLedStatus; //电池状态
     uint8_t  bleLedStatus; //蓝牙状态
     uint8_t  sampLedStatus;//采样状态
-    bool     emmcIsOk;     //eMMC文件系统是否完好
     bool     ads1271IsOk;  //ADC芯片是否完好
+    bool     emmcIsOk;     //eMMC文件系统是否完好
     DWORD    emmc_fre_size;//剩余空间
     DWORD    emmc_tot_size;//总空间大小
     uint32_t sampClk;      //取样时钟频率
@@ -93,7 +88,7 @@ typedef struct{
     float    voltageADS1271;
 	uint32_t periodSpdSignal; //转速信号周期(us)
     uint32_t sampFileSize; //本次采样文件总大小
-}SysPara2;
+}SysPara;
 
 
 typedef struct{
@@ -133,8 +128,7 @@ typedef struct{
     char  end;
 }ADC_Set;
 
-extern SysPara1 g_sys_para1;
-extern SysPara2 g_sys_para2;
+extern SysPara g_sys_para;
 extern ADC_Set g_adc_set;
 
 #endif

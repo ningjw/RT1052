@@ -45,6 +45,7 @@ pin_labels:
 - {pin_num: K10, pin_signal: GPIO_AD_B1_07, label: SCL_TEMP, identifier: SCL_TEMP}
 - {pin_num: C10, pin_signal: GPIO_B0_12, label: PWR_WIFI_BLE, identifier: PWR_WIFI_BLE}
 - {pin_num: B8, pin_signal: GPIO_B0_05, label: SYS_PWR_OFF, identifier: SYS_PWR_OFF}
+- {pin_num: M6, pin_signal: ONOFF, label: ONOFF, identifier: ONOFF}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -133,6 +134,7 @@ BOARD:
   - {pin_num: L3, peripheral: FLEXSPI, signal: FLEXSPI_A_SS0_B, pin_signal: GPIO_SD_B1_06, speed: MHZ_200, slew_rate: Fast}
   - {pin_num: L10, peripheral: GPIO1, signal: 'gpio_io, 15', pin_signal: GPIO_AD_B0_15, identifier: PWR_CHG_COMPLETE, direction: OUTPUT}
   - {pin_num: B8, peripheral: GPIO2, signal: 'gpio_io, 05', pin_signal: GPIO_B0_05, direction: OUTPUT, gpio_init_state: 'false'}
+  - {pin_num: M6, peripheral: SRC, signal: RESET_B, pin_signal: ONOFF}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 

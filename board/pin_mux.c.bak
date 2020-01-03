@@ -132,7 +132,7 @@ BOARD:
   - {pin_num: L4, peripheral: FLEXSPI, signal: FLEXSPI_A_SCLK, pin_signal: GPIO_SD_B1_07, speed: MHZ_200, slew_rate: Fast}
   - {pin_num: L3, peripheral: FLEXSPI, signal: FLEXSPI_A_SS0_B, pin_signal: GPIO_SD_B1_06, speed: MHZ_200, slew_rate: Fast}
   - {pin_num: L10, peripheral: GPIO1, signal: 'gpio_io, 15', pin_signal: GPIO_AD_B0_15, identifier: PWR_CHG_COMPLETE, direction: OUTPUT}
-  - {pin_num: B8, peripheral: GPIO2, signal: 'gpio_io, 05', pin_signal: GPIO_B0_05, direction: OUTPUT, gpio_init_state: 'true'}
+  - {pin_num: B8, peripheral: GPIO2, signal: 'gpio_io, 05', pin_signal: GPIO_B0_05, direction: OUTPUT, gpio_init_state: 'false'}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -239,7 +239,7 @@ void BOARD(void) {
   /* GPIO configuration of SYS_PWR_OFF on GPIO_B0_05 (pin B8) */
   gpio_pin_config_t SYS_PWR_OFF_config = {
       .direction = kGPIO_DigitalOutput,
-      .outputLogic = 1U,
+      .outputLogic = 0U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_B0_05 (pin B8) */

@@ -40,7 +40,7 @@ void PIT_IRQHandler(void)
     if( PIT_GetStatusFlags(PIT, kPIT_Chnl_2) == true){
         /* 清除中断标志位.*/
         PIT_ClearStatusFlags(PIT, kPIT_Chnl_2, kPIT_TimerFlag);
-         if(g_sys_para2.inactiveCount++ >= g_sys_para1.inactiveTime + 1){//定时时间到
+         if(g_sys_para.inactiveCount++ >= g_sys_para.inactiveTime + 1){//定时时间到
             GPIO_PinWrite(BOARD_SYS_PWR_OFF_GPIO,BOARD_SYS_PWR_OFF_PIN,1);
     //        SNVS->LPSR |= SNVS_LPCR_DP_EN(1);
     //        SNVS->LPSR |= SNVS_LPCR_TOP(1);
@@ -94,14 +94,17 @@ void ADC_SampleStart(void)
 {
     ADC_SpdCnt = 0;
     ADC_ShakeCnt = 0;
-    g_sys_para2.sampClk = 1000 * g_sys_para1.sampFreq / 25;
+    g_sys_para.sampClk = 1000 * g_sys_para.sampFreq / 25;
 
+    if(g_sys_para.inactiveCondition != 1){
+        g_sys_para.inactiveCount = 0;
+    }
     /* Setup the PWM mode of the timer channel */
-    QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para2.sampClk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
+    QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.sampClk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
     /* Set channel 0 period (66000000 ticks). */
-    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ/g_sys_para1.sampFreq - 1);
+    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ/g_sys_para.sampFreq - 1);
     /* Set channel 1 period (66000000 ticks). */
-    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_CLK_FREQ/g_sys_para1.sampTimeSet - 1);
+    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_CLK_FREQ/g_sys_para.sampTimeSet - 1);
     /* Start the timer - select the timer counting mode */
     QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
     /* Start channel 0. */
@@ -149,7 +152,7 @@ void ADC_AppTask(void)
         xReturn = xTaskNotifyWait(pdFALSE, ULONG_MAX, &r_event, portMAX_DELAY);
         if ( pdTRUE == xReturn ) {
             if(r_event & NOTIFY_TMR1) {
-                g_sys_para2.periodSpdSignal = (timeCapt * 1000) / counterClock;
+                g_sys_para.periodSpdSignal = (timeCapt * 1000) / counterClock;
             }
 
             if(r_event & NOTIFY_FINISH){//完成采样

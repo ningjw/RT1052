@@ -91,8 +91,12 @@ void LED_AppTask(void)
         }
         else 
         {
+            if((SNVS_HP_GetStatusFlags(SNVS) & SNVS_HPSR_BTN_MASK) == 0){
+                g_sys_para.inactiveCount = 0;
+            }
+            
             //ÏµÍ³×´Ì¬Ö¸Ê¾µÆ
-            switch(g_sys_para2.sampLedStatus)
+            switch(g_sys_para.sampLedStatus)
             {
             case WORK_FINE://ºìµÆÃð,ÂÌµÆÁÁ
                 GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, OFF);
@@ -113,7 +117,7 @@ void LED_AppTask(void)
             }
 
             //µç³Ø×´Ì¬Ö¸Ê¾µÆ
-            switch(g_sys_para2.batLedStatus)
+            switch(g_sys_para.batLedStatus)
             {
             case BAT_FULL://ºìµÆÃð,ÂÌµÆÁÁ
                 GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
@@ -142,7 +146,7 @@ void LED_AppTask(void)
             }
 
             //À¶ÑÀ×´Ì¬Ö¸Ê¾µÆ
-            switch(g_sys_para2.bleLedStatus)
+            switch(g_sys_para.bleLedStatus)
             {
             case BLE_CLOSE://ºìµÆÃð,ÂÌµÆÃð
                 GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);

@@ -31,12 +31,12 @@ void eMMC_GetFree(){
     /* Get volume information and free clusters of drive 3 */
     res = f_getfree("3", &fre_clust, &fs);
     if (res == FR_OK){
-        g_sys_para2.emmcIsOk = true;
+        g_sys_para.emmcIsOk = true;
         /* Get total sectors and free sectors */
-        g_sys_para2.emmc_tot_size = ((fs->n_fatent - 2) * fs->csize )/2;
-        g_sys_para2.emmc_fre_size = (fre_clust * fs->csize) / 2;
+        g_sys_para.emmc_tot_size = ((fs->n_fatent - 2) * fs->csize )/2;
+        g_sys_para.emmc_fre_size = (fre_clust * fs->csize) / 2;
     }else{
-        g_sys_para2.emmcIsOk = false;
+        g_sys_para.emmcIsOk = false;
     }
 }
     
@@ -87,7 +87,7 @@ void eMMC_SaveSampleData(void)
     UINT    g_bytesWritten;
     int     samp_set_size = 0;
     //判断腾出的空间是否够本次采样.
-    while(g_sys_para2.emmc_fre_size <= g_sys_para2.sampFileSize){
+    while(g_sys_para.emmc_fre_size <= g_sys_para.sampFileSize){
         eMMC_GetFree();
         eMMC_ScanDelFile();
     }
@@ -98,7 +98,7 @@ void eMMC_SaveSampleData(void)
     sprintf((char *)fileName, "%d%d%d%d%d%d",rtcDate.year%100, rtcDate.month,rtcDate.day,rtcDate.hour,rtcDate.minute,rtcDate.second);
     res = f_open(&g_fileObject, _T(fileName), (FA_WRITE | FA_READ | FA_CREATE_ALWAYS));
     if (res){ /* error or disk full */
-        g_sys_para2.emmcIsOk = false;
+        g_sys_para.emmcIsOk = false;
         return;
     }
     
@@ -106,9 +106,9 @@ void eMMC_SaveSampleData(void)
     samp_set_size = (int)&g_adc_set.start - (int)&g_adc_set.end;
     res = f_write(&g_fileObject, &g_adc_set.sampSpdSize, samp_set_size, &g_bytesWritten);
     if (res == FR_OK && g_bytesWritten == samp_set_size){
-        g_sys_para2.emmcIsOk = true;
+        g_sys_para.emmcIsOk = true;
     } else {
-        g_sys_para2.emmcIsOk = false;
+        g_sys_para.emmcIsOk = false;
     }
     
     /* Move to end of the file to append data */
@@ -117,9 +117,9 @@ void eMMC_SaveSampleData(void)
     /* 向文件内写入内容 */
     res = f_write(&g_fileObject, SpeedADC, g_adc_set.sampSpdSize, &g_bytesWritten);
     if (res == FR_OK && g_bytesWritten == g_adc_set.sampSpdSize){
-        g_sys_para2.emmcIsOk = true;
+        g_sys_para.emmcIsOk = true;
     } else {
-        g_sys_para2.emmcIsOk = false;
+        g_sys_para.emmcIsOk = false;
     }
     
     /* Move to end of the file to append data */
@@ -128,17 +128,17 @@ void eMMC_SaveSampleData(void)
     /* 向文件内写入内容 */
     res = f_write(&g_fileObject, ShakeADC, g_adc_set.sampShakeSize, &g_bytesWritten);
     if (res == FR_OK && g_bytesWritten == g_adc_set.sampShakeSize){
-        g_sys_para2.emmcIsOk = true;
+        g_sys_para.emmcIsOk = true;
     } else {
-        g_sys_para2.emmcIsOk = false;
+        g_sys_para.emmcIsOk = false;
     }
     
     /*关闭文件*/
     res = f_close(&g_fileObject);
     if (res) {
-        g_sys_para2.emmcIsOk = false;
+        g_sys_para.emmcIsOk = false;
     } else {
-        g_sys_para2.emmcIsOk = true;
+        g_sys_para.emmcIsOk = true;
     }
 }
 
@@ -171,17 +171,17 @@ void eMMC_CheckFatfs(void)
     /*创建文件*/
     error = f_open(&g_fileObject, _T("chk.txt"), FA_CREATE_NEW);
     if (error == FR_OK || error == FR_EXIST){
-        g_sys_para2.emmcIsOk = true;
+        g_sys_para.emmcIsOk = true;
     } else {
-        g_sys_para2.emmcIsOk = false;
+        g_sys_para.emmcIsOk = false;
     }
     
     /*打开文件*/
     error = f_open(&g_fileObject, _T("chk.txt"), (FA_WRITE | FA_READ ));
     if (error == FR_OK || error == FR_EXIST){
-        g_sys_para2.emmcIsOk = true;
+        g_sys_para.emmcIsOk = true;
     } else {
-        g_sys_para2.emmcIsOk = false;
+        g_sys_para.emmcIsOk = false;
     }
     
     /*初始化数据缓冲区，为文件的读写做准备*/
@@ -189,47 +189,47 @@ void eMMC_CheckFatfs(void)
     /* 向文件内写入内容 */
     error = f_write(&g_fileObject, g_bufferWrite, sizeof(g_bufferWrite), &g_bytesWritten);
     if (error == FR_OK && g_bytesWritten == sizeof(g_bufferWrite)){
-        g_sys_para2.emmcIsOk = true;
+        g_sys_para.emmcIsOk = true;
     } else {
-        g_sys_para2.emmcIsOk = false;
+        g_sys_para.emmcIsOk = false;
     }
     
     /* 移动文件读写指针到文件开始处 */
     if (f_lseek(&g_fileObject, 0U)){
-        g_sys_para2.emmcIsOk = false;
+        g_sys_para.emmcIsOk = false;
     } else {
-        g_sys_para2.emmcIsOk = true;
+        g_sys_para.emmcIsOk = true;
     }
     
     /*读取文件的内容到 g_data_read 缓冲区*/
     memset(g_bufferRead, 0U, sizeof(g_bufferRead));
     error = f_read(&g_fileObject, g_bufferRead, sizeof(g_bufferRead), &g_bytesRead);
     if ((error == FR_OK) && (g_bytesRead == sizeof(g_bufferRead))){
-        g_sys_para2.emmcIsOk = false;
+        g_sys_para.emmcIsOk = false;
     } else {
-        g_sys_para2.emmcIsOk = true;
+        g_sys_para.emmcIsOk = true;
     }
     
     /*比较读写内容是否一致*/
     if (memcmp(g_bufferWrite, g_bufferRead, sizeof(g_bufferWrite))){
-        g_sys_para2.emmcIsOk = false;
+        g_sys_para.emmcIsOk = false;
     } else {
-        g_sys_para2.emmcIsOk = true;
+        g_sys_para.emmcIsOk = true;
     }
     
     /*关闭文件*/
     error = f_close(&g_fileObject);
     if (error) {
-        g_sys_para2.emmcIsOk = false;
+        g_sys_para.emmcIsOk = false;
     } else {
-        g_sys_para2.emmcIsOk = true;
+        g_sys_para.emmcIsOk = true;
     }
     
     eMMC_GetFree();
     
     /*判断文件系统是否测试成功*/
-    if(g_sys_para2.emmcIsOk == false){
-        g_sys_para2.sampLedStatus = WORK_ERR;
+    if(g_sys_para.emmcIsOk == false){
+        g_sys_para.sampLedStatus = WORK_ERR;
     }
 }
 
@@ -249,21 +249,21 @@ void eMMC_Init(void)
     ret = f_mount(&g_fileSystem, driverNumberBuffer, true);
     if (ret)
     {
-        g_sys_para2.emmcIsOk = false;
+        g_sys_para.emmcIsOk = false;
         ret = f_mkfs(driverNumberBuffer, FM_FAT32, 0U, work, sizeof work);//制作文件系统
         if (ret) {
-            g_sys_para2.emmcIsOk = false;
+            g_sys_para.emmcIsOk = false;
         } else {
-            g_sys_para2.emmcIsOk = true;
+            g_sys_para.emmcIsOk = true;
             ret = f_mount(&g_fileSystem, driverNumberBuffer, true);//重新挂载
             if(ret) {
-                g_sys_para2.emmcIsOk = false;
+                g_sys_para.emmcIsOk = false;
             } else {
-                g_sys_para2.emmcIsOk = true;
+                g_sys_para.emmcIsOk = true;
             }
         }
     } else {
-        g_sys_para2.emmcIsOk = true;
+        g_sys_para.emmcIsOk = true;
     }
     /*允许使用相对路径*/
     f_chdrive((char const *)&driverNumberBuffer[0U]);

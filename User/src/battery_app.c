@@ -34,26 +34,26 @@ void BAT_AppTask(void)
     while(1)
     {
         // Battery voltage
-		g_sys_para2.batVoltage = LTC2942_GetVoltage() / 1000.0;
+		g_sys_para.batVoltage = LTC2942_GetVoltage() / 1000.0;
         
 		// Chip temperature
-		g_sys_para2.batTemp = LTC2942_GetTemperature() / 100.0;
+		g_sys_para.batTemp = LTC2942_GetTemperature() / 100.0;
         
 		// Accumulated charge
-        g_sys_para2.batChargePercent = LTC2942_GetAC() * 100.0 / 65535;
+        g_sys_para.batChargePercent = LTC2942_GetAC() * 100.0 / 65535;
         
         if(READ_CHARGE_STA == 0 && READ_STDBY_STA == 1){//充电中
-            g_sys_para2.batLedStatus = BAT_CHARGING;
+            g_sys_para.batLedStatus = BAT_CHARGING;
             BAT_CHG_UNCOMPLETE;
         }else if(READ_CHARGE_STA == 1 && READ_STDBY_STA == 0){//充电完成
-            g_sys_para2.batLedStatus = BAT_FULL;
+            g_sys_para.batLedStatus = BAT_FULL;
             BAT_CHG_COMPLETE;
-        }else if(g_sys_para2.batChargePercent <= g_sys_para1.batAlarmValue){//低于报警值
-            g_sys_para2.batLedStatus = BAT_ALARM;
-        }else if(g_sys_para2.batChargePercent <= 20){//电池电量小于百分之20
-            g_sys_para2.batLedStatus = BAT_LOW20;
+        }else if(g_sys_para.batChargePercent <= g_sys_para.batAlarmValue){//低于报警值
+            g_sys_para.batLedStatus = BAT_ALARM;
+        }else if(g_sys_para.batChargePercent <= 20){//电池电量小于百分之20
+            g_sys_para.batLedStatus = BAT_LOW20;
         }else{
-            g_sys_para2.batLedStatus = BAT_NORMAL;
+            g_sys_para.batLedStatus = BAT_NORMAL;
         }
         vTaskDelay(2000);
     }

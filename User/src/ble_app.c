@@ -106,7 +106,7 @@ void BLE_AppTask(void)
     uint8_t* sendBuf = NULL;
     xReturn = AT_SendCmd(BT_NAME, DEVICE_BLE_NAME, RESP_OK, &g_at_cfg);//设置蓝牙名称
 //    if( xReturn == true ){
-        g_sys_para2.bleLedStatus = BLE_READY;
+        g_sys_para.bleLedStatus = BLE_READY;
 //    }
     SET_THROUGHPUT_MODE();//进入透传模式
     memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
@@ -172,7 +172,9 @@ void LPUART2_IRQHandler(void)
 void TMR2_IRQHandler(void)
 {
     g_puart2StartRx = 0;
-    g_sys_para2.inactiveCount = 0;
+    if(g_sys_para.inactiveCondition == 1){
+        g_sys_para.inactiveCount = 0;
+    }
     QTMR_ClearStatusFlags(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_CompareFlag);//清中断标志
     QTMR_StopTimer(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL);//停止计数器
     xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);/*设置事件 */

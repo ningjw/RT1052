@@ -107,15 +107,8 @@ LR_m_text m_interrupts_start m_text_start+m_text_size-m_interrupts_size {   ; lo
     * (InRoot$$Sections)
 	startup_mimxrt1052.o(+RO)
 	system_mimxrt1052.o(+RO)
-  } 
-
-  ;	EMPTY表示这段空间留空，防止其它应用占用或编译提示warning
-  VECTOR_RAM m_sdram_interrupts_start EMPTY m_sdram_interrupts_size { ;execution address
-   
-   ;这部分内容由board.c文件中的CopyAndUseRAMVectorTable函数从VECTOR_ROM中复制得到
-   ;得到SDRAM版本的中断向量表
   }
-  
+
   ;存放主体程序的SDRAM空间，由__main函数从FLASH中加载
   ER_m_ram_text m_sdram_text_start m_sdram_text_size { ;execution address
     .ANY (+RO)

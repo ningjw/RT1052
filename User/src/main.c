@@ -5,8 +5,8 @@ static void AppTaskCreate(void);                      /* 用于创建任务 */
 void BOARD_ConfigMPU(void);
 void BOARD_InitDebugConsole(void);
 
-SysPara1 g_sys_para1;
-SysPara2 g_sys_para2;
+SysPara g_sys_para;
+
 ADC_Set  g_adc_set;
 
 /***************************************************************************************
@@ -16,17 +16,18 @@ ADC_Set  g_adc_set;
 ***************************************************************************************/
 static void InitSysPara()
 {
-    g_sys_para1.inactiveTime = 15;    //默认15分钟没有活动后，自动关机。
-    g_sys_para1.batAlarmValue = 10;   //电池电量报警值
-    g_sys_para1.inactiveCondition = 1;//蓝牙连接没有通信后,15分钟关机.
-    g_sys_para1.sampBandwidth = 10000;//取样带宽,默认10k
-    g_sys_para1.sampFreq = 1000;      //取样频率,默认1k
-    g_sys_para1.sampTimeSet = 1;      //取样时间,默认s
-    g_sys_para1.sampMode = 0;         //高精度模式
-    g_sys_para2.inactiveCount = 0;    //
-    g_sys_para2.sampLedStatus = WORK_FINE;
-    g_sys_para2.batLedStatus = BAT_NORMAL;
-    g_sys_para2.bleLedStatus = BLE_CLOSE;
+    g_sys_para.inactiveCondition = 1;//默认蓝牙没有通信是开始计时
+    g_sys_para.inactiveTime = 15;    //默认15分钟没有活动后，自动关机。
+    g_sys_para.batAlarmValue = 10;   //电池电量报警值
+    g_sys_para.inactiveCondition = 1;//蓝牙连接没有通信后,15分钟关机.
+    g_sys_para.sampBandwidth = 10000;//取样带宽,默认10k
+    g_sys_para.sampFreq = 1000;      //取样频率,默认1k
+    g_sys_para.sampTimeSet = 1;      //取样时间,默认s
+    g_sys_para.sampMode = 0;         //高精度模式
+    g_sys_para.inactiveCount = 0;    //
+    g_sys_para.sampLedStatus = WORK_FINE;
+    g_sys_para.batLedStatus = BAT_NORMAL;
+    g_sys_para.bleLedStatus = BLE_CLOSE;
 }
 
 /***********************************************************************

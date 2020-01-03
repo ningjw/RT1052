@@ -35,7 +35,7 @@ static char* ParseSetTime(cJSON *pJson, cJSON * pSub)
     
     /*设置日期和时间*/
     SNVS_HP_RTC_SetDatetime(SNVS, &rtcDate);
-    g_sys_para2.bleLedStatus = BLE_CONNECT;
+    g_sys_para.bleLedStatus = BLE_CONNECT;
     
     /*制作cjson格式的回复消息*/
     cJSON *pJsonRoot = cJSON_CreateObject();
@@ -94,24 +94,24 @@ static char * ParseChkSelf(void)
     LED_CheckSelf();
     
     //电池自检
-    g_sys_para2.batVoltage = LTC2942_GetVoltage() / 1000.0;// Battery voltage
-    g_sys_para2.batTemp = LTC2942_GetTemperature() / 100.0;// Chip temperature
-    g_sys_para2.batChargePercent = LTC2942_GetAC() * 100.0 / 65536; // Accumulated charge
+    g_sys_para.batVoltage = LTC2942_GetVoltage() / 1000.0;// Battery voltage
+    g_sys_para.batTemp = LTC2942_GetTemperature() / 100.0;// Chip temperature
+    g_sys_para.batChargePercent = LTC2942_GetAC() * 100.0 / 65536; // Accumulated charge
     
     //文件系统自检
     eMMC_CheckFatfs();
     
     //震动传感器电压
     while (ADC_READY == 0);  //wait ads1271 ready
-    g_sys_para2.voltageADS1271 = LPSPI4_ReadData() * 2.37f * 2 / 8388607;
+    g_sys_para.voltageADS1271 = LPSPI4_ReadData() * 2.37f * 2 / 8388607;
     
     cJSON_AddNumberToObject(pJsonRoot, "Id", 3);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
-    cJSON_AddNumberToObject(pJsonRoot, "AdcV", g_sys_para2.voltageADS1271);  //振动传感器偏置电压
-    cJSON_AddNumberToObject(pJsonRoot, "Temp",g_sys_para2.batTemp);          //温度传感器的温度
-    cJSON_AddNumberToObject(pJsonRoot, "PwrV",g_sys_para2.batVoltage);       //电源电压值
-    cJSON_AddNumberToObject(pJsonRoot, "BatC", g_sys_para2.batChargePercent);//电池电量
-    cJSON_AddNumberToObject(pJsonRoot, "Flash",(uint8_t)g_sys_para2.emmcIsOk);//文件系统是否OK
+    cJSON_AddNumberToObject(pJsonRoot, "AdcV", g_sys_para.voltageADS1271);  //振动传感器偏置电压
+    cJSON_AddNumberToObject(pJsonRoot, "Temp",g_sys_para.batTemp);          //温度传感器的温度
+    cJSON_AddNumberToObject(pJsonRoot, "PwrV",g_sys_para.batVoltage);       //电源电压值
+    cJSON_AddNumberToObject(pJsonRoot, "BatC", g_sys_para.batChargePercent);//电池电量
+    cJSON_AddNumberToObject(pJsonRoot, "Flash",(uint8_t)g_sys_para.emmcIsOk);//文件系统是否OK
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     return p_reply;
@@ -130,7 +130,7 @@ static char * ParseGetBatCapacity(void)
     }
     cJSON_AddNumberToObject(pJsonRoot, "Id", 4);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
-    cJSON_AddNumberToObject(pJsonRoot, "BatC", g_sys_para2.batChargePercent);//电池电量
+    cJSON_AddNumberToObject(pJsonRoot, "BatC", g_sys_para.batChargePercent);//电池电量
  
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
@@ -168,15 +168,15 @@ static char * ParseSetSysPara(cJSON *pJson, cJSON * pSub)
     /*解析消息内容,*/
     pSub = cJSON_GetObjectItem(pJson, "OffT");
     if (NULL != pSub)
-        g_sys_para1.inactiveTime = pSub->valueint;//触发自动关机时间
+        g_sys_para.inactiveTime = pSub->valueint;//触发自动关机时间
     
     pSub = cJSON_GetObjectItem(pJson, "OffC");
     if (NULL != pSub)
-        g_sys_para1.inactiveCondition = pSub->valueint;//触发自动关机条件
+        g_sys_para.inactiveCondition = pSub->valueint;//触发自动关机条件
     
     pSub = cJSON_GetObjectItem(pJson, "BatL");
     if (NULL != pSub)
-        g_sys_para1.batAlarmValue = pSub->valueint;//电池电量报警值
+        g_sys_para.batAlarmValue = pSub->valueint;//电池电量报警值
     
     /*制作cjson格式的回复消息*/
     cJSON *pJsonRoot = cJSON_CreateObject();
@@ -200,19 +200,19 @@ static char * ParseSetSamplePara(cJSON *pJson, cJSON * pSub)
     /*解析消息内容,*/
     pSub = cJSON_GetObjectItem(pJson, "Mode");
     if (NULL != pSub)
-        g_sys_para1.sampMode = pSub->valueint;
+        g_sys_para.sampMode = pSub->valueint;
     
     pSub = cJSON_GetObjectItem(pJson, "Freq");
     if (NULL != pSub){
-        g_sys_para1.sampFreq = pSub->valueint;
+        g_sys_para.sampFreq = pSub->valueint;
     }
     pSub = cJSON_GetObjectItem(pJson, "Bw");
     if (NULL != pSub)
-        g_sys_para1.sampBandwidth = pSub->valueint;
+        g_sys_para.sampBandwidth = pSub->valueint;
     
     pSub = cJSON_GetObjectItem(pJson, "Time");
     if (NULL != pSub){
-        g_sys_para1.sampTimeSet = pSub->valueint;
+        g_sys_para.sampTimeSet = pSub->valueint;
     }
     
     /*制作cjson格式的回复消息*/
@@ -240,7 +240,7 @@ static char * ParseStartSample(void)
     }
     cJSON_AddNumberToObject(pJsonRoot, "Id",  8);
     cJSON_AddNumberToObject(pJsonRoot, "Sid", 0);
-    cJSON_AddNumberToObject(pJsonRoot, "Packs",g_sys_para2.sampPacks);
+    cJSON_AddNumberToObject(pJsonRoot, "Packs",g_sys_para.sampPacks);
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     ADC_SampleStart();
@@ -322,19 +322,19 @@ static char * ParseStartUpdate(cJSON *pJson, cJSON * pSub)
     /*解析消息内容,*/
     pSub = cJSON_GetObjectItem(pJson, "Packs");
     if (NULL != pSub)
-        g_sys_para1.firmPacksTotal = pSub->valueint;
+        g_sys_para.firmPacksTotal = pSub->valueint;
     
     pSub = cJSON_GetObjectItem(pJson, "Size");
     if (NULL != pSub)
-        g_sys_para1.firmSizeTotal = pSub->valueint;
+        g_sys_para.firmSizeTotal = pSub->valueint;
     
     pSub = cJSON_GetObjectItem(pJson, "CRC16");
     if (NULL != pSub)
-        g_sys_para1.firmCrc16 = pSub->valueint;
+        g_sys_para.firmCrc16 = pSub->valueint;
     
-    g_sys_para1.firmPacksCount = 0;
-	g_sys_para1.firmSizeCurrent = 0;
-	g_sys_para1.firmUpdate = false;
+    g_sys_para.firmPacksCount = 0;
+	g_sys_para.firmSizeCurrent = 0;
+	g_sys_para.firmUpdate = false;
     
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot){
@@ -423,11 +423,11 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
 	if(pMsg[132] != (crc>>8) || pMsg[133] != (uint8_t)crc){
 		err_code = 1;
 	}
-	if(pMsg[2] == g_sys_para1.firmPacksTotal - 1 ){//当前为最后一包,计算整个固件的crc16码
+	if(pMsg[2] == g_sys_para.firmPacksTotal - 1 ){//当前为最后一包,计算整个固件的crc16码
 //		err_code = 2;
-		g_sys_para1.firmUpdate = true;
+		g_sys_para.firmUpdate = true;
 	}
-	g_sys_para1.firmSizeCurrent += pMsg[3];
+	g_sys_para.firmSizeCurrent += pMsg[3];
     memcpy(g_lpuart2TxBuf, pMsg, 3);
     g_lpuart2TxBuf[3] = g_puart2RxCnt - 6;//接受到的有效数据个数
     g_lpuart2TxBuf[4] = err_code;         //错误码
