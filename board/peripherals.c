@@ -718,7 +718,7 @@ instance:
         - channel: 'kQTMR_Channel_0'
         - primarySource: 'kQTMR_ClockDivide_1'
         - secondarySource: 'kQTMR_Counter0InputPin'
-        - countingMode: 'kQTMR_PriSrcRiseEdge'
+        - countingMode: 'kQTMR_NoOperation'
         - enableMasterMode: 'false'
         - enableExternalForce: 'false'
         - faultFilterCount: '3'
@@ -760,7 +760,7 @@ void QuadTimer1_init(void) {
   /* Enable interrupt TMR1_IRQn request in the NVIC */
   EnableIRQ(QUADTIMER1_IRQN);
   /* Start the timer - select the timer counting mode */
-  QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
+  QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_NoOperation);
 }
 
 /***********************************************************************************************************************
@@ -968,6 +968,69 @@ void QuadTimer2_init(void) {
 }
 
 /***********************************************************************************************************************
+ * LPI2C3 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'LPI2C3'
+- type: 'lpi2c'
+- mode: 'master'
+- type_id: 'lpi2c_db68d4f4f06a22e25ab51fe9bd6db4d2'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'LPI2C3'
+- config_sets:
+  - main:
+    - clockSource: 'Lpi2cClock'
+    - clockSourceFreq: 'BOARD_BootClockRUN'
+    - interrupt:
+      - IRQn: 'LPI2C3_IRQn'
+      - enable_priority: 'false'
+      - priority: '0'
+      - enable_custom_name: 'false'
+    - quick_selection: 'qs_interrupt'
+  - master:
+    - mode: 'polling'
+    - config:
+      - enableMaster: 'true'
+      - enableDoze: 'true'
+      - debugEnable: 'false'
+      - ignoreAck: 'false'
+      - pinConfig: 'kLPI2C_2PinOpenDrain'
+      - baudRate_Hz: '10000'
+      - busIdleTimeout_ns: '0'
+      - pinLowTimeout_ns: '0'
+      - sdaGlitchFilterWidth_ns: '0'
+      - sclGlitchFilterWidth_ns: '0'
+      - hostRequest:
+        - enable: 'false'
+        - source: 'kLPI2C_HostRequestExternalPin'
+        - polarity: 'kLPI2C_HostRequestPinActiveHigh'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const lpi2c_master_config_t LPI2C3_masterConfig = {
+  .enableMaster = true,
+  .enableDoze = true,
+  .debugEnable = false,
+  .ignoreAck = false,
+  .pinConfig = kLPI2C_2PinOpenDrain,
+  .baudRate_Hz = 10000,
+  .busIdleTimeout_ns = 0,
+  .pinLowTimeout_ns = 0,
+  .sdaGlitchFilterWidth_ns = 0,
+  .sclGlitchFilterWidth_ns = 0,
+  .hostRequest = {
+    .enable = false,
+    .source = kLPI2C_HostRequestExternalPin,
+    .polarity = kLPI2C_HostRequestPinActiveHigh
+  }
+};
+
+void LPI2C3_init(void) {
+  LPI2C_MasterInit(LPI2C3_PERIPHERAL, &LPI2C3_masterConfig, LPI2C3_CLOCK_FREQ);
+}
+
+/***********************************************************************************************************************
  * Initialization functions
  **********************************************************************************************************************/
 void BOARD_InitPeripherals(void)
@@ -992,6 +1055,7 @@ void BOARD_InitPeripherals(void)
   ADC1_init();
   ADC_ETC_init();
   QuadTimer2_init();
+  LPI2C3_init();
 }
 
 /***********************************************************************************************************************

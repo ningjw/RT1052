@@ -82,3 +82,4 @@
 .\objects\utility.o: .\User\inc\adc_app.h
 .\objects\utility.o: .\User\inc\battery_app.h
 .\objects\utility.o: .\User\inc\led_app.h
+.\objects\utility.o: .\User\inc\norflash_app.h

@@ -89,6 +89,7 @@ typedef struct{
     uint32_t sampPacks;    //总共采集道的数据,需要分多少个包发给Android
     float    batVoltage;   //电池电压
     float    batTemp;      //电池温度
+    float    objTemp;      //物体温度
     float    batRemainPercent;//充电百分比
     float    voltageSpd;
     float    voltageADS1271;

@@ -82,3 +82,4 @@
 .\objects\interrupt.o: .\User\inc\adc_app.h
 .\objects\interrupt.o: .\User\inc\battery_app.h
 .\objects\interrupt.o: .\User\inc\led_app.h
+.\objects\interrupt.o: .\User\inc\norflash_app.h

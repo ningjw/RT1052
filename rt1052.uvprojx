@@ -409,6 +409,11 @@
               <FilePath>.\User\src\ble_app.c</FilePath>
             </File>
             <File>
+              <FileName>ble_protocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\ble_protocol.c</FilePath>
+            </File>
+            <File>
               <FileName>adc_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\adc_app.c</FilePath>
@@ -422,11 +427,6 @@
               <FileName>led_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\led_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>ble_protocol.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\ble_protocol.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -995,6 +995,11 @@
               <FilePath>.\User\src\ble_app.c</FilePath>
             </File>
             <File>
+              <FileName>ble_protocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\ble_protocol.c</FilePath>
+            </File>
+            <File>
               <FileName>adc_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\adc_app.c</FilePath>
@@ -1008,11 +1013,6 @@
               <FileName>led_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\led_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>ble_protocol.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\ble_protocol.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1581,6 +1581,11 @@
               <FilePath>.\User\src\ble_app.c</FilePath>
             </File>
             <File>
+              <FileName>ble_protocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\ble_protocol.c</FilePath>
+            </File>
+            <File>
               <FileName>adc_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\adc_app.c</FilePath>
@@ -1594,11 +1599,6 @@
               <FileName>led_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\led_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>ble_protocol.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\ble_protocol.c</FilePath>
             </File>
           </Files>
         </Group>

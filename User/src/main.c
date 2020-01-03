@@ -6,7 +6,6 @@ void BOARD_ConfigMPU(void);
 void BOARD_InitDebugConsole(void);
 
 SysPara g_sys_para;
-
 ADC_Set  g_adc_set;
 
 /***************************************************************************************

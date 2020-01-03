@@ -50,7 +50,7 @@ extern "C" {
 /* Definition of ticks count for channel 0. */
 #define PIT1_0_TICKS 6599U
 /* Definition of ticks count for channel 1. */
-#define PIT1_1_TICKS 65999U
+#define PIT1_1_TICKS 65999999U
 /* Definition of ticks count for channel 2. */
 #define PIT1_2_TICKS 3959999999U
 /* PIT1 interrupt vector ID (number). */

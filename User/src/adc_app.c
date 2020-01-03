@@ -60,8 +60,7 @@ void TMR1_IRQHandler(void)
     /* 清除中断标志 */
     QTMR_ClearStatusFlags(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_EdgeFlag);
     timeCapt = QUADTIMER1_PERIPHERAL->CHANNEL[QUADTIMER1_CHANNEL_0_CHANNEL].CAPT;//读取寄存器值
-    /* 触发一个事件  */
-    xTaskNotify(ADC_TaskHandle, NOTIFY_TMR1, eSetBits);
+    
 }
 
 
@@ -107,6 +106,8 @@ void ADC_SampleStart(void)
     /* Set channel 1 period (66000000 ticks). */
     PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_CLK_FREQ/g_sys_para.sampTimeSet - 1);
     /* Start the timer - select the timer counting mode */
+    QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
+    /* Start the timer - select the timer counting mode */
     QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
     /* Start channel 0. */
     PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
@@ -124,6 +125,7 @@ void ADC_SampleStop(void)
 {
     /* Stop the timer */
     QTMR_StopTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL);
+    QTMR_StopTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL);
     /* Stop channel 0. */
     PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
     /* Stop channel 1. */
@@ -153,18 +155,17 @@ void ADC_AppTask(void)
         /*wait task notify*/
         xReturn = xTaskNotifyWait(pdFALSE, ULONG_MAX, &r_event, portMAX_DELAY);
         if ( pdTRUE == xReturn ) {
-            if(r_event & NOTIFY_TMR1) {
-                g_sys_para.periodSpdSignal = (timeCapt * 1000) / counterClock;
-            }
-
             if(r_event & NOTIFY_FINISH){//完成采样
                 for(uint32_t i = 0; i< ADC_SpdCnt; i++){
                     SpeedADC[i] = SpeedADC[i] * 3.3f / 4096.0f;
                 }
                 
                 for(uint32_t i = 0; i< ADC_ShakeCnt; i++){
-                    ShakeADC[i] = ShakeADC[i] * 2.37f * 2 / 8388607;
+                    ShakeADC[i] = ShakeADC[i] * 2.43f * 2 / 8388607;
                 }
+                
+                /* 计算周期 */
+                g_sys_para.periodSpdSignal = (timeCapt * 1000) / counterClock;
                 //将本次采样数据保存到文件
 //                eMMC_SaveSampleData();
             }

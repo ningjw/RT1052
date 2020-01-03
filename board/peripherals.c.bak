@@ -171,13 +171,13 @@ instance:
         - channelNumber: '0'
         - enableChain: 'false'
         - timerPeriod: '100us'
-        - startTimer: 'true'
+        - startTimer: 'false'
         - enableInterrupt: 'false'
       - 1:
         - channelNumber: '1'
         - enableChain: 'false'
-        - timerPeriod: '1ms'
-        - startTimer: 'true'
+        - timerPeriod: '1s'
+        - startTimer: 'false'
         - enableInterrupt: 'true'
       - 2:
         - channelNumber: '2'
@@ -196,7 +196,7 @@ void PIT1_init(void) {
   PIT_Init(PIT1_PERIPHERAL, &PIT1_config);
   /* Set channel 0 period to 100 µs (6600 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_0_TICKS);
-  /* Set channel 1 period to 1 ms (66000 ticks). */
+  /* Set channel 1 period to 1 s (66000000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_1_TICKS);
   /* Set channel 2 period to 1 m (3960000000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_2, PIT1_2_TICKS);
@@ -208,10 +208,6 @@ void PIT1_init(void) {
   NVIC_SetPriority(PIT1_IRQN, PIT1_IRQ_PRIORITY);
   /* Enable interrupt PIT1_IRQN request in the NVIC */
   EnableIRQ(PIT1_IRQN);
-  /* Start channel 0. */
-//  PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
-  /* Start channel 1. */
-  PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_1);
   /* Start channel 2. */
   PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
 }
@@ -972,6 +968,69 @@ void QuadTimer2_init(void) {
 }
 
 /***********************************************************************************************************************
+ * LPI2C3 initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'LPI2C3'
+- type: 'lpi2c'
+- mode: 'master'
+- type_id: 'lpi2c_db68d4f4f06a22e25ab51fe9bd6db4d2'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'LPI2C3'
+- config_sets:
+  - main:
+    - clockSource: 'Lpi2cClock'
+    - clockSourceFreq: 'BOARD_BootClockRUN'
+    - interrupt:
+      - IRQn: 'LPI2C3_IRQn'
+      - enable_priority: 'false'
+      - priority: '0'
+      - enable_custom_name: 'false'
+    - quick_selection: 'qs_interrupt'
+  - master:
+    - mode: 'polling'
+    - config:
+      - enableMaster: 'true'
+      - enableDoze: 'true'
+      - debugEnable: 'false'
+      - ignoreAck: 'false'
+      - pinConfig: 'kLPI2C_2PinOpenDrain'
+      - baudRate_Hz: '10000'
+      - busIdleTimeout_ns: '0'
+      - pinLowTimeout_ns: '0'
+      - sdaGlitchFilterWidth_ns: '0'
+      - sclGlitchFilterWidth_ns: '0'
+      - hostRequest:
+        - enable: 'false'
+        - source: 'kLPI2C_HostRequestExternalPin'
+        - polarity: 'kLPI2C_HostRequestPinActiveHigh'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const lpi2c_master_config_t LPI2C3_masterConfig = {
+  .enableMaster = true,
+  .enableDoze = true,
+  .debugEnable = false,
+  .ignoreAck = false,
+  .pinConfig = kLPI2C_2PinOpenDrain,
+  .baudRate_Hz = 10000,
+  .busIdleTimeout_ns = 0,
+  .pinLowTimeout_ns = 0,
+  .sdaGlitchFilterWidth_ns = 0,
+  .sclGlitchFilterWidth_ns = 0,
+  .hostRequest = {
+    .enable = false,
+    .source = kLPI2C_HostRequestExternalPin,
+    .polarity = kLPI2C_HostRequestPinActiveHigh
+  }
+};
+
+void LPI2C3_init(void) {
+  LPI2C_MasterInit(LPI2C3_PERIPHERAL, &LPI2C3_masterConfig, LPI2C3_CLOCK_FREQ);
+}
+
+/***********************************************************************************************************************
  * Initialization functions
  **********************************************************************************************************************/
 void BOARD_InitPeripherals(void)
@@ -996,6 +1055,7 @@ void BOARD_InitPeripherals(void)
   ADC1_init();
   ADC_ETC_init();
   QuadTimer2_init();
+  LPI2C3_init();
 }
 
 /***********************************************************************************************************************

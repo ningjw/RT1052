@@ -94,21 +94,23 @@ static char * ParseChkSelf(void)
     
     //电池自检
     g_sys_para.batVoltage = LTC2942_GetVoltage() / 1000.0;// Battery voltage
-    g_sys_para.batTemp = LTC2942_GetTemperature() / 100.0;// Chip temperature
     g_sys_para.batRemainPercent = LTC2942_GetAC() * 100.0 / 65536; // Accumulated charge
+    
+    //红外测温模块自检
+    g_sys_para.objTemp = MXL_ReadObjTemp();
     
     //文件系统自检
     eMMC_CheckFatfs();
     
     //震动传感器电压
     while (ADC_READY == 0);  //wait ads1271 ready
-    g_sys_para.voltageADS1271 = LPSPI4_ReadData() * 2.37f * 2 / 8388607;
+    g_sys_para.voltageADS1271 = LPSPI4_ReadData() * 2.43f * 2 / 8388607;
     
     cJSON_AddNumberToObject(pJsonRoot, "Id", 3);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
     cJSON_AddNumberToObject(pJsonRoot, "AdcV", g_sys_para.voltageADS1271);  //振动传感器偏置电压
-    cJSON_AddNumberToObject(pJsonRoot, "Temp",(int)g_sys_para.batTemp);     //温度传感器的温度
-    cJSON_AddNumberToObject(pJsonRoot, "PwrV",g_sys_para.batVoltage);       //电源电压值
+    cJSON_AddNumberToObject(pJsonRoot, "Temp", g_sys_para.objTemp);         //温度传感器的温度
+    cJSON_AddNumberToObject(pJsonRoot, "PwrV", g_sys_para.batVoltage);      //电池电压值
     cJSON_AddNumberToObject(pJsonRoot, "BatC", (int)g_sys_para.batRemainPercent);//电池电量
     cJSON_AddNumberToObject(pJsonRoot, "Flash",(uint8_t)g_sys_para.emmcIsOk);//文件系统是否OK
     char *p_reply = cJSON_Print(pJsonRoot);

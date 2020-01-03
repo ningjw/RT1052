@@ -82,3 +82,4 @@
 .\objects\emmc_drv.o: .\User\inc\adc_app.h
 .\objects\emmc_drv.o: .\User\inc\battery_app.h
 .\objects\emmc_drv.o: .\User\inc\led_app.h
+.\objects\emmc_drv.o: .\User\inc\norflash_app.h
