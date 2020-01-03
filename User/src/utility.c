@@ -32,10 +32,10 @@ void Uart_SendString( LPUART_Type *base,  const char *str)
   * @input   
   * @return  
 ***************************************************************************************/
-uint16_t CRC16(uint8_t *data,uint8_t length)
+uint16_t CRC16(uint8_t *data,uint32_t length)
 {
     uint16_t result;
-    uint8_t i,j;
+    uint32_t i,j;
 
     result=0xFFFF;
     if(length!=0)

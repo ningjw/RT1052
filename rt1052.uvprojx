@@ -394,6 +394,11 @@
               <FilePath>.\User\src\main.c</FilePath>
             </File>
             <File>
+              <FileName>norflash_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\norflash_app.c</FilePath>
+            </File>
+            <File>
               <FileName>interrupt.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\interrupt.c</FilePath>
@@ -422,11 +427,6 @@
               <FileName>ble_protocol.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\ble_protocol.c</FilePath>
-            </File>
-            <File>
-              <FileName>norflash_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\norflash_app.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -980,6 +980,11 @@
               <FilePath>.\User\src\main.c</FilePath>
             </File>
             <File>
+              <FileName>norflash_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\norflash_app.c</FilePath>
+            </File>
+            <File>
               <FileName>interrupt.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\interrupt.c</FilePath>
@@ -1008,11 +1013,6 @@
               <FileName>ble_protocol.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\ble_protocol.c</FilePath>
-            </File>
-            <File>
-              <FileName>norflash_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\norflash_app.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1566,6 +1566,11 @@
               <FilePath>.\User\src\main.c</FilePath>
             </File>
             <File>
+              <FileName>norflash_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\norflash_app.c</FilePath>
+            </File>
+            <File>
               <FileName>interrupt.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\interrupt.c</FilePath>
@@ -1594,11 +1599,6 @@
               <FileName>ble_protocol.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\ble_protocol.c</FilePath>
-            </File>
-            <File>
-              <FileName>norflash_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\norflash_app.c</FilePath>
             </File>
           </Files>
         </Group>

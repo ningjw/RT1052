@@ -158,7 +158,7 @@ void BOARD_ConfigMPU(void)
     ARM_MPU_Enable(MPU_CTRL_PRIVDEFENA_Msk);
 
     /* Enable I cache and D cache */
-    SCB_EnableDCache();
+    SCB_DisableDCache();
     SCB_EnableICache();
     
 #if defined(USE_RAM_VECTOR_TABLE)

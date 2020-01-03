@@ -28,6 +28,11 @@ static void InitSysPara()
     g_sys_para.sampLedStatus = WORK_FINE;
     g_sys_para.batLedStatus = BAT_NORMAL;
     g_sys_para.bleLedStatus = BLE_CLOSE;
+    
+    g_sys_para.firmUpdate = false;
+    g_sys_para.firmPacksCount = 0;
+    g_sys_para.firmSizeCurrent = 0;
+    g_sys_para.firmNextAddr = FIRM_DATA_ADDR;
 }
 
 /***********************************************************************

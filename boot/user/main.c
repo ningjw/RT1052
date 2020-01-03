@@ -6,14 +6,13 @@
 #include "./norflash/bsp_norflash.h"
 
 
-#define FLASH_APP_CODE_ADD							0x60020000		//	APP代码起始地址
-#define SDRAM_APP_CODE_ADD							0x80010000		//	sdram APP代码起始地址
+#define FLASH_APP_CODE_ADD							0x60010000		//	APP代码起始地址
+//#define SDRAM_APP_CODE_ADD							0x80010000		//	sdram APP代码起始地址
 
 /*******************************************************************
  * Prototypes
  *******************************************************************/
 
-extern int NorFlash_AHBCommand_Test(void);
 volatile bool test = false;
 uint32_t appSize = 0x32000;
 typedef void (*iapFun)(void);
@@ -33,17 +32,18 @@ __asm void MSR_MSP(uint32_t address)
 void jumpToApp(void)
 {
 	/*	判断地址是否合法	*/
-	if((SDRAM_APP_CODE_ADD&0xFF000000) == 0x80000000){
+	if((FLASH_APP_CODE_ADD&0xFF000000) == 0x60000000){
 		
 		PRINTF("Jump to app\n");
 		
 		/*	将APP的代码从FLASH 中拷贝至SDRAM中运行	*/
-		memcpy((void*)SDRAM_APP_CODE_ADD, (void*)FLASH_APP_CODE_ADD, appSize);
+//		memcpy((void*)SDRAM_APP_CODE_ADD, (void*)FLASH_APP_CODE_ADD, appSize);
 		
 		//设置中断向量表
-		SCB->VTOR = SDRAM_APP_CODE_ADD;	
-		appMain = (iapFun)*(volatile uint32_t*)(SDRAM_APP_CODE_ADD+4);
-		MSR_MSP(*(volatile uint32_t*)SDRAM_APP_CODE_ADD);
+		SCB->VTOR = FLASH_APP_CODE_ADD;
+        
+		appMain = (iapFun)*(volatile uint32_t*)(FLASH_APP_CODE_ADD+4);
+		MSR_MSP(*(volatile uint32_t*)FLASH_APP_CODE_ADD);
 		appMain();
 	}
 	else{

@@ -1,6 +1,5 @@
 #include "main.h"
 
-
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
   * @input   
@@ -96,7 +95,7 @@ static char * ParseChkSelf(void)
     //电池自检
     g_sys_para.batVoltage = LTC2942_GetVoltage() / 1000.0;// Battery voltage
     g_sys_para.batTemp = LTC2942_GetTemperature() / 100.0;// Chip temperature
-    g_sys_para.batChargePercent = LTC2942_GetAC() * 100.0 / 65536; // Accumulated charge
+    g_sys_para.batRemainPercent = LTC2942_GetAC() * 100.0 / 65536; // Accumulated charge
     
     //文件系统自检
     eMMC_CheckFatfs();
@@ -108,9 +107,9 @@ static char * ParseChkSelf(void)
     cJSON_AddNumberToObject(pJsonRoot, "Id", 3);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
     cJSON_AddNumberToObject(pJsonRoot, "AdcV", g_sys_para.voltageADS1271);  //振动传感器偏置电压
-    cJSON_AddNumberToObject(pJsonRoot, "Temp",g_sys_para.batTemp);          //温度传感器的温度
+    cJSON_AddNumberToObject(pJsonRoot, "Temp",(int)g_sys_para.batTemp);     //温度传感器的温度
     cJSON_AddNumberToObject(pJsonRoot, "PwrV",g_sys_para.batVoltage);       //电源电压值
-    cJSON_AddNumberToObject(pJsonRoot, "BatC", g_sys_para.batChargePercent);//电池电量
+    cJSON_AddNumberToObject(pJsonRoot, "BatC", (int)g_sys_para.batRemainPercent);//电池电量
     cJSON_AddNumberToObject(pJsonRoot, "Flash",(uint8_t)g_sys_para.emmcIsOk);//文件系统是否OK
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
@@ -130,7 +129,7 @@ static char * ParseGetBatCapacity(void)
     }
     cJSON_AddNumberToObject(pJsonRoot, "Id", 4);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
-    cJSON_AddNumberToObject(pJsonRoot, "BatC", g_sys_para.batChargePercent);//电池电量
+    cJSON_AddNumberToObject(pJsonRoot, "BatC", g_sys_para.batRemainPercent);//电池电量
  
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
@@ -422,12 +421,21 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
     crc = CRC16(pMsg, g_puart2RxCnt);//自己计算出的CRC16
 	if(pMsg[132] != (crc>>8) || pMsg[133] != (uint8_t)crc){
 		err_code = 1;
-	}
+	}else{
+        g_sys_para.firmPacksCount = pMsg[2];
+        NorFlash_WriteApp(&pMsg[4], FIRM_ONE_PACKE_LEN);
+    }
+    
 	if(pMsg[2] == g_sys_para.firmPacksTotal - 1 ){//当前为最后一包,计算整个固件的crc16码
-//		err_code = 2;
-		g_sys_para.firmUpdate = true;
+        crc = CRC16((void *)FIRM_DATA_ADDR, g_sys_para.firmSizeTotal);
+        if(crc != g_sys_para.firmCrc16){
+            err_code = 2;
+        }else{//整包CRC校验通过,开始重启设备更新.
+            g_sys_para.firmUpdate = true;
+        }
 	}
 	g_sys_para.firmSizeCurrent += pMsg[3];
+    
     memcpy(g_lpuart2TxBuf, pMsg, 3);
     g_lpuart2TxBuf[3] = g_puart2RxCnt - 6;//接受到的有效数据个数
     g_lpuart2TxBuf[4] = err_code;         //错误码

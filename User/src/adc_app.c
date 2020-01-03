@@ -99,6 +99,7 @@ void ADC_SampleStart(void)
     if(g_sys_para.inactiveCondition != 1){
         g_sys_para.inactiveCount = 0;
     }
+    vTaskSuspend(BAT_TaskHandle);
     /* Setup the PWM mode of the timer channel */
     QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.sampClk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
     /* Set channel 0 period (66000000 ticks). */
@@ -127,6 +128,7 @@ void ADC_SampleStop(void)
     PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
     /* Stop channel 1. */
     PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_1);
+    vTaskResume(BAT_TaskHandle);
     /* 触发ADC采样完成事件  */
     xTaskNotify(ADC_TaskHandle, NOTIFY_FINISH, eSetBits);
 }

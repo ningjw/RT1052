@@ -119,6 +119,12 @@ void BLE_AppTask(void)
             sendBuf = ParseProtocol(g_lpuart2RxBuf);//处理蓝牙数据协议
             if(g_lpuart2RxBuf[0] == 0xE7 && g_lpuart2RxBuf[1] == 0xE7){//升级数据包
                 LPUART_WriteBlocking(LPUART2, sendBuf, 7);
+                if( g_sys_para.firmUpdate == true){
+                    //将参数存入Nor Flash
+                    NorFlash_SaveFirmPara();
+                    //关闭所有中断,并复位系统
+                    NVIC_SystemReset();
+                }
             }else if(NULL != sendBuf){//json数据包
                 LPUART2_SendString((char *)sendBuf);
                 free(sendBuf);

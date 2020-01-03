@@ -40,17 +40,22 @@ void BAT_AppTask(void)
 		g_sys_para.batTemp = LTC2942_GetTemperature() / 100.0;
         
 		// Accumulated charge
-        g_sys_para.batChargePercent = LTC2942_GetAC() * 100.0 / 65535;
+        g_sys_para.batRemainPercent = LTC2942_GetAC() * 100.0 / 65535;
         
-        if(READ_CHARGE_STA == 0 && READ_STDBY_STA == 1){//充电中
+        //When the battery is less than 1 , power off
+        if(g_sys_para.batRemainPercent <= 1.0f ){
+            GPIO_PinWrite(BOARD_SYS_PWR_OFF_GPIO,BOARD_SYS_PWR_OFF_PIN,1);
+        }
+        //battery is in charging
+        if(READ_CHARGE_STA == 0 && READ_STDBY_STA == 1){
             g_sys_para.batLedStatus = BAT_CHARGING;
             BAT_CHG_UNCOMPLETE;
-        }else if(READ_CHARGE_STA == 1 && READ_STDBY_STA == 0){//充电完成
+        }else if(READ_CHARGE_STA == 1 && READ_STDBY_STA == 0){//charge compelete
             g_sys_para.batLedStatus = BAT_FULL;
             BAT_CHG_COMPLETE;
-        }else if(g_sys_para.batChargePercent <= g_sys_para.batAlarmValue){//低于报警值
+        }else if(g_sys_para.batRemainPercent <= g_sys_para.batAlarmValue){//battery is less than alarm value
             g_sys_para.batLedStatus = BAT_ALARM;
-        }else if(g_sys_para.batChargePercent <= 20){//电池电量小于百分之20
+        }else if(g_sys_para.batRemainPercent <= 20){//battery is less than 20
             g_sys_para.batLedStatus = BAT_LOW20;
         }else{
             g_sys_para.batLedStatus = BAT_NORMAL;

@@ -3,7 +3,10 @@
 
 #define SOFT_VERSION       "V0.03"
 #define POWER_ON_TIMER_ID  1
-#define ULONG_MAX        0xFFFFFFFF
+#define ULONG_MAX          0xFFFFFFFF
+#define FIRM_INFO_ADDR    0x6000F000
+#define FIRM_DATA_ADDR    0x60010000
+#define FIRM_ONE_PACKE_LEN 128
 
 #include "stdint.h"
 #include "string.h"
@@ -52,24 +55,27 @@
 #include "adc_app.h"
 #include "battery_app.h"
 #include "led_app.h"
+#include "norflash_app.h"
 
 //该结构体定义了需要保存到EEPROM中的参数
 typedef struct{
+    uint8_t  firmUpdate;    //固件更新
+    uint32_t firmSizeTotal; //固件总大小
+    uint32_t firmCrc16;     //固件校验码
     uint32_t firmPacksTotal;//固件总包数
     uint32_t firmPacksCount;//当前接受的固件包数
-    uint32_t firmSizeTotal; //固件总大小
     uint32_t firmSizeCurrent;//当前接受到的固件大小
-    uint32_t firmCrc16;      //固件校验码
-    uint8_t  firmUpdate;     //固件更新
-    
+    uint32_t firmNextAddr;  //下一次数据需要保存的地址
+
     uint8_t  inactiveTime;   //用于设置活动时间
     uint8_t  batAlarmValue;  //电池电量报警值
     uint8_t  inactiveCondition;//用于设置触发条件
     
+    uint8_t  sampMode;        //取样模式
     uint32_t sampBandwidth;   //取样带宽
     uint32_t sampFreq;        //取样频率
     float    sampTimeSet;     //取样时间
-    uint8_t  sampMode;        //取样模式
+    
     
     uint8_t  inactiveCount;//用于设置活动时间
     uint8_t  batLedStatus; //电池状态
@@ -83,7 +89,7 @@ typedef struct{
     uint32_t sampPacks;    //总共采集道的数据,需要分多少个包发给Android
     float    batVoltage;   //电池电压
     float    batTemp;      //电池温度
-    float    batChargePercent;//充电百分比
+    float    batRemainPercent;//充电百分比
     float    voltageSpd;
     float    voltageADS1271;
 	uint32_t periodSpdSignal; //转速信号周期(us)

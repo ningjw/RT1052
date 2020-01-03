@@ -55,7 +55,7 @@
 #define m_interrupts_size              0x00000400
 
 #define m_text_start                   0x60010400
-#define m_text_size                    0x00100000
+#define m_text_size                    0x000EFC00
 
 ;0x80000000 - 0x8000F000 保存的是boot程序  (60k)
 ;0x8000F000 - 0x80010000 需要断电保存的参数(4k)
