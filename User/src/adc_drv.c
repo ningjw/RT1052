@@ -70,6 +70,16 @@ void ADC_ETC_Config(void)
 }
 
 
+uint8_t spiTxData[3] = {0xFF};
+uint8_t spiRxData[3] = {0x00};
+
+lpspi_transfer_t spi_tranxfer = {
+    .configFlags = kLPSPI_MasterPcs1 | kLPSPI_MasterPcsContinuous,
+    .txData = spiTxData,                //要发送的数据
+    .rxData = spiRxData,                //接收到的数据
+    .dataSize = 3,                      //数据长度
+};
+    
 
 /***************************************************************************************
   * @brief
@@ -80,22 +90,13 @@ uint32_t LPSPI4_ReadData(void)
 {
     status_t sta;
     g_sys_para.ads1271IsOk = false;
-//    GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 1);
     uint32_t spiData = 0;
-    uint8_t spiTxData[3] = {0xFF};
-    uint8_t spiRxData[3] = {0x00};
-    memset(spiRxData, 0, 3);
-    lpspi_transfer_t spi_tranxfer;
-    
-    spi_tranxfer.configFlags = kLPSPI_MasterPcs1 | kLPSPI_MasterPcsContinuous;
-    spi_tranxfer.txData = spiTxData;                //要发送的数据
-    spi_tranxfer.rxData = spiRxData;                 //接收到的数据
-    spi_tranxfer.dataSize = 3;                        //数据长度
     sta = LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI阻塞发送
     if(sta == kStatus_Success){
         g_sys_para.ads1271IsOk = true;
         spiData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];
     }
+    LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI阻塞发送
     return spiData;
 }
 

@@ -151,6 +151,11 @@ extern "C" {
 #define QUADTIMER2_IRQN TMR2_IRQn
 /* QuadTimer2 interrupt handler identifier. */
 #define QUADTIMER2_IRQHANDLER TMR2_IRQHandler
+/* BOARD_InitPeripherals defines for LPI2C3 */
+/* Definition of peripheral ID */
+#define LPI2C3_PERIPHERAL LPI2C3
+/* Definition of clock source */
+#define LPI2C3_CLOCK_FREQ 1000000UL
 
 /***********************************************************************************************************************
  * Global variables
@@ -170,6 +175,7 @@ extern const adc_config_t ADC1_config;
 extern const adc_channel_config_t ADC1_channels_config[1];
 extern const adc_etc_config_t ADC_ETC_config;
 extern const qtmr_config_t QuadTimer2_Channel_0_config;
+extern const lpi2c_master_config_t LPI2C3_masterConfig;
 
 /***********************************************************************************************************************
  * Initialization functions

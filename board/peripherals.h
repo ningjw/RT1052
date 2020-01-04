@@ -116,7 +116,7 @@ extern "C" {
 /* Definition of the timer channel Channel_0. */
 #define QUADTIMER1_CHANNEL_0_CHANNEL kQTMR_Channel_0
 /* Definition of the timer channel Channel_0 clock source frequency. */
-#define QUADTIMER1_CHANNEL_0_CLOCK_SOURCE 132000000UL
+#define QUADTIMER1_CHANNEL_0_CLOCK_SOURCE 1031000UL
 /* QuadTimer1 interrupt vector ID (number). */
 #define QUADTIMER1_IRQN TMR1_IRQn
 /* QuadTimer1 interrupt handler identifier. */

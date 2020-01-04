@@ -297,7 +297,7 @@ instance:
         - channel: 'kQTMR_Channel_0'
         - primarySource: 'kQTMR_ClockDivide_8'
         - secondarySource: 'kQTMR_Counter0InputPin'
-        - countingMode: 'kQTMR_PriSrcRiseEdge'
+        - countingMode: 'kQTMR_NoOperation'
         - enableMasterMode: 'false'
         - enableExternalForce: 'false'
         - faultFilterCount: '3'
@@ -334,7 +334,7 @@ void QuadTimer3_init(void) {
   /* Setup the PWM mode of the timer channel */
   QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, 16500UL, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
   /* Start the timer - select the timer counting mode */
-  QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
+  QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_NoOperation);
 }
 
 /***********************************************************************************************************************
@@ -627,10 +627,10 @@ instance:
     - clockSource: 'LpspiClock'
     - clockSourceFreq: 'BOARD_BootClockRUN'
     - master:
-      - baudRate: '10000000'
+      - baudRate: '25000000'
       - bitsPerFrame: '24'
       - cpol: 'kLPSPI_ClockPolarityActiveHigh'
-      - cpha: 'kLPSPI_ClockPhaseSecondEdge'
+      - cpha: 'kLPSPI_ClockPhaseFirstEdge'
       - direction: 'kLPSPI_MsbFirst'
       - pcsToSckDelayInNanoSec: '0'
       - lastSckToPcsDelayInNanoSec: '0'
@@ -642,10 +642,10 @@ instance:
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const lpspi_master_config_t LPSPI4_config = {
-  .baudRate = 10000000,
+  .baudRate = 25000000,
   .bitsPerFrame = 24,
   .cpol = kLPSPI_ClockPolarityActiveHigh,
-  .cpha = kLPSPI_ClockPhaseSecondEdge,
+  .cpha = kLPSPI_ClockPhaseFirstEdge,
   .direction = kLPSPI_MsbFirst,
   .pcsToSckDelayInNanoSec = 0,
   .lastSckToPcsDelayInNanoSec = 0,
@@ -716,9 +716,9 @@ instance:
       - 0:
         - channel_prefix_id: 'Channel_0'
         - channel: 'kQTMR_Channel_0'
-        - primarySource: 'kQTMR_ClockDivide_1'
+        - primarySource: 'kQTMR_ClockDivide_128'
         - secondarySource: 'kQTMR_Counter0InputPin'
-        - countingMode: 'kQTMR_NoOperation'
+        - countingMode: 'kQTMR_PriSrcRiseEdge'
         - enableMasterMode: 'false'
         - enableExternalForce: 'false'
         - faultFilterCount: '3'
@@ -741,7 +741,7 @@ instance:
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const qtmr_config_t QuadTimer1_Channel_0_config = {
-  .primarySource = kQTMR_ClockDivide_1,
+  .primarySource = kQTMR_ClockDivide_128,
   .secondarySource = kQTMR_Counter0InputPin,
   .enableMasterMode = false,
   .enableExternalForce = false,
@@ -760,7 +760,7 @@ void QuadTimer1_init(void) {
   /* Enable interrupt TMR1_IRQn request in the NVIC */
   EnableIRQ(QUADTIMER1_IRQN);
   /* Start the timer - select the timer counting mode */
-  QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_NoOperation);
+  QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 }
 
 /***********************************************************************************************************************

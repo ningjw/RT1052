@@ -34,9 +34,11 @@ void eMMC_GetFree() {
     res = f_getfree("3", &fre_clust, &fs);
     if (res == FR_OK) {
         g_sys_para.emmcIsOk = true;
-        /* Get total sectors and free sectors */
+        /* Get total sectors and free K */
         g_sys_para.emmc_tot_size = ((fs->n_fatent - 2) * fs->csize ) / 2;
         g_sys_para.emmc_fre_size = (fre_clust * fs->csize) / 2;
+        PRINTF("eMMC总大小:%d Mb\r\n",g_sys_para.emmc_tot_size/1024);
+        PRINTF("eMMC剩余大小:%d Mb\r\n",g_sys_para.emmc_fre_size/1024);
     } else {
         g_sys_para.emmcIsOk = false;
     }
@@ -82,7 +84,7 @@ void eMMC_ScanDelFile(void)
   * @input
   * @return
 ***************************************************************************************/
-void eMMC_SaveSampleData(void)
+uint32_t eMMC_SaveSampleData(void)
 {
     FRESULT res;
     TCHAR   fileName[20] = {0};
@@ -96,23 +98,37 @@ void eMMC_SaveSampleData(void)
 
     /* 获取日期 */
     SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
+    
+    sprintf((char *)fileName, "%d%d%d%d%d%d", rtcDate.year, rtcDate.month, rtcDate.day, rtcDate.hour, rtcDate.minute, rtcDate.second);
+    
     /*创建并打开文件*/
-    sprintf((char *)fileName, "%d%d%d%d%d%d", rtcDate.year % 100, rtcDate.month, rtcDate.day, rtcDate.hour, rtcDate.minute, rtcDate.second);
-    res = f_open(&g_fileObject, _T(fileName), (FA_WRITE | FA_READ | FA_CREATE_ALWAYS));
-    if (res) { /* error or disk full */
+    res = f_open(&g_fileObject, _T(fileName), FA_CREATE_NEW);
+    if (res == FR_OK || res == FR_EXIST) {
+        g_sys_para.emmcIsOk = true;
+    } else {
         g_sys_para.emmcIsOk = false;
         PRINTF("创建文件失败:%d", res);
-        return;
+        return res;
+    }
+    
+    
+    res = f_open(&g_fileObject, _T(fileName), (FA_WRITE | FA_READ));
+    if (res) { /* error or disk full */
+        g_sys_para.emmcIsOk = false;
+        PRINTF("打开文件失败:%d", res);
+        return res;
     }
 
     /* 向文件内写入内容 */
-    samp_set_size = (int)&g_adc_set.start - (int)&g_adc_set.end;
+    samp_set_size = (int)&g_adc_set.end - (int)&g_adc_set.start;
     res = f_write(&g_fileObject, &g_adc_set.sampSpdSize, samp_set_size, &g_bytesWritten);
     if (res == FR_OK && g_bytesWritten == samp_set_size) {
         g_sys_para.emmcIsOk = true;
     } else {
         g_sys_para.emmcIsOk = false;
+        f_unlink(fileName);
         PRINTF("写入文件失败:%d", res);
+        return res;
     }
 
     /* Move to end of the file to append data */
@@ -124,7 +140,9 @@ void eMMC_SaveSampleData(void)
         g_sys_para.emmcIsOk = true;
     } else {
         g_sys_para.emmcIsOk = false;
+        f_unlink(fileName);
         PRINTF("写入文件失败:%d", res);
+        return res;
     }
 
     /* Move to end of the file to append data */
@@ -136,17 +154,24 @@ void eMMC_SaveSampleData(void)
         g_sys_para.emmcIsOk = true;
     } else {
         g_sys_para.emmcIsOk = false;
+        f_unlink(fileName);
         PRINTF("写入文件失败:%d", res);
+        return res;
     }
-
+    
+//    PRINTF("%s 文件大小: %d\r\n",fileName, f_size(&g_fileObject));
+    
     /*关闭文件*/
     res = f_close(&g_fileObject);
     if (res) {
         g_sys_para.emmcIsOk = false;
+        f_unlink(fileName);
         PRINTF("关闭文件失败:%d", res);
     } else {
         g_sys_para.emmcIsOk = true;
+        PRINTF("成功将ADC数据写入:%s 文件\r\n",fileName);
     }
+    return res;
 }
 
 
@@ -158,7 +183,7 @@ void BOARD_USDHCClockConfiguration(void)
     /*设置系统PLL PFD0 系数为 0x12*/
     CLOCK_InitSysPfd(kCLOCK_Pfd0, 0x12U);
     /* 配置USDHC时钟源和分频系数 */
-    CLOCK_SetDiv(kCLOCK_Usdhc1Div, 0U);
+    CLOCK_SetDiv(kCLOCK_Usdhc1Div, 4U);
     CLOCK_SetMux(kCLOCK_Usdhc1Mux, 1U);
 }
 
@@ -237,6 +262,8 @@ void eMMC_CheckFatfs(void)
     /*判断文件系统是否测试成功*/
     if(g_sys_para.emmcIsOk == false) {
         g_sys_para.sampLedStatus = WORK_ERR;
+    }else{
+        PRINTF("文件系统校验成功\r\n");
     }
 }
 

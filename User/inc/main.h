@@ -74,8 +74,7 @@ typedef struct{
     uint8_t  sampMode;        //取样模式
     uint32_t sampBandwidth;   //取样带宽
     uint32_t sampFreq;        //取样频率
-    float    sampTimeSet;     //取样时间
-    
+    uint32_t sampTimeSet;     //取样时间
     
     uint8_t  inactiveCount;//用于设置活动时间
     uint8_t  batLedStatus; //电池状态

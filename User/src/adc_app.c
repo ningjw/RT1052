@@ -1,8 +1,5 @@
 #include "main.h"
 
-
-
-
 #define ADC_LEN      40000
 #define ADC_STR_LEN  200000
 uint32_t ADC_SpdCnt = 0;
@@ -19,9 +16,9 @@ AT_NONCACHEABLE_SECTION_INIT(char  StrShakeADC[ADC_STR_LEN]);
 
 TaskHandle_t ADC_TaskHandle = NULL;  /* ADC任务句柄 */
 
-static volatile uint32_t ADC_ConvertedValue;
+
 static uint32_t counterClock = 0;
-static uint32_t timeCapt = 0;
+uint32_t timeCapt = 0;
 
 
 /***************************************************************************************
@@ -74,10 +71,17 @@ void ADC_ETC_IRQ0_IRQHandler(void)
     if(ADC_SpdCnt < ADC_LEN){
         SpeedADC[ADC_SpdCnt++] = ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
     }
-    while (ADC_READY == 0);  //wait ads1271 ready
-    if( ADC_ShakeCnt < ADC_LEN){
+#if 0
+//    while (ADC_READY == 0);  //wait ads1271 ready
+    if( ADC_ShakeCnt < ADC_LEN && ADC_READY == 0){
         ShakeADC[ADC_ShakeCnt++] = LPSPI4_ReadData();
     }
+#else
+    while (ADC_READY == 0);  //wait ads1271 ready
+    if( ADC_ShakeCnt < ADC_LEN ){
+        ShakeADC[ADC_ShakeCnt++] = LPSPI4_ReadData();
+    }
+#endif
 }
 
 
@@ -97,6 +101,7 @@ void ADC_SampleStart(void)
     }
     
     vTaskSuspend(BAT_TaskHandle);
+    vTaskSuspend(LED_TaskHandle);
     /* Setup the PWM mode of the timer channel */
     QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.sampClk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
     /* Set channel 0 period (66000000 ticks). */
@@ -123,12 +128,13 @@ void ADC_SampleStop(void)
 {
     /* Stop the timer */
     QTMR_StopTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL);
-    QTMR_StopTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL);
+//    QTMR_StopTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL);
     /* Stop channel 0. */
     PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
     /* Stop channel 1. */
     PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_1);
     vTaskResume(BAT_TaskHandle);
+    vTaskResume(LED_TaskHandle);
     /* 触发ADC采样完成事件  */
     xTaskNotify(ADC_TaskHandle, NOTIFY_FINISH, eSetBits);
 }
@@ -154,6 +160,8 @@ void ADC_AppTask(void)
     /* 初始化counterClock,用于计算捕获周期 */
     counterClock = QUADTIMER1_CHANNEL_0_CLOCK_SOURCE / 1000;
     
+    ADC_MODE_HIGH_SPEED;
+    
     /* 等待ADS1271 ready,并读取电压值,如果没有成功获取电压值, 则闪灯提示 */
     while (ADC_READY == 0);  //wait ads1271 ready
     if(LPSPI4_ReadData() == 0){
@@ -173,22 +181,24 @@ void ADC_AppTask(void)
             if(r_event & NOTIFY_FINISH){
                 /* 计算转速信号周期 */
                 g_sys_para.periodSpdSignal = (timeCapt * 1000) / counterClock;
-                PRINTF("计算出转速信号周期:%d us\r\n",g_sys_para.periodSpdSignal);
+                
                 PRINTF("设置的采样频率为:%d Hz\r\n", g_sys_para.sampFreq);
                 PRINTF("设置的采样时间:%d s\r\n", g_sys_para.sampTimeSet);
-                
+//                PRINTF("计算出转速信号周期:%d us\r\n",g_sys_para.periodSpdSignal);
+//                PRINTF("共采样到 %d 个转速信号", ADC_SpdCnt);
+                PRINTF("共采样到 %d 个震动信号", ADC_ShakeCnt);
                 PRINTF("\r\n=============转速信号采集结果=====================\r\n");
                 /* 将转速信号转换*/
                 for(uint32_t i = 0; i< ADC_SpdCnt; i++){
                     SpeedADC[i] = SpeedADC[i] * g_sys_para.refV / 4096;
-                    PRINTF("%1.6g",SpeedADC[i]);
+//                    PRINTF("%1.6f ",SpeedADC[i]);
                 }
                 
                 PRINTF("\r\n=============震动信号采集结果=====================\r\n");
                 /* 将震动信号转换*/
                 for(uint32_t i = 0; i< ADC_ShakeCnt; i++){
-                    ShakeADC[i] = ShakeADC[i] * g_sys_para.bias  / 0x400000;
-                    PRINTF("%1.6g",ShakeADC[i]);
+                    ShakeADC[i] = ShakeADC[i] * g_sys_para.bias  / 0x200000;
+                    PRINTF("%1.6f ",ShakeADC[i]);
                 }
                 /*将本次采样数据保存到文件 */
                 eMMC_SaveSampleData();

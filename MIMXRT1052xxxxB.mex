@@ -214,14 +214,14 @@
                         <pin_feature name="direction" value="INPUT"/>
                         <pin_feature name="speed" value="MHZ_100"/>
                         <pin_feature name="drive_strength" value="R0_6"/>
-                        <pin_feature name="slew_rate" value="Slow"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="LPSPI4" signal="SCK" pin_num="D8" pin_signal="GPIO_B0_03">
                      <pin_features>
                         <pin_feature name="direction" value="OUTPUT"/>
                         <pin_feature name="speed" value="MHZ_100"/>
-                        <pin_feature name="slew_rate" value="Slow"/>
+                        <pin_feature name="slew_rate" value="Fast"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="GPIO2" signal="gpio_io, 19" pin_num="D11" pin_signal="GPIO_B1_03"/>
@@ -1093,7 +1093,7 @@
                               <setting name="channel" value="kQTMR_Channel_0"/>
                               <setting name="primarySource" value="kQTMR_ClockDivide_8"/>
                               <setting name="secondarySource" value="kQTMR_Counter0InputPin"/>
-                              <setting name="countingMode" value="kQTMR_PriSrcRiseEdge"/>
+                              <setting name="countingMode" value="kQTMR_NoOperation"/>
                               <setting name="enableMasterMode" value="false"/>
                               <setting name="enableExternalForce" value="false"/>
                               <setting name="faultFilterCount" value="3"/>
@@ -1285,10 +1285,10 @@
                         <setting name="clockSource" value="LpspiClock"/>
                         <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
                         <struct name="master">
-                           <setting name="baudRate" value="10000000"/>
+                           <setting name="baudRate" value="25000000"/>
                            <setting name="bitsPerFrame" value="24"/>
                            <setting name="cpol" value="kLPSPI_ClockPolarityActiveHigh"/>
-                           <setting name="cpha" value="kLPSPI_ClockPhaseSecondEdge"/>
+                           <setting name="cpha" value="kLPSPI_ClockPhaseFirstEdge"/>
                            <setting name="direction" value="kLPSPI_MsbFirst"/>
                            <setting name="pcsToSckDelayInNanoSec" value="0"/>
                            <setting name="lastSckToPcsDelayInNanoSec" value="0"/>
@@ -1338,9 +1338,9 @@
                            <struct name="0">
                               <setting name="channel_prefix_id" value="Channel_0"/>
                               <setting name="channel" value="kQTMR_Channel_0"/>
-                              <setting name="primarySource" value="kQTMR_ClockDivide_1"/>
+                              <setting name="primarySource" value="kQTMR_ClockDivide_128"/>
                               <setting name="secondarySource" value="kQTMR_Counter0InputPin"/>
-                              <setting name="countingMode" value="kQTMR_NoOperation"/>
+                              <setting name="countingMode" value="kQTMR_PriSrcRiseEdge"/>
                               <setting name="enableMasterMode" value="false"/>
                               <setting name="enableExternalForce" value="false"/>
                               <setting name="faultFilterCount" value="3"/>
