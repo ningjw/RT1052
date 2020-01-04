@@ -394,6 +394,11 @@
               <FilePath>.\User\src\main.c</FilePath>
             </File>
             <File>
+              <FileName>main.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\inc\main.h</FilePath>
+            </File>
+            <File>
               <FileName>norflash_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\norflash_app.c</FilePath>
@@ -427,6 +432,11 @@
               <FileName>led_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\led_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>led_app.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\inc\led_app.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -980,6 +990,11 @@
               <FilePath>.\User\src\main.c</FilePath>
             </File>
             <File>
+              <FileName>main.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\inc\main.h</FilePath>
+            </File>
+            <File>
               <FileName>norflash_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\norflash_app.c</FilePath>
@@ -1013,6 +1028,11 @@
               <FileName>led_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\led_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>led_app.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\inc\led_app.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -1566,6 +1586,11 @@
               <FilePath>.\User\src\main.c</FilePath>
             </File>
             <File>
+              <FileName>main.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\inc\main.h</FilePath>
+            </File>
+            <File>
               <FileName>norflash_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\norflash_app.c</FilePath>
@@ -1599,6 +1624,11 @@
               <FileName>led_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\led_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>led_app.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\inc\led_app.h</FilePath>
             </File>
           </Files>
         </Group>

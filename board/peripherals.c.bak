@@ -718,7 +718,7 @@ instance:
         - channel: 'kQTMR_Channel_0'
         - primarySource: 'kQTMR_ClockDivide_1'
         - secondarySource: 'kQTMR_Counter0InputPin'
-        - countingMode: 'kQTMR_PriSrcRiseEdge'
+        - countingMode: 'kQTMR_NoOperation'
         - enableMasterMode: 'false'
         - enableExternalForce: 'false'
         - faultFilterCount: '3'
@@ -760,7 +760,7 @@ void QuadTimer1_init(void) {
   /* Enable interrupt TMR1_IRQn request in the NVIC */
   EnableIRQ(QUADTIMER1_IRQN);
   /* Start the timer - select the timer counting mode */
-  QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
+  QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_NoOperation);
 }
 
 /***********************************************************************************************************************

@@ -170,16 +170,6 @@ void BOARD_InitBootPins(void);
 #define BOARD_BAT_STDBY_PORT                                               GPIO1   /*!< PORT device name: GPIO1 */
 #define BOARD_BAT_STDBY_PIN                                                  25U   /*!< GPIO1 pin index: 25 */
 
-/* GPIO_AD_B1_06 (coord J12), SDA_TEMP */
-#define BOARD_SDA_TEMP_GPIO                                                GPIO1   /*!< GPIO device name: GPIO1 */
-#define BOARD_SDA_TEMP_PORT                                                GPIO1   /*!< PORT device name: GPIO1 */
-#define BOARD_SDA_TEMP_PIN                                                   22U   /*!< GPIO1 pin index: 22 */
-
-/* GPIO_AD_B1_07 (coord K10), SCL_TEMP */
-#define BOARD_SCL_TEMP_GPIO                                                GPIO1   /*!< GPIO device name: GPIO1 */
-#define BOARD_SCL_TEMP_PORT                                                GPIO1   /*!< PORT device name: GPIO1 */
-#define BOARD_SCL_TEMP_PIN                                                   23U   /*!< GPIO1 pin index: 23 */
-
 /* GPIO_B0_12 (coord C10), PWR_WIFI_BLE */
 #define BOARD_PWR_WIFI_BLE_GPIO                                            GPIO2   /*!< GPIO device name: GPIO2 */
 #define BOARD_PWR_WIFI_BLE_PORT                                            GPIO2   /*!< PORT device name: GPIO2 */

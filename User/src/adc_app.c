@@ -1,6 +1,6 @@
 #include "main.h"
 
-#define NOTIFY_START     (1<<0)
+
 #define NOTIFY_TMR1      (1<<1)
 #define NOTIFY_ADC       (1<<2)
 #define NOTIFY_ADS1271   (1<<3)
@@ -26,7 +26,7 @@ static uint32_t timeCapt = 0;
 
 
 /***************************************************************************************
-  * @brief   kPIT_Chnl_0用于触发ADC采样 ；kPIT_Chnl_1 配置为1ms中断; kPIT_Chnl_2用于定时关机1分钟中断
+  * @brief   kPIT_Chnl_0用于触发ADC采样 ；kPIT_Chnl_1 用于定时采样; kPIT_Chnl_2用于定时关机1分钟中断
   * @input
   * @return
 ***************************************************************************************/
@@ -44,7 +44,6 @@ void PIT_IRQHandler(void)
             GPIO_PinWrite(BOARD_SYS_PWR_OFF_GPIO,BOARD_SYS_PWR_OFF_PIN,1);
     //        SNVS->LPSR |= SNVS_LPCR_DP_EN(1);
     //        SNVS->LPSR |= SNVS_LPCR_TOP(1);
-    //        SRC_DoSoftwareResetARMCore0(SRC);
         }
     }
     __DSB();
@@ -136,7 +135,7 @@ void ADC_SampleStop(void)
 }
 
 /***********************************************************************
-  * @ 函数名  ： ADC_AppTask
+  * @ 函数名  ： ADC采集任务
   * @ 功能说明：
   * @ 参数    ： 无
   * @ 返回值  ： 无
@@ -145,29 +144,49 @@ void ADC_AppTask(void)
 {
     uint32_t r_event;
     BaseType_t xReturn = pdTRUE;
+    
+    /* 配置ADC的外部触摸模式 */
     ADC_ETC_Config();
     XBARA_Configuration();
-    LPSPI_Enable(LPSPI4, true);                //Enable LPSPI4
+    
+    /* 使能LPSPI4用于读取ADS1271的值*/
+    LPSPI_Enable(LPSPI4, true); 
+    
+    /* 初始化counterClock,用于计算捕获周期 */
     counterClock = QUADTIMER1_CHANNEL_0_CLOCK_SOURCE / 1000;
+    
+    /* 等待ADS1271 ready,并读取电压值,如果没有成功获取电压值, 则闪灯提示 */
+    while (ADC_READY == 0);  //wait ads1271 ready
+    if(LPSPI4_ReadData() == 0){
+        g_sys_para.sampLedStatus = WORK_FATAL_ERR;
+    }
+    
     PRINTF("ADC Task Create and Running\r\n");
     while(1)
     {
-        /*wait task notify*/
+        /*等待ADC完成采样事件*/
         xReturn = xTaskNotifyWait(pdFALSE, ULONG_MAX, &r_event, portMAX_DELAY);
+        
+        /* 判断是否成功等待到事件 */
         if ( pdTRUE == xReturn ) {
-            if(r_event & NOTIFY_FINISH){//完成采样
+            
+            /* 完成采样事件*/
+            if(r_event & NOTIFY_FINISH){
+                
+                /* 将转速信号转换*/
                 for(uint32_t i = 0; i< ADC_SpdCnt; i++){
                     SpeedADC[i] = SpeedADC[i] * 3.3f / 4096.0f;
                 }
-                
+                /* 将震动信号转换*/
                 for(uint32_t i = 0; i< ADC_ShakeCnt; i++){
                     ShakeADC[i] = ShakeADC[i] * 2.43f * 2 / 8388607;
                 }
                 
-                /* 计算周期 */
+                /* 计算震动信号周期 */
                 g_sys_para.periodSpdSignal = (timeCapt * 1000) / counterClock;
+                
                 //将本次采样数据保存到文件
-//                eMMC_SaveSampleData();
+                eMMC_SaveSampleData();
             }
         }
     }

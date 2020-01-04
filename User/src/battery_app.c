@@ -46,7 +46,7 @@ void BAT_AppTask(void)
     }
     
     //偏差5%,重新设置电池容量
-    if(abs((int)(remain - g_sys_para.batVoltage)) / remain * 100 >= 5.0f){
+    if(abs((int)(remain - g_sys_para.batVoltage)) / remain * 100 >= 8.0f){
         LTC2942_SetAC(remain / 100 * 0xFFFF);
     }
     

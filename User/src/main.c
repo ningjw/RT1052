@@ -122,7 +122,7 @@ void BOARD_InitDebugConsole(void)
 {
     uint32_t uartClkSrcFreq = BOARD_DebugConsoleSrcFreq();
 
-    DbgConsole_Init(1, 115200, kSerialPort_Uart, uartClkSrcFreq);
+    DbgConsole_Init(3, 115200, kSerialPort_Uart, uartClkSrcFreq);
 }
 
 

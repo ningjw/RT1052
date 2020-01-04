@@ -28,7 +28,7 @@ pin_labels:
 - {pin_num: C8, pin_signal: GPIO_B0_04, label: ADC_RDY, identifier: ADC_RDY}
 - {pin_num: C14, pin_signal: GPIO_B1_14, label: eMMC_EN, identifier: eMMC_EN}
 - {pin_num: F11, pin_signal: GPIO_AD_B0_04, label: BOOT_MODE0, identifier: BOOT_MODE0}
-- {pin_num: H14, pin_signal: GPIO_AD_B0_14, label: E103_RST, identifier: E103_RST}
+- {pin_num: H14, pin_signal: GPIO_AD_B0_14, label: BLE_STATUS, identifier: E103_RST;BLE_STATUS}
 - {pin_num: K12, pin_signal: GPIO_AD_B1_05, label: E103_PWR_EN, identifier: E103_PWR_EN}
 - {pin_num: G10, pin_signal: GPIO_AD_B0_11, label: E103_SETDF, identifier: E103_SETDF}
 - {pin_num: L12, pin_signal: GPIO_AD_B1_04, label: BTM_EN, identifier: BTM_EN}
@@ -97,7 +97,7 @@ BOARD:
   - {pin_num: E8, peripheral: LPSPI4, signal: SDO, pin_signal: GPIO_B0_02}
   - {pin_num: F11, peripheral: SRC, signal: 'BOOT_MODE, 0', pin_signal: GPIO_AD_B0_04}
   - {pin_num: G14, peripheral: SRC, signal: 'BOOT_MODE, 1', pin_signal: GPIO_AD_B0_05}
-  - {pin_num: H14, peripheral: GPIO1, signal: 'gpio_io, 14', pin_signal: GPIO_AD_B0_14, direction: OUTPUT}
+  - {pin_num: H14, peripheral: GPIO1, signal: 'gpio_io, 14', pin_signal: GPIO_AD_B0_14, identifier: BLE_STATUS, direction: INPUT, gpio_interrupt: kGPIO_NoIntmode}
   - {pin_num: K12, peripheral: GPIO1, signal: 'gpio_io, 21', pin_signal: GPIO_AD_B1_05, direction: OUTPUT}
   - {pin_num: G10, peripheral: GPIO1, signal: 'gpio_io, 11', pin_signal: GPIO_AD_B0_11, direction: OUTPUT}
   - {pin_num: L12, peripheral: GPIO1, signal: 'gpio_io, 20', pin_signal: GPIO_AD_B1_04, direction: OUTPUT, gpio_init_state: 'true'}
@@ -175,14 +175,14 @@ void BOARD(void) {
   /* Initialize GPIO functionality on GPIO_AD_B0_11 (pin G10) */
   GPIO_PinInit(GPIO1, 11U, &E103_SETDF_config);
 
-  /* GPIO configuration of E103_RST on GPIO_AD_B0_14 (pin H14) */
-  gpio_pin_config_t E103_RST_config = {
-      .direction = kGPIO_DigitalOutput,
+  /* GPIO configuration of BLE_STATUS on GPIO_AD_B0_14 (pin H14) */
+  gpio_pin_config_t BLE_STATUS_config = {
+      .direction = kGPIO_DigitalInput,
       .outputLogic = 0U,
       .interruptMode = kGPIO_NoIntmode
   };
   /* Initialize GPIO functionality on GPIO_AD_B0_14 (pin H14) */
-  GPIO_PinInit(GPIO1, 14U, &E103_RST_config);
+  GPIO_PinInit(GPIO1, 14U, &BLE_STATUS_config);
 
   /* GPIO configuration of PWR_CHG_COMPLETE on GPIO_AD_B0_15 (pin L10) */
   gpio_pin_config_t PWR_CHG_COMPLETE_config = {

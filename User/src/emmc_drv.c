@@ -1,6 +1,6 @@
 #include "main.h"
 
-#define FILE_NAME_STR "210000000000"
+#define FILE_NAME_STR "220000000000"
 
 /*文件系统描述结构体*/
 FATFS g_fileSystem; /* File system object */
@@ -99,6 +99,7 @@ void eMMC_SaveSampleData(void)
     res = f_open(&g_fileObject, _T(fileName), (FA_WRITE | FA_READ | FA_CREATE_ALWAYS));
     if (res){ /* error or disk full */
         g_sys_para.emmcIsOk = false;
+        PRINTF("创建文件失败:%d",res);
         return;
     }
     
@@ -109,6 +110,7 @@ void eMMC_SaveSampleData(void)
         g_sys_para.emmcIsOk = true;
     } else {
         g_sys_para.emmcIsOk = false;
+        PRINTF("写入文件失败:%d",res);
     }
     
     /* Move to end of the file to append data */
@@ -120,6 +122,7 @@ void eMMC_SaveSampleData(void)
         g_sys_para.emmcIsOk = true;
     } else {
         g_sys_para.emmcIsOk = false;
+        PRINTF("写入文件失败:%d",res);
     }
     
     /* Move to end of the file to append data */
@@ -131,12 +134,14 @@ void eMMC_SaveSampleData(void)
         g_sys_para.emmcIsOk = true;
     } else {
         g_sys_para.emmcIsOk = false;
+        PRINTF("写入文件失败:%d",res);
     }
     
     /*关闭文件*/
     res = f_close(&g_fileObject);
     if (res) {
         g_sys_para.emmcIsOk = false;
+        PRINTF("关闭文件失败:%d",res);
     } else {
         g_sys_para.emmcIsOk = true;
     }

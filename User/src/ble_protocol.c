@@ -34,13 +34,14 @@ static char* ParseSetTime(cJSON *pJson, cJSON * pSub)
     
     /*设置日期和时间*/
     SNVS_HP_RTC_SetDatetime(SNVS, &rtcDate);
-    g_sys_para.bleLedStatus = BLE_CONNECT;
     
     /*制作cjson格式的回复消息*/
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot){
         return NULL;
     }
+    
+    /* 制作回复json包 */
     cJSON_AddNumberToObject(pJsonRoot, "Id", 1);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
     char *p_reply = cJSON_Print(pJsonRoot);
@@ -320,6 +321,12 @@ char * ParseGetSampleData(void)
 ***************************************************************************************/
 static char * ParseStartUpdate(cJSON *pJson, cJSON * pSub)
 {
+    /* 开始升级固件后, 初始化一些必要的变量*/
+    g_sys_para.firmUpdate = false;
+    g_sys_para.firmPacksCount = 0;
+    g_sys_para.firmSizeCurrent = 0;
+    g_sys_para.firmNextAddr = FIRM_DATA_ADDR;
+    
     /*解析消息内容,*/
     pSub = cJSON_GetObjectItem(pJson, "Packs");
     if (NULL != pSub)
@@ -345,7 +352,7 @@ static char * ParseStartUpdate(cJSON *pJson, cJSON * pSub)
     cJSON_AddNumberToObject(pJsonRoot, "Sid", 0);
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
-    
+    g_sys_para.bleLedStatus = BLE_UPDATE;
     return p_reply;
 }
 
@@ -418,33 +425,44 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
 {
     uint16_t crc = 0;
 	uint8_t  err_code = 0;
-    g_puart2TxCnt = 7;//固件包,点检仪固定回复7Byte数据
-	
+    
     crc = CRC16(pMsg, g_puart2RxCnt);//自己计算出的CRC16
 	if(pMsg[132] != (crc>>8) || pMsg[133] != (uint8_t)crc){
 		err_code = 1;
 	}else{
+        /* 包id */
         g_sys_para.firmPacksCount = pMsg[2];
+        
+        /* 根据包id,计算出该包需要保存的地址*/
+        g_sys_para.firmNextAddr = FIRM_DATA_ADDR + g_sys_para.firmPacksCount * FIRM_ONE_PACKE_LEN;
+        
+        /* 当前接受到的包长度 */
+        g_sys_para.firmSizeCurrent += pMsg[3];
+        
+        /* 保存固件数据到Nor Flash*/
         NorFlash_WriteApp(&pMsg[4], FIRM_ONE_PACKE_LEN);
     }
     
-	if(pMsg[2] == g_sys_para.firmPacksTotal - 1 ){//当前为最后一包,计算整个固件的crc16码
+    /* 当前为最后一包,计算整个固件的crc16码 */
+	if(pMsg[2] == g_sys_para.firmPacksTotal - 1 ){
         crc = CRC16((void *)FIRM_DATA_ADDR, g_sys_para.firmSizeTotal);
         if(crc != g_sys_para.firmCrc16){
+            g_sys_para.firmUpdate = false;
             err_code = 2;
         }else{//整包CRC校验通过,开始重启设备更新.
             g_sys_para.firmUpdate = true;
         }
 	}
-	g_sys_para.firmSizeCurrent += pMsg[3];
-    
+	
+    /* 固件包,点检仪固定回复7Byte数据 */
+    g_puart2TxCnt = 7;
     memcpy(g_lpuart2TxBuf, pMsg, 3);
     g_lpuart2TxBuf[3] = g_puart2RxCnt - 6;//接受到的有效数据个数
     g_lpuart2TxBuf[4] = err_code;         //错误码
 	crc = CRC16(g_lpuart2TxBuf, g_puart2TxCnt);
     g_lpuart2TxBuf[5] = crc>>8;           //CRC H
     g_lpuart2TxBuf[6] = (uint8_t)crc;     //CRC L
-    
+    g_sys_para.bleLedStatus = BLE_UPDATE;
     return g_lpuart2TxBuf;
 }
 

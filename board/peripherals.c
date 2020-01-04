@@ -428,7 +428,7 @@ instance:
       - isMsb: 'false'
       - stopBitCount: 'kLPUART_OneStopBit'
       - txFifoWatermark: '0'
-      - rxFifoWatermark: '0'
+      - rxFifoWatermark: '1'
       - enableRxRTS: 'false'
       - enableTxCTS: 'false'
       - txCtsSource: 'kLPUART_CtsSourcePin'
@@ -455,7 +455,7 @@ const lpuart_config_t LPUART4_config = {
   .isMsb = false,
   .stopBitCount = kLPUART_OneStopBit,
   .txFifoWatermark = 0,
-  .rxFifoWatermark = 0,
+  .rxFifoWatermark = 1,
   .enableRxRTS = false,
   .enableTxCTS = false,
   .txCtsSource = kLPUART_CtsSourcePin,
@@ -564,7 +564,7 @@ instance:
       - isMsb: 'false'
       - stopBitCount: 'kLPUART_OneStopBit'
       - txFifoWatermark: '0'
-      - rxFifoWatermark: '0'
+      - rxFifoWatermark: '1'
       - enableRxRTS: 'false'
       - enableTxCTS: 'false'
       - txCtsSource: 'kLPUART_CtsSourcePin'
@@ -591,7 +591,7 @@ const lpuart_config_t LPUART5_config = {
   .isMsb = false,
   .stopBitCount = kLPUART_OneStopBit,
   .txFifoWatermark = 0,
-  .rxFifoWatermark = 0,
+  .rxFifoWatermark = 1,
   .enableRxRTS = false,
   .enableTxCTS = false,
   .txCtsSource = kLPUART_CtsSourcePin,

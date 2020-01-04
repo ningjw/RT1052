@@ -41,7 +41,7 @@
                <pin_label pin_num="C8" pin_signal="GPIO_B0_04" label="ADC_RDY" identifier="ADC_RDY"/>
                <pin_label pin_num="C14" pin_signal="GPIO_B1_14" label="eMMC_EN" identifier="eMMC_EN"/>
                <pin_label pin_num="F11" pin_signal="GPIO_AD_B0_04" label="BOOT_MODE0" identifier="BOOT_MODE0"/>
-               <pin_label pin_num="H14" pin_signal="GPIO_AD_B0_14" label="E103_RST" identifier="E103_RST"/>
+               <pin_label pin_num="H14" pin_signal="GPIO_AD_B0_14" label="BLE_STATUS" identifier="E103_RST;BLE_STATUS"/>
                <pin_label pin_num="K12" pin_signal="GPIO_AD_B1_05" label="E103_PWR_EN" identifier="E103_PWR_EN"/>
                <pin_label pin_num="G10" pin_signal="GPIO_AD_B0_11" label="E103_SETDF" identifier="E103_SETDF"/>
                <pin_label pin_num="L12" pin_signal="GPIO_AD_B1_04" label="BTM_EN" identifier="BTM_EN"/>
@@ -116,6 +116,11 @@
                      </feature>
                   </dependency>
                   <dependency resourceType="Peripheral" resourceId="SRC" description="Peripheral SRC is not initialized" problem_level="1" source="Pins:BOARD">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="Peripheral" resourceId="GPIO1" description="Peripheral GPIO1 is not initialized" problem_level="1" source="Pins:BOARD">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
@@ -266,7 +271,9 @@
                   <pin peripheral="SRC" signal="BOOT_MODE, 1" pin_num="G14" pin_signal="GPIO_AD_B0_05"/>
                   <pin peripheral="GPIO1" signal="gpio_io, 14" pin_num="H14" pin_signal="GPIO_AD_B0_14">
                      <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="identifier" value="BLE_STATUS"/>
+                        <pin_feature name="direction" value="INPUT"/>
+                        <pin_feature name="gpio_interrupt" value="kGPIO_NoIntmode"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="GPIO1" signal="gpio_io, 21" pin_num="K12" pin_signal="GPIO_AD_B1_05">
@@ -1163,7 +1170,7 @@
                            <setting name="isMsb" value="false"/>
                            <setting name="stopBitCount" value="kLPUART_OneStopBit"/>
                            <setting name="txFifoWatermark" value="0"/>
-                           <setting name="rxFifoWatermark" value="0"/>
+                           <setting name="rxFifoWatermark" value="1"/>
                            <setting name="enableRxRTS" value="false"/>
                            <setting name="enableTxCTS" value="false"/>
                            <setting name="txCtsSource" value="kLPUART_CtsSourcePin"/>
@@ -1243,7 +1250,7 @@
                            <setting name="isMsb" value="false"/>
                            <setting name="stopBitCount" value="kLPUART_OneStopBit"/>
                            <setting name="txFifoWatermark" value="0"/>
-                           <setting name="rxFifoWatermark" value="0"/>
+                           <setting name="rxFifoWatermark" value="1"/>
                            <setting name="enableRxRTS" value="false"/>
                            <setting name="enableTxCTS" value="false"/>
                            <setting name="txCtsSource" value="kLPUART_CtsSourcePin"/>
