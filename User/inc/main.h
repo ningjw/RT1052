@@ -95,6 +95,8 @@ typedef struct{
     float    voltageADS1271;
 	uint32_t periodSpdSignal; //转速信号周期(us)
     uint32_t sampFileSize; //本次采样文件总大小
+    float    bias;         //震动传感器偏置电压
+    float    refV;         //1052的参考电压值
 }SysPara;
 
 

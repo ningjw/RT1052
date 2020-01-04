@@ -87,15 +87,12 @@ void LED_AppTask(void)
     GPIO_PinWrite(BOARD_LED_PWR_GREEN_GPIO, BOARD_LED_PWR_GREEN_PIN, OFF);
     while(1)
     {
-        while (ADC_READY == 0);  //wait ads1271 ready
-        g_sys_para.voltageADS1271 = LPSPI4_ReadData() * 2.43f * 2 / 8388607;;
-        
         if(flag_led_chk) { //当前led灯正在自检
             vTaskDelay(200);
         }
-        else 
+        else
         {
-            if((SNVS_HP_GetStatusFlags(SNVS) & SNVS_HPSR_BTN_MASK) == 0){
+            if((SNVS_HP_GetStatusFlags(SNVS) & SNVS_HPSR_BTN_MASK) == 0x01){
                 g_sys_para.inactiveCount = 0;
             }
             

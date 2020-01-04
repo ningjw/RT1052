@@ -132,8 +132,8 @@ static char * ParseGetBatCapacity(void)
     }
     cJSON_AddNumberToObject(pJsonRoot, "Id", 4);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
-    cJSON_AddNumberToObject(pJsonRoot, "BatC", g_sys_para.batRemainPercent);//电池电量
- 
+    cJSON_AddNumberToObject(pJsonRoot, "BatC", (int)g_sys_para.batRemainPercent);//电池电量
+    cJSON_AddNumberToObject(pJsonRoot, "PwrV", g_sys_para.batVoltage);      //电池电压值
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     return p_reply;
@@ -217,6 +217,16 @@ static char * ParseSetSamplePara(cJSON *pJson, cJSON * pSub)
         g_sys_para.sampTimeSet = pSub->valueint;
     }
     
+    pSub = cJSON_GetObjectItem(pJson, "Bias");
+    if (NULL != pSub){
+        g_sys_para.bias = pSub->valueint;
+    }
+    
+    pSub = cJSON_GetObjectItem(pJson, "RefV");
+    if (NULL != pSub){
+        g_sys_para.refV = pSub->valueint;
+    }
+    
     /*制作cjson格式的回复消息*/
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot){
@@ -246,6 +256,10 @@ static char * ParseStartSample(void)
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     ADC_SampleStart();
+    
+    /*wait task notify*/
+    ulTaskNotifyTake( pdTRUE, portMAX_DELAY );
+    
     return p_reply;
 }
 
@@ -265,34 +279,34 @@ char * ParseGetSampleData(void)
     }
     cJSON_AddNumberToObject(pJsonRoot, "Id",  9);
     cJSON_AddNumberToObject(pJsonRoot, "Sid", 1);
-//    cJSON_AddStringToObject(pJsonRoot, "IDPath", "GroupID\\FactoryID\\EquipmentID\\PointID");
-//    cJSON_AddStringToObject(pJsonRoot, "NamePath", "GroupID\\FactoryID\\EquipmentID\\PointID");
-//    cJSON_AddNumberToObject(pJsonRoot, "Speed", 1);// 取转速波形平均转速
-//    cJSON_AddStringToObject(pJsonRoot, "SpeedUnits", "RPM");
-//    cJSON_AddNumberToObject(pJsonRoot, "Process", 1);
-//    cJSON_AddNumberToObject(pJsonRoot, "ProcessMin", 65.0);
-//    cJSON_AddNumberToObject(pJsonRoot, "ProcessMax", 68.0);
-//    cJSON_AddStringToObject(pJsonRoot, "ProcessUnits", "℃");//可以取温度、流量功率等   
-//    cJSON_AddStringToObject(pJsonRoot, "DAUID", "");//生成的DAUID
-//    cJSON_AddStringToObject(pJsonRoot, "DetectionType", "0");//手动检测0，时间定时检测1
-//    cJSON_AddNumberToObject(pJsonRoot, "Senstivity", 100.0);//灵敏度
-//    cJSON_AddNumberToObject(pJsonRoot, "Zerodrift", 0.0);//零点偏移，用于将失调电压调节到零
-//    cJSON_AddNumberToObject(pJsonRoot, "EUType", 4);//g:0，mm/s2:1，um:2,mm/s:3,, gse:4
-//    cJSON_AddStringToObject(pJsonRoot, "EU", "mm/s");
-//    cJSON_AddNumberToObject(pJsonRoot, "WindowsType", 1);// 矩形窗0，三角窗1，汉宁窗2，海明窗3，布莱克曼窗4，凯泽窗5
-//    cJSON_AddStringToObject(pJsonRoot, "WindowName", "汉宁窗");//
-//    cJSON_AddNumberToObject(pJsonRoot, "StartFrequency", 0);//采集起始频率
-//    cJSON_AddNumberToObject(pJsonRoot, "EndFrequency", 2000);//采集起始频率
-//    cJSON_AddNumberToObject(pJsonRoot, "SampleRate", 2560);//采样频率
-//    cJSON_AddNumberToObject(pJsonRoot, "Lines", 1);//线数
-//    cJSON_AddNumberToObject(pJsonRoot, "Averages", 1);//平均次数
-//    cJSON_AddNumberToObject(pJsonRoot, "AverageOverlap", 0.5);//重叠率
-//    cJSON_AddNumberToObject(pJsonRoot, "AverageType", 0);//重叠方式
-//    cJSON_AddNumberToObject(pJsonRoot, "EnvFilterLow", 500);//包络滤波频段 低 
-//    cJSON_AddNumberToObject(pJsonRoot, "EnvFilterHigh", 10000);//包络滤波频段 高
-//    cJSON_AddNumberToObject(pJsonRoot, "StorageReson", 10000);//采集方式     0手动采集，1定时采集
-//    cJSON_AddStringToObject(pJsonRoot, "MeasurementComment", "equipment condition description");//
-//    cJSON_AddNumberToObject(pJsonRoot, "IncludeMeasurements", 1);
+    cJSON_AddStringToObject(pJsonRoot, "IDPath", "GroupID\\FactoryID\\EquipmentID\\PointID");
+    cJSON_AddStringToObject(pJsonRoot, "NamePath", "GroupID\\FactoryID\\EquipmentID\\PointID");
+    cJSON_AddNumberToObject(pJsonRoot, "Speed", 1);// 取转速波形平均转速
+    cJSON_AddStringToObject(pJsonRoot, "SpeedUnits", "RPM");
+    cJSON_AddNumberToObject(pJsonRoot, "Process", 1);
+    cJSON_AddNumberToObject(pJsonRoot, "ProcessMin", 65.0);
+    cJSON_AddNumberToObject(pJsonRoot, "ProcessMax", 68.0);
+    cJSON_AddStringToObject(pJsonRoot, "ProcessUnits", "℃");//可以取温度、流量功率等   
+    cJSON_AddStringToObject(pJsonRoot, "DAUID", "");//生成的DAUID
+    cJSON_AddStringToObject(pJsonRoot, "DetectionType", "0");//手动检测0，时间定时检测1
+    cJSON_AddNumberToObject(pJsonRoot, "Senstivity", 100.0);//灵敏度
+    cJSON_AddNumberToObject(pJsonRoot, "Zerodrift", 0.0);//零点偏移，用于将失调电压调节到零
+    cJSON_AddNumberToObject(pJsonRoot, "EUType", 4);//g:0，mm/s2:1，um:2,mm/s:3,, gse:4
+    cJSON_AddStringToObject(pJsonRoot, "EU", "mm/s");
+    cJSON_AddNumberToObject(pJsonRoot, "WindowsType", 1);// 矩形窗0，三角窗1，汉宁窗2，海明窗3，布莱克曼窗4，凯泽窗5
+    cJSON_AddStringToObject(pJsonRoot, "WindowName", "汉宁窗");//
+    cJSON_AddNumberToObject(pJsonRoot, "StartFrequency", 0);//采集起始频率
+    cJSON_AddNumberToObject(pJsonRoot, "EndFrequency", 2000);//采集起始频率
+    cJSON_AddNumberToObject(pJsonRoot, "SampleRate", 2560);//采样频率
+    cJSON_AddNumberToObject(pJsonRoot, "Lines", 1);//线数
+    cJSON_AddNumberToObject(pJsonRoot, "Averages", 1);//平均次数
+    cJSON_AddNumberToObject(pJsonRoot, "AverageOverlap", 0.5);//重叠率
+    cJSON_AddNumberToObject(pJsonRoot, "AverageType", 0);//重叠方式
+    cJSON_AddNumberToObject(pJsonRoot, "EnvFilterLow", 500);//包络滤波频段 低 
+    cJSON_AddNumberToObject(pJsonRoot, "EnvFilterHigh", 10000);//包络滤波频段 高
+    cJSON_AddNumberToObject(pJsonRoot, "StorageReson", 10000);//采集方式     0手动采集，1定时采集
+    cJSON_AddStringToObject(pJsonRoot, "MeasurementComment", "equipment condition description");//
+    cJSON_AddNumberToObject(pJsonRoot, "IncludeMeasurements", 1);
     cJSON_AddStringToObject(pJsonRoot, "Content", " ");
     cJSON_AddNumberToObject(pJsonRoot, "Bias", 10);
     
@@ -357,6 +371,30 @@ static char * ParseStartUpdate(cJSON *pJson, cJSON * pSub)
 }
 
 /***************************************************************************************
+  * @brief   处理消息id为11的消息, 该消息为获取红外传感器温度
+  * @input   
+  * @return  
+***************************************************************************************/
+static char * ParseGetObjTemp(void)
+{
+    //红外测温模块自检
+    g_sys_para.objTemp = MXL_ReadObjTemp();
+    
+    cJSON *pJsonRoot = cJSON_CreateObject();
+    if(NULL == pJsonRoot){
+        return NULL;
+    }
+    cJSON_AddNumberToObject(pJsonRoot, "Id", 11);
+    cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
+    cJSON_AddNumberToObject(pJsonRoot, "Temp", g_sys_para.objTemp);
+    char *p_reply = cJSON_Print(pJsonRoot);
+    cJSON_Delete(pJsonRoot);
+    return p_reply;
+}
+
+
+
+/***************************************************************************************
   * @brief   解析json数据包
   * @input   
   * @return  
@@ -406,6 +444,9 @@ uint8_t* ParseJson(char *pMsg){
             break;
         case 10:
             p_reply = ParseStartUpdate(pJson, pSub);//升级
+            break;
+        case 11:
+            p_reply = ParseGetObjTemp();
             break;
     }
     
@@ -476,7 +517,6 @@ uint8_t* ParseProtocol(uint8_t *pMsg)
     if(NULL == pMsg){
         return NULL;
     }
-    
     
     if(pMsg[0] == 0xE7 && pMsg[1] == 0xE7 ){//为固件升级包
         return ParseFirmPacket(pMsg);

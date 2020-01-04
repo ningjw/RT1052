@@ -1,17 +1,16 @@
 #include "main.h"
 
 
-#define NOTIFY_TMR1      (1<<1)
-#define NOTIFY_ADC       (1<<2)
-#define NOTIFY_ADS1271   (1<<3)
-#define NOTIFY_FINISH    (1<<4)
 
 
-#define ADC_LEN 40000
+#define ADC_LEN      40000
+#define ADC_STR_LEN  200000
 uint32_t ADC_SpdCnt = 0;
 uint32_t ADC_ShakeCnt = 0;
 AT_NONCACHEABLE_SECTION_INIT(float SpeedADC[ADC_LEN]);
 AT_NONCACHEABLE_SECTION_INIT(float ShakeADC[ADC_LEN]);
+AT_NONCACHEABLE_SECTION_INIT(char  StrSpeedADC[ADC_STR_LEN]);
+AT_NONCACHEABLE_SECTION_INIT(char  StrShakeADC[ADC_STR_LEN]);
 
 #define ADC_MODE_LOW_POWER       GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 1)  //低功耗模式
 #define ADC_MODE_HIGH_SPEED      GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 0)   //高速模式
@@ -59,7 +58,6 @@ void TMR1_IRQHandler(void)
     /* 清除中断标志 */
     QTMR_ClearStatusFlags(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_EdgeFlag);
     timeCapt = QUADTIMER1_PERIPHERAL->CHANNEL[QUADTIMER1_CHANNEL_0_CHANNEL].CAPT;//读取寄存器值
-    
 }
 
 
@@ -97,6 +95,7 @@ void ADC_SampleStart(void)
     if(g_sys_para.inactiveCondition != 1){
         g_sys_para.inactiveCount = 0;
     }
+    
     vTaskSuspend(BAT_TaskHandle);
     /* Setup the PWM mode of the timer channel */
     QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.sampClk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
@@ -134,6 +133,7 @@ void ADC_SampleStop(void)
     xTaskNotify(ADC_TaskHandle, NOTIFY_FINISH, eSetBits);
 }
 
+
 /***********************************************************************
   * @ 函数名  ： ADC采集任务
   * @ 功能说明：
@@ -144,7 +144,6 @@ void ADC_AppTask(void)
 {
     uint32_t r_event;
     BaseType_t xReturn = pdTRUE;
-    
     /* 配置ADC的外部触摸模式 */
     ADC_ETC_Config();
     XBARA_Configuration();
@@ -172,21 +171,30 @@ void ADC_AppTask(void)
             
             /* 完成采样事件*/
             if(r_event & NOTIFY_FINISH){
+                /* 计算转速信号周期 */
+                g_sys_para.periodSpdSignal = (timeCapt * 1000) / counterClock;
+                PRINTF("计算出转速信号周期:%d us\r\n",g_sys_para.periodSpdSignal);
+                PRINTF("设置的采样频率为:%d Hz\r\n", g_sys_para.sampFreq);
+                PRINTF("设置的采样时间:%d s\r\n", g_sys_para.sampTimeSet);
                 
+                PRINTF("\r\n=============转速信号采集结果=====================\r\n");
                 /* 将转速信号转换*/
                 for(uint32_t i = 0; i< ADC_SpdCnt; i++){
-                    SpeedADC[i] = SpeedADC[i] * 3.3f / 4096.0f;
+                    SpeedADC[i] = SpeedADC[i] * g_sys_para.refV / 4096;
+                    PRINTF("%1.6g",SpeedADC[i]);
                 }
+                
+                PRINTF("\r\n=============震动信号采集结果=====================\r\n");
                 /* 将震动信号转换*/
                 for(uint32_t i = 0; i< ADC_ShakeCnt; i++){
-                    ShakeADC[i] = ShakeADC[i] * 2.43f * 2 / 8388607;
+                    ShakeADC[i] = ShakeADC[i] * g_sys_para.bias  / 0x400000;
+                    PRINTF("%1.6g",ShakeADC[i]);
                 }
-                
-                /* 计算震动信号周期 */
-                g_sys_para.periodSpdSignal = (timeCapt * 1000) / counterClock;
-                
-                //将本次采样数据保存到文件
+                /*将本次采样数据保存到文件 */
                 eMMC_SaveSampleData();
+                
+                /* 发送任务通知，并解锁阻塞在该任务通知下的任务 */
+                vTaskNotifyGiveFromISR( BLE_TaskHandle, (void *)pdFALSE);
             }
         }
     }

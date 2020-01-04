@@ -27,7 +27,8 @@ static void InitSysPara()
     g_sys_para.sampLedStatus = WORK_FINE;
     g_sys_para.batLedStatus = BAT_NORMAL;
     g_sys_para.bleLedStatus = BLE_CLOSE;
-    
+    g_sys_para.bias = 2.43f;//震动传感器的偏置电压默认为2.43V
+    g_sys_para.refV = 3.3f;   //参考电压
     g_sys_para.firmUpdate = false;
     g_sys_para.firmPacksCount = 0;
     g_sys_para.firmSizeCurrent = 0;

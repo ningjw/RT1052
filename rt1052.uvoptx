@@ -183,11 +183,6 @@
           <WinNumber>1</WinNumber>
           <ItemText>SpeedADC</ItemText>
         </Ww>
-        <Ww>
-          <count>6</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>g_sys_para.periodSpdSignal,0x0A</ItemText>
-        </Ww>
       </WatchWindow1>
       <MemoryWindow1>
         <Mm>
@@ -252,6 +247,10 @@
         <Entry>
           <Name>System Viewer\PIT</Name>
           <WinId>35905</WinId>
+        </Entry>
+        <Entry>
+          <Name>System Viewer\SNVS</Name>
+          <WinId>35903</WinId>
         </Entry>
       </SystemViewers>
       <DebugDescription>

@@ -145,6 +145,7 @@ void BLE_AppTask(void)
             {
                 LPUART2_SendString((char *)sendBuf);
                 free(sendBuf);
+                sendBuf = NULL;
             }
             memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
             g_puart2RxCnt = 0;

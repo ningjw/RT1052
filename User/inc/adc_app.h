@@ -3,7 +3,11 @@
 
 #define ADC_READY                GPIO_PinRead(BOARD_ADC_RDY_GPIO, BOARD_ADC_RDY_PIN)
 
-
+#define NOTIFY_TMR1            (1<<1)
+#define NOTIFY_ADC             (1<<2)
+#define NOTIFY_ADS1271         (1<<3)
+#define NOTIFY_FINISH          (1<<4)
+#define NOTIFY_SAMPLE_FINISHED (1<<5)
 
 extern TaskHandle_t ADC_TaskHandle ;  /* ADCÈÎÎñ¾ä±ú */
 
