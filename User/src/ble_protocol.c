@@ -1,5 +1,8 @@
 #include "main.h"
 
+extern char  StrSpeedADC[];
+extern char  StrShakeADC[];
+
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
   * @input   
@@ -271,7 +274,7 @@ float spdValue[5] = {0.6,0.7,0.8,0.9,1.0};
   * @input   
   * @return  
 ***************************************************************************************/
-char * ParseGetSampleData(void)
+char * ParseSampleData(void)
 {
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot){
@@ -283,7 +286,7 @@ char * ParseGetSampleData(void)
     cJSON_AddStringToObject(pJsonRoot, "NamePath", "GroupID\\FactoryID\\EquipmentID\\PointID");
     cJSON_AddNumberToObject(pJsonRoot, "Speed", 1);// 取转速波形平均转速
     cJSON_AddStringToObject(pJsonRoot, "SpeedUnits", "RPM");
-    cJSON_AddNumberToObject(pJsonRoot, "Process", 1);
+    cJSON_AddNumberToObject(pJsonRoot, "Process", 1);//取平均温度
     cJSON_AddNumberToObject(pJsonRoot, "ProcessMin", 65.0);
     cJSON_AddNumberToObject(pJsonRoot, "ProcessMax", 68.0);
     cJSON_AddStringToObject(pJsonRoot, "ProcessUnits", "℃");//可以取温度、流量功率等   
@@ -296,9 +299,9 @@ char * ParseGetSampleData(void)
     cJSON_AddNumberToObject(pJsonRoot, "WindowsType", 1);// 矩形窗0，三角窗1，汉宁窗2，海明窗3，布莱克曼窗4，凯泽窗5
     cJSON_AddStringToObject(pJsonRoot, "WindowName", "汉宁窗");//
     cJSON_AddNumberToObject(pJsonRoot, "StartFrequency", 0);//采集起始频率
-    cJSON_AddNumberToObject(pJsonRoot, "EndFrequency", 2000);//采集起始频率
-    cJSON_AddNumberToObject(pJsonRoot, "SampleRate", 2560);//采样频率
-    cJSON_AddNumberToObject(pJsonRoot, "Lines", 1);//线数
+    cJSON_AddNumberToObject(pJsonRoot, "EndFrequency", 2000);//采集结束频率
+    cJSON_AddNumberToObject(pJsonRoot, "SampleRate", 2560);//采样率
+    cJSON_AddNumberToObject(pJsonRoot, "Lines", 1);   //线数
     cJSON_AddNumberToObject(pJsonRoot, "Averages", 1);//平均次数
     cJSON_AddNumberToObject(pJsonRoot, "AverageOverlap", 0.5);//重叠率
     cJSON_AddNumberToObject(pJsonRoot, "AverageType", 0);//重叠方式
@@ -314,20 +317,39 @@ char * ParseGetSampleData(void)
 
     cJSON *pJsonSub1 = cJSON_CreateObject();
     cJSON_AddStringToObject(pJsonSub1, "MeasurementType", "VibRawData/EnvData");
-    cJSON_AddNumberToObject(pJsonSub1, "Value", envValue[0]);
-    cJSON_AddNumberToObject(pJsonSub1, "Value", envValue[1]);
+    cJSON_AddStringToObject(pJsonSub1, "Value", StrShakeADC);//
     cJSON_AddItemToArray(measureMents, pJsonSub1);
     
-//    pJsonSub = cJSON_CreateObject();
-//    cJSON_AddStringToObject(measureMents, "MeasurementType", "RotationSpeed");
-//    cJSON_AddNumberToObject(measureMents, "Value", envValue[0]);
-//    cJSON_AddItemToArray(measureMents, pJsonSub);
+    pJsonSub1 = cJSON_CreateObject();
+    cJSON_AddStringToObject(pJsonSub1, "MeasurementType", "RotationSpeed");
+    cJSON_AddStringToObject(pJsonSub1, "Value", StrSpeedADC);//
+    cJSON_AddItemToArray(measureMents, pJsonSub1);
     
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
+    
+    /*将打包好的数据保存到文件 */
+    if (NULL != p_reply){
+        eMMC_SaveSampleData(p_reply, strlen(p_reply));
+    }
+    
+    PRINTF("%s", p_reply);
+    
+    free(p_reply);
+    p_reply = NULL;
     return p_reply;
 }
 
+
+/***************************************************************************************
+  * @brief   处理消息id为9的消息, 该消息为获取采样数据
+  * @input   
+  * @return  
+***************************************************************************************/
+char * ParseGetSampleData(void)
+{
+    
+}
 /***************************************************************************************
   * @brief   处理消息id为10的消息, 该消息为开始发送升级固件包
   * @input   
@@ -399,7 +421,8 @@ static char * ParseGetObjTemp(void)
   * @input   
   * @return  
 ***************************************************************************************/
-uint8_t* ParseJson(char *pMsg){
+uint8_t* ParseJson(char *pMsg)
+{
     char *p_reply = NULL;
     
      cJSON *pJson = cJSON_Parse((char *)pMsg);

@@ -19,7 +19,7 @@ TaskHandle_t ADC_TaskHandle = NULL;  /* ADC任务句柄 */
 
 static uint32_t counterClock = 0;
 uint32_t timeCapt = 0;
-
+char str[12];
 
 /***************************************************************************************
   * @brief   kPIT_Chnl_0用于触发ADC采样 ；kPIT_Chnl_1 用于定时采样; kPIT_Chnl_2用于定时关机1分钟中断
@@ -184,24 +184,28 @@ void ADC_AppTask(void)
                 
                 PRINTF("设置的采样频率为:%d Hz\r\n", g_sys_para.sampFreq);
                 PRINTF("设置的采样时间:%d s\r\n", g_sys_para.sampTimeSet);
-//                PRINTF("计算出转速信号周期:%d us\r\n",g_sys_para.periodSpdSignal);
-//                PRINTF("共采样到 %d 个转速信号", ADC_SpdCnt);
-                PRINTF("共采样到 %d 个震动信号", ADC_ShakeCnt);
-                PRINTF("\r\n=============转速信号采集结果=====================\r\n");
+                PRINTF("计算出转速信号周期:%d us\r\n",g_sys_para.periodSpdSignal);
+                PRINTF("共采样到 %d 个转速信号\r\n", ADC_SpdCnt);
+                PRINTF("共采样到 %d 个震动信号\r\n", ADC_ShakeCnt);
                 /* 将转速信号转换*/
+                memset(StrSpeedADC, 0, sizeof(StrSpeedADC));
                 for(uint32_t i = 0; i< ADC_SpdCnt; i++){
                     SpeedADC[i] = SpeedADC[i] * g_sys_para.refV / 4096;
-//                    PRINTF("%1.6f ",SpeedADC[i]);
+                    memset(str, 0, sizeof(str));
+                    sprintf(str,"%1.6f,",SpeedADC[i]);
+                    strcat(StrSpeedADC,str);
                 }
-                
-                PRINTF("\r\n=============震动信号采集结果=====================\r\n");
                 /* 将震动信号转换*/
+                memset(StrShakeADC, 0, sizeof(StrShakeADC));
                 for(uint32_t i = 0; i< ADC_ShakeCnt; i++){
                     ShakeADC[i] = ShakeADC[i] * g_sys_para.bias  / 0x200000;
-                    PRINTF("%1.6f ",ShakeADC[i]);
+                    memset(str, 0, sizeof(str));
+                    sprintf(str,"%1.6f,",ShakeADC[i]);
+                    strcat(StrShakeADC,str);
                 }
-                /*将本次采样数据保存到文件 */
-                eMMC_SaveSampleData();
+                
+                /* 将采用数据打包成json格式,并保存到文件中*/
+                ParseSampleData();
                 
                 /* 发送任务通知，并解锁阻塞在该任务通知下的任务 */
                 vTaskNotifyGiveFromISR( BLE_TaskHandle, (void *)pdFALSE);

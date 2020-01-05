@@ -93,16 +93,14 @@ typedef struct{
     float    voltageSpd;
     float    voltageADS1271;
 	uint32_t periodSpdSignal; //转速信号周期(us)
-    uint32_t sampFileSize; //本次采样文件总大小
     float    bias;         //震动传感器偏置电压
     float    refV;         //1052的参考电压值
+    char     fileName[20];
 }SysPara;
 
 
 typedef struct{
     char   start;
-    uint32_t sampSpdSize;  //本次采样速度的数据大小
-    uint32_t sampShakeSize;//本次采样震动的数据大小
     char  IDPath[128];
     char  NamePath[128];
     float Speed;

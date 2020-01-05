@@ -73,7 +73,6 @@ void BAT_AppTask(void)
         g_sys_para.batRemainPercent = remain;
 //        g_sys_para.batRemainPercent = LTC2942_GetAC() * 100.0 / 65535;
 
-
         //battery is in charging
         if(READ_CHARGE_STA == 0 && READ_STDBY_STA == 1) {
             set_battery_full = false;

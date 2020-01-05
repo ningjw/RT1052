@@ -47,6 +47,7 @@ mmc_card_t g_mmc;
 
 DRESULT mmc_disk_write(uint8_t physicalDrive, const uint8_t *buffer, uint32_t sector, uint8_t count)
 {
+
     if (physicalDrive != MMCDISK)
     {
         return RES_PARERR;
@@ -56,6 +57,7 @@ DRESULT mmc_disk_write(uint8_t physicalDrive, const uint8_t *buffer, uint32_t se
     {
         return RES_ERROR;
     }
+    
     return RES_OK;
 }
 

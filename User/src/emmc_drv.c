@@ -84,14 +84,16 @@ void eMMC_ScanDelFile(void)
   * @input
   * @return
 ***************************************************************************************/
-uint32_t eMMC_SaveSampleData(void)
+uint32_t eMMC_SaveSampleData(char *buff, uint32_t len)
 {
+    #define ONE_LEN 5000
     FRESULT res;
     TCHAR   fileName[20] = {0};
     UINT    g_bytesWritten;
-    int     samp_set_size = 0;
+//    uint8_t  w_times = len / ONE_LEN + ((len%ONE_LEN) ? 1 : 0);
+//    uint32_t w_len = ONE_LEN;
     //判断腾出的空间是否够本次采样.
-    while(g_sys_para.emmc_fre_size <= g_sys_para.sampFileSize) {
+    while(g_sys_para.emmc_fre_size <= len) {
         eMMC_GetFree();
         eMMC_ScanDelFile();
     }
@@ -111,66 +113,55 @@ uint32_t eMMC_SaveSampleData(void)
         return res;
     }
     
+//    PRINTF("共分%d次写入文件\r\n",w_times);
+//    for(uint8_t i=0; i < w_times; i++){
+        
+        res = f_open(&g_fileObject, _T(fileName), (FA_WRITE));
+        if (res) { /* error or disk full */
+            g_sys_para.emmcIsOk = false;
+            PRINTF("打开文件失败:%d\r\n", res);
+            return res;
+        }
+        
+        /* 定位写入的位置*/
+        f_lseek(&g_fileObject, f_size(&g_fileObject));
+        
+//        if(i == (w_times -1)){
+//            w_len = len%ONE_LEN;
+//        }else{
+//            w_len = ONE_LEN;
+//        }
+//        PRINTF("第%d次写入文件,大小为%d\r\n",i,w_len);
+        /* 向文件内写入内容 */
+        res = f_write(&g_fileObject, buff, len, &g_bytesWritten);
+        if (res == FR_OK && g_bytesWritten == len) {
+            g_sys_para.emmcIsOk = true;
+        } else {
+            g_sys_para.emmcIsOk = false;
+            f_unlink(fileName);
+            PRINTF("写入文件失败:%d\r\n", res);
+            return res;
+        }
+        
+        
+        PRINTF("\r\n%s 文件大小: %d\r\n",fileName, f_size(&g_fileObject));
+        
+        /*关闭文件*/
+        res = f_close(&g_fileObject);
+        if (res) {
+            g_sys_para.emmcIsOk = false;
+            f_unlink(fileName);
+            PRINTF("关闭文件失败:%d\r\n", res);
+        } else {
+            memset(g_sys_para.fileName, 0, sizeof(g_sys_para.fileName));
+            strcpy(g_sys_para.fileName, fileName);
+            g_sys_para.emmcIsOk = true;
+            PRINTF("成功将ADC数据写入:%s 文件\r\n",fileName);
+        }
     
-    res = f_open(&g_fileObject, _T(fileName), (FA_WRITE | FA_READ));
-    if (res) { /* error or disk full */
-        g_sys_para.emmcIsOk = false;
-        PRINTF("打开文件失败:%d", res);
-        return res;
-    }
-
-    /* 向文件内写入内容 */
-    samp_set_size = (int)&g_adc_set.end - (int)&g_adc_set.start;
-    res = f_write(&g_fileObject, &g_adc_set.sampSpdSize, samp_set_size, &g_bytesWritten);
-    if (res == FR_OK && g_bytesWritten == samp_set_size) {
-        g_sys_para.emmcIsOk = true;
-    } else {
-        g_sys_para.emmcIsOk = false;
-        f_unlink(fileName);
-        PRINTF("写入文件失败:%d", res);
-        return res;
-    }
-
-    /* Move to end of the file to append data */
-    res = f_lseek(&g_fileObject, f_size(&g_fileObject));
-
-    /* 向文件内写入内容 */
-    res = f_write(&g_fileObject, SpeedADC, g_adc_set.sampSpdSize, &g_bytesWritten);
-    if (res == FR_OK && g_bytesWritten == g_adc_set.sampSpdSize) {
-        g_sys_para.emmcIsOk = true;
-    } else {
-        g_sys_para.emmcIsOk = false;
-        f_unlink(fileName);
-        PRINTF("写入文件失败:%d", res);
-        return res;
-    }
-
-    /* Move to end of the file to append data */
-    res = f_lseek(&g_fileObject, f_size(&g_fileObject));
-
-    /* 向文件内写入内容 */
-    res = f_write(&g_fileObject, ShakeADC, g_adc_set.sampShakeSize, &g_bytesWritten);
-    if (res == FR_OK && g_bytesWritten == g_adc_set.sampShakeSize) {
-        g_sys_para.emmcIsOk = true;
-    } else {
-        g_sys_para.emmcIsOk = false;
-        f_unlink(fileName);
-        PRINTF("写入文件失败:%d", res);
-        return res;
-    }
     
-//    PRINTF("%s 文件大小: %d\r\n",fileName, f_size(&g_fileObject));
+//    }
     
-    /*关闭文件*/
-    res = f_close(&g_fileObject);
-    if (res) {
-        g_sys_para.emmcIsOk = false;
-        f_unlink(fileName);
-        PRINTF("关闭文件失败:%d", res);
-    } else {
-        g_sys_para.emmcIsOk = true;
-        PRINTF("成功将ADC数据写入:%s 文件\r\n",fileName);
-    }
     return res;
 }
 
@@ -183,7 +174,7 @@ void BOARD_USDHCClockConfiguration(void)
     /*设置系统PLL PFD0 系数为 0x12*/
     CLOCK_InitSysPfd(kCLOCK_Pfd0, 0x12U);
     /* 配置USDHC时钟源和分频系数 */
-    CLOCK_SetDiv(kCLOCK_Usdhc1Div, 4U);
+    CLOCK_SetDiv(kCLOCK_Usdhc1Div, 1U);
     CLOCK_SetMux(kCLOCK_Usdhc1Mux, 1U);
 }
 
