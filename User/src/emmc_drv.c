@@ -86,18 +86,21 @@ void eMMC_ScanDelFile(void)
 ***************************************************************************************/
 uint32_t eMMC_SaveSampleData(char *buff, uint32_t len)
 {
-    #define ONE_LEN 5000
+    #define ONE_LEN 10000
     FRESULT res;
     TCHAR   fileName[20] = {0};
     UINT    g_bytesWritten;
-//    uint8_t  w_times = len / ONE_LEN + ((len%ONE_LEN) ? 1 : 0);
-//    uint32_t w_len = ONE_LEN;
+    uint8_t  w_times = len / ONE_LEN + ((len%ONE_LEN) ? 1 : 0);
+    uint32_t w_len = ONE_LEN;
+    
+    g_sys_para.saveOk = false;
+    
     //判断腾出的空间是否够本次采样.
     while(g_sys_para.emmc_fre_size <= len) {
         eMMC_GetFree();
         eMMC_ScanDelFile();
     }
-
+    
     /* 获取日期 */
     SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
     
@@ -113,28 +116,29 @@ uint32_t eMMC_SaveSampleData(char *buff, uint32_t len)
         return res;
     }
     
-//    PRINTF("共分%d次写入文件\r\n",w_times);
-//    for(uint8_t i=0; i < w_times; i++){
+    PRINTF("共分%d次写入文件\r\n",w_times);
+    for(uint8_t i=0; i < w_times; i++){
         
         res = f_open(&g_fileObject, _T(fileName), (FA_WRITE));
         if (res) { /* error or disk full */
             g_sys_para.emmcIsOk = false;
+            f_unlink(fileName);
             PRINTF("打开文件失败:%d\r\n", res);
             return res;
         }
         
         /* 定位写入的位置*/
-        f_lseek(&g_fileObject, f_size(&g_fileObject));
+        f_lseek(&g_fileObject, i*ONE_LEN);
         
-//        if(i == (w_times -1)){
-//            w_len = len%ONE_LEN;
-//        }else{
-//            w_len = ONE_LEN;
-//        }
-//        PRINTF("第%d次写入文件,大小为%d\r\n",i,w_len);
+        if(i == (w_times -1)){
+            w_len = len%ONE_LEN;
+        }else{
+            w_len = ONE_LEN;
+        }
+        PRINTF("第%d次写入文件,大小为%d\r\n",i,w_len);
         /* 向文件内写入内容 */
-        res = f_write(&g_fileObject, buff, len, &g_bytesWritten);
-        if (res == FR_OK && g_bytesWritten == len) {
+        res = f_write(&g_fileObject, buff + i*ONE_LEN, w_len, &g_bytesWritten);
+        if (res == FR_OK && g_bytesWritten == w_len) {
             g_sys_para.emmcIsOk = true;
         } else {
             g_sys_para.emmcIsOk = false;
@@ -142,7 +146,6 @@ uint32_t eMMC_SaveSampleData(char *buff, uint32_t len)
             PRINTF("写入文件失败:%d\r\n", res);
             return res;
         }
-        
         
         PRINTF("\r\n%s 文件大小: %d\r\n",fileName, f_size(&g_fileObject));
         
@@ -156,11 +159,10 @@ uint32_t eMMC_SaveSampleData(char *buff, uint32_t len)
             memset(g_sys_para.fileName, 0, sizeof(g_sys_para.fileName));
             strcpy(g_sys_para.fileName, fileName);
             g_sys_para.emmcIsOk = true;
+            g_sys_para.saveOk = true;
             PRINTF("成功将ADC数据写入:%s 文件\r\n",fileName);
         }
-    
-    
-//    }
+    }
     
     return res;
 }
@@ -174,7 +176,7 @@ void BOARD_USDHCClockConfiguration(void)
     /*设置系统PLL PFD0 系数为 0x12*/
     CLOCK_InitSysPfd(kCLOCK_Pfd0, 0x12U);
     /* 配置USDHC时钟源和分频系数 */
-    CLOCK_SetDiv(kCLOCK_Usdhc1Div, 1U);
+    CLOCK_SetDiv(kCLOCK_Usdhc1Div, 0U);
     CLOCK_SetMux(kCLOCK_Usdhc1Mux, 1U);
 }
 
@@ -268,9 +270,8 @@ void eMMC_Init(void)
 {
     FRESULT ret = FR_OK;
 
-    /* 初始化SD外设时钟 */
-    BOARD_USDHCClockConfiguration();
-
+    BOARD_USDHCClockConfiguration();/* 初始化SD外设时钟 */
+    
     ret = f_mount(&g_fileSystem, driverNumberBuffer, true);
     if (ret)
     {
@@ -293,24 +294,6 @@ void eMMC_Init(void)
     /*允许使用相对路径*/
     f_chdrive((char const *)&driverNumberBuffer[0U]);
 
-    eMMC_CheckFatfs();
+//    eMMC_CheckFatfs();
 }
 
-//uint8_t mf_scan_files(uint8_t * path)
-//{
-//	FRESULT res;
-//    res = f_opendir(&dir,(const TCHAR*)path); //打开一个目录
-//    if (res == FR_OK)
-//	{
-//		printf("\r\n");
-//		while(1)
-//		{
-//	        res = f_readdir(&dir, &fileinfo);                   //读取目录下的一个文件
-//	        if (res != FR_OK || fileinfo.fname[0] == 0) break;  //错误了/到末尾了,退出
-//	        //if (fileinfo.fname[0] == '.') continue;             //忽略上级目录
-// 			printf("%s/", path);//打印路径
-//			printf("%s\r\n",fileinfo.fname);//打印文件名
-//		}
-//    }
-//    return res;
-//}

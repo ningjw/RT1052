@@ -2,8 +2,7 @@
 
 #define ADC_LEN      40000
 #define ADC_STR_LEN  200000
-uint32_t ADC_SpdCnt = 0;
-uint32_t ADC_ShakeCnt = 0;
+
 AT_NONCACHEABLE_SECTION_INIT(float SpeedADC[ADC_LEN]);
 AT_NONCACHEABLE_SECTION_INIT(float ShakeADC[ADC_LEN]);
 AT_NONCACHEABLE_SECTION_INIT(char  StrSpeedADC[ADC_STR_LEN]);
@@ -33,7 +32,7 @@ void PIT_IRQHandler(void)
         PIT_ClearStatusFlags(PIT, kPIT_Chnl_1, kPIT_TimerFlag);
         ADC_SampleStop();
     }
-    if( PIT_GetStatusFlags(PIT, kPIT_Chnl_2) == true){
+    else if( PIT_GetStatusFlags(PIT, kPIT_Chnl_2) == true){
         /* 清除中断标志位.*/
         PIT_ClearStatusFlags(PIT, kPIT_Chnl_2, kPIT_TimerFlag);
          if(g_sys_para.inactiveCount++ >= g_sys_para.inactiveTime + 1){//定时时间到
@@ -42,6 +41,7 @@ void PIT_IRQHandler(void)
     //        SNVS->LPSR |= SNVS_LPCR_TOP(1);
         }
     }
+    
     __DSB();
 }
 
@@ -68,18 +68,25 @@ void ADC_ETC_IRQ0_IRQHandler(void)
     /*清除转换完成中断标志位*/
     ADC_ETC_ClearInterruptStatusFlags(ADC_ETC, (adc_etc_external_trigger_source_t)0U, kADC_ETC_Done0StatusFlagMask);
     /*读取转换结果*/
-    if(ADC_SpdCnt < ADC_LEN){
-        SpeedADC[ADC_SpdCnt++] = ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
+    if(g_sys_para.ADC_SpdCnt < ADC_LEN){
+        SpeedADC[g_sys_para.ADC_SpdCnt++] = ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
     }
-#if 0
-//    while (ADC_READY == 0);  //wait ads1271 ready
-    if( ADC_ShakeCnt < ADC_LEN && ADC_READY == 0){
-        ShakeADC[ADC_ShakeCnt++] = LPSPI4_ReadData();
+#if 1
+    if( g_sys_para.ADC_ShakeCnt < ADC_LEN && ADC_READY == 0){
+        ShakeADC[g_sys_para.ADC_ShakeCnt++] = LPSPI4_ReadData();
     }
+//    else if(g_sys_para.ADC_ShakeCnt > 0){
+//        ShakeADC[g_sys_para.ADC_ShakeCnt] = ShakeADC[g_sys_para.ADC_ShakeCnt-1];
+//        g_sys_para.ADC_ShakeCnt++;
+//    }
 #else
-    while (ADC_READY == 0);  //wait ads1271 ready
-    if( ADC_ShakeCnt < ADC_LEN ){
-        ShakeADC[ADC_ShakeCnt++] = LPSPI4_ReadData();
+    uint32_t wait_time = 0;
+    while (1){//wait ads1271 ready
+        if(ADC_READY == 0) break;
+        if(wait_time++ >= 100) break;
+    }
+    if( g_sys_para.ADC_ShakeCnt < ADC_LEN && wait_time < 100 ){
+        ShakeADC[g_sys_para.ADC_ShakeCnt++] = LPSPI4_ReadData();
     }
 #endif
 }
@@ -92,8 +99,8 @@ void ADC_ETC_IRQ0_IRQHandler(void)
 ***************************************************************************************/
 void ADC_SampleStart(void)
 {
-    ADC_SpdCnt = 0;
-    ADC_ShakeCnt = 0;
+    g_sys_para.ADC_SpdCnt = 0;
+    g_sys_para.ADC_ShakeCnt = 0;
     g_sys_para.sampClk = 1000 * g_sys_para.sampFreq / 25;
 
     if(g_sys_para.inactiveCondition != 1){
@@ -167,7 +174,7 @@ void ADC_AppTask(void)
     if(LPSPI4_ReadData() == 0){
         g_sys_para.sampLedStatus = WORK_FATAL_ERR;
     }
-    
+
     PRINTF("ADC Task Create and Running\r\n");
     while(1)
     {
@@ -185,23 +192,25 @@ void ADC_AppTask(void)
                 PRINTF("设置的采样频率为:%d Hz\r\n", g_sys_para.sampFreq);
                 PRINTF("设置的采样时间:%d s\r\n", g_sys_para.sampTimeSet);
                 PRINTF("计算出转速信号周期:%d us\r\n",g_sys_para.periodSpdSignal);
-                PRINTF("共采样到 %d 个转速信号\r\n", ADC_SpdCnt);
-                PRINTF("共采样到 %d 个震动信号\r\n", ADC_ShakeCnt);
+                PRINTF("共采样到 %d 个震动信号\r\n", g_sys_para.ADC_ShakeCnt);
+                PRINTF("共采样到 %d 个转速信号\r\n", g_sys_para.ADC_SpdCnt);
+                
+                /* 将震动信号转换*/
+                memset(StrShakeADC, 0, sizeof(StrShakeADC));
+                for(uint32_t i = 0; i< g_sys_para.ADC_ShakeCnt; i++){
+                    ShakeADC[i] = ShakeADC[i] * g_sys_para.bias  / 0x400000;
+                    memset(str, 0, sizeof(str));
+                    sprintf(str,"%1.6f,",ShakeADC[i]);
+                    strcat(StrShakeADC,str);
+                }
+                
                 /* 将转速信号转换*/
                 memset(StrSpeedADC, 0, sizeof(StrSpeedADC));
-                for(uint32_t i = 0; i< ADC_SpdCnt; i++){
+                for(uint32_t i = 0; i< g_sys_para.ADC_SpdCnt; i++){
                     SpeedADC[i] = SpeedADC[i] * g_sys_para.refV / 4096;
                     memset(str, 0, sizeof(str));
                     sprintf(str,"%1.6f,",SpeedADC[i]);
                     strcat(StrSpeedADC,str);
-                }
-                /* 将震动信号转换*/
-                memset(StrShakeADC, 0, sizeof(StrShakeADC));
-                for(uint32_t i = 0; i< ADC_ShakeCnt; i++){
-                    ShakeADC[i] = ShakeADC[i] * g_sys_para.bias  / 0x200000;
-                    memset(str, 0, sizeof(str));
-                    sprintf(str,"%1.6f,",ShakeADC[i]);
-                    strcat(StrShakeADC,str);
                 }
                 
                 /* 将采用数据打包成json格式,并保存到文件中*/

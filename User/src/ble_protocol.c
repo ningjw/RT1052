@@ -2,7 +2,7 @@
 
 extern char  StrSpeedADC[];
 extern char  StrShakeADC[];
-
+extern float ShakeADC[];
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
   * @input   
@@ -222,12 +222,12 @@ static char * ParseSetSamplePara(cJSON *pJson, cJSON * pSub)
     
     pSub = cJSON_GetObjectItem(pJson, "Bias");
     if (NULL != pSub){
-        g_sys_para.bias = pSub->valueint;
+        g_sys_para.bias = pSub->valuedouble;
     }
     
     pSub = cJSON_GetObjectItem(pJson, "RefV");
     if (NULL != pSub){
-        g_sys_para.refV = pSub->valueint;
+        g_sys_para.refV = pSub->valuedouble;
     }
     
     /*制作cjson格式的回复消息*/
@@ -249,20 +249,38 @@ static char * ParseSetSamplePara(cJSON *pJson, cJSON * pSub)
 ***************************************************************************************/
 static char * ParseStartSample(void)
 {
+    cJSON *pJson = cJSON_CreateObject();
+    if(NULL == pJson){
+        return NULL;
+    }
+    cJSON_AddNumberToObject(pJson, "Id",  8);
+    cJSON_AddNumberToObject(pJson, "Sid", 0);
+    char *sendBuf = cJSON_Print(pJson);
+    cJSON_Delete(pJson);
+    LPUART2_SendString((char *)sendBuf);
+    free(sendBuf);
+    sendBuf = NULL;
+    
+    /*start sample*/
+    ADC_SampleStart();
+    
+    /*wait task notify*/
+    ulTaskNotifyTake( pdTRUE, portMAX_DELAY );
+    
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot){
         return NULL;
     }
     cJSON_AddNumberToObject(pJsonRoot, "Id",  8);
     cJSON_AddNumberToObject(pJsonRoot, "Sid", 0);
-    cJSON_AddNumberToObject(pJsonRoot, "Packs",g_sys_para.sampPacks);
+    cJSON_AddStringToObject(pJsonRoot, "fileName", g_sys_para.fileName);
+    cJSON_AddBoolToObject(pJsonRoot, "saveOk", g_sys_para.saveOk);
+    cJSON_AddNumberToObject(pJsonRoot, "size", g_sys_para.sampPacks);
+    cJSON_AddNumberToObject(pJsonRoot, "shkNum", g_sys_para.ADC_ShakeCnt);
+    cJSON_AddNumberToObject(pJsonRoot, "shkV", ShakeADC[10]);
+    cJSON_AddNumberToObject(pJsonRoot, "spdNum", g_sys_para.ADC_SpdCnt);
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
-    ADC_SampleStart();
-    
-    /*wait task notify*/
-    ulTaskNotifyTake( pdTRUE, portMAX_DELAY );
-    
     return p_reply;
 }
 
@@ -330,10 +348,11 @@ char * ParseSampleData(void)
     
     /*将打包好的数据保存到文件 */
     if (NULL != p_reply){
-        eMMC_SaveSampleData(p_reply, strlen(p_reply));
+        g_sys_para.sampleJsonSize = strlen(p_reply);
+        eMMC_SaveSampleData(p_reply, g_sys_para.sampleJsonSize);
     }
     
-    PRINTF("%s", p_reply);
+//    PRINTF("%s", p_reply);
     
     free(p_reply);
     p_reply = NULL;

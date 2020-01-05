@@ -43,10 +43,9 @@ static void InitSysPara()
   **********************************************************************/
 static void AppTaskCreate(void)
 {
-    eMMC_Init();            /* 初始化eMMC模块,FatFS文件系统, 并对文件系统自检*/
     FlexSPI_NorFlash_Init();/* 初始化FlexSPI*/
     NorFlash_ChkSelf();/* 对FlexSPI自检*/
-    
+    eMMC_Init();                /* 初始化eMMC模块,FatFS文件系统, 并对文件系统自检*/
     taskENTER_CRITICAL();           //进入临界区
     
     /* 创建LED_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 

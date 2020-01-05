@@ -34,7 +34,7 @@ extern TaskHandle_t BLE_TaskHandle ;  /* À¶ÑÀÈÎÎñ¾ä±ú */
 extern uint8_t g_lpuart2TxBuf[];
 
 void BLE_AppTask(void);
-
+void LPUART2_SendString(const char *str);
 
 
 #endif

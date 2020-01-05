@@ -17,4 +17,3 @@
 .\objects\clock_config.o: .\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h
 .\objects\clock_config.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_clock.h
 .\objects\clock_config.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h
-.\objects\clock_config.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_iomuxc.h
