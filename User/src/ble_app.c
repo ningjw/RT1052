@@ -138,11 +138,14 @@ void BLE_AppTask(void)
                 }
             }
             /* json数据包 */
-            else if(NULL != sendBuf)
+            else if(NULL != sendBuf )
             {
                 LPUART2_SendString((char *)sendBuf);
-                free(sendBuf);
-                sendBuf = NULL;
+                /* 分包传输采样数据时,采用的是g_lpuart2TxBuf缓存发送数据,此时不能free*/
+                if(sendBuf != g_lpuart2TxBuf){
+                    free(sendBuf);
+                    sendBuf = NULL;
+                }
             }
             memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
             g_puart2RxCnt = 0;

@@ -12,9 +12,7 @@ AT_NONCACHEABLE_SECTION_INIT(char  StrShakeADC[ADC_STR_LEN]);
 #define ADC_MODE_HIGH_SPEED      GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 0)   //高速模式
 #define ADC_MODE_HIGH_RESOLUTION //高精度模式(浮空)
 
-
 TaskHandle_t ADC_TaskHandle = NULL;  /* ADC任务句柄 */
-
 
 static uint32_t counterClock = 0;
 uint32_t timeCapt = 0;
@@ -114,7 +112,7 @@ void ADC_SampleStart(void)
     /* Set channel 0 period (66000000 ticks). */
     PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ/g_sys_para.sampFreq - 1);
     /* Set channel 1 period (66000000 ticks). */
-    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_CLK_FREQ/g_sys_para.sampTimeSet - 1);
+    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_CLK_FREQ*g_sys_para.sampTimeSet - 1);
     /* Start the timer - select the timer counting mode */
     QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
     /* Start the timer - select the timer counting mode */

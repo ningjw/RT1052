@@ -378,7 +378,11 @@ char * ParseGetSampleData(cJSON *pJson, cJSON * pSub)
     pSub = cJSON_GetObjectItem(pJson, "Sid");
     if (NULL != pSub)
         sid = pSub->valueint;
-    if(sid == g_sys_para.sampJsonPacks - 1){//最后一包数据了
+    if(sid >= g_sys_para.sampJsonPacks){
+        memset(g_lpuart2TxBuf, 0, LPUART2_BUFF_LEN);
+        return (char *)g_lpuart2TxBuf;
+    }
+    else if(sid == g_sys_para.sampJsonPacks - 1){//最后一包数据了
         slen = g_sys_para.sampJsonSize % ONE_PACK_LEN;
     }else{
         slen = ONE_PACK_LEN;
