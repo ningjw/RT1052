@@ -93,11 +93,13 @@ typedef struct{
     float    voltageSpd;
     float    voltageADS1271;
 	uint32_t periodSpdSignal; //转速信号周期(us)
-    uint32_t sampleJsonSize; //将采集到的数据,打包成json格式后的总长度
     uint32_t ADC_SpdCnt;
     uint32_t ADC_ShakeCnt;
     float    bias;         //震动传感器偏置电压
     float    refV;         //1052的参考电压值
+    uint32_t sampJsonSize; //将采集到的数据,打包成json格式后的总长度
+    uint32_t sampJsonPacks;//json数据需要分多少包发送.每包长度150
+    char*    sampJson;     //已经打包成json格式的数据的首地址
     bool     saveOk;       //是否成功将采样数据保存到文件
     char     fileName[20];
 }SysPara;

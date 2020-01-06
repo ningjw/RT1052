@@ -71,7 +71,7 @@ void ADC_ETC_IRQ0_IRQHandler(void)
     if(g_sys_para.ADC_SpdCnt < ADC_LEN){
         SpeedADC[g_sys_para.ADC_SpdCnt++] = ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
     }
-#if 1
+#if 0
     if( g_sys_para.ADC_ShakeCnt < ADC_LEN && ADC_READY == 0){
         ShakeADC[g_sys_para.ADC_ShakeCnt++] = LPSPI4_ReadData();
     }

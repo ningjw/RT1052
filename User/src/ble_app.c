@@ -13,9 +13,6 @@
 
 extern void LPUART2_init(void);
 
-//用于测试的数组
-char set_rtc[] = "{\"Id\":1,\"Sid\":0,\"Y\":2019,\"Mon\":12,\"D\":16,\"H\":9,\"Min\":0,\"S\":0}";
-char get_rtc[] = "{\"Id\":2,\"Sid\":0}";
 
 AT_NONCACHEABLE_SECTION_INIT(uint8_t g_lpuart2TxBuf[LPUART2_BUFF_LEN]) = {0};//串口发送缓冲区
 AT_NONCACHEABLE_SECTION_INIT(uint8_t g_lpuart2RxBuf[LPUART2_BUFF_LEN]) = {0};//串口接收缓冲区

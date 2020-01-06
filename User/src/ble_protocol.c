@@ -1,5 +1,6 @@
 #include "main.h"
 
+#define ONE_PACK_LEN 150
 extern char  StrSpeedADC[];
 extern char  StrShakeADC[];
 extern float ShakeADC[];
@@ -294,6 +295,10 @@ float spdValue[5] = {0.6,0.7,0.8,0.9,1.0};
 ***************************************************************************************/
 char * ParseSampleData(void)
 {
+    free(g_sys_para.sampJson);
+    g_sys_para.sampJson = NULL;
+    g_sys_para.sampJsonSize = 0;
+    g_sys_para.sampJsonPacks = 0;
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot){
         return NULL;
@@ -343,20 +348,19 @@ char * ParseSampleData(void)
     cJSON_AddStringToObject(pJsonSub1, "Value", StrSpeedADC);//
     cJSON_AddItemToArray(measureMents, pJsonSub1);
     
-    char *p_reply = cJSON_Print(pJsonRoot);
+    g_sys_para.sampJson = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     
     /*将打包好的数据保存到文件 */
-    if (NULL != p_reply){
-        g_sys_para.sampleJsonSize = strlen(p_reply);
-        eMMC_SaveSampleData(p_reply, g_sys_para.sampleJsonSize);
+    if (NULL != g_sys_para.sampJson){
+        g_sys_para.sampJsonSize = strlen(g_sys_para.sampJson);
+        g_sys_para.sampJsonPacks = g_sys_para.sampJsonSize / ONE_PACK_LEN + ((g_sys_para.sampJsonSize%ONE_PACK_LEN) ? 1 : 0);
+        eMMC_SaveSampleData(g_sys_para.sampJson, g_sys_para.sampJsonSize);
     }
     
 //    PRINTF("%s", p_reply);
     
-    free(p_reply);
-    p_reply = NULL;
-    return p_reply;
+    return g_sys_para.sampJson;
 }
 
 
@@ -365,9 +369,23 @@ char * ParseSampleData(void)
   * @input   
   * @return  
 ***************************************************************************************/
-char * ParseGetSampleData(void)
+char * ParseGetSampleData(cJSON *pJson, cJSON * pSub)
 {
+    uint32_t sid = 0;
+    uint8_t  slen = 0;
     
+    /*解析消息内容,*/
+    pSub = cJSON_GetObjectItem(pJson, "Sid");
+    if (NULL != pSub)
+        sid = pSub->valueint;
+    if(sid == g_sys_para.sampJsonPacks - 1){//最后一包数据了
+        slen = g_sys_para.sampJsonSize % ONE_PACK_LEN;
+    }else{
+        slen = ONE_PACK_LEN;
+    }
+    memset(g_lpuart2TxBuf, 0, LPUART2_BUFF_LEN);
+    memcpy(g_lpuart2TxBuf, (g_sys_para.sampJson+sid*ONE_PACK_LEN), slen);
+    return (char *)g_lpuart2TxBuf;
 }
 /***************************************************************************************
   * @brief   处理消息id为10的消息, 该消息为开始发送升级固件包
@@ -482,7 +500,7 @@ uint8_t* ParseJson(char *pMsg)
             p_reply = ParseStartSample();//开始采样
             break;
         case 9:
-            p_reply = ParseGetSampleData();//获取采样结果
+            p_reply = ParseGetSampleData(pJson, pSub);//获取采样结果
             break;
         case 10:
             p_reply = ParseStartUpdate(pJson, pSub);//升级
