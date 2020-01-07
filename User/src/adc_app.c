@@ -1,12 +1,10 @@
 #include "main.h"
 
-#define ADC_LEN      40000
-#define ADC_STR_LEN  200000
+#define ADC_LEN      80000
 
 AT_NONCACHEABLE_SECTION_INIT(float SpeedADC[ADC_LEN]);
 AT_NONCACHEABLE_SECTION_INIT(float ShakeADC[ADC_LEN]);
-AT_NONCACHEABLE_SECTION_INIT(char  StrSpeedADC[ADC_STR_LEN]);
-AT_NONCACHEABLE_SECTION_INIT(char  StrShakeADC[ADC_STR_LEN]);
+
 
 #define ADC_MODE_LOW_POWER       GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 1)  //低功耗模式
 #define ADC_MODE_HIGH_SPEED      GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 0)   //高速模式
@@ -73,10 +71,6 @@ void ADC_ETC_IRQ0_IRQHandler(void)
     if( g_sys_para.ADC_ShakeCnt < ADC_LEN && ADC_READY == 0){
         ShakeADC[g_sys_para.ADC_ShakeCnt++] = LPSPI4_ReadData();
     }
-//    else if(g_sys_para.ADC_ShakeCnt > 0){
-//        ShakeADC[g_sys_para.ADC_ShakeCnt] = ShakeADC[g_sys_para.ADC_ShakeCnt-1];
-//        g_sys_para.ADC_ShakeCnt++;
-//    }
 #else
     uint32_t wait_time = 0;
     while (1){//wait ads1271 ready
@@ -194,21 +188,13 @@ void ADC_AppTask(void)
                 PRINTF("共采样到 %d 个转速信号\r\n", g_sys_para.ADC_SpdCnt);
                 
                 /* 将震动信号转换*/
-                memset(StrShakeADC, 0, sizeof(StrShakeADC));
                 for(uint32_t i = 0; i< g_sys_para.ADC_ShakeCnt; i++){
                     ShakeADC[i] = ShakeADC[i] * g_sys_para.bias  / 0x400000;
-                    memset(str, 0, sizeof(str));
-                    sprintf(str,"%1.6f,",ShakeADC[i]);
-                    strcat(StrShakeADC,str);
                 }
                 
                 /* 将转速信号转换*/
-                memset(StrSpeedADC, 0, sizeof(StrSpeedADC));
                 for(uint32_t i = 0; i< g_sys_para.ADC_SpdCnt; i++){
                     SpeedADC[i] = SpeedADC[i] * g_sys_para.refV / 4096;
-                    memset(str, 0, sizeof(str));
-                    sprintf(str,"%1.6f,",SpeedADC[i]);
-                    strcat(StrSpeedADC,str);
                 }
                 
                 /* 将采用数据打包成json格式,并保存到文件中*/

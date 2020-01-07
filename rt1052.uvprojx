@@ -607,602 +607,6 @@
       </Groups>
     </Target>
     <Target>
-      <TargetName>release</TargetName>
-      <ToolsetNumber>0x4</ToolsetNumber>
-      <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>5060528::V5.06 update 5 (build 528)::ARMCC</pCCUsed>
-      <uAC6>0</uAC6>
-      <TargetOption>
-        <TargetCommonOption>
-          <Device>MIMXRT1052CVL5B</Device>
-          <Vendor>NXP</Vendor>
-          <PackID>NXP.MIMXRT1052_DFP.12.0.0</PackID>
-          <PackURL>http://mcuxpresso.nxp.com/cmsis_pack/repo/</PackURL>
-          <Cpu>IRAM(0x20000000,0x020000) IRAM2(0x00000000,0x020000) XRAM(0x20200000,0x040000) CPUTYPE("Cortex-M7") FPU3(DFPU) CLOCK(12000000) ELITTLE</Cpu>
-          <FlashUtilSpec></FlashUtilSpec>
-          <StartupFile></StartupFile>
-          <FlashDriverDll>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC8000 -FN1 -FF0MIMXRT105x_HYPER_256KB_SEC -FS060000000 -FL04000000 -FP0($$Device:MIMXRT1052CVL5B$arm\MIMXRT105x_HYPER_256KB_SEC.FLM))</FlashDriverDll>
-          <DeviceId>0</DeviceId>
-          <RegisterFile>$$Device:MIMXRT1052CVL5B$fsl_device_registers.h</RegisterFile>
-          <MemoryEnv></MemoryEnv>
-          <Cmp></Cmp>
-          <Asm></Asm>
-          <Linker></Linker>
-          <OHString></OHString>
-          <InfinionOptionDll></InfinionOptionDll>
-          <SLE66CMisc></SLE66CMisc>
-          <SLE66AMisc></SLE66AMisc>
-          <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile>$$Device:MIMXRT1052CVL5B$MIMXRT1052.xml</SFDFile>
-          <bCustSvd>0</bCustSvd>
-          <UseEnv>0</UseEnv>
-          <BinPath></BinPath>
-          <IncludePath></IncludePath>
-          <LibPath></LibPath>
-          <RegisterFilePath></RegisterFilePath>
-          <DBRegisterFilePath></DBRegisterFilePath>
-          <TargetStatus>
-            <Error>0</Error>
-            <ExitCodeStop>0</ExitCodeStop>
-            <ButtonStop>0</ButtonStop>
-            <NotGenerated>0</NotGenerated>
-            <InvalidFlash>1</InvalidFlash>
-          </TargetStatus>
-          <OutputDirectory>.\Objects\Objects\</OutputDirectory>
-          <OutputName>rt1052</OutputName>
-          <CreateExecutable>1</CreateExecutable>
-          <CreateLib>0</CreateLib>
-          <CreateHexFile>0</CreateHexFile>
-          <DebugInformation>1</DebugInformation>
-          <BrowseInformation>0</BrowseInformation>
-          <ListingPath>.\Listings\Listings\</ListingPath>
-          <HexFormatSelection>1</HexFormatSelection>
-          <Merge32K>0</Merge32K>
-          <CreateBatchFile>0</CreateBatchFile>
-          <BeforeCompile>
-            <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name></UserProg1Name>
-            <UserProg2Name></UserProg2Name>
-            <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
-            <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
-            <nStopU1X>0</nStopU1X>
-            <nStopU2X>0</nStopU2X>
-          </BeforeCompile>
-          <BeforeMake>
-            <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name></UserProg1Name>
-            <UserProg2Name></UserProg2Name>
-            <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
-            <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
-            <nStopB1X>0</nStopB1X>
-            <nStopB2X>0</nStopB2X>
-          </BeforeMake>
-          <AfterMake>
-            <RunUserProg1>0</RunUserProg1>
-            <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name></UserProg1Name>
-            <UserProg2Name></UserProg2Name>
-            <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
-            <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
-            <nStopA1X>0</nStopA1X>
-            <nStopA2X>0</nStopA2X>
-          </AfterMake>
-          <SelectedForBatchBuild>0</SelectedForBatchBuild>
-          <SVCSIdString></SVCSIdString>
-        </TargetCommonOption>
-        <CommonProperty>
-          <UseCPPCompiler>0</UseCPPCompiler>
-          <RVCTCodeConst>0</RVCTCodeConst>
-          <RVCTZI>0</RVCTZI>
-          <RVCTOtherData>0</RVCTOtherData>
-          <ModuleSelection>0</ModuleSelection>
-          <IncludeInBuild>1</IncludeInBuild>
-          <AlwaysBuild>0</AlwaysBuild>
-          <GenerateAssemblyFile>0</GenerateAssemblyFile>
-          <AssembleAssemblyFile>0</AssembleAssemblyFile>
-          <PublicsOnly>0</PublicsOnly>
-          <StopOnExitCode>3</StopOnExitCode>
-          <CustomArgument></CustomArgument>
-          <IncludeLibraryModules></IncludeLibraryModules>
-          <ComprImg>1</ComprImg>
-        </CommonProperty>
-        <DllOption>
-          <SimDllName>SARMCM3.DLL</SimDllName>
-          <SimDllArguments> -REMAP -MPU</SimDllArguments>
-          <SimDlgDll>DCM.DLL</SimDlgDll>
-          <SimDlgDllArguments>-pCM7</SimDlgDllArguments>
-          <TargetDllName>SARMCM3.DLL</TargetDllName>
-          <TargetDllArguments></TargetDllArguments>
-          <TargetDlgDll>TCM.DLL</TargetDlgDll>
-          <TargetDlgDllArguments>-pCM7</TargetDlgDllArguments>
-        </DllOption>
-        <DebugOption>
-          <OPTHX>
-            <HexSelection>1</HexSelection>
-            <HexRangeLowAddress>0</HexRangeLowAddress>
-            <HexRangeHighAddress>0</HexRangeHighAddress>
-            <HexOffset>0</HexOffset>
-            <Oh166RecLen>16</Oh166RecLen>
-          </OPTHX>
-        </DebugOption>
-        <Utilities>
-          <Flash1>
-            <UseTargetDll>1</UseTargetDll>
-            <UseExternalTool>0</UseExternalTool>
-            <RunIndependent>0</RunIndependent>
-            <UpdateFlashBeforeDebugging>1</UpdateFlashBeforeDebugging>
-            <Capability>1</Capability>
-            <DriverSelection>4096</DriverSelection>
-          </Flash1>
-          <bUseTDR>1</bUseTDR>
-          <Flash2>BIN\UL2CM3.DLL</Flash2>
-          <Flash3>"" ()</Flash3>
-          <Flash4></Flash4>
-          <pFcarmOut></pFcarmOut>
-          <pFcarmGrp></pFcarmGrp>
-          <pFcArmRoot></pFcArmRoot>
-          <FcArmLst>0</FcArmLst>
-        </Utilities>
-        <TargetArmAds>
-          <ArmAdsMisc>
-            <GenerateListings>0</GenerateListings>
-            <asHll>1</asHll>
-            <asAsm>1</asAsm>
-            <asMacX>1</asMacX>
-            <asSyms>1</asSyms>
-            <asFals>1</asFals>
-            <asDbgD>1</asDbgD>
-            <asForm>1</asForm>
-            <ldLst>0</ldLst>
-            <ldmm>1</ldmm>
-            <ldXref>1</ldXref>
-            <BigEnd>0</BigEnd>
-            <AdsALst>1</AdsALst>
-            <AdsACrf>1</AdsACrf>
-            <AdsANop>0</AdsANop>
-            <AdsANot>0</AdsANot>
-            <AdsLLst>1</AdsLLst>
-            <AdsLmap>1</AdsLmap>
-            <AdsLcgr>1</AdsLcgr>
-            <AdsLsym>1</AdsLsym>
-            <AdsLszi>1</AdsLszi>
-            <AdsLtoi>1</AdsLtoi>
-            <AdsLsun>1</AdsLsun>
-            <AdsLven>1</AdsLven>
-            <AdsLsxf>1</AdsLsxf>
-            <RvctClst>0</RvctClst>
-            <GenPPlst>0</GenPPlst>
-            <AdsCpuType>"Cortex-M7"</AdsCpuType>
-            <RvctDeviceName></RvctDeviceName>
-            <mOS>0</mOS>
-            <uocRom>0</uocRom>
-            <uocRam>0</uocRam>
-            <hadIROM>0</hadIROM>
-            <hadIRAM>1</hadIRAM>
-            <hadXRAM>1</hadXRAM>
-            <uocXRam>0</uocXRam>
-            <RvdsVP>3</RvdsVP>
-            <hadIRAM2>1</hadIRAM2>
-            <hadIROM2>0</hadIROM2>
-            <StupSel>0</StupSel>
-            <useUlib>1</useUlib>
-            <EndSel>0</EndSel>
-            <uLtcg>0</uLtcg>
-            <nSecure>0</nSecure>
-            <RoSelD>0</RoSelD>
-            <RwSelD>4</RwSelD>
-            <CodeSel>0</CodeSel>
-            <OptFeed>0</OptFeed>
-            <NoZi1>0</NoZi1>
-            <NoZi2>0</NoZi2>
-            <NoZi3>0</NoZi3>
-            <NoZi4>0</NoZi4>
-            <NoZi5>0</NoZi5>
-            <Ro1Chk>0</Ro1Chk>
-            <Ro2Chk>0</Ro2Chk>
-            <Ro3Chk>0</Ro3Chk>
-            <Ir1Chk>0</Ir1Chk>
-            <Ir2Chk>0</Ir2Chk>
-            <Ra1Chk>0</Ra1Chk>
-            <Ra2Chk>0</Ra2Chk>
-            <Ra3Chk>0</Ra3Chk>
-            <Im1Chk>0</Im1Chk>
-            <Im2Chk>0</Im2Chk>
-            <OnChipMemories>
-              <Ocm1>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </Ocm1>
-              <Ocm2>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </Ocm2>
-              <Ocm3>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </Ocm3>
-              <Ocm4>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </Ocm4>
-              <Ocm5>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </Ocm5>
-              <Ocm6>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </Ocm6>
-              <IRAM>
-                <Type>0</Type>
-                <StartAddress>0x20000000</StartAddress>
-                <Size>0x20000</Size>
-              </IRAM>
-              <IROM>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </IROM>
-              <XRAM>
-                <Type>1</Type>
-                <StartAddress>0x20200000</StartAddress>
-                <Size>0x40000</Size>
-              </XRAM>
-              <OCR_RVCT1>
-                <Type>1</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </OCR_RVCT1>
-              <OCR_RVCT2>
-                <Type>1</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </OCR_RVCT2>
-              <OCR_RVCT3>
-                <Type>1</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </OCR_RVCT3>
-              <OCR_RVCT4>
-                <Type>1</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </OCR_RVCT4>
-              <OCR_RVCT5>
-                <Type>1</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </OCR_RVCT5>
-              <OCR_RVCT6>
-                <Type>0</Type>
-                <StartAddress>0x20200000</StartAddress>
-                <Size>0x40000</Size>
-              </OCR_RVCT6>
-              <OCR_RVCT7>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </OCR_RVCT7>
-              <OCR_RVCT8>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x0</Size>
-              </OCR_RVCT8>
-              <OCR_RVCT9>
-                <Type>0</Type>
-                <StartAddress>0x20000000</StartAddress>
-                <Size>0x20000</Size>
-              </OCR_RVCT9>
-              <OCR_RVCT10>
-                <Type>0</Type>
-                <StartAddress>0x0</StartAddress>
-                <Size>0x20000</Size>
-              </OCR_RVCT10>
-            </OnChipMemories>
-            <RvctStartVector></RvctStartVector>
-          </ArmAdsMisc>
-          <Cads>
-            <interw>1</interw>
-            <Optim>1</Optim>
-            <oTime>0</oTime>
-            <SplitLS>0</SplitLS>
-            <OneElfS>1</OneElfS>
-            <Strict>0</Strict>
-            <EnumInt>0</EnumInt>
-            <PlainCh>0</PlainCh>
-            <Ropi>0</Ropi>
-            <Rwpi>0</Rwpi>
-            <wLevel>2</wLevel>
-            <uThumb>0</uThumb>
-            <uSurpInc>0</uSurpInc>
-            <uC99>1</uC99>
-            <useXO>0</useXO>
-            <v6Lang>3</v6Lang>
-            <v6LangP>3</v6LangP>
-            <vShortEn>1</vShortEn>
-            <vShortWch>1</vShortWch>
-            <v6Lto>0</v6Lto>
-            <v6WtE>0</v6WtE>
-            <v6Rtti>0</v6Rtti>
-            <VariousControls>
-              <MiscControls>--library_interface=armcc 
---library_type=standardlib 
---diag_suppress=66,1296,186 
- 
-</MiscControls>
-              <Define>SKIP_SYSCLK_INIT=1,CPU_MIMXRT1052CVL5B,PRINTF_FLOAT_ENABLE=1,PRINTF_ADVANCED_ENABLE=1</Define>
-              <Undefine></Undefine>
-              <IncludePath>.\board;.\User\inc;.\xip;.\sdmmc\inc;.\sdmmc\port\freertos;.\fatfs;.\fatfs\fsl_mmc_disk;.\cjson</IncludePath>
-            </VariousControls>
-          </Cads>
-          <Aads>
-            <interw>1</interw>
-            <Ropi>0</Ropi>
-            <Rwpi>0</Rwpi>
-            <thumb>0</thumb>
-            <SplitLS>0</SplitLS>
-            <SwStkChk>0</SwStkChk>
-            <NoWarn>0</NoWarn>
-            <uSurpInc>0</uSurpInc>
-            <useXO>0</useXO>
-            <uClangAs>0</uClangAs>
-            <VariousControls>
-              <MiscControls></MiscControls>
-              <Define>__STARTUP_INITIALIZE_NONCACHEDATA</Define>
-              <Undefine></Undefine>
-              <IncludePath></IncludePath>
-            </VariousControls>
-          </Aads>
-          <LDads>
-            <umfTarg>0</umfTarg>
-            <Ropi>0</Ropi>
-            <Rwpi>0</Rwpi>
-            <noStLib>0</noStLib>
-            <RepFail>1</RepFail>
-            <useFile>0</useFile>
-            <TextAddressRange>0x00000000</TextAddressRange>
-            <DataAddressRange>0x20000000</DataAddressRange>
-            <pXoBase></pXoBase>
-            <ScatterFile>.\RTE\Device\MIMXRT1052xxxxx_nor_sdram_realse.scf</ScatterFile>
-            <IncludeLibs></IncludeLibs>
-            <IncludeLibsPath></IncludeLibsPath>
-            <Misc></Misc>
-            <LinkerInputFile></LinkerInputFile>
-            <DisabledWarnings>6314</DisabledWarnings>
-          </LDads>
-        </TargetArmAds>
-      </TargetOption>
-      <Groups>
-        <Group>
-          <GroupName>App</GroupName>
-          <Files>
-            <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\main.c</FilePath>
-            </File>
-            <File>
-              <FileName>main.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\inc\main.h</FilePath>
-            </File>
-            <File>
-              <FileName>norflash_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\norflash_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>interrupt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\interrupt.c</FilePath>
-            </File>
-            <File>
-              <FileName>ble_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\ble_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>ble_protocol.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\ble_protocol.c</FilePath>
-            </File>
-            <File>
-              <FileName>adc_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\adc_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>battery_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\battery_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>led_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\led_app.c</FilePath>
-            </File>
-            <File>
-              <FileName>led_app.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\User\inc\led_app.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Driver</GroupName>
-          <Files>
-            <File>
-              <FileName>cJSON.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\cjson\cJSON.c</FilePath>
-            </File>
-            <File>
-              <FileName>core_delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\core_delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>rtc_drv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\rtc_drv.c</FilePath>
-            </File>
-            <File>
-              <FileName>emmc_drv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\emmc_drv.c</FilePath>
-            </File>
-            <File>
-              <FileName>adc_drv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\adc_drv.c</FilePath>
-            </File>
-            <File>
-              <FileName>battery_drv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\battery_drv.c</FilePath>
-            </File>
-            <File>
-              <FileName>iic_temp_drv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\iic_temp_drv.c</FilePath>
-            </File>
-            <File>
-              <FileName>norflash_drv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\norflash_drv.c</FilePath>
-            </File>
-            <File>
-              <FileName>utility.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\utility.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>Board</GroupName>
-          <Files>
-            <File>
-              <FileName>clock_config.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\board\clock_config.c</FilePath>
-            </File>
-            <File>
-              <FileName>peripherals.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\board\peripherals.c</FilePath>
-            </File>
-            <File>
-              <FileName>pin_mux.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\board\pin_mux.c</FilePath>
-            </File>
-            <File>
-              <FileName>pin_mux.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\board\pin_mux.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>sdmmc</GroupName>
-          <Files>
-            <File>
-              <FileName>fsl_sdmmc_common.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\sdmmc\src\fsl_sdmmc_common.c</FilePath>
-            </File>
-            <File>
-              <FileName>fsl_sdmmc_host.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\sdmmc\port\usdhc\polling\fsl_sdmmc_host.c</FilePath>
-            </File>
-            <File>
-              <FileName>fsl_sdmmc_event.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\sdmmc\port\usdhc\polling\fsl_sdmmc_event.c</FilePath>
-            </File>
-            <File>
-              <FileName>fsl_mmc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\sdmmc\src\fsl_mmc.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>fatfs</GroupName>
-          <Files>
-            <File>
-              <FileName>ff.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\fatfs\ff.c</FilePath>
-            </File>
-            <File>
-              <FileName>ffsystem.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\fatfs\ffsystem.c</FilePath>
-            </File>
-            <File>
-              <FileName>ffunicode.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\fatfs\ffunicode.c</FilePath>
-            </File>
-            <File>
-              <FileName>diskio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\fatfs\diskio.c</FilePath>
-            </File>
-            <File>
-              <FileName>fsl_mmc_disk.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\fatfs\fsl_mmc_disk\fsl_mmc_disk.c</FilePath>
-            </File>
-            <File>
-              <FileName>ffconf.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\fatfs\ffconf.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>xip</GroupName>
-          <Files>
-            <File>
-              <FileName>fsl_flexspi_nor_boot.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\xip\fsl_flexspi_nor_boot.c</FilePath>
-            </File>
-            <File>
-              <FileName>fire_imxrt1052_sdram_ini_dcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\xip\fire_imxrt1052_sdram_ini_dcd.c</FilePath>
-            </File>
-            <File>
-              <FileName>fire_imxrt1052_spiflash_config.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\xip\fire_imxrt1052_spiflash_config.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>::CMSIS</GroupName>
-        </Group>
-        <Group>
-          <GroupName>::Device</GroupName>
-        </Group>
-        <Group>
-          <GroupName>::RTOS</GroupName>
-        </Group>
-      </Groups>
-    </Target>
-    <Target>
       <TargetName>debug</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
@@ -1875,7 +1279,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </api>
     </apis>
@@ -1885,7 +1288,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cbundle="FreeRTOS" Cclass="RTOS" Cgroup="Core" Cvariant="Cortex-M" Cvendor="ARM" Cversion="10.2.0" condition="FreeRTOS CM">
@@ -1893,7 +1295,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cbundle="FreeRTOS" Cclass="RTOS" Cgroup="Coroutines" Cvendor="ARM" Cversion="10.2.0" condition="FreeRTOS Core">
@@ -1901,7 +1302,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cbundle="FreeRTOS" Cclass="RTOS" Cgroup="Event Groups" Cvendor="ARM" Cversion="10.2.0" condition="FreeRTOS Core">
@@ -1909,7 +1309,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cbundle="FreeRTOS" Cclass="RTOS" Cgroup="Heap" Cvariant="Heap_4" Cvendor="ARM" Cversion="10.2.0" condition="FreeRTOS Core">
@@ -1917,7 +1316,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cbundle="FreeRTOS" Cclass="RTOS" Cgroup="Message Buffer" Cvendor="ARM" Cversion="10.2.0" condition="FreeRTOS Core">
@@ -1925,7 +1323,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cbundle="FreeRTOS" Cclass="RTOS" Cgroup="Stream Buffer" Cvendor="ARM" Cversion="10.2.0" condition="FreeRTOS Core">
@@ -1933,7 +1330,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cbundle="FreeRTOS" Cclass="RTOS" Cgroup="Timers" Cvendor="ARM" Cversion="10.2.0" condition="FreeRTOS Core">
@@ -1941,7 +1337,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="5.3.0" condition="ARMv6_7_8-M Device">
@@ -1949,7 +1344,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Capiversion="2.1.3" Cclass="CMSIS" Cgroup="RTOS2" Csub="FreeRTOS" Cvendor="ARM" Cversion="10.2.0" condition="FreeRTOS RTOS2 CortexM">
@@ -1957,7 +1351,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="adc_12b1msps_sar" Cvendor="NXP" Cversion="2.0.2" condition="device.MIMXRT1052_AND_driver.common">
@@ -1965,7 +1358,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="adc_etc" Cvendor="NXP" Cversion="2.0.1" condition="device.MIMXRT1052_AND_driver.common">
@@ -1973,7 +1365,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="clock" Cvendor="NXP" Cversion="2.1.0" condition="device.MIMXRT1052_AND_driver.common">
@@ -1981,7 +1372,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="common" Cvendor="NXP" Cversion="2.1.0" condition="device.MIMXRT1052_AND_device.MIMXRT1052_CMSIS_AND_driver.clock">
@@ -1989,7 +1379,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="dcdc_1" Cvendor="NXP" Cversion="2.0.0" condition="device.MIMXRT1052_AND_driver.common">
@@ -1997,7 +1386,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="dmamux" Cvendor="NXP" Cversion="2.0.2" condition="device.MIMXRT1052_AND_driver.common">
@@ -2005,7 +1393,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="edma" Cvendor="NXP" Cversion="2.1.8" condition="device.MIMXRT1052_AND_driver.common_AND_driver.dmamux">
@@ -2013,7 +1400,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="flexspi" Cvendor="NXP" Cversion="2.1.1" condition="device.MIMXRT1052_AND_driver.common">
@@ -2021,7 +1407,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="gpio" Cvendor="NXP" Cversion="2.0.2" condition="device.MIMXRT1052_AND_driver.common">
@@ -2029,7 +1414,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="gpt" Cvendor="NXP" Cversion="2.0.0" condition="device.MIMXRT1052_AND_driver.common">
@@ -2037,7 +1421,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="i2c" Cvendor="NXP" Cversion="2.1.9" condition="device.MIMXRT1052_AND_driver.common">
@@ -2045,7 +1428,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="iomuxc" Cvendor="NXP" Cversion="2.0.0" condition="device.MIMXRT1052_AND_driver.common">
@@ -2053,7 +1435,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="lists" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1052_AND_driver.common">
@@ -2061,7 +1442,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="lpspi" Cvendor="NXP" Cversion="2.0.3" condition="device.MIMXRT1052_AND_driver.common">
@@ -2069,7 +1449,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="lpuart" Cvendor="NXP" Cversion="2.2.7" condition="device.MIMXRT1052_AND_driver.common">
@@ -2077,7 +1456,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="lpuart_adapter" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1052_AND_driver.common_AND_driver.lpuart">
@@ -2085,7 +1463,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="lpuart_edma" Cvendor="NXP" Cversion="2.2.7" condition="device.MIMXRT1052_AND_driver.edma_AND_driver.lpuart">
@@ -2093,7 +1470,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="pit" Cvendor="NXP" Cversion="2.0.2" condition="device.MIMXRT1052_AND_driver.common">
@@ -2101,7 +1477,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="qtmr" Cvendor="NXP" Cversion="2.0.0" condition="device.MIMXRT1052_AND_driver.common">
@@ -2109,7 +1484,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="sdhc" Cvendor="NXP" Cversion="2.2.8" condition="device.MIMXRT1052_AND_driver.common">
@@ -2117,7 +1491,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="snvs_hp" Cvendor="NXP" Cversion="2.1.2" condition="device.MIMXRT1052_AND_driver.common">
@@ -2125,7 +1498,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="snvs_lp" Cvendor="NXP" Cversion="2.1.0" condition="device.MIMXRT1052_AND_driver.common">
@@ -2133,7 +1505,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="src" Cvendor="NXP" Cversion="2.0.1" condition="device.MIMXRT1052_AND_driver.common">
@@ -2141,7 +1512,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="xbara" Cvendor="NXP" Cversion="2.0.4" condition="device.MIMXRT1052_AND_driver.common">
@@ -2149,7 +1519,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Utilities" Csub="assert" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1052_AND_utility.debug_console">
@@ -2157,7 +1526,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Utilities" Csub="debug_console" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1052_AND_component.serial_manager_AND_driver.common">
@@ -2165,7 +1533,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Utilities" Csub="notifier" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1052_AND_driver.common">
@@ -2173,7 +1540,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Utilities" Csub="serial_manager" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1052_AND_component.lists_AND_driver.common">
@@ -2181,7 +1547,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Utilities" Csub="serial_manager_uart" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1052_AND_driver.lpuart">
@@ -2189,7 +1554,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Utilities" Csub="shell" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1052_AND_component.lists_AND_driver.common_AND_utility.debug_console">
@@ -2197,7 +1561,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="Startup" Csub="MIMXRT1052_startup" Cvendor="NXP" Cversion="1.0.0" condition="device.MIMXRT1052_AND_CMSIS_Include_core_cm7">
@@ -2205,7 +1568,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </component>
     </components>
@@ -2217,7 +1579,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </file>
       <file attr="config" category="header" name="MIMXRT1052_features.h" version="1.0.0">
@@ -2227,7 +1588,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </file>
       <file attr="config" category="linkerScript" condition="mdk" name="arm\MIMXRT1052xxxxx_flexspi_nor.scf" version="1.0.0">
@@ -2237,7 +1597,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </file>
       <file attr="config" category="linkerScript" condition="mdk" name="arm\MIMXRT1052xxxxx_flexspi_nor_sdram.scf" version="1.0.0">
@@ -2247,7 +1606,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </file>
       <file attr="config" category="linkerScript" condition="mdk" name="arm\MIMXRT1052xxxxx_ram.scf" version="1.0.0">
@@ -2257,7 +1615,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </file>
       <file attr="config" category="linkerScript" condition="mdk" name="arm\MIMXRT1052xxxxx_sdram.scf" version="1.0.0">
@@ -2267,7 +1624,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </file>
       <file attr="config" category="linkerScript" condition="mdk" name="arm\MIMXRT1052xxxxx_sdram_txt.scf" version="1.0.0">
@@ -2277,7 +1633,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </file>
       <file attr="config" category="header" name="template\RTE_Device.h">
@@ -2293,7 +1648,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </file>
       <file attr="config" category="sourceAsm" condition="mdk" name="arm\startup_MIMXRT1052.s" version="1.0.0">
@@ -2303,7 +1657,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </file>
       <file attr="config" category="sourceC" name="system_MIMXRT1052.c" version="1.0.0">
@@ -2313,7 +1666,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </file>
       <file attr="config" category="header" name="system_MIMXRT1052.h" version="1.0.0">
@@ -2323,7 +1675,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </file>
       <file attr="config" category="header" condition="CoreM" name="CMSIS\RTOS2\FreeRTOS\Config\ARMCM\FreeRTOSConfig.h" version="10.2.0">
@@ -2333,7 +1684,6 @@
         <targetInfos>
           <targetInfo name="debug"/>
           <targetInfo name="nor_sdram"/>
-          <targetInfo name="release"/>
         </targetInfos>
       </file>
     </files>

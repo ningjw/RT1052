@@ -1,9 +1,9 @@
 #include "main.h"
 
 #define ONE_PACK_LEN 150
-extern char  StrSpeedADC[];
-extern char  StrShakeADC[];
+
 extern float ShakeADC[];
+extern float SpeedADC[];
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
   * @input   
@@ -340,12 +340,20 @@ char * ParseSampleData(void)
 
     cJSON *pJsonSub1 = cJSON_CreateObject();
     cJSON_AddStringToObject(pJsonSub1, "MeasurementType", "VibRawData/EnvData");
-    cJSON_AddStringToObject(pJsonSub1, "Value", StrShakeADC);//
+    cJSON *shkValues = cJSON_AddArrayToObject(pJsonRoot, "Value");
+    for(uint32_t i = 0; i< g_sys_para.ADC_ShakeCnt; i++){
+        cJSON *shkValue = cJSON_CreateNumber(ShakeADC[i]);
+        cJSON_AddItemToArray(shkValues,shkValue);
+    }
     cJSON_AddItemToArray(measureMents, pJsonSub1);
     
     pJsonSub1 = cJSON_CreateObject();
     cJSON_AddStringToObject(pJsonSub1, "MeasurementType", "RotationSpeed");
-    cJSON_AddStringToObject(pJsonSub1, "Value", StrSpeedADC);//
+    cJSON *spdValues = cJSON_AddArrayToObject(pJsonRoot, "Value");
+    for(uint32_t i = 0; i< g_sys_para.ADC_SpdCnt; i++){
+        cJSON *spdValue = cJSON_CreateNumber(SpeedADC[i]);
+        cJSON_AddItemToArray(spdValues,spdValue);
+    }
     cJSON_AddItemToArray(measureMents, pJsonSub1);
     
     g_sys_para.sampJson = cJSON_Print(pJsonRoot);
@@ -356,9 +364,8 @@ char * ParseSampleData(void)
         g_sys_para.sampJsonSize = strlen(g_sys_para.sampJson);
         g_sys_para.sampJsonPacks = g_sys_para.sampJsonSize / ONE_PACK_LEN + ((g_sys_para.sampJsonSize%ONE_PACK_LEN) ? 1 : 0);
         eMMC_SaveSampleData(g_sys_para.sampJson, g_sys_para.sampJsonSize);
+        PRINTF("%s", g_sys_para.sampJson);
     }
-    
-//    PRINTF("%s", p_reply);
     
     return g_sys_para.sampJson;
 }

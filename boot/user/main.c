@@ -5,10 +5,9 @@
 #include "clock_config.h"
 #include "./norflash/bsp_norflash.h"
 
-
-#define FLASH_APP_CODE_ADD							0x60010000		//	APP代码起始地址
-//#define SDRAM_APP_CODE_ADD							0x80010000		//	sdram APP代码起始地址
-
+#define FIRM_APP_ADDR     0x60010000		//	APP代码起始地址
+#define FIRM_INFO_ADDR    0x6001F000
+#define FIRM_DATA_ADDR    0x60020000
 /*******************************************************************
  * Prototypes
  *******************************************************************/
@@ -32,7 +31,7 @@ __asm void MSR_MSP(uint32_t address)
 void jumpToApp(void)
 {
 	/*	判断地址是否合法	*/
-	if((FLASH_APP_CODE_ADD&0xFF000000) == 0x60000000){
+	if((FIRM_APP_ADDR&0xFF000000) == 0x60000000){
 		
 		PRINTF("Jump to app\n");
 		
@@ -40,10 +39,10 @@ void jumpToApp(void)
 //		memcpy((void*)SDRAM_APP_CODE_ADD, (void*)FLASH_APP_CODE_ADD, appSize);
 		
 		//设置中断向量表
-		SCB->VTOR = FLASH_APP_CODE_ADD;
+		SCB->VTOR = FIRM_APP_ADDR;
         
-		appMain = (iapFun)*(volatile uint32_t*)(FLASH_APP_CODE_ADD+4);
-		MSR_MSP(*(volatile uint32_t*)FLASH_APP_CODE_ADD);
+		appMain = (iapFun)*(volatile uint32_t*)(FIRM_APP_ADDR+4);
+		MSR_MSP(*(volatile uint32_t*)FIRM_APP_ADDR);
 		appMain();
 	}
 	else{
@@ -73,6 +72,8 @@ int main(void)
     
     /* 初始化FlexSPI外设 */
     FlexSPI_NorFlash_Init();
+    
+    /* 判断是否有新的固件需要更新 */
     
     while(1)
     {

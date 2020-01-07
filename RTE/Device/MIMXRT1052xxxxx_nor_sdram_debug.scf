@@ -55,7 +55,7 @@
 #define m_interrupts_size              0x00000400
 
 #define m_text_start                   0x60010400
-#define m_text_size                    0x000EFC00
+#define m_text_size                    0x0006FC00
 
 ;0x80000000 - 0x8000F000 保存的是boot程序  (60k)
 ;0x8000F000 - 0x80010000 需要断电保存的参数(4k)
@@ -64,19 +64,21 @@
 ;0x80042000 - 0x800BF000 保存的是全局变量  (500k - 0x7D000)
 ;0x800BF000 - 0x80100000 保存的是堆栈以及NonCacheable(500k - 0x7D000)
 ;;在SDRAM中存放代码的空间
-;;中断向量表
+;;中断向量表(1k空间)
 #define m_sdram_interrupts_start       0x80010000
 #define m_sdram_interrupts_size        0x00000400
 
-;SDRAM中的主体代码
+;SDRAM中的主体代码(443k)
 #define m_sdram_text_start             0x80010400
-#define m_sdram_text_size              0x00031C00
+#define m_sdram_text_size              0x0006FC00
 
-#define m_data_start                   0x80042000
-#define m_data_size                    0x0007D000
+;RW-data与ZI-data空间(6656k)
+#define m_data_start                   0x80080000
+#define m_data_size                    0x00680000
 
-#define m_ncache_start                 0x800BF000
-#define m_ncache_size                  0x0007D000
+;ncache(1024k)
+#define m_ncache_start                 0x80700000
+#define m_ncache_size                  0x00100000
 
 
 
@@ -84,13 +86,13 @@
 #if (defined(__stack_size__))
   #define Stack_Size                   __stack_size__
 #else
-  #define Stack_Size                   0x0800
+  #define Stack_Size                   0x1000
 #endif
 
 #if (defined(__heap_size__))
   #define Heap_Size                    __heap_size__
 #else
-  #define Heap_Size                    0x1900
+  #define Heap_Size                    0x140000
 #endif
 
 

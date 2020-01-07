@@ -4,8 +4,8 @@
 #define SOFT_VERSION       "V0.03"
 #define POWER_ON_TIMER_ID  1
 #define ULONG_MAX          0xFFFFFFFF
-#define FIRM_INFO_ADDR    0x6000F000
-#define FIRM_DATA_ADDR    0x60010000
+#define FIRM_INFO_ADDR    0x6001F000
+#define FIRM_DATA_ADDR    0x60020000
 #define FIRM_ONE_PACKE_LEN 128
 
 #include "stdint.h"
