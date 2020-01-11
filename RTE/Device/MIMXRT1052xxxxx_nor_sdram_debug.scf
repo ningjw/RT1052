@@ -92,7 +92,7 @@
 #if (defined(__heap_size__))
   #define Heap_Size                    __heap_size__
 #else
-  #define Heap_Size                    0x140000
+#define Heap_Size                    0x400000
 #endif
 
 

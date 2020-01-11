@@ -1,9 +1,10 @@
 #include "main.h"
 
 #define ADC_LEN      80000
-
-AT_NONCACHEABLE_SECTION_INIT(float SpeedADC[ADC_LEN]);
-AT_NONCACHEABLE_SECTION_INIT(float ShakeADC[ADC_LEN]);
+float SpeedADC[ADC_LEN];
+float ShakeADC[ADC_LEN];
+char  SpeedStrADC[ADC_LEN * 8 + 1];
+char  ShakeStrADC[ADC_LEN * 8 + 1];
 
 
 #define ADC_MODE_LOW_POWER       GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 1)  //低功耗模式
@@ -68,17 +69,19 @@ void ADC_ETC_IRQ0_IRQHandler(void)
         SpeedADC[g_sys_para.ADC_SpdCnt++] = ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
     }
 #if 0
-    if( g_sys_para.ADC_ShakeCnt < ADC_LEN && ADC_READY == 0){
+    if( g_sys_para.ADC_ShakeCnt < ADC_LEN && ADC_READY == 0) {
         ShakeADC[g_sys_para.ADC_ShakeCnt++] = LPSPI4_ReadData();
     }
 #else
     uint32_t wait_time = 0;
-    while (1){//wait ads1271 ready
-        if(ADC_READY == 0) break;
-        if(wait_time++ >= 100) break;
-    }
-    if( g_sys_para.ADC_ShakeCnt < ADC_LEN && wait_time < 100 ){
-        ShakeADC[g_sys_para.ADC_ShakeCnt++] = LPSPI4_ReadData();
+    while (1) { //wait ads1271 ready
+        if(ADC_READY == 0) {
+            if( g_sys_para.ADC_ShakeCnt < ADC_LEN) {
+                ShakeADC[g_sys_para.ADC_ShakeCnt++] = LPSPI4_ReadData();
+            }
+            break;
+        }
+        if(wait_time++ >= 8) break;
     }
 #endif
 }
@@ -188,20 +191,38 @@ void ADC_AppTask(void)
                 PRINTF("共采样到 %d 个转速信号\r\n", g_sys_para.ADC_SpdCnt);
                 
                 /* 将震动信号转换*/
-                for(uint32_t i = 0; i< g_sys_para.ADC_ShakeCnt; i++){
-                    ShakeADC[i] = ShakeADC[i] * g_sys_para.bias  / 0x400000;
+                memset(ShakeStrADC, 0, sizeof(ShakeStrADC));
+                int pos = 0;
+                g_sys_para.voltageADS1271 = 0;
+                for(uint32_t i = 0; i < g_sys_para.ADC_ShakeCnt; i++) {
+                    ShakeADC[i] = ShakeADC[i] * g_sys_para.bias * 1.0f / 0x400000;
+                    memset(str, 0, sizeof(str));
+                    sprintf(str, "%01.5f,", ShakeADC[i]);
+                    memcpy(ShakeStrADC + pos, str, 8);
+                    pos += 8;
+//                    g_sys_para.voltageADS1271 += ShakeADC[i];
                 }
-                
+//                g_sys_para.voltageADS1271 /= g_sys_para.ADC_ShakeCnt;
+                g_sys_para.voltageADS1271 = ShakeADC[g_sys_para.ADC_ShakeCnt-1];
                 /* 将转速信号转换*/
-                for(uint32_t i = 0; i< g_sys_para.ADC_SpdCnt; i++){
-                    SpeedADC[i] = SpeedADC[i] * g_sys_para.refV / 4096;
+                memset(SpeedStrADC, 0, sizeof(SpeedStrADC));
+                pos = 0;
+                g_sys_para.voltageSpd = 0;
+                for(uint32_t i = 0; i < g_sys_para.ADC_SpdCnt; i++) {
+                    SpeedADC[i] = SpeedADC[i] * g_sys_para.refV / 4096.0f;
+                    memset(str, 0, sizeof(str));
+                    sprintf(str, "%01.5f,", SpeedADC[i]);
+                    memcpy(SpeedStrADC + pos, str, 8);
+                    pos += 8;
+//                g_sys_para.voltageSpd += SpeedADC[i];
                 }
-                
+//                g_sys_para.voltageSpd /= g_sys_para.ADC_SpdCnt;
+                g_sys_para.voltageSpd = SpeedADC[g_sys_para.ADC_SpdCnt - 1];
                 /* 将采用数据打包成json格式,并保存到文件中*/
                 ParseSampleData();
                 
                 /* 发送任务通知，并解锁阻塞在该任务通知下的任务 */
-                vTaskNotifyGiveFromISR( BLE_TaskHandle, (void *)pdFALSE);
+                xTaskNotifyGive( BLE_TaskHandle);
             }
         }
     }

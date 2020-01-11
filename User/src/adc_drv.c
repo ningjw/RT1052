@@ -96,7 +96,6 @@ uint32_t LPSPI4_ReadData(void)
         g_sys_para.ads1271IsOk = true;
         spiData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];
     }
-    LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI×èÈû·¢ËÍ
     return spiData;
 }
 

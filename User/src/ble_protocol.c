@@ -4,6 +4,8 @@
 
 extern float ShakeADC[];
 extern float SpeedADC[];
+extern char  SpeedStrADC[];
+extern char  ShakeStrADC[];
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
   * @input   
@@ -278,8 +280,9 @@ static char * ParseStartSample(void)
     cJSON_AddBoolToObject(pJsonRoot, "saveOk", g_sys_para.saveOk);
     cJSON_AddNumberToObject(pJsonRoot, "size", g_sys_para.sampPacks);
     cJSON_AddNumberToObject(pJsonRoot, "shkNum", g_sys_para.ADC_ShakeCnt);
-    cJSON_AddNumberToObject(pJsonRoot, "shkV", ShakeADC[10]);
+    cJSON_AddNumberToObject(pJsonRoot, "shkV", g_sys_para.voltageADS1271);
     cJSON_AddNumberToObject(pJsonRoot, "spdNum", g_sys_para.ADC_SpdCnt);
+    cJSON_AddNumberToObject(pJsonRoot, "spdV", g_sys_para.voltageSpd);
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     return p_reply;
@@ -340,20 +343,22 @@ char * ParseSampleData(void)
 
     cJSON *pJsonSub1 = cJSON_CreateObject();
     cJSON_AddStringToObject(pJsonSub1, "MeasurementType", "VibRawData/EnvData");
-    cJSON *shkValues = cJSON_AddArrayToObject(pJsonRoot, "Value");
-    for(uint32_t i = 0; i< g_sys_para.ADC_ShakeCnt; i++){
-        cJSON *shkValue = cJSON_CreateNumber(ShakeADC[i]);
-        cJSON_AddItemToArray(shkValues,shkValue);
-    }
+    cJSON_AddStringToObject(pJsonSub1, "Value", ShakeStrADC);
+//    cJSON *shkValues = cJSON_AddArrayToObject(pJsonRoot, "Value");
+//    for(uint32_t i = 0; i< g_sys_para.ADC_ShakeCnt; i++){
+//        cJSON *shkValue = cJSON_CreateNumber(ShakeADC[i]);
+//        cJSON_AddItemToArray(shkValues,shkValue);
+//    }
     cJSON_AddItemToArray(measureMents, pJsonSub1);
     
     pJsonSub1 = cJSON_CreateObject();
     cJSON_AddStringToObject(pJsonSub1, "MeasurementType", "RotationSpeed");
-    cJSON *spdValues = cJSON_AddArrayToObject(pJsonRoot, "Value");
-    for(uint32_t i = 0; i< g_sys_para.ADC_SpdCnt; i++){
-        cJSON *spdValue = cJSON_CreateNumber(SpeedADC[i]);
-        cJSON_AddItemToArray(spdValues,spdValue);
-    }
+    cJSON_AddStringToObject(pJsonSub1, "Value", SpeedStrADC);
+//    cJSON *spdValues = cJSON_AddArrayToObject(pJsonRoot, "Value");
+//    for(uint32_t i = 0; i< g_sys_para.ADC_SpdCnt; i++){
+//        cJSON *spdValue = cJSON_CreateNumber(SpeedADC[i]);
+//        cJSON_AddItemToArray(spdValues,spdValue);
+//    }
     cJSON_AddItemToArray(measureMents, pJsonSub1);
     
     g_sys_para.sampJson = cJSON_Print(pJsonRoot);

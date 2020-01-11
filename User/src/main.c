@@ -43,22 +43,20 @@ static void InitSysPara()
   **********************************************************************/
 static void AppTaskCreate(void)
 {
-    FlexSPI_NorFlash_Init();/* 初始化FlexSPI*/
-    NorFlash_ChkSelf();/* 对FlexSPI自检*/
     eMMC_Init();                /* 初始化eMMC模块,FatFS文件系统, 并对文件系统自检*/
     taskENTER_CRITICAL();           //进入临界区
     
     /* 创建LED_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )LED_AppTask,"LED_Task",128,NULL, 1,&LED_TaskHandle);
+    xTaskCreate((TaskFunction_t )LED_AppTask,"LED_Task",256,NULL, 1,&LED_TaskHandle);
     
     /* 创建Battery_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )BAT_AppTask,"BAT_Task",512,NULL, 2,&BAT_TaskHandle);
+    xTaskCreate((TaskFunction_t )BAT_AppTask,"BAT_Task",1024,NULL, 2,&BAT_TaskHandle);
 
     /* 创建BLE_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )BLE_AppTask,"BLE_Task",512,NULL, 3,&BLE_TaskHandle);
+    xTaskCreate((TaskFunction_t )BLE_AppTask,"BLE_Task",1024,NULL, 3,&BLE_TaskHandle);
     
     /* 创建ADC_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )ADC_AppTask, "ADC_Task",512,NULL, 4,&ADC_TaskHandle);
+    xTaskCreate((TaskFunction_t )ADC_AppTask, "ADC_Task",1024,NULL, 4,&ADC_TaskHandle);
     
     vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
     taskEXIT_CRITICAL();               //退出临界区
@@ -81,6 +79,8 @@ int main(void)
     BOARD_InitDebugConsole();   /* 配置调试串口 */
     InitSysPara();              /* 初始化系统变量*/
     RTC_Config();               /* 初始化RTC实时时钟*/
+    FlexSPI_NorFlash_Init();/* 初始化FlexSPI*/
+    NorFlash_ChkSelf();/* 对FlexSPI自检*/
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);/*1ms中断，FreeRTOS使用*/
     
     /* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
