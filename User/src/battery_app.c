@@ -37,8 +37,9 @@ void BAT_AppTask(void)
     g_sys_para.batRemainPercent = LTC2942_GetAC() * 100.0 / 65535;
 
     //根据电压计算电池容量
-    if(g_sys_para.batVoltage >= 3.73f) { //(3.73 - 4.2)
-        remain = -308.19f * g_sys_para.batVoltage * g_sys_para.batVoltage + 2607.7f * g_sys_para.batVoltage - 5417.9f;
+    
+    if(g_sys_para.batVoltage >= 3.73f) { //(3.73 - 4.1)
+        remain = -265.09f * g_sys_para.batVoltage * g_sys_para.batVoltage + 2279.8f * g_sys_para.batVoltage - 4794.5f;
     } else if(g_sys_para.batVoltage >= 3.68f) { //(3.68 - 3.73)
         remain = -1666.7f * g_sys_para.batVoltage * g_sys_para.batVoltage + 12550 * g_sys_para.batVoltage - 23603;
     } else { // (3.5 - 3.68)
@@ -61,18 +62,24 @@ void BAT_AppTask(void)
         g_sys_para.batTemp = LTC2942_GetTemperature() / 100.0;
 
         //根据电压计算电池容量
-        if(g_sys_para.batVoltage >= 3.73f) { //(3.73 - 4.2)
+        if(READ_CHARGE_STA == 1 && READ_STDBY_STA == 0){
+            remain = 100;
+        }else if(g_sys_para.batVoltage >= 4.1f){
+            remain = 100;
+        }else if(g_sys_para.batVoltage >= 3.73f) { //(3.73 - 4.1)
             remain = -308.19f * g_sys_para.batVoltage * g_sys_para.batVoltage + 2607.7f * g_sys_para.batVoltage - 5417.9f;
-        } else if(g_sys_para.batVoltage >= 3.68f) { //(3.68 - 3.73)
+        }else if(g_sys_para.batVoltage >= 3.68f) { //(3.68 - 3.73)
             remain = -1666.7f * g_sys_para.batVoltage * g_sys_para.batVoltage + 12550 * g_sys_para.batVoltage - 23603;
-        } else { // (3.5 - 3.68)
+        }else if(g_sys_para.batVoltage >= 3.5){ // (3.5 - 3.68)
             remain = 55.556f * g_sys_para.batVoltage - 194.44f;
+        }else{
+            remain = 1;
         }
 
         // Accumulated charge
         g_sys_para.batRemainPercent = remain;
 //        g_sys_para.batRemainPercent = LTC2942_GetAC() * 100.0 / 65535;
-
+        
         //battery is in charging
         if(READ_CHARGE_STA == 0 && READ_STDBY_STA == 1) {
             set_battery_full = false;

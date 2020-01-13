@@ -11,6 +11,7 @@
 #include "stdint.h"
 #include "string.h"
 #include "stdio.h"
+#include "time.h"
 
 #include "clock_config.h"
 #include "peripherals.h"

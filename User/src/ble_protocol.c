@@ -6,6 +6,8 @@ extern float ShakeADC[];
 extern float SpeedADC[];
 extern char  SpeedStrADC[];
 extern char  ShakeStrADC[];
+time_t seconds;
+struct tm *data_time;
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
   * @input   
@@ -14,30 +16,41 @@ extern char  ShakeStrADC[];
 static char* ParseSetTime(cJSON *pJson, cJSON * pSub)
 {
     /*解析消息内容, 获取日期和时间*/
-    pSub = cJSON_GetObjectItem(pJson, "Y");
-    if (NULL != pSub)
-        rtcDate.year = pSub->valueint;
-    
-    pSub = cJSON_GetObjectItem(pJson, "Mon");
-    if (NULL != pSub)
-        rtcDate.month = pSub->valueint;
-    
-    pSub = cJSON_GetObjectItem(pJson, "D");
-    if (NULL != pSub)
-        rtcDate.day = pSub->valueint;
-    
-     pSub = cJSON_GetObjectItem(pJson, "H");
-    if (NULL != pSub)
-        rtcDate.hour = pSub->valueint;
-    
-    pSub = cJSON_GetObjectItem(pJson, "Min");
-    if (NULL != pSub)
-        rtcDate.minute = pSub->valueint;
-    
-    pSub = cJSON_GetObjectItem(pJson, "S");
-    if (NULL != pSub)
-        rtcDate.second = pSub->valueint;
-    
+    pSub = cJSON_GetObjectItem(pJson, "LongTime");
+    if(NULL != pSub){
+        seconds = pSub->valueint;
+        data_time = gmtime(&seconds);
+        rtcDate.year = 1900 + data_time->tm_year;
+        rtcDate.month = 1+ data_time->tm_mon;
+        rtcDate.day = data_time->tm_mday;
+        rtcDate.hour = data_time->tm_hour;
+        rtcDate.minute = data_time->tm_min;
+        rtcDate.second = data_time->tm_sec;
+    }else{
+        pSub = cJSON_GetObjectItem(pJson, "Y");
+        if (NULL != pSub)
+            rtcDate.year = pSub->valueint;
+        
+        pSub = cJSON_GetObjectItem(pJson, "Mon");
+        if (NULL != pSub)
+            rtcDate.month = pSub->valueint;
+        
+        pSub = cJSON_GetObjectItem(pJson, "D");
+        if (NULL != pSub)
+            rtcDate.day = pSub->valueint;
+        
+         pSub = cJSON_GetObjectItem(pJson, "H");
+        if (NULL != pSub)
+            rtcDate.hour = pSub->valueint;
+        
+        pSub = cJSON_GetObjectItem(pJson, "Min");
+        if (NULL != pSub)
+            rtcDate.minute = pSub->valueint;
+        
+        pSub = cJSON_GetObjectItem(pJson, "S");
+        if (NULL != pSub)
+            rtcDate.second = pSub->valueint;
+    }
     /*设置日期和时间*/
     SNVS_HP_RTC_SetDatetime(SNVS, &rtcDate);
     

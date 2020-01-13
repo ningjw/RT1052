@@ -3,6 +3,7 @@
 .\objects\ble_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\ble_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\time.h
 .\objects\ble_app.o: .\board\clock_config.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h
 .\objects\ble_app.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h

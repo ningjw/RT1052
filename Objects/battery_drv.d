@@ -3,6 +3,7 @@
 .\objects\battery_drv.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\battery_drv.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\battery_drv.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\battery_drv.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\time.h
 .\objects\battery_drv.o: .\board\clock_config.h
 .\objects\battery_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h
 .\objects\battery_drv.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\assert.h
