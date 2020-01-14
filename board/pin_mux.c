@@ -133,7 +133,8 @@ BOARD:
   - {pin_num: L10, peripheral: GPIO1, signal: 'gpio_io, 15', pin_signal: GPIO_AD_B0_15, identifier: PWR_CHG_COMPLETE, direction: OUTPUT}
   - {pin_num: B8, peripheral: GPIO2, signal: 'gpio_io, 05', pin_signal: GPIO_B0_05, direction: OUTPUT, gpio_init_state: 'false'}
   - {pin_num: M6, peripheral: SRC, signal: RESET_B, pin_signal: ONOFF}
-  - {pin_num: J12, peripheral: LPI2C3, signal: SDA, pin_signal: GPIO_AD_B1_06, identifier: '', software_input_on: Enable, open_drain: Enable, slew_rate: Slow}
+  - {pin_num: J12, peripheral: LPI2C3, signal: SDA, pin_signal: GPIO_AD_B1_06, identifier: '', software_input_on: Enable, pull_keeper_select: Keeper, pull_keeper_enable: Enable,
+    open_drain: Enable, slew_rate: Slow}
   - {pin_num: K10, peripheral: LPI2C3, signal: SCL, pin_signal: GPIO_AD_B1_07, identifier: '', software_input_on: Enable, open_drain: Enable, slew_rate: Slow}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */

@@ -70,7 +70,7 @@ void BAT_AppTask(void)
             remain = -308.19f * g_sys_para.batVoltage * g_sys_para.batVoltage + 2607.7f * g_sys_para.batVoltage - 5417.9f;
         }else if(g_sys_para.batVoltage >= 3.68f) { //(3.68 - 3.73)
             remain = -1666.7f * g_sys_para.batVoltage * g_sys_para.batVoltage + 12550 * g_sys_para.batVoltage - 23603;
-        }else if(g_sys_para.batVoltage >= 3.5){ // (3.5 - 3.68)
+        }else if(g_sys_para.batVoltage >= 3.5f){ // (3.5 - 3.68)
             remain = 55.556f * g_sys_para.batVoltage - 194.44f;
         }else{
             remain = 1;

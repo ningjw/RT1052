@@ -477,6 +477,8 @@
                      <pin_features>
                         <pin_feature name="identifier" value=""/>
                         <pin_feature name="software_input_on" value="Enable"/>
+                        <pin_feature name="pull_keeper_select" value="Keeper"/>
+                        <pin_feature name="pull_keeper_enable" value="Enable"/>
                         <pin_feature name="open_drain" value="Enable"/>
                         <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
@@ -1285,10 +1287,10 @@
                         <setting name="clockSource" value="LpspiClock"/>
                         <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
                         <struct name="master">
-                           <setting name="baudRate" value="27000000"/>
+                           <setting name="baudRate" value="25000000"/>
                            <setting name="bitsPerFrame" value="24"/>
                            <setting name="cpol" value="kLPSPI_ClockPolarityActiveHigh"/>
-                           <setting name="cpha" value="kLPSPI_ClockPhaseFirstEdge"/>
+                           <setting name="cpha" value="kLPSPI_ClockPhaseSecondEdge"/>
                            <setting name="direction" value="kLPSPI_MsbFirst"/>
                            <setting name="pcsToSckDelayInNanoSec" value="0"/>
                            <setting name="lastSckToPcsDelayInNanoSec" value="0"/>
@@ -1534,7 +1536,7 @@
                            <setting name="debugEnable" value="false"/>
                            <setting name="ignoreAck" value="false"/>
                            <setting name="pinConfig" value="kLPI2C_2PinOpenDrain"/>
-                           <setting name="baudRate_Hz" value="10000"/>
+                           <setting name="baudRate_Hz" value="1000"/>
                            <setting name="busIdleTimeout_ns" value="0"/>
                            <setting name="pinLowTimeout_ns" value="0"/>
                            <setting name="sdaGlitchFilterWidth_ns" value="0"/>

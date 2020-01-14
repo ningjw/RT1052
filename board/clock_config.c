@@ -262,7 +262,7 @@ void BOARD_BootClockRUN(void)
     /* Set SAI3_CLK_PODF. */
     CLOCK_SetDiv(kCLOCK_Sai3Div, 1);
     /* Set Lpi2c clock source. */
-    CLOCK_SetMux(kCLOCK_Lpi2cMux, 0);
+    CLOCK_SetMux(kCLOCK_Lpi2cMux, 2);
     /* Set LPI2C_CLK_PODF. */
     CLOCK_SetDiv(kCLOCK_Lpi2cDiv, 0);
     /* Set Can clock source. */
@@ -304,4 +304,9 @@ void BOARD_BootClockRUN(void)
         (CCM_ANALOG->MISC1 & (~CCM_ANALOG_MISC1_LVDS1_CLK_SEL_MASK)) | CCM_ANALOG_MISC1_LVDS1_CLK_SEL(0);
     /* Set SystemCoreClock variable. */
     SystemCoreClock = BOARD_BOOTCLOCKRUN_CORE_CLOCK;
+    
+    /* Set GPT1 High frequency reference clock source. */
+    IOMUXC_GPR->GPR5 &= ~IOMUXC_GPR_GPR5_VREF_1M_CLK_GPT1_MASK;
+    /* Set GPT2 High frequency reference clock source. */
+    IOMUXC_GPR->GPR5 &= ~IOMUXC_GPR_GPR5_VREF_1M_CLK_GPT2_MASK;
 }

@@ -67,7 +67,7 @@ typedef struct {
     size_t position;
 } error;
 static error global_error = { NULL, 0 };
-
+static char flag_value;
 CJSON_PUBLIC(const char *) cJSON_GetErrorPtr(void)
 {
     return (const char*) (global_error.json + global_error.position);
@@ -877,21 +877,33 @@ static cJSON_bool print_string_ptr(const unsigned char * const input, printbuffe
         }
     }
     output_length = (size_t)(input_pointer - input) + escape_characters;
-
+    
     output = ensure(output_buffer, output_length + sizeof("\"\""));
     if (output == NULL)
     {
         return false;
     }
-
+    
     /* no characters have to be escaped */
     if (escape_characters == 0)
     {
-        output[0] = '\"';
+        if(flag_value){
+            output[0] = '[';
+        }else{
+            output[0] = '\"';
+        }
         memcpy(output + 1, input, output_length);
-        output[output_length + 1] = '\"';
+        if(flag_value){
+            flag_value = 0;
+            output[output_length + 1] = ']';
+        }else{
+            output[output_length + 1] = '\"';
+        }
         output[output_length + 2] = '\0';
-
+        /* 下一次调用该函数就是打包Value的值了*/
+        if(strcmp((char *)input,"Value") == 0){
+            flag_value = 1;
+        }
         return true;
     }
 

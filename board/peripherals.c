@@ -627,10 +627,10 @@ instance:
     - clockSource: 'LpspiClock'
     - clockSourceFreq: 'BOARD_BootClockRUN'
     - master:
-      - baudRate: '27000000'
+      - baudRate: '25000000'
       - bitsPerFrame: '24'
       - cpol: 'kLPSPI_ClockPolarityActiveHigh'
-      - cpha: 'kLPSPI_ClockPhaseFirstEdge'
+      - cpha: 'kLPSPI_ClockPhaseSecondEdge'
       - direction: 'kLPSPI_MsbFirst'
       - pcsToSckDelayInNanoSec: '0'
       - lastSckToPcsDelayInNanoSec: '0'
@@ -645,7 +645,7 @@ const lpspi_master_config_t LPSPI4_config = {
   .baudRate = 25000000,
   .bitsPerFrame = 24,
   .cpol = kLPSPI_ClockPolarityActiveHigh,
-  .cpha = kLPSPI_ClockPhaseFirstEdge,
+  .cpha = kLPSPI_ClockPhaseSecondEdge,
   .direction = kLPSPI_MsbFirst,
   .pcsToSckDelayInNanoSec = 0,
   .lastSckToPcsDelayInNanoSec = 0,
@@ -997,7 +997,7 @@ instance:
       - debugEnable: 'false'
       - ignoreAck: 'false'
       - pinConfig: 'kLPI2C_2PinOpenDrain'
-      - baudRate_Hz: '10000'
+      - baudRate_Hz: '1000'
       - busIdleTimeout_ns: '0'
       - pinLowTimeout_ns: '0'
       - sdaGlitchFilterWidth_ns: '0'
@@ -1014,7 +1014,7 @@ const lpi2c_master_config_t LPI2C3_masterConfig = {
   .debugEnable = false,
   .ignoreAck = false,
   .pinConfig = kLPI2C_2PinOpenDrain,
-  .baudRate_Hz = 10000,
+  .baudRate_Hz = 1000,
   .busIdleTimeout_ns = 0,
   .pinLowTimeout_ns = 0,
   .sdaGlitchFilterWidth_ns = 0,

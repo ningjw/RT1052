@@ -63,7 +63,6 @@ static void AppTaskCreate(void)
 }
 
 
-
 /***************************************************************************************
   * @brief   入口函数
   * @input   
@@ -76,6 +75,7 @@ int main(void)
     BOARD_BootClockRUN();       /* 配置Clock */
     BOARD_InitBootPins();       /* 配置GPIO */
     BOARD_InitPeripherals();    /* 配置外设 */
+    g_sys_para.objTemp = MXL_ReadObjTemp();
     BOARD_InitDebugConsole();   /* 配置调试串口 */
     InitSysPara();              /* 初始化系统变量*/
     RTC_Config();               /* 初始化RTC实时时钟*/

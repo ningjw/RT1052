@@ -113,6 +113,7 @@ void BLE_AppTask(void)
     SET_THROUGHPUT_MODE();
     memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
     g_puart2RxCnt = 0;
+
     while(1)
     {
         /*wait task notify*/

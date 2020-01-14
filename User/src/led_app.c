@@ -85,6 +85,7 @@ void LED_AppTask(void)
     PRINTF("LED Task Create and Running\r\n");
     GPIO_PinWrite(BOARD_LED_PWR_RED_GPIO, BOARD_LED_PWR_RED_PIN, OFF);//备用的led灯
     GPIO_PinWrite(BOARD_LED_PWR_GREEN_GPIO, BOARD_LED_PWR_GREEN_PIN, OFF);
+
     while(1)
     {
         if(flag_led_chk) { //当前led灯正在自检

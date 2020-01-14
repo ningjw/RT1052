@@ -124,7 +124,7 @@ static char * ParseChkSelf(void)
     
     //震动传感器电压
     while (ADC_READY == 0);  //wait ads1271 ready
-    g_sys_para.voltageADS1271 = LPSPI4_ReadData() * 2.43f * 2 / 8388607;
+    g_sys_para.voltageADS1271 = LPSPI4_ReadData() * g_sys_para.bias * 1.0f / 0x800000;
     
     cJSON_AddNumberToObject(pJsonRoot, "Id", 3);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
@@ -320,7 +320,7 @@ char * ParseSampleData(void)
         return NULL;
     }
     cJSON_AddNumberToObject(pJsonRoot, "Id",  9);
-    cJSON_AddNumberToObject(pJsonRoot, "Sid", 1);
+    cJSON_AddNumberToObject(pJsonRoot, "Sid", 0);
     cJSON_AddStringToObject(pJsonRoot, "IDPath", "GroupID\\FactoryID\\EquipmentID\\PointID");
     cJSON_AddStringToObject(pJsonRoot, "NamePath", "GroupID\\FactoryID\\EquipmentID\\PointID");
     cJSON_AddNumberToObject(pJsonRoot, "Speed", 1);// 取转速波形平均转速
