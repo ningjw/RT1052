@@ -185,9 +185,9 @@ void BOARD_InitBootPins(void);
 #define BOARD_ONOFF_SIGNAL                                               RESET_B   /*!< SRC signal: RESET_B */
 
 /* GPIO_B0_14 (coord E10), ADC_SYNC */
-#define BOARD_ADC_SYNC_PERIPHERAL                                           PWM1   /*!< Device name: PWM1 */
-#define BOARD_ADC_SYNC_SIGNAL                                               TRIG   /*!< PWM1 signal: TRIG */
-#define BOARD_ADC_SYNC_CHANNEL                                                3U   /*!< PWM1 TRIG channel: 3 */
+#define BOARD_ADC_SYNC_GPIO                                                GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_ADC_SYNC_PORT                                                GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_ADC_SYNC_PIN                                                   14U   /*!< GPIO2 pin index: 14 */
 
 
 /*!

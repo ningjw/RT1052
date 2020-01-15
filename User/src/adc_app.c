@@ -70,15 +70,10 @@ void ADC_ETC_IRQ0_IRQHandler(void)
         SpeedADC[g_sys_para.ADC_SpdCnt++] = ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
     }
 #if 0
-    ADC_SYNC_LOW;
-    ADC_SYNC_LOW;
-    ADC_SYNC_LOW;
-    ADC_SYNC_LOW;
-    ADC_SYNC_HIGH;
-    while(ADC_READY == 0);
-    if( g_sys_para.ADC_ShakeCnt < ADC_LEN ) {
-        ShakeADC[g_sys_para.ADC_ShakeCnt++] = LPSPI4_ReadData();
-    }
+//    while(ADC_READY == 0);
+//    if( g_sys_para.ADC_ShakeCnt < ADC_LEN ) {
+//        ShakeADC[g_sys_para.ADC_ShakeCnt++] = LPSPI4_ReadData();
+//    }
 #else
     uint32_t wait_time = 0;
     while (1) { //wait ads1271 ready
@@ -93,6 +88,18 @@ void ADC_ETC_IRQ0_IRQHandler(void)
 #endif
 }
 
+/***************************************************************************************
+  * @brief   RDY下降沿中断
+  * @input
+  * @return
+***************************************************************************************/
+void GPIO2_Combined_0_15_IRQHandler(void)
+{
+    GPIO_PortClearInterruptFlags(BOARD_ADC_RDY_GPIO,1U << BOARD_ADC_RDY_PIN);
+    if( g_sys_para.ADC_ShakeCnt < ADC_LEN ) {
+        ShakeADC[g_sys_para.ADC_ShakeCnt++] = LPSPI4_ReadData();
+    }
+}
 
 /***************************************************************************************
   * @brief   start adc sample
@@ -149,6 +156,8 @@ void ADC_SampleStop(void)
 }
 
 
+
+
 /***********************************************************************
   * @ 函数名  ： ADC采集任务
   * @ 功能说明：
@@ -172,34 +181,44 @@ void ADC_AppTask(void)
     ADC_MODE_HIGH_SPEED;
     
     /* 等待ADS1271 ready,并读取电压值,如果没有成功获取电压值, 则闪灯提示 */
-//    while (ADC_READY == 0);  //wait ads1271 ready
-//    if(LPSPI4_ReadData() == 0) {
-//        g_sys_para.sampLedStatus = WORK_FATAL_ERR;
-//    }
-//    ADC_SampleStart();
-//    while(1) {
+    uint32_t wait_time = 0;
+    while (1) { //wait ads1271 ready
+        if(ADC_READY == 0) {
+            if(LPSPI4_ReadData() == 0) {
+                g_sys_para.sampLedStatus = WORK_FATAL_ERR;
+            }
+            break;
+        }
+        if(wait_time++ >= 100){
+            g_sys_para.sampLedStatus = WORK_FATAL_ERR;
+            break;
+        }
+    }
+    
+    
+    while(1) {
 
-//        while(ADC_READY == 0);
-//        g_sys_para.voltageADS1271 = LPSPI4_ReadData();
-//        if( g_sys_para.ADC_ShakeCnt < 1000) {
-//            ShakeADC[g_sys_para.ADC_ShakeCnt++] = LPSPI4_ReadData();
-//        } else {
-//            /* 将震动信号转换*/
-//            memset(ShakeStrADC, 0, sizeof(ShakeStrADC));
-//            int pos = 0;
-//            g_sys_para.voltageADS1271 = 0;
-//            for(uint32_t i = 0; i < g_sys_para.ADC_ShakeCnt; i++) {
-//                ShakeADC[i] = ShakeADC[i] * g_sys_para.bias * 1.0f / 0x800000;
-//                memset(str, 0, sizeof(str));
-//                sprintf(str, "%01.5f,", ShakeADC[i]);
-//                memcpy(ShakeStrADC + pos, str, 8);
-//                pos += 8;
-//            }
-//            PRINTF("共采样到 %d 个震动信号\r\n", g_sys_para.ADC_ShakeCnt);
-//            PRINTF("%s",ShakeStrADC);
-//            break;
-//        }
-//    }
+        while(ADC_READY == 0);
+        g_sys_para.voltageADS1271 = LPSPI4_ReadData();
+        if( g_sys_para.ADC_ShakeCnt < 1000) {
+            ShakeADC[g_sys_para.ADC_ShakeCnt++] = LPSPI4_ReadData();
+        } else {
+            /* 将震动信号转换*/
+            memset(ShakeStrADC, 0, sizeof(ShakeStrADC));
+            int pos = 0;
+            g_sys_para.voltageADS1271 = 0;
+            for(uint32_t i = 0; i < g_sys_para.ADC_ShakeCnt; i++) {
+                ShakeADC[i] = ShakeADC[i] * g_sys_para.bias * 1.0f / 0x800000;
+                memset(str, 0, sizeof(str));
+                sprintf(str, "%01.5f,", ShakeADC[i]);
+                memcpy(ShakeStrADC + pos, str, 8);
+                pos += 8;
+            }
+            PRINTF("共采样到 %d 个震动信号\r\n", g_sys_para.ADC_ShakeCnt);
+            PRINTF("%s",ShakeStrADC);
+            break;
+        }
+    }
 
 
     PRINTF("ADC Task Create and Running\r\n");

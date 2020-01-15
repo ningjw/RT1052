@@ -661,42 +661,6 @@ void LPSPI4_init(void) {
 }
 
 /***********************************************************************************************************************
- * GPIO2 initialization code
- **********************************************************************************************************************/
-/* clang-format off */
-/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
-instance:
-- name: 'GPIO2'
-- type: 'igpio'
-- mode: 'GPIO'
-- type_id: 'igpio_b1c1fa279aa7069dca167502b8589cb7'
-- functional_group: 'BOARD_InitPeripherals'
-- peripheral: 'GPIO2'
-- config_sets:
-  - fsl_gpio:
-    - enable_irq_comb_0_15: 'true'
-    - gpio_interrupt_comb_0_15:
-      - IRQn: 'GPIO2_Combined_0_15_IRQn'
-      - enable_priority: 'false'
-      - priority: '0'
-      - enable_custom_name: 'true'
-      - handler_custom_name: 'GPIO2_COMB_0_15_IRQHANDLER'
-    - enable_irq_comb_16_31: 'false'
-    - gpio_interrupt_comb_16_31:
-      - IRQn: 'GPIO2_Combined_16_31_IRQn'
-      - enable_priority: 'false'
-      - priority: '0'
-      - enable_custom_name: 'false'
- * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
-/* clang-format on */
-
-void GPIO2_init(void) {
-  /* Make sure, the clock gate for GPIO2 is enabled (e. g. in pin_mux.c) */
-  /* Enable interrupt GPIO2_Combined_0_15_IRQn request in the NVIC */
-  EnableIRQ(GPIO2_Combined_0_15_IRQn);
-}
-
-/***********************************************************************************************************************
  * QuadTimer1 initialization code
  **********************************************************************************************************************/
 /* clang-format off */
@@ -1050,7 +1014,6 @@ void BOARD_InitPeripherals(void)
   LPUART3_init();
   LPUART5_init();
   LPSPI4_init();
-  GPIO2_init();
   QuadTimer1_init();
   ADC1_init();
   ADC_ETC_init();
