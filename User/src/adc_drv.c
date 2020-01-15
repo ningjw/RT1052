@@ -25,6 +25,65 @@ void XBARA_Configuration(void)
     XBARA_SetSignalsConnection(XBARA1, kXBARA1_InputPitTrigger0, kXBARA1_OutputAdcEtcXbar0Trig0);
 }
 
+/***************************************************************************************
+  * @brief   配置PWM1
+  * @input
+  * @return
+***************************************************************************************/
+void PWM1_Config(void)
+{
+    pwm_config_t pwmConfig;
+    pwm_signal_param_t pwmSignal;
+    
+    CLOCK_SetDiv(kCLOCK_IpgDiv, 0x3);
+    
+    //Route the PWMA output to the PWM_OUT_TRIG0 port
+    PWM1->SM[3].TCTRL |= PWM_TCTRL_PWAOT0_MASK;
+    //禁止错误检测
+    PWM1->SM[3].DISMAP[0]=0;
+    PWM_GetDefaultConfig(&pwmConfig);
+    pwmConfig.reloadLogic = kPWM_ReloadPwmFullCycle; //全周期更新
+    pwmConfig.pairOperation = kPWM_Independent;      //PWMA，PWMB各自独立输出
+    pwmConfig.enableDebugMode = true;                //使能 Debug 模式
+    PWM_Init(PWM1, kPWM_Module_3, &pwmConfig);       //初始化PWM1的通道3
+    
+    pwmSignal.pwmChannel = kPWM_PwmA;             //配置PWMA
+    pwmSignal.level = kPWM_LowTrue;              //有效电平为低
+    pwmSignal.dutyCyclePercent = 1;              //占空比1%        
+    /*配置PWM1 通道3 有符号中心对齐 PWM信号频率为1000Hz*/
+    PWM_SetupPwm(PWM1, kPWM_Module_3, &pwmSignal, 1, kPWM_SignedCenterAligned, 80000, CLOCK_GetFreq(kCLOCK_IpgClk));
+    /*设置Set LDOK 位，将初始化参数加载到相应的寄存器*/
+    PWM_SetPwmLdok(PWM1, kPWM_Control_Module_3, true);
+    /* 开启PWM 输出*/
+    PWM_StartTimer(PWM1, kPWM_Control_Module_3);
+}
+
+
+
+/***************************************************************************************
+  * @brief   开始输出PWM1
+  * @input
+  * @return
+***************************************************************************************/
+void PWM1_Start(void)
+{
+    /* FLEXPWM1_PWM4_OUT_TRIG0_1 output assigned to XBARA1_IN43 input is connected to XBARA1_OUT12 output assigned to IOMUX_XBAR_INOUT12 */
+    XBARA_SetSignalsConnection(XBARA1, kXBARA1_InputFlexpwm1Pwm4OutTrig01, kXBARA1_OutputIomuxXbarInout12);
+}
+
+/***************************************************************************************
+  * @brief   停止PWM1输出
+  * @input
+  * @return
+***************************************************************************************/
+void PWM1_Stop(void)
+{
+    //停止时该引脚输出高电平
+    XBARA_SetSignalsConnection(XBARA1,kXBARA1_InputLogicHigh,kXBARA1_OutputIomuxXbarInout12); 
+}
+
+
+
 
 /***************************************************************************************
   * @brief   配置为允许外部触发

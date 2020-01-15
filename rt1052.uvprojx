@@ -1479,6 +1479,13 @@
           <targetInfo name="nor_sdram"/>
         </targetInfos>
       </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="pwm" Cvendor="NXP" Cversion="2.0.0" condition="device.MIMXRT1052_AND_driver.common">
+        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="debug"/>
+          <targetInfo name="nor_sdram"/>
+        </targetInfos>
+      </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="qtmr" Cvendor="NXP" Cversion="2.0.0" condition="device.MIMXRT1052_AND_driver.common">
         <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
         <targetInfos>

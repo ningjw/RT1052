@@ -28,6 +28,7 @@
 #include "fsl_mmc.h"
 #include "fsl_dcdc.h"
 #include "fsl_src.h"
+#include "fsl_pwm.h"
 
 #include "FreeRTOS.h"
 #include "task.h"

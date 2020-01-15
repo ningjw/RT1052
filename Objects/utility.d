@@ -50,6 +50,7 @@
 .\objects\utility.o: .\sdmmc\inc\fsl_sdmmc_spec.h
 .\objects\utility.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dcdc.h
 .\objects\utility.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_src.h
+.\objects\utility.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_pwm.h
 .\objects\utility.o: C:\Keil_v5\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h
 .\objects\utility.o: .\RTE\RTOS\FreeRTOSConfig.h
 .\objects\utility.o: .\RTE\_nor_sdram\RTE_Components.h

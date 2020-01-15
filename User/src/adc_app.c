@@ -137,7 +137,7 @@ void ADC_SampleStop(void)
 {
     /* Stop the timer */
     QTMR_StopTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL);
-//    QTMR_StopTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL);
+    QTMR_StopTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL);
     /* Stop channel 0. */
     PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
     /* Stop channel 1. */
@@ -170,16 +170,17 @@ void ADC_AppTask(void)
     counterClock = QUADTIMER1_CHANNEL_0_CLOCK_SOURCE / 1000;
 
     ADC_MODE_HIGH_SPEED;
-
+    
     /* 等待ADS1271 ready,并读取电压值,如果没有成功获取电压值, 则闪灯提示 */
-    while (ADC_READY == 0);  //wait ads1271 ready
-    if(LPSPI4_ReadData() == 0) {
-        g_sys_para.sampLedStatus = WORK_FATAL_ERR;
-    }
-
+//    while (ADC_READY == 0);  //wait ads1271 ready
+//    if(LPSPI4_ReadData() == 0) {
+//        g_sys_para.sampLedStatus = WORK_FATAL_ERR;
+//    }
+//    ADC_SampleStart();
 //    while(1) {
 
 //        while(ADC_READY == 0);
+//        g_sys_para.voltageADS1271 = LPSPI4_ReadData();
 //        if( g_sys_para.ADC_ShakeCnt < 1000) {
 //            ShakeADC[g_sys_para.ADC_ShakeCnt++] = LPSPI4_ReadData();
 //        } else {

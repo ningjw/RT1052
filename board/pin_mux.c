@@ -89,7 +89,6 @@ BOARD:
   - {pin_num: L11, peripheral: LPUART2, signal: TX, pin_signal: GPIO_AD_B1_02}
   - {pin_num: A10, peripheral: GPIO2, signal: 'gpio_io, 11', pin_signal: GPIO_B0_11, direction: OUTPUT, gpio_init_state: 'false'}
   - {pin_num: E11, peripheral: GPIO2, signal: 'gpio_io, 15', pin_signal: GPIO_B0_15, direction: OUTPUT}
-  - {pin_num: E10, peripheral: GPIO2, signal: 'gpio_io, 14', pin_signal: GPIO_B0_14, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: C8, peripheral: GPIO2, signal: 'gpio_io, 04', pin_signal: GPIO_B0_04, direction: INPUT, slew_rate: Slow}
   - {pin_num: C14, peripheral: GPIO2, signal: 'gpio_io, 30', pin_signal: GPIO_B1_14, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: D14, peripheral: LPUART5, signal: RX, pin_signal: GPIO_B1_13}
@@ -136,6 +135,7 @@ BOARD:
   - {pin_num: J12, peripheral: LPI2C3, signal: SDA, pin_signal: GPIO_AD_B1_06, identifier: '', software_input_on: Enable, pull_keeper_select: Keeper, pull_keeper_enable: Enable,
     open_drain: Enable, slew_rate: Slow}
   - {pin_num: K10, peripheral: LPI2C3, signal: SCL, pin_signal: GPIO_AD_B1_07, identifier: '', software_input_on: Enable, open_drain: Enable, slew_rate: Slow}
+  - {pin_num: E10, peripheral: PWM1, signal: 'TRIG, 3', pin_signal: GPIO_B0_14}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -247,15 +247,6 @@ void BOARD(void) {
   };
   /* Initialize GPIO functionality on GPIO_B0_12 (pin C10) */
   GPIO_PinInit(GPIO2, 12U, &PWR_WIFI_BLE_config);
-
-  /* GPIO configuration of ADC_SYNC on GPIO_B0_14 (pin E10) */
-  gpio_pin_config_t ADC_SYNC_config = {
-      .direction = kGPIO_DigitalOutput,
-      .outputLogic = 1U,
-      .interruptMode = kGPIO_NoIntmode
-  };
-  /* Initialize GPIO functionality on GPIO_B0_14 (pin E10) */
-  GPIO_PinInit(GPIO2, 14U, &ADC_SYNC_config);
 
   /* GPIO configuration of ADC_FORMAT on GPIO_B0_15 (pin E11) */
   gpio_pin_config_t ADC_FORMAT_config = {
@@ -441,7 +432,7 @@ void BOARD(void) {
       IOMUXC_GPIO_B0_12_GPIO2_IO12,           /* GPIO_B0_12 is configured as GPIO2_IO12 */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
-      IOMUXC_GPIO_B0_14_GPIO2_IO14,           /* GPIO_B0_14 is configured as GPIO2_IO14 */
+      IOMUXC_GPIO_B0_14_XBAR1_INOUT12,        /* GPIO_B0_14 is configured as XBAR1_INOUT12 */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
       IOMUXC_GPIO_B0_15_GPIO2_IO15,           /* GPIO_B0_15 is configured as GPIO2_IO15 */
@@ -528,11 +519,13 @@ void BOARD(void) {
       IOMUXC_GPIO_SD_B1_11_FLEXSPIA_DATA03,   /* GPIO_SD_B1_11 is configured as FLEXSPIA_DATA03 */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_GPR->GPR6 = ((IOMUXC_GPR->GPR6 &
-    (~(IOMUXC_GPR_GPR6_QTIMER1_TRM0_INPUT_SEL_MASK | IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL_MASK))) /* Mask bits to zero which are setting */
+    (~(IOMUXC_GPR_GPR6_QTIMER1_TRM0_INPUT_SEL_MASK | IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL_MASK | IOMUXC_GPR_GPR6_IOMUXC_XBAR_DIR_SEL_12_MASK))) /* Mask bits to zero which are setting */
       | IOMUXC_GPR_GPR6_QTIMER1_TRM0_INPUT_SEL(0x00U) /* QTIMER1 TMR0 input select: input from IOMUX */
       | IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL(0x00U) /* QTIMER3 TMR0 input select: input from IOMUX */
+      | IOMUXC_GPR_GPR6_IOMUXC_XBAR_DIR_SEL_12(0x01U) /* IOMUXC XBAR_INOUT12 function direction select: XBAR_INOUT as output */
     );
   XBARA_SetSignalsConnection(XBARA1, kXBARA1_InputPitTrigger0, kXBARA1_OutputAdcEtcXbar0Trig0); /* PIT_TRIGGER0 output assigned to XBARA1_IN56 input is connected to XBARA1_OUT103 output assigned to ADC_ETC_XBAR0_TRIG0 */
+  XBARA_SetSignalsConnection(XBARA1, kXBARA1_InputFlexpwm1Pwm4OutTrig01, kXBARA1_OutputIomuxXbarInout12); /* FLEXPWM1_PWM4_OUT_TRIG0_1 output assigned to XBARA1_IN43 input is connected to XBARA1_OUT12 output assigned to IOMUX_XBAR_INOUT12 */
   IOMUXC_SetPinConfig(
       IOMUXC_GPIO_AD_B1_00_LPI2C1_SCL,        /* GPIO_AD_B1_00 PAD functional properties : */
       0x38B0U);                               /* Slew Rate Field: Slow Slew Rate

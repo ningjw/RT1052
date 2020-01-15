@@ -70,11 +70,6 @@ void BOARD_InitBootPins(void);
 #define BOARD_ADC_FORMAT_PORT                                              GPIO2   /*!< PORT device name: GPIO2 */
 #define BOARD_ADC_FORMAT_PIN                                                 15U   /*!< GPIO2 pin index: 15 */
 
-/* GPIO_B0_14 (coord E10), ADC_SYNC */
-#define BOARD_ADC_SYNC_GPIO                                                GPIO2   /*!< GPIO device name: GPIO2 */
-#define BOARD_ADC_SYNC_PORT                                                GPIO2   /*!< PORT device name: GPIO2 */
-#define BOARD_ADC_SYNC_PIN                                                   14U   /*!< GPIO2 pin index: 14 */
-
 /* GPIO_B0_04 (coord C8), ADC_RDY */
 #define BOARD_ADC_RDY_GPIO                                                 GPIO2   /*!< GPIO device name: GPIO2 */
 #define BOARD_ADC_RDY_PORT                                                 GPIO2   /*!< PORT device name: GPIO2 */
@@ -188,6 +183,11 @@ void BOARD_InitBootPins(void);
 /* ONOFF (coord M6), ONOFF */
 #define BOARD_ONOFF_PERIPHERAL                                               SRC   /*!< Device name: SRC */
 #define BOARD_ONOFF_SIGNAL                                               RESET_B   /*!< SRC signal: RESET_B */
+
+/* GPIO_B0_14 (coord E10), ADC_SYNC */
+#define BOARD_ADC_SYNC_PERIPHERAL                                           PWM1   /*!< Device name: PWM1 */
+#define BOARD_ADC_SYNC_SIGNAL                                               TRIG   /*!< PWM1 signal: TRIG */
+#define BOARD_ADC_SYNC_CHANNEL                                                3U   /*!< PWM1 TRIG channel: 3 */
 
 
 /*!

@@ -5,5 +5,8 @@
 void XBARA_Configuration(void);
 void ADC_ETC_Config(void);
 uint32_t LPSPI4_ReadData(void);
+void PWM1_Config(void);
+void PWM1_Start(void);
+void PWM1_Stop(void);
 
 #endif
