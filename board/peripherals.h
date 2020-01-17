@@ -18,6 +18,7 @@
 #include "fsl_lpi2c.h"
 #include "fsl_qtmr.h"
 #include "fsl_lpspi.h"
+#include "fsl_gpio.h"
 #include "fsl_adc.h"
 #include "fsl_adc_etc.h"
 
@@ -106,6 +107,10 @@ extern "C" {
 #define LPSPI4_PERIPHERAL LPSPI4
 /* Definition of clock source */
 #define LPSPI4_CLOCK_FREQ 24000000UL
+/* GPIO2 interrupt vector ID (number). */
+#define GPIO2_GPIO_COMB_0_15_IRQN GPIO2_Combined_0_15_IRQn
+/* GPIO2 interrupt handler identifier. */
+#define GPIO2_COMB_0_15_IRQHANDLER GPIO2_Combined_0_15_IRQHandler
 /* Definition of peripheral ID */
 #define QUADTIMER1_PERIPHERAL TMR1
 /* Definition of the timer channel Channel_0. */

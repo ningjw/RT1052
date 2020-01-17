@@ -7,7 +7,9 @@ extern float SpeedADC[];
 extern char  SpeedStrADC[];
 extern char  ShakeStrADC[];
 time_t seconds;
-struct tm *data_time;
+struct tm data_time;
+struct tm *p_time;
+
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
   * @input   
@@ -16,41 +18,45 @@ struct tm *data_time;
 static char* ParseSetTime(cJSON *pJson, cJSON * pSub)
 {
     /*解析消息内容, 获取日期和时间*/
-    pSub = cJSON_GetObjectItem(pJson, "LongTime");
-    if(NULL != pSub){
-        seconds = pSub->valueint;
-        data_time = gmtime(&seconds);
-        rtcDate.year = 1900 + data_time->tm_year;
-        rtcDate.month = 1+ data_time->tm_mon;
-        rtcDate.day = data_time->tm_mday;
-        rtcDate.hour = data_time->tm_hour;
-        rtcDate.minute = data_time->tm_min;
-        rtcDate.second = data_time->tm_sec;
-    }else{
-        pSub = cJSON_GetObjectItem(pJson, "Y");
-        if (NULL != pSub)
-            rtcDate.year = pSub->valueint;
-        
-        pSub = cJSON_GetObjectItem(pJson, "Mon");
-        if (NULL != pSub)
-            rtcDate.month = pSub->valueint;
-        
-        pSub = cJSON_GetObjectItem(pJson, "D");
-        if (NULL != pSub)
-            rtcDate.day = pSub->valueint;
-        
-         pSub = cJSON_GetObjectItem(pJson, "H");
-        if (NULL != pSub)
+    char isAm = 0;
+    char is24Hour = 0;
+    pSub = cJSON_GetObjectItem(pJson, "Y");
+    if (NULL != pSub)
+        rtcDate.year = pSub->valueint;
+    
+    pSub = cJSON_GetObjectItem(pJson, "Mon");
+    if (NULL != pSub)
+        rtcDate.month = pSub->valueint+1;
+    
+    pSub = cJSON_GetObjectItem(pJson, "D");
+    if (NULL != pSub)
+        rtcDate.day = pSub->valueint;
+    
+    pSub = cJSON_GetObjectItem(pJson, "is24Hour");
+    if (NULL != pSub)
+        is24Hour = pSub->valueint;
+    
+    pSub = cJSON_GetObjectItem(pJson, "isAm");
+    if (NULL != pSub)
+        isAm = pSub->valueint;
+    
+     pSub = cJSON_GetObjectItem(pJson, "H");
+    if (NULL != pSub){
+        if(is24Hour || (!is24Hour && !isAm)){
             rtcDate.hour = pSub->valueint;
-        
-        pSub = cJSON_GetObjectItem(pJson, "Min");
-        if (NULL != pSub)
-            rtcDate.minute = pSub->valueint;
-        
-        pSub = cJSON_GetObjectItem(pJson, "S");
-        if (NULL != pSub)
-            rtcDate.second = pSub->valueint;
+        }else{
+            rtcDate.hour = pSub->valueint + 12;
+        }
     }
+    
+    pSub = cJSON_GetObjectItem(pJson, "Min");
+    if (NULL != pSub)
+        rtcDate.minute = pSub->valueint;
+    
+    pSub = cJSON_GetObjectItem(pJson, "S");
+    if (NULL != pSub)
+        rtcDate.second = pSub->valueint;
+
     /*设置日期和时间*/
     SNVS_HP_RTC_SetDatetime(SNVS, &rtcDate);
     
@@ -77,20 +83,28 @@ static char * ParseGetTime(void)
 {
 	/* 获取日期 */
     SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
-	
+//    data_time.tm_year = rtcDate.year-1900;
+//    data_time.tm_mon = rtcDate.month-1;
+//    data_time.tm_mday = rtcDate.day;
+//    data_time.tm_hour = rtcDate.hour;
+//    data_time.tm_min = rtcDate.minute;
+//    data_time.tm_sec = rtcDate.second;
+//	seconds = mktime(&data_time);
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot){
         return NULL;
     }
     cJSON_AddNumberToObject(pJsonRoot, "Id", 2);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
+//    cJSON_AddNumberToObject(pJsonRoot, "LongDateTime", seconds);
     cJSON_AddNumberToObject(pJsonRoot, "Y", rtcDate.year);
     cJSON_AddNumberToObject(pJsonRoot, "Mon", rtcDate.month);
     cJSON_AddNumberToObject(pJsonRoot, "D", rtcDate.day);
     cJSON_AddNumberToObject(pJsonRoot, "H", rtcDate.hour);
     cJSON_AddNumberToObject(pJsonRoot, "Min", rtcDate.minute);
     cJSON_AddNumberToObject(pJsonRoot, "S", rtcDate.second);
- 
+    cJSON_AddBoolToObject(pJsonRoot,"is24Hour",0);
+
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     return p_reply;
@@ -111,10 +125,6 @@ static char * ParseChkSelf(void)
     
     //指示灯自检
     LED_CheckSelf();
-    
-    //电池自检
-    g_sys_para.batVoltage = LTC2942_GetVoltage() / 1000.0;// Battery voltage
-    g_sys_para.batRemainPercent = LTC2942_GetAC() * 100.0 / 65536; // Accumulated charge
     
     //红外测温模块自检
     g_sys_para.objTemp = MXL_ReadObjTemp();

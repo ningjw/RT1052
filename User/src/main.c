@@ -79,9 +79,10 @@ int main(void)
     BOARD_InitDebugConsole();   /* 配置调试串口 */
     InitSysPara();              /* 初始化系统变量*/
     RTC_Config();               /* 初始化RTC实时时钟*/
-    FlexSPI_NorFlash_Init();    /* 初始化FlexSPI*/
-    NorFlash_ChkSelf();        /* 对FlexSPI自检*/
+    FlexSPI_NorFlash_Init();/* 初始化FlexSPI*/
+    NorFlash_ChkSelf();/* 对FlexSPI自检*/
 //    PWM1_Config();
+//    PWM1_Start();
 //    PWM1_Stop();
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);/*1ms中断，FreeRTOS使用*/
     

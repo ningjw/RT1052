@@ -246,10 +246,15 @@
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
                   </pin>
+                  <pin peripheral="GPIO2" signal="gpio_io, 14" pin_num="E10" pin_signal="GPIO_B0_14">
+                     <pin_features>
+                        <pin_feature name="direction" value="OUTPUT"/>
+                        <pin_feature name="gpio_init_state" value="true"/>
+                     </pin_features>
+                  </pin>
                   <pin peripheral="GPIO2" signal="gpio_io, 04" pin_num="C8" pin_signal="GPIO_B0_04">
                      <pin_features>
                         <pin_feature name="direction" value="INPUT"/>
-                        <pin_feature name="gpio_interrupt" value="kGPIO_NoIntmode"/>
                         <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
                   </pin>
@@ -484,12 +489,6 @@
                         <pin_feature name="software_input_on" value="Enable"/>
                         <pin_feature name="open_drain" value="Enable"/>
                         <pin_feature name="slew_rate" value="Slow"/>
-                     </pin_features>
-                  </pin>
-                  <pin peripheral="GPIO2" signal="gpio_io, 14" pin_num="E10" pin_signal="GPIO_B0_14">
-                     <pin_features>
-                        <pin_feature name="direction" value="OUTPUT"/>
-                        <pin_feature name="gpio_init_state" value="true"/>
                      </pin_features>
                   </pin>
                </pins>
@@ -739,6 +738,16 @@
             <dependency resourceType="SWComponent" resourceId="platform.drivers.lpspi" description="工具链/IDT 工程中，该版本的 LPSPI Driver 不被支持。所需的：${required_value},，实际的： ${actual_value}。" problem_level="1" source="Peripherals">
                <feature name="version" evaluation="equivalent">
                   <data type="Version">2.0.3</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.igpio" description="在工具链/IDT 工程中未找到 igpio。" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.igpio" description="工具链/IDT 工程中，该版本的 igpio 不被支持。所需的：${required_value},，实际的： ${actual_value}。" problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">2.0.1</data>
                </feature>
             </dependency>
             <dependency resourceType="SWComponent" resourceId="platform.drivers.adc_12b1msps_sar" description="在工具链/IDT 工程中未找到 ADC Driver。" problem_level="2" source="Peripherals">
@@ -1304,7 +1313,7 @@
                         <array name="interfaces"/>
                      </config_set>
                   </instance>
-                  <instance name="GPIO2" type="igpio" type_id="igpio_b1c1fa279aa7069dca167502b8589cb7" mode="GPIO" peripheral="GPIO2" enabled="false">
+                  <instance name="GPIO2" type="igpio" type_id="igpio_b1c1fa279aa7069dca167502b8589cb7" mode="GPIO" peripheral="GPIO2" enabled="true">
                      <config_set name="fsl_gpio">
                         <setting name="enable_irq_comb_0_15" value="true"/>
                         <struct name="gpio_interrupt_comb_0_15">
@@ -1457,7 +1466,7 @@
                               <setting name="debugMode" value="kQTMR_RunNormalInDebug"/>
                               <setting name="timerModeInit" value="timer"/>
                               <struct name="timerMode">
-                                 <setting name="freq_value_str" value="3300"/>
+                                 <setting name="freq_value_str" value="16500"/>
                               </struct>
                               <setting name="dmaIntMode" value="interrupt"/>
                               <set name="interrupts">

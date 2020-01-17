@@ -14,8 +14,8 @@
 extern void LPUART2_init(void);
 
 
-AT_NONCACHEABLE_SECTION_INIT(uint8_t g_lpuart2TxBuf[LPUART2_BUFF_LEN]) = {0};//串口发送缓冲区
-AT_NONCACHEABLE_SECTION_INIT(uint8_t g_lpuart2RxBuf[LPUART2_BUFF_LEN]) = {0};//串口接收缓冲区
+uint8_t g_lpuart2TxBuf[LPUART2_BUFF_LEN] = {0};//串口发送缓冲区
+uint8_t g_lpuart2RxBuf[LPUART2_BUFF_LEN] = {0};//串口接收缓冲区
 
 uint8_t g_puart2RxCnt = 0;
 uint8_t g_puart2TxCnt = 0;
@@ -180,7 +180,7 @@ void LPUART2_IRQHandler(void)
             /* 判断还未启动定时器2计数器,则启动*/
             if(g_puart2StartRx == 0){
                 g_puart2StartRx++;
-                QTMR_SetTimerPeriod(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, 3300U);
+                QTMR_SetTimerPeriod(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, 16500U);
                 QTMR_StartTimer(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
             }
             /* 将接受到的数据保存到数组*/

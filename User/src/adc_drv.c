@@ -51,11 +51,15 @@ void PWM1_Config(void)
     pwmSignal.level = kPWM_LowTrue;              //有效电平为低
     pwmSignal.dutyCyclePercent = 1;              //占空比1%        
     /*配置PWM1 通道3 有符号中心对齐 PWM信号频率为1000Hz*/
-    PWM_SetupPwm(PWM1, kPWM_Module_3, &pwmSignal, 1, kPWM_SignedCenterAligned, 80000, CLOCK_GetFreq(kCLOCK_IpgClk));
+    PWM_SetupPwm(PWM1, kPWM_Module_3, &pwmSignal, 1, kPWM_SignedCenterAligned, 5000, CLOCK_GetFreq(kCLOCK_IpgClk));
     /*设置Set LDOK 位，将初始化参数加载到相应的寄存器*/
     PWM_SetPwmLdok(PWM1, kPWM_Control_Module_3, true);
     /* 开启PWM 输出*/
     PWM_StartTimer(PWM1, kPWM_Control_Module_3);
+    /* GPIO_B0_14 is configured as XBAR1_INOUT12 */
+    IOMUXC_SetPinMux(IOMUXC_GPIO_B0_14_XBAR1_INOUT12,0U); 
+    /*设置IO12为输出模式*/
+    IOMUXC_GPR->GPR6 |= IOMUXC_GPR_GPR6_IOMUXC_XBAR_DIR_SEL_12(0x01U); 
 }
 
 

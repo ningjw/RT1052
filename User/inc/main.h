@@ -1,7 +1,7 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#define SOFT_VERSION       "V0.03"
+#define SOFT_VERSION       "V0.06"
 #define POWER_ON_TIMER_ID  1
 #define ULONG_MAX          0xFFFFFFFF
 #define FIRM_INFO_ADDR    0x6001F000
