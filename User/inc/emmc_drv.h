@@ -243,7 +243,12 @@
 
 
 void eMMC_Init(void);
+void eMMC_ScanFile(void);
 void eMMC_CheckFatfs(void);
+void eMMC_GetFree(void);
+void eMMC_PrintfManageFile(void);
+void eMMC_AppendmanageFile(char *str);
+void eMMC_DelEarliestFile(void);
 uint32_t eMMC_SaveSampleData(char *buf, uint32_t len);
 
 #endif

@@ -495,10 +495,10 @@
             </function>
          </functions_list>
       </pins>
-      <clocks name="Clocks" version="6.0" enabled="true" update_project_code="false">
+      <clocks name="Clocks" version="6.0" enabled="true" update_project_code="true">
          <generated_project_files>
-            <file path="./board/clock_config.c" update_enabled="false"/>
-            <file path="board/clock_config.h" update_enabled="false"/>
+            <file path="board/clock_config.c" update_enabled="true"/>
+            <file path="board/clock_config.h" update_enabled="true"/>
          </generated_project_files>
          <clocks_profile>
             <processor_version>6.0.1</processor_version>
@@ -868,6 +868,16 @@
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
+                  <dependency resourceType="SWComponent" resourceId="platform.drivers.lpuart_edma" description="The fsl_uart_edma driver is missing in the project (required for the eDMA mode)." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="enabled" evaluation="equal">
+                        <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="SWComponent" resourceId="platform.drivers.lpuart_edma" description="The compatible version of the fsl_uart_edma driver is not available in the project (required for the eDMA mode)." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="version" evaluation="compatible">
+                        <data type="Version">2.2.4</data>
+                     </feature>
+                  </dependency>
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART5.uart_tx" description="Signal TX of the peripheral LPUART5 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="equal">
                         <data type="Boolean">true</data>
@@ -1046,7 +1056,7 @@
                            <struct name="2">
                               <setting name="channelNumber" value="2"/>
                               <setting name="enableChain" value="false"/>
-                              <setting name="timerPeriod" value="60s"/>
+                              <setting name="timerPeriod" value="1s"/>
                               <setting name="startTimer" value="true"/>
                               <setting name="enableInterrupt" value="true"/>
                            </struct>
@@ -1201,7 +1211,7 @@
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="LPUART3" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="interrupts" peripheral="LPUART3" enabled="true">
+                  <instance name="LPUART3" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="edma" peripheral="LPUART3" enabled="true">
                      <config_set name="lpuartConfig_t">
                         <struct name="lpuartConfig">
                            <setting name="clockSource" value="LpuartClock"/>
@@ -1223,21 +1233,27 @@
                            <setting name="enableRx" value="true"/>
                         </struct>
                      </config_set>
-                     <config_set name="interruptsCfg">
-                        <set name="interrupts">
-                           <selected>
-                              <id>kLPUART_RxDataRegFullInterruptEnable</id>
-                              <id>kLPUART_RxOverrunInterruptEnable</id>
-                           </selected>
-                        </set>
-                        <struct name="interrupt_vectors">
-                           <setting name="enable_rx_tx_irq" value="true"/>
-                           <struct name="interrupt_rx_tx">
-                              <setting name="IRQn" value="LPUART3_IRQn"/>
-                              <setting name="enable_priority" value="false"/>
-                              <setting name="priority" value="0"/>
+                     <config_set name="edmaCfg">
+                        <struct name="edma_channels">
+                           <setting name="enable_rx_edma_channel" value="true"/>
+                           <struct name="edma_rx_channel">
+                              <setting name="eDMAn" value="0"/>
+                              <setting name="eDMA_source" value="kDmaRequestMuxLPUART3Rx"/>
                               <setting name="enable_custom_name" value="false"/>
                            </struct>
+                           <setting name="enable_tx_edma_channel" value="false"/>
+                           <struct name="edma_tx_channel">
+                              <setting name="eDMAn" value="1"/>
+                              <setting name="eDMA_source" value="kDmaRequestMuxLPUART3Tx"/>
+                              <setting name="enable_custom_name" value="false"/>
+                           </struct>
+                        </struct>
+                        <struct name="lpuart_edma_handle">
+                           <setting name="enable_custom_name" value="true"/>
+                           <setting name="handle_custom_name" value="LPUART3_eDMA_Handle"/>
+                           <setting name="init_callback" value="false"/>
+                           <setting name="callback_fcn" value=""/>
+                           <setting name="user_data" value=""/>
                         </struct>
                      </config_set>
                   </instance>
@@ -1466,7 +1482,7 @@
                               <setting name="debugMode" value="kQTMR_RunNormalInDebug"/>
                               <setting name="timerModeInit" value="timer"/>
                               <struct name="timerMode">
-                                 <setting name="freq_value_str" value="16500"/>
+                                 <setting name="freq_value_str" value="3300"/>
                               </struct>
                               <setting name="dmaIntMode" value="interrupt"/>
                               <set name="interrupts">

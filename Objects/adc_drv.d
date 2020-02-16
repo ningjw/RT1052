@@ -28,6 +28,7 @@
 .\objects\adc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h
 .\objects\adc_drv.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\adc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h
+.\objects\adc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart_edma.h
 .\objects\adc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h
 .\objects\adc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
 .\objects\adc_drv.o: C:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc.h

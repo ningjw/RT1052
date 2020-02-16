@@ -21,7 +21,7 @@ static void InitSysPara()
     g_sys_para.inactiveCondition = 1;//蓝牙连接没有通信后,15分钟关机.
     g_sys_para.sampBandwidth = 10000;//取样带宽,默认10k
     g_sys_para.sampFreq = 1000;      //取样频率,默认1k
-    g_sys_para.sampTimeSet = 1;      //取样时间,默认s
+    g_sys_para.sampTimeSet = 1000;   //取样时间,默认1s
     g_sys_para.sampMode = 0;         //高精度模式
     g_sys_para.inactiveCount = 0;    //
     g_sys_para.sampLedStatus = WORK_FINE;
@@ -64,6 +64,27 @@ static void AppTaskCreate(void)
 
 
 /***************************************************************************************
+  * @brief   打印系统时钟
+  * @input   
+  * @return  
+***************************************************************************************/
+void PrintClock(void)
+{
+        /* 打印系统时钟 */
+  PRINTF("\r\n");
+  PRINTF("CPU:             %d Hz\r\n", CLOCK_GetFreq(kCLOCK_CpuClk));
+  PRINTF("AHB:             %d Hz\r\n", CLOCK_GetFreq(kCLOCK_AhbClk));
+  PRINTF("SEMC:            %d Hz\r\n", CLOCK_GetFreq(kCLOCK_SemcClk));
+  PRINTF("SYSPLL:          %d Hz\r\n", CLOCK_GetFreq(kCLOCK_SysPllClk));
+  PRINTF("SYSPLLPFD0:      %d Hz\r\n", CLOCK_GetFreq(kCLOCK_SysPllPfd0Clk));
+  PRINTF("SYSPLLPFD1:      %d Hz\r\n", CLOCK_GetFreq(kCLOCK_SysPllPfd1Clk));
+  PRINTF("SYSPLLPFD2:      %d Hz\r\n", CLOCK_GetFreq(kCLOCK_SysPllPfd2Clk));
+  PRINTF("SYSPLLPFD3:      %d Hz\r\n", CLOCK_GetFreq(kCLOCK_SysPllPfd3Clk));  
+  PRINTF("\r\n");
+}
+
+
+/***************************************************************************************
   * @brief   入口函数
   * @input   
   * @return  
@@ -75,15 +96,15 @@ int main(void)
     BOARD_BootClockRUN();       /* 配置Clock */
     BOARD_InitBootPins();       /* 配置GPIO */
     BOARD_InitPeripherals();    /* 配置外设 */
-    g_sys_para.objTemp = MXL_ReadObjTemp();
     BOARD_InitDebugConsole();   /* 配置调试串口 */
     InitSysPara();              /* 初始化系统变量*/
     RTC_Config();               /* 初始化RTC实时时钟*/
-    FlexSPI_NorFlash_Init();/* 初始化FlexSPI*/
-    NorFlash_ChkSelf();/* 对FlexSPI自检*/
+    FlexSPI_NorFlash_Init();    /* 初始化FlexSPI*/
+    NorFlash_ChkSelf();         /* 对FlexSPI自检*/
 //    PWM1_Config();
 //    PWM1_Start();
 //    PWM1_Stop();
+//    PrintClock();
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);/*1ms中断，FreeRTOS使用*/
     
     /* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
@@ -126,6 +147,12 @@ void BOARD_InitDebugConsole(void)
     uint32_t uartClkSrcFreq = BOARD_DebugConsoleSrcFreq();
 
     DbgConsole_Init(3, 115200, kSerialPort_Uart, uartClkSrcFreq);
+    
+    /*使能空闲中断*/
+	LPUART_EnableInterrupts(LPUART3, kLPUART_IdleLineInterruptEnable);
+	/*使能串口中断**/
+	EnableIRQ(LPUART3_IRQn);
+    LPUART_ReceiveEDMA(LPUART3, &LPUART3_eDMA_Handle, &uart3RevXfer);  //使用eDMA接收
 }
 
 

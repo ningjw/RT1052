@@ -50,7 +50,7 @@ void PWM1_Config(void)
     pwmSignal.pwmChannel = kPWM_PwmA;             //配置PWMA
     pwmSignal.level = kPWM_LowTrue;              //有效电平为低
     pwmSignal.dutyCyclePercent = 1;              //占空比1%        
-    /*配置PWM1 通道3 有符号中心对齐 PWM信号频率为1000Hz*/
+    /*配置PWM1 通道3 有符号中心对齐 PWM信号频率为5000Hz*/
     PWM_SetupPwm(PWM1, kPWM_Module_3, &pwmSignal, 1, kPWM_SignedCenterAligned, 5000, CLOCK_GetFreq(kCLOCK_IpgClk));
     /*设置Set LDOK 位，将初始化参数加载到相应的寄存器*/
     PWM_SetPwmLdok(PWM1, kPWM_Control_Module_3, true);

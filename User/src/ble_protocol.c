@@ -6,9 +6,7 @@ extern float ShakeADC[];
 extern float SpeedADC[];
 extern char  SpeedStrADC[];
 extern char  ShakeStrADC[];
-time_t seconds;
-struct tm data_time;
-struct tm *p_time;
+
 
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
@@ -26,7 +24,7 @@ static char* ParseSetTime(cJSON *pJson, cJSON * pSub)
     
     pSub = cJSON_GetObjectItem(pJson, "Mon");
     if (NULL != pSub)
-        rtcDate.month = pSub->valueint+1;
+        rtcDate.month = pSub->valueint;
     
     pSub = cJSON_GetObjectItem(pJson, "D");
     if (NULL != pSub)
@@ -42,11 +40,12 @@ static char* ParseSetTime(cJSON *pJson, cJSON * pSub)
     
      pSub = cJSON_GetObjectItem(pJson, "H");
     if (NULL != pSub){
-        if(is24Hour || (!is24Hour && !isAm)){
-            rtcDate.hour = pSub->valueint;
-        }else{
-            rtcDate.hour = pSub->valueint + 12;
-        }
+        rtcDate.hour = pSub->valueint;
+//        if(is24Hour || (!is24Hour && !isAm)){
+//            rtcDate.hour = pSub->valueint;
+//        }else{
+//            rtcDate.hour = pSub->valueint + 12;
+//        }
     }
     
     pSub = cJSON_GetObjectItem(pJson, "Min");
@@ -83,27 +82,20 @@ static char * ParseGetTime(void)
 {
 	/* 获取日期 */
     SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
-//    data_time.tm_year = rtcDate.year-1900;
-//    data_time.tm_mon = rtcDate.month-1;
-//    data_time.tm_mday = rtcDate.day;
-//    data_time.tm_hour = rtcDate.hour;
-//    data_time.tm_min = rtcDate.minute;
-//    data_time.tm_sec = rtcDate.second;
-//	seconds = mktime(&data_time);
+
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot){
         return NULL;
     }
     cJSON_AddNumberToObject(pJsonRoot, "Id", 2);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
-//    cJSON_AddNumberToObject(pJsonRoot, "LongDateTime", seconds);
     cJSON_AddNumberToObject(pJsonRoot, "Y", rtcDate.year);
     cJSON_AddNumberToObject(pJsonRoot, "Mon", rtcDate.month);
     cJSON_AddNumberToObject(pJsonRoot, "D", rtcDate.day);
     cJSON_AddNumberToObject(pJsonRoot, "H", rtcDate.hour);
     cJSON_AddNumberToObject(pJsonRoot, "Min", rtcDate.minute);
     cJSON_AddNumberToObject(pJsonRoot, "S", rtcDate.second);
-    cJSON_AddBoolToObject(pJsonRoot,"is24Hour",0);
+    cJSON_AddBoolToObject(pJsonRoot,"is24Hour",1);
 
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
@@ -301,11 +293,12 @@ static char * ParseStartSample(void)
     cJSON_AddNumberToObject(pJsonRoot, "Sid", 0);
     cJSON_AddStringToObject(pJsonRoot, "fileName", g_sys_para.fileName);
     cJSON_AddBoolToObject(pJsonRoot, "saveOk", g_sys_para.saveOk);
-    cJSON_AddNumberToObject(pJsonRoot, "size", g_sys_para.sampPacks);
+    cJSON_AddNumberToObject(pJsonRoot, "size", g_sys_para.sampJsonSize);
+    cJSON_AddNumberToObject(pJsonRoot,"pack",  g_sys_para.sampJsonPacks);
     cJSON_AddNumberToObject(pJsonRoot, "shkNum", g_sys_para.ADC_ShakeCnt);
-    cJSON_AddNumberToObject(pJsonRoot, "shkV", g_sys_para.voltageADS1271);
+//    cJSON_AddNumberToObject(pJsonRoot, "shkV", g_sys_para.voltageADS1271);
     cJSON_AddNumberToObject(pJsonRoot, "spdNum", g_sys_para.ADC_SpdCnt);
-    cJSON_AddNumberToObject(pJsonRoot, "spdV", g_sys_para.voltageSpd);
+//    cJSON_AddNumberToObject(pJsonRoot, "spdV", g_sys_para.voltageSpd);
     char *p_reply = cJSON_Print(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     return p_reply;

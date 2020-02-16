@@ -182,7 +182,7 @@ instance:
       - 2:
         - channelNumber: '2'
         - enableChain: 'false'
-        - timerPeriod: '60s'
+        - timerPeriod: '1s'
         - startTimer: 'true'
         - enableInterrupt: 'true'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
@@ -198,7 +198,7 @@ void PIT1_init(void) {
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_0_TICKS);
   /* Set channel 1 period to 1 s (66000000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_1_TICKS);
-  /* Set channel 2 period to 1 m (3960000000 ticks). */
+  /* Set channel 2 period to 1 s (66000000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_2, PIT1_2_TICKS);
   /* Enable interrupts from channel 1. */
   PIT_EnableInterrupts(PIT1_PERIPHERAL, kPIT_Chnl_1, kPIT_TimerInterruptEnable);
@@ -481,7 +481,7 @@ void LPUART4_init(void) {
 instance:
 - name: 'LPUART3'
 - type: 'lpuart'
-- mode: 'interrupts'
+- mode: 'edma'
 - type_id: 'lpuart_bebe3e12b6ec22bbd14199038f2bf459'
 - functional_group: 'BOARD_InitPeripherals'
 - peripheral: 'LPUART3'
@@ -505,15 +505,24 @@ instance:
       - rxIdleConfig: 'kLPUART_IdleCharacter1'
       - enableTx: 'true'
       - enableRx: 'true'
-  - interruptsCfg:
-    - interrupts: 'kLPUART_RxDataRegFullInterruptEnable kLPUART_RxOverrunInterruptEnable'
-    - interrupt_vectors:
-      - enable_rx_tx_irq: 'true'
-      - interrupt_rx_tx:
-        - IRQn: 'LPUART3_IRQn'
-        - enable_priority: 'false'
-        - priority: '0'
+  - edmaCfg:
+    - edma_channels:
+      - enable_rx_edma_channel: 'true'
+      - edma_rx_channel:
+        - eDMAn: '0'
+        - eDMA_source: 'kDmaRequestMuxLPUART3Rx'
         - enable_custom_name: 'false'
+      - enable_tx_edma_channel: 'false'
+      - edma_tx_channel:
+        - eDMAn: '1'
+        - eDMA_source: 'kDmaRequestMuxLPUART3Tx'
+        - enable_custom_name: 'false'
+    - lpuart_edma_handle:
+      - enable_custom_name: 'true'
+      - handle_custom_name: 'LPUART3_eDMA_Handle'
+      - init_callback: 'false'
+      - callback_fcn: ''
+      - user_data: ''
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const lpuart_config_t LPUART3_config = {
@@ -533,12 +542,19 @@ const lpuart_config_t LPUART3_config = {
   .enableTx = true,
   .enableRx = true
 };
+edma_handle_t LPUART3_RX_Handle;
+lpuart_edma_handle_t LPUART3_eDMA_Handle;
 
 void LPUART3_init(void) {
   LPUART_Init(LPUART3_PERIPHERAL, &LPUART3_config, LPUART3_CLOCK_SOURCE);
-  LPUART_EnableInterrupts(LPUART3_PERIPHERAL, kLPUART_RxDataRegFullInterruptEnable | kLPUART_RxOverrunInterruptEnable);
-  /* Enable interrupt LPUART3_IRQn request in the NVIC */
-  EnableIRQ(LPUART3_SERIAL_RX_TX_IRQN);
+  /* Set the source kDmaRequestMuxLPUART3Rx request in the DMAMUX */
+  DMAMUX_SetSource(LPUART3_RX_DMAMUX_BASEADDR, LPUART3_RX_DMA_CHANNEL, LPUART3_RX_DMA_REQUEST);
+  /* Enable the 0 channel in the DMAMUX */
+  DMAMUX_EnableChannel(LPUART3_RX_DMAMUX_BASEADDR, LPUART3_RX_DMA_CHANNEL);
+  /* Create the eDMA LPUART3_RX_Handle handle */
+  EDMA_CreateHandle(&LPUART3_RX_Handle, LPUART3_RX_DMA_BASEADDR, LPUART3_RX_DMA_CHANNEL);
+  /* Create the LPUART eDMA handle */
+  LPUART_TransferCreateHandleEDMA(LPUART3_PERIPHERAL, &LPUART3_eDMA_Handle, NULL, NULL, NULL, &LPUART3_RX_Handle);
 }
 
 /***********************************************************************************************************************
@@ -932,7 +948,7 @@ instance:
         - debugMode: 'kQTMR_RunNormalInDebug'
         - timerModeInit: 'timer'
         - timerMode:
-          - freq_value_str: '16500'
+          - freq_value_str: '3300'
         - dmaIntMode: 'interrupt'
         - interrupts: 'kQTMR_CompareInterruptEnable'
     - interruptVector:
@@ -958,7 +974,7 @@ void QuadTimer2_init(void) {
   /* Quad timer channel Channel_0 peripheral initialization */
   QTMR_Init(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, &QuadTimer2_Channel_0_config);
   /* Setup the timer period of the channel */
-  QTMR_SetTimerPeriod(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, 16500U);
+  QTMR_SetTimerPeriod(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, 3300U);
   /* Enable interrupt requests of the timer channel */
   QTMR_EnableInterrupts(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_CompareInterruptEnable);
   /* Enable interrupt TMR2_IRQn request in the NVIC */

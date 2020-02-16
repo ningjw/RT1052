@@ -17,6 +17,7 @@
 #include "fsl_pit.h"
 #include "fsl_lpi2c.h"
 #include "fsl_qtmr.h"
+#include "fsl_lpuart_edma.h"
 #include "fsl_lpspi.h"
 #include "fsl_gpio.h"
 #include "fsl_adc.h"
@@ -52,7 +53,7 @@ extern "C" {
 /* Definition of ticks count for channel 1. */
 #define PIT1_1_TICKS 65999999U
 /* Definition of ticks count for channel 2. */
-#define PIT1_2_TICKS 3959999999U
+#define PIT1_2_TICKS 65999999U
 /* PIT1 interrupt vector ID (number). */
 #define PIT1_IRQN PIT_IRQn
 /* PIT1 interrupt vector priority. */
@@ -90,10 +91,14 @@ extern "C" {
 #define LPUART3_PERIPHERAL LPUART3
 /* Definition of the clock source frequency */
 #define LPUART3_CLOCK_SOURCE 80000000UL
-/* LPUART3 interrupt vector ID (number). */
-#define LPUART3_SERIAL_RX_TX_IRQN LPUART3_IRQn
-/* LPUART3 interrupt handler identifier. */
-#define LPUART3_SERIAL_RX_TX_IRQHANDLER LPUART3_IRQHandler
+/* LPUART3 eDMA source request. */
+#define LPUART3_RX_DMA_REQUEST kDmaRequestMuxLPUART3Rx
+/* Selected eDMA channel number. */
+#define LPUART3_RX_DMA_CHANNEL 0
+/* DMAMUX device that is used for muxing of the request. */
+#define LPUART3_RX_DMAMUX_BASEADDR DMAMUX
+/* Used DMA device. */
+#define LPUART3_RX_DMA_BASEADDR DMA0
 /* Definition of peripheral ID */
 #define LPUART5_PERIPHERAL LPUART5
 /* Definition of the clock source frequency */
@@ -168,6 +173,8 @@ extern const qtmr_config_t QuadTimer3_Channel_0_config;
 extern const lpuart_config_t LPUART2_config;
 extern const lpuart_config_t LPUART4_config;
 extern const lpuart_config_t LPUART3_config;
+extern edma_handle_t LPUART3_RX_Handle;
+extern lpuart_edma_handle_t LPUART3_eDMA_Handle;
 extern const lpuart_config_t LPUART5_config;
 extern const lpspi_master_config_t LPSPI4_config;
 extern const qtmr_config_t QuadTimer1_Channel_0_config;

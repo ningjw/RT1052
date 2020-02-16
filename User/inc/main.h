@@ -78,7 +78,7 @@ typedef struct{
     uint32_t sampFreq;        //取样频率
     uint32_t sampTimeSet;     //取样时间
     
-    uint8_t  inactiveCount;//用于设置活动时间
+    uint32_t  inactiveCount;//用于设置活动时间
     uint8_t  batLedStatus; //电池状态
     uint8_t  bleLedStatus; //蓝牙状态
     uint8_t  sampLedStatus;//采样状态
@@ -104,6 +104,7 @@ typedef struct{
     char*    sampJson;     //已经打包成json格式的数据的首地址
     bool     saveOk;       //是否成功将采样数据保存到文件
     char     fileName[20];
+    char     earliestFile[20];
 }SysPara;
 
 
