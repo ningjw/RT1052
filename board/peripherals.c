@@ -10,7 +10,7 @@ product: Peripherals v6.0
 processor: MIMXRT1052xxxxB
 package_id: MIMXRT1052CVL5B
 mcu_data: ksdk2_0
-processor_version: 6.0.1
+processor_version: 6.0.0
 functionalGroups:
 - name: BOARD_InitPeripherals
   called_from_default_init: true
@@ -633,7 +633,7 @@ void LPUART5_init(void) {
 instance:
 - name: 'LPSPI4'
 - type: 'lpspi'
-- mode: 'polling'
+- mode: 'edma'
 - type_id: 'lpspi_6e21a1e0a09f0a012d683c4f91752db8'
 - functional_group: 'BOARD_InitPeripherals'
 - peripheral: 'LPSPI4'
@@ -655,6 +655,22 @@ instance:
       - pcsActiveHighOrLow: 'kLPSPI_PcsActiveLow'
       - pinCfg: 'kLPSPI_SdiInSdoOut'
       - dataOutConfig: 'kLpspiDataOutRetained'
+  - edma:
+    - channels:
+      - enableReceive: 'true'
+      - receive:
+        - eDMAn: '0'
+        - eDMA_source: 'kDmaRequestMuxLPSPI4Rx'
+        - enable_custom_name: 'false'
+      - enableTransmit: 'true'
+      - transmit:
+        - eDMAn: '1'
+        - eDMA_source: 'kDmaRequestMuxLPSPI4Tx'
+        - enable_custom_name: 'false'
+    - transfer:
+      - callback:
+        - name: ''
+        - userData: ''
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const lpspi_master_config_t LPSPI4_config = {
@@ -671,9 +687,25 @@ const lpspi_master_config_t LPSPI4_config = {
   .pinCfg = kLPSPI_SdiInSdoOut,
   .dataOutConfig = kLpspiDataOutRetained
 };
+edma_handle_t LPSPI4_RX_Handle;
+edma_handle_t LPSPI4_TX_Handle;
+lpspi_master_edma_handle_t LPSPI4_handle;
 
 void LPSPI4_init(void) {
   LPSPI_MasterInit(LPSPI4_PERIPHERAL, &LPSPI4_config, LPSPI4_CLOCK_FREQ);
+  /* Set the source kDmaRequestMuxLPSPI4Rx request in the DMAMUX */
+  DMAMUX_SetSource(LPSPI4_RX_DMAMUX_BASEADDR, LPSPI4_RX_DMA_CHANNEL, LPSPI4_RX_DMA_REQUEST);
+  /* Enable the 0 channel in the DMAMUX */
+  DMAMUX_EnableChannel(LPSPI4_RX_DMAMUX_BASEADDR, LPSPI4_RX_DMA_CHANNEL);
+  /* Set the source kDmaRequestMuxLPSPI4Tx request in the DMAMUX */
+  DMAMUX_SetSource(LPSPI4_TX_DMAMUX_BASEADDR, LPSPI4_TX_DMA_CHANNEL, LPSPI4_TX_DMA_REQUEST);
+  /* Enable the 1 channel in the DMAMUX */
+  DMAMUX_EnableChannel(LPSPI4_TX_DMAMUX_BASEADDR, LPSPI4_TX_DMA_CHANNEL);
+  /* Create the eDMA LPSPI4_RX_Handle handle */
+  EDMA_CreateHandle(&LPSPI4_RX_Handle, LPSPI4_RX_DMA_BASEADDR, LPSPI4_RX_DMA_CHANNEL);
+  /* Create the eDMA LPSPI4_TX_Handle handle */
+  EDMA_CreateHandle(&LPSPI4_TX_Handle, LPSPI4_TX_DMA_BASEADDR, LPSPI4_TX_DMA_CHANNEL);
+  LPSPI_MasterTransferCreateHandleEDMA(LPSPI4_PERIPHERAL, &LPSPI4_handle, NULL, NULL, &LPSPI4_RX_Handle, &LPSPI4_TX_Handle);
 }
 
 /***********************************************************************************************************************

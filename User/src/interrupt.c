@@ -33,7 +33,6 @@ void LPUART1_IRQHandler(void)
 ***************************************************************************************/
 void LPUART3_IRQHandler(void)
 {
-    uint8_t ucTemp;
     /*	接收到数据满了触发中断	*/
     if ((kLPUART_IdleLineFlag) & LPUART_GetStatusFlags(LPUART3))
     {

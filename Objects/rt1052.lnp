@@ -50,6 +50,7 @@
 ".\objects\fsl_gpt.o"
 ".\objects\fsl_lpi2c.o"
 ".\objects\fsl_lpspi.o"
+".\objects\fsl_lpspi_edma.o"
 ".\objects\fsl_lpuart.o"
 ".\objects\fsl_lpuart_edma.o"
 ".\objects\fsl_pit.o"

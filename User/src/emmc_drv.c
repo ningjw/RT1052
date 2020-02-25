@@ -203,8 +203,6 @@ uint32_t eMMC_SaveSampleData(char *buff, uint32_t len)
     uint8_t  w_times = len / ONE_LEN + ((len%ONE_LEN) ? 1 : 0);
     uint32_t w_len = ONE_LEN;
     
-    g_sys_para.saveOk = false;
-    
     //腾出足够的空间保存本次采样.
     eMMC_GetFree();
     while(g_sys_para.emmc_fre_size < len + 20) {
@@ -270,7 +268,6 @@ uint32_t eMMC_SaveSampleData(char *buff, uint32_t len)
             memset(g_sys_para.fileName, 0, sizeof(g_sys_para.fileName));
             strcpy(g_sys_para.fileName, fileName);
             g_sys_para.emmcIsOk = true;
-            g_sys_para.saveOk = true;
             PRINTF("成功将ADC数据写入:%s 文件\r\n",fileName);
         }
     }

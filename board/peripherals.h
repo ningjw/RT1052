@@ -19,6 +19,7 @@
 #include "fsl_qtmr.h"
 #include "fsl_lpuart_edma.h"
 #include "fsl_lpspi.h"
+#include "fsl_lpspi_edma.h"
 #include "fsl_gpio.h"
 #include "fsl_adc.h"
 #include "fsl_adc_etc.h"
@@ -112,6 +113,22 @@ extern "C" {
 #define LPSPI4_PERIPHERAL LPSPI4
 /* Definition of clock source */
 #define LPSPI4_CLOCK_FREQ 24000000UL
+/* LPSPI4 eDMA source request. */
+#define LPSPI4_RX_DMA_REQUEST kDmaRequestMuxLPSPI4Rx
+/* Selected eDMA channel number. */
+#define LPSPI4_RX_DMA_CHANNEL 0
+/* DMAMUX device that is used for muxing of the request. */
+#define LPSPI4_RX_DMAMUX_BASEADDR DMAMUX
+/* Used DMA device. */
+#define LPSPI4_RX_DMA_BASEADDR DMA0
+/* LPSPI4 eDMA source request. */
+#define LPSPI4_TX_DMA_REQUEST kDmaRequestMuxLPSPI4Tx
+/* Selected eDMA channel number. */
+#define LPSPI4_TX_DMA_CHANNEL 1
+/* DMAMUX device that is used for muxing of the request. */
+#define LPSPI4_TX_DMAMUX_BASEADDR DMAMUX
+/* Used DMA device. */
+#define LPSPI4_TX_DMA_BASEADDR DMA0
 /* GPIO2 interrupt vector ID (number). */
 #define GPIO2_GPIO_COMB_0_15_IRQN GPIO2_Combined_0_15_IRQn
 /* GPIO2 interrupt handler identifier. */
@@ -177,6 +194,9 @@ extern edma_handle_t LPUART3_RX_Handle;
 extern lpuart_edma_handle_t LPUART3_eDMA_Handle;
 extern const lpuart_config_t LPUART5_config;
 extern const lpspi_master_config_t LPSPI4_config;
+extern edma_handle_t LPSPI4_RX_Handle;
+extern edma_handle_t LPSPI4_TX_Handle;
+extern lpspi_master_edma_handle_t LPSPI4_handle;
 extern const qtmr_config_t QuadTimer1_Channel_0_config;
 extern const adc_config_t ADC1_config;
 extern const adc_channel_config_t ADC1_channels_config[1];

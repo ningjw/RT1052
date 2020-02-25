@@ -1670,22 +1670,31 @@ ARM Macro Assembler    Page 26
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M7.fp.dp --apcs=
 interwork --depend=.\objects\startup_mimxrt1052.d -o.\objects\startup_mimxrt105
-2.o -I.\RTE\Device\MIMXRT1052CVL5B -I.\RTE\RTOS -I.\RTE\_nor_sdram -IC:\Keil_v5
-\ARM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include -IC:\Keil_v5\A
-RM\PACK\ARM\CMSIS-FreeRTOS\10.2.0\Source\include -IC:\Keil_v5\ARM\PACK\ARM\CMSI
-S-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1 -IC:\Keil_v5\ARM\PACK\ARM\C
-MSIS\5.6.0\CMSIS\Core\Include -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.6.0\CMSIS\RTOS2
-\Include -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0 -IC:\Keil_v5\ARM\PACK\
-NXP\MIMXRT1052_DFP\12.0.0\components\lists -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052
-_DFP\12.0.0\components\serial_manager -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\
-12.0.0\components\uart -IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\drivers 
--IC:\Keil_v5\ARM\PACK\NXP\MIMXRT1052_DFP\12.0.0\utilities -IC:\Keil_v5\ARM\PACK
-\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console -IC:\Keil_v5\ARM\PACK\NXP\MI
-MXRT1052_DFP\12.0.0\utilities\str --predefine="__MICROLIB SETA 1" --predefine="
-__UVISION_VERSION SETA 524" --predefine="_RTE_ SETA 1" --predefine="CPU_MIMXRT1
-052CVL5B SETA 1" --predefine="__STARTUP_INITIALIZE_NONCACHEDATA SETA 1" --list=
-.\listings\startup_mimxrt1052.lst RTE\Device\MIMXRT1052CVL5B\startup_MIMXRT1052
-.s
+2.o -I.\RTE\Device\MIMXRT1052CVL5B -I.\RTE\RTOS -I.\RTE\_nor_sdram -IC:\Users\n
+ingjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\In
+clude -IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Sourc
+e\include -IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\S
+ource\portable\RVDS\ARM_CM7\r0p1 -IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\
+CMSIS\5.6.0\CMSIS\Core\Include -IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CM
+SIS\5.6.0\CMSIS\RTOS2\Include -IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIM
+XRT1052_DFP\12.0.0 -IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP
+\12.0.0\components\lists -IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT10
+52_DFP\12.0.0\components\serial_manager -IC:\Users\ningjw\AppData\Local\Arm\Pac
+ks\NXP\MIMXRT1052_DFP\12.0.0\components\uart -IC:\Users\ningjw\AppData\Local\Ar
+m\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers -IC:\Users\ningjw\AppData\Local\Arm\P
+acks\NXP\MIMXRT1052_DFP\12.0.0\utilities -IC:\Users\ningjw\AppData\Local\Arm\Pa
+cks\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console -IC:\Users\ningjw\AppData
+\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\str --predefine="__MICROLI
+B SETA 1" --predefine="__UVISION_VERSION SETA 529" --predefine="_RTE_ SETA 1" -
+-predefine="CPU_MIMXRT1052CVL5B SETA 1" --predefine="__STARTUP_INITIALIZE_NONCA
+CHEDATA SETA 1" --list=.\listings\startup_mimxrt1052.lst RTE\Device\MIMXRT1052C
+
+
+
+ARM Macro Assembler    Page 27 
+
+
+VL5B\startup_MIMXRT1052.s
 
 
 

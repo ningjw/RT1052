@@ -10,7 +10,7 @@ product: Pins v6.0
 processor: MIMXRT1052xxxxB
 package_id: MIMXRT1052CVL5B
 mcu_data: ksdk2_0
-processor_version: 6.0.1
+processor_version: 6.0.0
 pin_labels:
 - {pin_num: M13, pin_signal: GPIO_AD_B1_09, label: BAT_STDBY, identifier: CHARGE_COMPELETE;BAT_STDBY}
 - {pin_num: F14, pin_signal: GPIO_AD_B0_09, label: LED, identifier: CORE_BOARD_LED;LED}

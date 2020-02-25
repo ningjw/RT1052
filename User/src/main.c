@@ -5,7 +5,7 @@ static void AppTaskCreate(void);                      /* 用于创建任务 */
 void BOARD_ConfigMPU(void);
 void BOARD_InitDebugConsole(void);
 
-SysPara g_sys_para;
+SysPara  g_sys_para;
 ADC_Set  g_adc_set;
 
 /***************************************************************************************
@@ -19,10 +19,9 @@ static void InitSysPara()
     g_sys_para.inactiveTime = 15;    //默认15分钟没有活动后，自动关机。
     g_sys_para.batAlarmValue = 10;   //电池电量报警值
     g_sys_para.inactiveCondition = 1;//蓝牙连接没有通信后,15分钟关机.
-    g_sys_para.sampBandwidth = 10000;//取样带宽,默认10k
-    g_sys_para.sampFreq = 1000;      //取样频率,默认1k
+
+    g_adc_set.SampleRate = 1000;      //取样频率,默认1k
     g_sys_para.sampTimeSet = 1000;   //取样时间,默认1s
-    g_sys_para.sampMode = 0;         //高精度模式
     g_sys_para.inactiveCount = 0;    //
     g_sys_para.sampLedStatus = WORK_FINE;
     g_sys_para.batLedStatus = BAT_NORMAL;
