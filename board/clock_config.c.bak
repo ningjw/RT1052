@@ -19,7 +19,7 @@ product: Clocks v6.0
 processor: MIMXRT1052xxxxB
 package_id: MIMXRT1052CVL5B
 mcu_data: ksdk2_0
-processor_version: 6.0.1
+processor_version: 6.0.0
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 
 #include "clock_config.h"

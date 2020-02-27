@@ -77,7 +77,7 @@ BOARD:
     open_drain: Enable, slew_rate: Slow}
   - {pin_num: J11, peripheral: LPI2C1, signal: SCL, pin_signal: GPIO_AD_B1_00, software_input_on: Enable, pull_up_down_config: Pull_Down_100K_Ohm, pull_keeper_select: Pull,
     open_drain: Enable, slew_rate: Slow}
-  - {pin_num: A8, peripheral: TMR3, signal: 'TIMER, 0', pin_signal: GPIO_B0_06, drive_strength: R0_2, slew_rate: Fast}
+  - {pin_num: A8, peripheral: TMR3, signal: 'TIMER, 0', pin_signal: GPIO_B0_06, drive_strength: R0_6, slew_rate: Slow}
   - {pin_num: E7, peripheral: LPSPI4, signal: SDI, pin_signal: GPIO_B0_01, direction: INPUT, speed: MHZ_100, drive_strength: R0_6, slew_rate: Fast}
   - {pin_num: D8, peripheral: LPSPI4, signal: SCK, pin_signal: GPIO_B0_03, direction: OUTPUT, speed: MHZ_100, slew_rate: Fast}
   - {pin_num: D11, peripheral: GPIO2, signal: 'gpio_io, 19', pin_signal: GPIO_B1_03}
@@ -625,8 +625,8 @@ void BOARD(void) {
                                                  Hyst. Enable Field: Hysteresis Disabled */
   IOMUXC_SetPinConfig(
       IOMUXC_GPIO_B0_06_QTIMER3_TIMER0,       /* GPIO_B0_06 PAD functional properties : */
-      0x1091U);                               /* Slew Rate Field: Fast Slew Rate
-                                                 Drive Strength Field: R0/2
+      0x10B0U);                               /* Slew Rate Field: Slow Slew Rate
+                                                 Drive Strength Field: R0/6
                                                  Speed Field: medium(100MHz)
                                                  Open Drain Enable Field: Open Drain Disabled
                                                  Pull / Keep Enable Field: Pull/Keeper Enabled

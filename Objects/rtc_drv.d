@@ -30,7 +30,6 @@
 .\objects\rtc_drv.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h
 .\objects\rtc_drv.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart_edma.h
 .\objects\rtc_drv.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h
-.\objects\rtc_drv.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi_edma.h
 .\objects\rtc_drv.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
 .\objects\rtc_drv.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc.h
 .\objects\rtc_drv.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc_etc.h

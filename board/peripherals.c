@@ -295,7 +295,7 @@ instance:
       - 0:
         - channel_prefix_id: 'Channel_0'
         - channel: 'kQTMR_Channel_0'
-        - primarySource: 'kQTMR_ClockDivide_8'
+        - primarySource: 'kQTMR_ClockDivide_1'
         - secondarySource: 'kQTMR_Counter0InputPin'
         - countingMode: 'kQTMR_NoOperation'
         - enableMasterMode: 'false'
@@ -319,7 +319,7 @@ instance:
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const qtmr_config_t QuadTimer3_Channel_0_config = {
-  .primarySource = kQTMR_ClockDivide_8,
+  .primarySource = kQTMR_ClockDivide_1,
   .secondarySource = kQTMR_Counter0InputPin,
   .enableMasterMode = false,
   .enableExternalForce = false,
@@ -332,7 +332,7 @@ void QuadTimer3_init(void) {
   /* Quad timer channel Channel_0 peripheral initialization */
   QTMR_Init(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, &QuadTimer3_Channel_0_config);
   /* Setup the PWM mode of the timer channel */
-  QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, 16500UL, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
+  QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, 132000UL, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
   /* Start the timer - select the timer counting mode */
   QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_NoOperation);
 }
@@ -633,7 +633,7 @@ void LPUART5_init(void) {
 instance:
 - name: 'LPSPI4'
 - type: 'lpspi'
-- mode: 'edma'
+- mode: 'polling'
 - type_id: 'lpspi_6e21a1e0a09f0a012d683c4f91752db8'
 - functional_group: 'BOARD_InitPeripherals'
 - peripheral: 'LPSPI4'
@@ -643,7 +643,7 @@ instance:
     - clockSource: 'LpspiClock'
     - clockSourceFreq: 'BOARD_BootClockRUN'
     - master:
-      - baudRate: '25000000'
+      - baudRate: '24000000'
       - bitsPerFrame: '24'
       - cpol: 'kLPSPI_ClockPolarityActiveHigh'
       - cpha: 'kLPSPI_ClockPhaseSecondEdge'
@@ -655,26 +655,10 @@ instance:
       - pcsActiveHighOrLow: 'kLPSPI_PcsActiveLow'
       - pinCfg: 'kLPSPI_SdiInSdoOut'
       - dataOutConfig: 'kLpspiDataOutRetained'
-  - edma:
-    - channels:
-      - enableReceive: 'true'
-      - receive:
-        - eDMAn: '0'
-        - eDMA_source: 'kDmaRequestMuxLPSPI4Rx'
-        - enable_custom_name: 'false'
-      - enableTransmit: 'true'
-      - transmit:
-        - eDMAn: '1'
-        - eDMA_source: 'kDmaRequestMuxLPSPI4Tx'
-        - enable_custom_name: 'false'
-    - transfer:
-      - callback:
-        - name: ''
-        - userData: ''
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const lpspi_master_config_t LPSPI4_config = {
-  .baudRate = 25000000,
+  .baudRate = 24000000,
   .bitsPerFrame = 24,
   .cpol = kLPSPI_ClockPolarityActiveHigh,
   .cpha = kLPSPI_ClockPhaseSecondEdge,
@@ -687,25 +671,9 @@ const lpspi_master_config_t LPSPI4_config = {
   .pinCfg = kLPSPI_SdiInSdoOut,
   .dataOutConfig = kLpspiDataOutRetained
 };
-edma_handle_t LPSPI4_RX_Handle;
-edma_handle_t LPSPI4_TX_Handle;
-lpspi_master_edma_handle_t LPSPI4_handle;
 
 void LPSPI4_init(void) {
   LPSPI_MasterInit(LPSPI4_PERIPHERAL, &LPSPI4_config, LPSPI4_CLOCK_FREQ);
-  /* Set the source kDmaRequestMuxLPSPI4Rx request in the DMAMUX */
-  DMAMUX_SetSource(LPSPI4_RX_DMAMUX_BASEADDR, LPSPI4_RX_DMA_CHANNEL, LPSPI4_RX_DMA_REQUEST);
-  /* Enable the 0 channel in the DMAMUX */
-  DMAMUX_EnableChannel(LPSPI4_RX_DMAMUX_BASEADDR, LPSPI4_RX_DMA_CHANNEL);
-  /* Set the source kDmaRequestMuxLPSPI4Tx request in the DMAMUX */
-  DMAMUX_SetSource(LPSPI4_TX_DMAMUX_BASEADDR, LPSPI4_TX_DMA_CHANNEL, LPSPI4_TX_DMA_REQUEST);
-  /* Enable the 1 channel in the DMAMUX */
-  DMAMUX_EnableChannel(LPSPI4_TX_DMAMUX_BASEADDR, LPSPI4_TX_DMA_CHANNEL);
-  /* Create the eDMA LPSPI4_RX_Handle handle */
-  EDMA_CreateHandle(&LPSPI4_RX_Handle, LPSPI4_RX_DMA_BASEADDR, LPSPI4_RX_DMA_CHANNEL);
-  /* Create the eDMA LPSPI4_TX_Handle handle */
-  EDMA_CreateHandle(&LPSPI4_TX_Handle, LPSPI4_TX_DMA_BASEADDR, LPSPI4_TX_DMA_CHANNEL);
-  LPSPI_MasterTransferCreateHandleEDMA(LPSPI4_PERIPHERAL, &LPSPI4_handle, NULL, NULL, &LPSPI4_RX_Handle, &LPSPI4_TX_Handle);
 }
 
 /***********************************************************************************************************************

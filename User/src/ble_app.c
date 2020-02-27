@@ -185,7 +185,7 @@ void LPUART2_IRQHandler(void)
        {
             g_puart2StartRx = 0;
             g_puart2RxCnt = 0;
-        }
+       }
     }
     /* 发生了未知中断, 重启串口2*/
     else

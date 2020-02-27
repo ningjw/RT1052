@@ -22,7 +22,7 @@ static char* SetTime(cJSON *pJson, cJSON * pSub)
     
     pSub = cJSON_GetObjectItem(pJson, "Mon");
     if (NULL != pSub)
-        rtcDate.month = pSub->valueint;
+        rtcDate.month = pSub->valueint+1;
     
     pSub = cJSON_GetObjectItem(pJson, "D");
     if (NULL != pSub)
@@ -93,7 +93,12 @@ static char * GetTime(void)
     cJSON_AddNumberToObject(pJsonRoot, "H", rtcDate.hour);
     cJSON_AddNumberToObject(pJsonRoot, "Min", rtcDate.minute);
     cJSON_AddNumberToObject(pJsonRoot, "S", rtcDate.second);
-    cJSON_AddBoolToObject(pJsonRoot,"is24Hour",1);
+    cJSON_AddBoolToObject(pJsonRoot,"is24Hour",true);
+	if (rtcDate.hour < 12){
+		cJSON_AddBoolToObject(pJsonRoot,"isAm",true);
+	}else{
+		cJSON_AddBoolToObject(pJsonRoot,"isAm",false);
+	}
 
     char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
@@ -349,16 +354,22 @@ static char * SetSamplePara(cJSON *pJson, cJSON * pSub)
   * @input   
   * @return  
 ***************************************************************************************/
-static char * ParseStartSample(void)
+static char * StartSample(cJSON *pJson, cJSON * pSub)
 {
-    cJSON *pJson = cJSON_CreateObject();
-    if(NULL == pJson){
+	pSub = cJSON_GetObjectItem(pJson, "SampleRate");
+    if (NULL != pSub){
+        g_adc_set.SampleRate = pSub->valueint;
+	}
+	
+	
+    cJSON *pJsonReply = cJSON_CreateObject();
+    if(NULL == pJsonReply){
         return NULL;
     }
-    cJSON_AddNumberToObject(pJson, "Id",  8);
-    cJSON_AddNumberToObject(pJson, "Sid", 0);
-    char *sendBuf = cJSON_PrintUnformatted(pJson);
-    cJSON_Delete(pJson);
+    cJSON_AddNumberToObject(pJsonReply, "Id",  8);
+    cJSON_AddNumberToObject(pJsonReply, "Sid", 0);
+    char *sendBuf = cJSON_PrintUnformatted(pJsonReply);
+    cJSON_Delete(pJsonReply);
     LPUART2_SendString((char *)sendBuf);
     free(sendBuf);
     sendBuf = NULL;
@@ -394,7 +405,7 @@ static char * ParseStartSample(void)
   * @input   
   * @return  
 ***************************************************************************************/
-char * ParseSampleData(void)
+char * PacketSampleData(void)
 {
     free(g_sys_para.sampJson);
     g_sys_para.sampJson = NULL;
@@ -467,7 +478,7 @@ char * ParseSampleData(void)
   * @input   
   * @return  
 ***************************************************************************************/
-char * ParseGetSampleData(cJSON *pJson, cJSON * pSub)
+char * GetSampleData(cJSON *pJson, cJSON * pSub)
 {
     uint32_t sid = 0;
 	uint32_t index = 0;
@@ -563,7 +574,7 @@ char * ParseGetSampleData(cJSON *pJson, cJSON * pSub)
   * @input   
   * @return  
 ***************************************************************************************/
-static char * ParseStartUpdate(cJSON *pJson, cJSON * pSub)
+static char * StartUpgrade(cJSON *pJson, cJSON * pSub)
 {
     /* 开始升级固件后, 初始化一些必要的变量*/
     g_sys_para.firmUpdate = false;
@@ -605,7 +616,7 @@ static char * ParseStartUpdate(cJSON *pJson, cJSON * pSub)
   * @input   
   * @return  
 ***************************************************************************************/
-static char * ParseGetObjTemp(void)
+static char * GetObjTemp(void)
 {
     //红外测温模块自检
     g_sys_para.objTemp = MXL_ReadObjTemp();
@@ -668,16 +679,16 @@ uint8_t* ParseJson(char *pMsg)
             p_reply = SetSamplePara(pJson, pSub);//采集参数设置
             break;
         case 8:
-            p_reply = ParseStartSample();//开始采样
+            p_reply = StartSample(pJson, pSub);//开始采样
             break;
         case 9:
-            p_reply = ParseGetSampleData(pJson, pSub);//获取采样结果
+            p_reply = GetSampleData(pJson, pSub);//获取采样结果
             break;
         case 10:
-            p_reply = ParseStartUpdate(pJson, pSub);//升级
+            p_reply = StartUpgrade(pJson, pSub);//升级
             break;
         case 11:
-            p_reply = ParseGetObjTemp();
+            p_reply = GetObjTemp();
             break;
     }
     

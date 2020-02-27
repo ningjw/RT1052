@@ -101,7 +101,6 @@ settings:
 - {id: CCM.FLEXSPI_PODF.scale, value: '3', locked: true}
 - {id: CCM.FLEXSPI_SEL.sel, value: CCM_ANALOG.PLL2_PFD2_CLK}
 - {id: CCM.LPI2C_CLK_PODF.scale, value: '3', locked: true}
-- {id: CCM.LPSPI_CLK_SEL.sel, value: CCM_ANALOG.PLL3_PFD0_CLK}
 - {id: CCM.LPSPI_PODF.scale, value: '1', locked: true}
 - {id: CCM.PERCLK_PODF.scale, value: '2', locked: true}
 - {id: CCM.SAI1_CLK_PODF.scale, value: '3', locked: true}
@@ -260,7 +259,7 @@ void BOARD_BootClockRUN(void)
     /* Set LPSPI_PODF. */
     CLOCK_SetDiv(kCLOCK_LpspiDiv, 0);
     /* Set Lpspi clock source. */
-    CLOCK_SetMux(kCLOCK_LpspiMux, 1);
+    CLOCK_SetMux(kCLOCK_LpspiMux, 2);
     /* Disable TRACE clock gate. */
     CLOCK_DisableClock(kCLOCK_Trace);
     /* Set TRACE_PODF. */

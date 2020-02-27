@@ -115,7 +115,7 @@ void ADC_SampleStart(void)
     vTaskSuspend(LED_TaskHandle);
     /* Setup the PWM mode of the timer channel 用于LTC1063FA的时钟输入,控制采样带宽*/
     QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.sampClk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
-    /* Set channel 0 period (66000000 ticks). 用于触发内容ADC采样*/
+    /* Set channel 0 period (66000000 ticks). 用于触发内部ADC采样*/
     PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ / g_adc_set.SampleRate);
     /* Set channel 1 period (66000000 ticks). 用于控制采样时间*/
     PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_CLK_FREQ/1000 * g_sys_para.sampTimeSet);
@@ -179,6 +179,8 @@ void ADC_AppTask(void)
         g_sys_para.sampLedStatus = WORK_FATAL_ERR;
     }
     
+//	g_sys_para.sampClk = 1000 * g_adc_set.SampleRate / 25;
+//	QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.sampClk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
 //    while(1) {
 //        
 //        while(ADC_READY == 0);
@@ -262,7 +264,7 @@ void ADC_AppTask(void)
 				
                 /* -----------将采用数据打包成json格式,并保存到文件中-----*/
 				
-                ParseSampleData();
+                PacketSampleData();
 
                 /* 发送任务通知，并解锁阻塞在该任务通知下的任务 */
                 xTaskNotifyGive( BLE_TaskHandle);

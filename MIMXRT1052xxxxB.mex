@@ -205,8 +205,8 @@
                   </pin>
                   <pin peripheral="TMR3" signal="TIMER, 0" pin_num="A8" pin_signal="GPIO_B0_06">
                      <pin_features>
-                        <pin_feature name="drive_strength" value="R0_2"/>
-                        <pin_feature name="slew_rate" value="Fast"/>
+                        <pin_feature name="drive_strength" value="R0_6"/>
+                        <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="LPSPI4" signal="SDI" pin_num="E7" pin_signal="GPIO_B0_01">
@@ -616,7 +616,6 @@
                   <setting id="CCM.FLEXSPI_PODF.scale" value="3" locked="true"/>
                   <setting id="CCM.FLEXSPI_SEL.sel" value="CCM_ANALOG.PLL2_PFD2_CLK" locked="false"/>
                   <setting id="CCM.LPI2C_CLK_PODF.scale" value="3" locked="true"/>
-                  <setting id="CCM.LPSPI_CLK_SEL.sel" value="CCM_ANALOG.PLL3_PFD0_CLK" locked="false"/>
                   <setting id="CCM.LPSPI_PODF.scale" value="1" locked="true"/>
                   <setting id="CCM.PERCLK_PODF.scale" value="2" locked="true"/>
                   <setting id="CCM.SAI1_CLK_PODF.scale" value="3" locked="true"/>
@@ -908,16 +907,6 @@
                         <data type="Frequency" unit="Hz">0</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="SWComponent" resourceId="platform.drivers.lpspi_edma" description="The fsl_lpspi_edma driver is missing in the project (required for the DMA mode)." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="enabled" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="SWComponent" resourceId="platform.drivers.lpspi_edma" description="The compatible version of the fsl_lpspi_edma driver is not available in the project (required for the DMA mode)." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="version" evaluation="compatible">
-                        <data type="Version">2.0.2</data>
-                     </feature>
-                  </dependency>
                   <dependency resourceType="ClockOutput" resourceId="IPG_CLK_ROOT" description="IPG_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="frequency" evaluation="greaterThan">
                         <data type="Frequency" unit="Hz">0</data>
@@ -1113,7 +1102,7 @@
                            <struct name="0">
                               <setting name="channel_prefix_id" value="Channel_0"/>
                               <setting name="channel" value="kQTMR_Channel_0"/>
-                              <setting name="primarySource" value="kQTMR_ClockDivide_8"/>
+                              <setting name="primarySource" value="kQTMR_ClockDivide_1"/>
                               <setting name="secondarySource" value="kQTMR_Counter0InputPin"/>
                               <setting name="countingMode" value="kQTMR_NoOperation"/>
                               <setting name="enableMasterMode" value="false"/>
@@ -1307,13 +1296,13 @@
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="LPSPI4" type="lpspi" type_id="lpspi_6e21a1e0a09f0a012d683c4f91752db8" mode="edma" peripheral="LPSPI4" enabled="true">
+                  <instance name="LPSPI4" type="lpspi" type_id="lpspi_6e21a1e0a09f0a012d683c4f91752db8" mode="polling" peripheral="LPSPI4" enabled="true">
                      <config_set name="main">
                         <setting name="mode" value="kLPSPI_Master"/>
                         <setting name="clockSource" value="LpspiClock"/>
                         <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
                         <struct name="master">
-                           <setting name="baudRate" value="25000000"/>
+                           <setting name="baudRate" value="24000000"/>
                            <setting name="bitsPerFrame" value="24"/>
                            <setting name="cpol" value="kLPSPI_ClockPolarityActiveHigh"/>
                            <setting name="cpha" value="kLPSPI_ClockPhaseSecondEdge"/>
@@ -1325,28 +1314,6 @@
                            <setting name="pcsActiveHighOrLow" value="kLPSPI_PcsActiveLow"/>
                            <setting name="pinCfg" value="kLPSPI_SdiInSdoOut"/>
                            <setting name="dataOutConfig" value="kLpspiDataOutRetained"/>
-                        </struct>
-                     </config_set>
-                     <config_set name="edma">
-                        <struct name="channels">
-                           <setting name="enableReceive" value="true"/>
-                           <struct name="receive">
-                              <setting name="eDMAn" value="0"/>
-                              <setting name="eDMA_source" value="kDmaRequestMuxLPSPI4Rx"/>
-                              <setting name="enable_custom_name" value="false"/>
-                           </struct>
-                           <setting name="enableTransmit" value="true"/>
-                           <struct name="transmit">
-                              <setting name="eDMAn" value="1"/>
-                              <setting name="eDMA_source" value="kDmaRequestMuxLPSPI4Tx"/>
-                              <setting name="enable_custom_name" value="false"/>
-                           </struct>
-                        </struct>
-                        <struct name="transfer">
-                           <struct name="callback">
-                              <setting name="name" value=""/>
-                              <setting name="userData" value=""/>
-                           </struct>
                         </struct>
                      </config_set>
                   </instance>

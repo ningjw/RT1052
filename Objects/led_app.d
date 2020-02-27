@@ -30,7 +30,6 @@
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart_edma.h
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h
-.\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi_edma.h
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc.h
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc_etc.h
