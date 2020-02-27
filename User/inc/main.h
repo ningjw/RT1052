@@ -82,6 +82,7 @@ typedef struct{
 	float    batVoltage;   //电池电压
     float    batTemp;      //电池温度
     float    objTemp;      //物体温度
+	float    envTemp;      //环境温度
     float    batRemainPercent;//充电百分比
 	
     uint32_t sampTimeSet;  //取样时间

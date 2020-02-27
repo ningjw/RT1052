@@ -179,8 +179,6 @@ void ADC_AppTask(void)
         g_sys_para.sampLedStatus = WORK_FATAL_ERR;
     }
     
-//	g_sys_para.sampClk = 1000 * g_adc_set.SampleRate / 25;
-//	QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.sampClk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
 //    while(1) {
 //        
 //        while(ADC_READY == 0);

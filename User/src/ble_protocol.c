@@ -620,7 +620,7 @@ static char * GetObjTemp(void)
 {
     //ºìÍâ²âÎÂÄ£¿é×Ô¼ì
     g_sys_para.objTemp = MXL_ReadObjTemp();
-    
+    g_sys_para.envTemp = MXL_ReadEnvTemp();
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot){
         return NULL;
@@ -628,6 +628,7 @@ static char * GetObjTemp(void)
     cJSON_AddNumberToObject(pJsonRoot, "Id", 11);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
     cJSON_AddNumberToObject(pJsonRoot, "Temp", g_sys_para.objTemp);
+//	cJSON_AddNumberToObject(pJsonRoot, "env", g_sys_para.envTemp);
     char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     return p_reply;

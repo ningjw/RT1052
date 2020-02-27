@@ -88,7 +88,7 @@ float MXL_ReadObjTemp(void)
     float    temp = 0;
     uint16_t regValue = 0;
     regValue = MLX_ReadReg(RAM_ACCESS | RAM_TEMP_OBJ);
-    temp = regValue * 0.02f - 273.15f;
+    temp = regValue * 0.02f - 271.15f;
     return  temp;
 }
 
