@@ -948,7 +948,7 @@ instance:
         - debugMode: 'kQTMR_RunNormalInDebug'
         - timerModeInit: 'timer'
         - timerMode:
-          - freq_value_str: '3300'
+          - freq_value_str: '33000'
         - dmaIntMode: 'interrupt'
         - interrupts: 'kQTMR_CompareInterruptEnable'
     - interruptVector:
@@ -974,7 +974,7 @@ void QuadTimer2_init(void) {
   /* Quad timer channel Channel_0 peripheral initialization */
   QTMR_Init(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, &QuadTimer2_Channel_0_config);
   /* Setup the timer period of the channel */
-  QTMR_SetTimerPeriod(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, 3300U);
+  QTMR_SetTimerPeriod(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, 33000U);
   /* Enable interrupt requests of the timer channel */
   QTMR_EnableInterrupts(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_CompareInterruptEnable);
   /* Enable interrupt TMR2_IRQn request in the NVIC */

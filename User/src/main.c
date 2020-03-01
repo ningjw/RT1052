@@ -20,8 +20,8 @@ static void InitSysPara()
     g_sys_para.batAlarmValue = 10;   //电池电量报警值
     g_sys_para.inactiveCondition = 1;//蓝牙连接没有通信后,15分钟关机.
 
-    g_adc_set.SampleRate = 5000;      //取样频率,默认10k
-    g_sys_para.sampTimeSet = 1000;   //取样时间,默认1s
+    g_adc_set.SampleRate = 4096;     //取样频率
+    g_sys_para.sampNumber = 12288;    //取样点数,
     g_sys_para.inactiveCount = 0;    //
     g_sys_para.sampLedStatus = WORK_FINE;
     g_sys_para.batLedStatus = BAT_NORMAL;

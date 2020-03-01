@@ -10,6 +10,7 @@
 #define BLE_STATUS()             GPIO_PinRead(BOARD_BLE_STATUS_GPIO, BOARD_BLE_STATUS_PIN)
 
 #define EVT_OK       (1 << 0)
+#define ETV_TIMTOUT  (1 << 1)
 
 extern void LPUART2_init(void);
 
@@ -21,7 +22,7 @@ uint8_t g_puart2RxCnt = 0;
 uint8_t g_puart2TxCnt = 0;
 uint8_t g_puart2StartRx = 0;
 uint32_t ble_event = 0;
-
+uint32_t  g_puart2RxTimeCnt = 0;
 TaskHandle_t        BLE_TaskHandle = NULL;//蓝牙任务句柄
 
 static char send_str[164] = {0};
@@ -118,7 +119,7 @@ void BLE_AppTask(void)
     {
         /*wait task notify*/
         xReturn = xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);
-        if ( pdTRUE == xReturn ) {
+        if ( pdTRUE == xReturn && ble_event == EVT_OK) {
             /* 只要蓝牙接受到数据,则表示当前有设备连接 */
             g_sys_para.bleLedStatus = BLE_CONNECT;
             
@@ -142,10 +143,22 @@ void BLE_AppTask(void)
             else if(NULL != sendBuf )
             {
                 LPUART2_SendString((char *)sendBuf);
+				PRINTF("%s",sendBuf);
             }
-            memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
-            g_puart2RxCnt = 0;
+
         }
+		else if(pdTRUE == xReturn && ble_event == ETV_TIMTOUT){//接受蓝牙数据超时
+			g_puart2StartRx = 0;
+		}
+		
+		//清空接受到的数据
+		memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
+        g_puart2RxCnt = 0;
+		
+		/* 待机条件为1, 接受到蓝牙数据就清0计数器*/
+		if(g_sys_para.inactiveCondition == 1){
+			g_sys_para.inactiveCount = 0;
+		}
         
         /* 判断蓝牙连接状态*/
         if(BLE_STATUS()){//Connected
@@ -169,15 +182,25 @@ void LPUART2_IRQHandler(void)
     {
          /*读取数据*/
         ucTemp = LPUART_ReadByte(LPUART2);
+		if( ucTemp == '{'){
+			g_puart2StartRx = 1;
+			g_puart2RxTimeCnt = 0;
+		}else if( ucTemp == '}'){
+			/* 接受完成,该标志清0*/
+			g_puart2StartRx = 0;
+			
+			/*设置接受完成事件 */
+			xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
+		}
         if(g_puart2RxCnt < LPUART2_BUFF_LEN){
-            /* 情况定时器2的计数器*/
-            QUADTIMER2_PERIPHERAL->CHANNEL[QUADTIMER2_CHANNEL_0_CHANNEL].CNTR = 0;
-            /* 判断还未启动定时器2计数器,则启动*/
-            if(g_puart2StartRx == 0){
-                g_puart2StartRx++;
-                QTMR_SetTimerPeriod(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, 16500U);
-                QTMR_StartTimer(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
-            }
+//            /* 情况定时器2的计数器*/
+//            QUADTIMER2_PERIPHERAL->CHANNEL[QUADTIMER2_CHANNEL_0_CHANNEL].CNTR = 0;
+//            /* 判断还未启动定时器2计数器,则启动*/
+//            if(g_puart2StartRx == 0){
+//                g_puart2StartRx++;
+//                QTMR_SetTimerPeriod(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, 16500U);
+//                QTMR_StartTimer(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
+//            }
             /* 将接受到的数据保存到数组*/
             g_lpuart2RxBuf[g_puart2RxCnt++] = ucTemp;
         }
@@ -199,6 +222,21 @@ void LPUART2_IRQHandler(void)
     __DSB();
 }
 
+/***************************************************************************************
+  * @brief   
+  * @input
+  * @return
+***************************************************************************************/
+void LPUART2_TimeTick(void)
+{
+	if(g_puart2StartRx)
+	{
+		g_puart2RxTimeCnt++;
+		if(g_puart2RxTimeCnt >= 200){//接受数据超时
+			xTaskNotify(BLE_TaskHandle, ETV_TIMTOUT, eSetBits);
+		}
+	}
+}
 /***************************************************************************************
   * @brief   
   * @input

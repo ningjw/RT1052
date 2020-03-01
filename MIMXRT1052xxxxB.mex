@@ -1481,7 +1481,7 @@
                               <setting name="debugMode" value="kQTMR_RunNormalInDebug"/>
                               <setting name="timerModeInit" value="timer"/>
                               <struct name="timerMode">
-                                 <setting name="freq_value_str" value="3300"/>
+                                 <setting name="freq_value_str" value="33000"/>
                               </struct>
                               <setting name="dmaIntMode" value="interrupt"/>
                               <set name="interrupts">

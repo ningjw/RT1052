@@ -1,7 +1,8 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#define SOFT_VERSION       "V0.07"
+#define SOFT_VERSION       0.07
+#define HARD_VERSION       1.0
 #define POWER_ON_TIMER_ID  1
 #define ULONG_MAX          0xFFFFFFFF
 #define FIRM_INFO_ADDR    0x6001F000
@@ -85,8 +86,8 @@ typedef struct{
 	float    envTemp;      //环境温度
     float    batRemainPercent;//充电百分比
 	
-    uint32_t sampTimeSet;  //取样时间
-    uint32_t sampClk;      //取样时钟频率
+    uint32_t sampNumber;  //取样时间
+    uint32_t Ltc1063Clk;      //取样时钟频率
 	uint32_t sampSize;     //将采集到的数据,打包成json格式后的总长度
     char*    sampJson;     //已经打包成json格式的数据的首地址
 	

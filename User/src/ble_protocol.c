@@ -176,8 +176,8 @@ static char * GetVersion(void)
     }
     cJSON_AddNumberToObject(pJsonRoot, "Id", 5);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
-    cJSON_AddStringToObject(pJsonRoot, "HV", "1.0");//硬件版本号
-    cJSON_AddStringToObject(pJsonRoot, "SV", SOFT_VERSION);//软件版本号
+    cJSON_AddNumberToObject(pJsonRoot, "HV", HARD_VERSION);//硬件版本号
+    cJSON_AddNumberToObject(pJsonRoot, "SV", SOFT_VERSION);//软件版本号
     
     char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
@@ -303,9 +303,6 @@ static char * SetSamplePara(cJSON *pJson, cJSON * pSub)
 			if (NULL != pSub){
 				g_sys_para.refV = pSub->valuedouble;
 			}
-			//计算采样时间
-			g_sys_para.sampTimeSet = 2.56 * g_adc_set.Lines * g_adc_set.Averages * (1 - g_adc_set.AverageOverlap)
-			                       + 2.56 * g_adc_set.Lines * g_adc_set.AverageOverlap;
 			break;
 		case 3:
 			pSub = cJSON_GetObjectItem(pJson, "Averages");
@@ -332,6 +329,9 @@ static char * SetSamplePara(cJSON *pJson, cJSON * pSub)
 			if (NULL != pSub){
 				g_adc_set.IncludeMeasurements = pSub->valueint;
 			}
+			//计算采样点数
+			g_sys_para.sampNumber = 2.56 * g_adc_set.Lines * g_adc_set.Averages * (1 - g_adc_set.AverageOverlap)
+			                       + 2.56 * g_adc_set.Lines * g_adc_set.AverageOverlap;
 			break;
 		default:
 			break;
