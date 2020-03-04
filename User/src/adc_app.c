@@ -257,7 +257,7 @@ void ADC_AppTask(void)
 				
                 /* -----------将采用数据打包成json格式,并保存到文件中-----*/
 				
-//                PacketSampleData();
+                PacketSampleData();
 
                 /* 发送任务通知，并解锁阻塞在该任务通知下的任务 */
                 xTaskNotifyGive( BLE_TaskHandle);

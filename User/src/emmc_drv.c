@@ -213,7 +213,7 @@ uint32_t eMMC_SaveSampleData(char *buff, uint32_t len)
     /* 获取日期 */
     SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
     
-    sprintf((char *)fileName, "%d%d%d%d%d%d", rtcDate.year, rtcDate.month, rtcDate.day, rtcDate.hour, rtcDate.minute, rtcDate.second);
+    sprintf((char *)fileName, "%04d%02d%02d%02d%02d%02d", rtcDate.year, rtcDate.month, rtcDate.day, rtcDate.hour, rtcDate.minute, rtcDate.second);
     
     /*创建并打开文件*/
     res = f_open(&g_fileObject, _T(fileName), FA_CREATE_NEW);

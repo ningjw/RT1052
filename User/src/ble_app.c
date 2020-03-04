@@ -27,7 +27,7 @@ TaskHandle_t        BLE_TaskHandle = NULL;//蓝牙任务句柄
 
 static char send_str[164] = {0};
 ATCfg_t g_at_cfg = {
-    .resp_time = 2000,
+    .resp_time = 100,//10ms后检测接受到的数据
     .try_times = 2,
     .try_cnt = 0,
 };
@@ -52,7 +52,6 @@ void LPUART2_SendString(const char *str)
 ******************************************************************/
 uint8_t AT_SendCmd(const char *cmd, const char *param, const char *recv_str, ATCfg_t *p_at_cfg)
 {
-    uint8_t at_ret;
     p_at_cfg->try_cnt = 0;
     
     memset(send_str, sizeof(send_str), 0);
@@ -72,26 +71,20 @@ retry:
     if (NULL == recv_str ) {
         return true;
     }
-    /*wait task notify*/
-    at_ret = xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, p_at_cfg->resp_time);
-    if( pdTRUE == at_ret ){
-        //接收到的数据中包含响应的数据
-        if(strstr((char *)g_lpuart2RxBuf, recv_str) != NULL){
-            memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
-            g_puart2RxCnt = 0;
-            return true;
-        }else {
-            if(p_at_cfg->try_cnt++ > p_at_cfg->try_times){
-                return false;
-            }
-            goto retry;//重试
-        }
-    }else{//回复超时
-        if(p_at_cfg->try_cnt++ > p_at_cfg->try_times){
-            return false;
-        }
-        goto retry;
-    }
+    /*wait resp_time*/
+    xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, p_at_cfg->resp_time);
+    
+	//接收到的数据中包含响应的数据
+	if(strstr((char *)g_lpuart2RxBuf, recv_str) != NULL){
+		memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
+		g_puart2RxCnt = 0;
+		return true;
+	}else {
+		if(p_at_cfg->try_cnt++ > p_at_cfg->try_times){
+			return false;
+		}
+		goto retry;//重试
+	}
 }
 
 /***********************************************************************
@@ -105,11 +98,14 @@ void BLE_AppTask(void)
     uint8_t xReturn = pdFALSE;
     PRINTF("BLE Task Create and Running\r\n");
     uint8_t* sendBuf = NULL;
+	//设置波特率为230400
+	xReturn = AT_SendCmd(BT_BAUD, "230400", BT_BAUD, &g_at_cfg);
+	LPUART_SetBaudRate(LPUART2, 230400, LPUART2_CLOCK_SOURCE);
     /* 设置蓝牙名称 */
     xReturn = AT_SendCmd(BT_NAME, DEVICE_BLE_NAME, RESP_OK, &g_at_cfg);
-//    if( xReturn == true ){
+    if( xReturn == true ){
         g_sys_para.bleLedStatus = BLE_READY;
-//    }
+    }
     /* 进入透传模式 */
     SET_THROUGHPUT_MODE();
     memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
@@ -218,6 +214,7 @@ void LPUART2_IRQHandler(void)
         g_puart2RxCnt = 0;
         LPUART_Deinit(LPUART2);
         LPUART2_init();
+		LPUART_SetBaudRate(LPUART2, 230400, LPUART2_CLOCK_SOURCE);
     }
     __DSB();
 }

@@ -39,10 +39,15 @@ static char* SetTime(cJSON *pJson, cJSON * pSub)
      pSub = cJSON_GetObjectItem(pJson, "H");
     if (NULL != pSub){
         rtcDate.hour = pSub->valueint;
-        if(is24Hour || (!is24Hour && !isAm)){
+        if(is24Hour ){
             rtcDate.hour = pSub->valueint;
         }else{
-            rtcDate.hour = pSub->valueint + 12;
+			if(isAm){
+				rtcDate.hour = pSub->valueint;
+			} else {
+				rtcDate.hour = pSub->valueint + 12;
+			}
+            
         }
     }
     
