@@ -27,9 +27,9 @@ Project File Date:  02/29/2020
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'nor_sdram'
-compiling main.c...
+compiling peripherals.c...
 linking...
-Program Size: Code=96040 RO-data=8292 RW-data=896 ZI-data=5427584  
+Program Size: Code=97088 RO-data=8388 RW-data=896 ZI-data=5427584  
 FromELF: creating hex file...
 After Build - User command #1: fromelf --bin ".\Objects\rt1052.axf" --output ".\Objects\rt1052.bin"
 ".\Objects\rt1052.axf" - 0 Error(s), 0 Warning(s).
@@ -122,13 +122,13 @@ Package Vendor: NXP
       Include file:  CMSIS\RTOS2\FreeRTOS\Config\ARMCM\FreeRTOSConfig.h
 
    * Component: ARM.FreeRTOS::RTOS:Core:Cortex-M:10.2.0
-      Include file:  Source\include\semphr.h
-      Include file:  Source\include\task.h
+      Include file:  Source\include\FreeRTOS.h
       Include file:  Source\include\queue.h
+      Source file:   Source\list.c
+      Include file:  Source\include\semphr.h
       Source file:   Source\queue.c
       Source file:   Source\tasks.c
-      Source file:   Source\list.c
-      Include file:  Source\include\FreeRTOS.h
+      Include file:  Source\include\task.h
       Source file:   Source\portable\RVDS\ARM_CM7\r0p1\port.c
       Source file:   CMSIS\RTOS2\FreeRTOS\Source\freertos_evr.c
 
@@ -148,8 +148,8 @@ Package Vendor: NXP
       Source file:   Source\stream_buffer.c
 
    * Component: ARM.FreeRTOS::RTOS:Stream Buffer:10.2.0
-      Source file:   Source\stream_buffer.c
       Include file:  Source\include\stream_buffer.h
+      Source file:   Source\stream_buffer.c
 
    * Component: ARM.FreeRTOS::RTOS:Timers:10.2.0
       Include file:  Source\include\timers.h
@@ -158,25 +158,25 @@ Package Vendor: NXP
    * Component: ARM::CMSIS:CORE:5.3.0
 
    * Component: ARM::CMSIS:RTOS2:FreeRTOS:10.2.0
-      Source file:   CMSIS\RTOS2\FreeRTOS\Source\os_systick.c
       Source file:   CMSIS\RTOS2\FreeRTOS\Source\ARM\clib_arm.c
+      Source file:   CMSIS\RTOS2\FreeRTOS\Source\os_systick.c
       Source file:   CMSIS\RTOS2\FreeRTOS\Source\cmsis_os2.c
 
    * Component: NXP::Device:SDK Drivers:adc_12b1msps_sar:2.0.2
-      Source file:   drivers\fsl_adc.c
       Include file:  drivers\fsl_adc.h
+      Source file:   drivers\fsl_adc.c
 
    * Component: NXP::Device:SDK Drivers:adc_etc:2.0.1
       Source file:   drivers\fsl_adc_etc.c
       Include file:  drivers\fsl_adc_etc.h
 
    * Component: NXP::Device:SDK Drivers:clock:2.1.0
-      Include file:  drivers\fsl_clock.h
       Source file:   drivers\fsl_clock.c
+      Include file:  drivers\fsl_clock.h
 
    * Component: NXP::Device:SDK Drivers:common:2.1.0
-      Include file:  drivers\fsl_common.h
       Source file:   drivers\fsl_common.c
+      Include file:  drivers\fsl_common.h
 
    * Component: NXP::Device:SDK Drivers:dcdc_1:2.0.0
       Source file:   drivers\fsl_dcdc.c
@@ -214,8 +214,8 @@ Package Vendor: NXP
       Include file:  components\lists\generic_list.h
 
    * Component: NXP::Device:SDK Drivers:lpspi:2.0.3
-      Source file:   drivers\fsl_lpspi.c
       Include file:  drivers\fsl_lpspi.h
+      Source file:   drivers\fsl_lpspi.c
 
    * Component: NXP::Device:SDK Drivers:lpspi_edma:2.0.2
       Source file:   drivers\fsl_lpspi_edma.c
@@ -234,32 +234,32 @@ Package Vendor: NXP
       Include file:  drivers\fsl_lpuart_edma.h
 
    * Component: NXP::Device:SDK Drivers:pit:2.0.2
-      Include file:  drivers\fsl_pit.h
       Source file:   drivers\fsl_pit.c
+      Include file:  drivers\fsl_pit.h
 
    * Component: NXP::Device:SDK Drivers:pwm:2.0.0
-      Include file:  drivers\fsl_pwm.h
       Source file:   drivers\fsl_pwm.c
+      Include file:  drivers\fsl_pwm.h
 
    * Component: NXP::Device:SDK Drivers:qtmr:2.0.0
-      Include file:  drivers\fsl_qtmr.h
       Source file:   drivers\fsl_qtmr.c
+      Include file:  drivers\fsl_qtmr.h
 
    * Component: NXP::Device:SDK Drivers:sdhc:2.2.8
       Source file:   drivers\fsl_usdhc.c
       Include file:  drivers\fsl_usdhc.h
 
    * Component: NXP::Device:SDK Drivers:snvs_hp:2.1.2
-      Source file:   drivers\fsl_snvs_hp.c
       Include file:  drivers\fsl_snvs_hp.h
+      Source file:   drivers\fsl_snvs_hp.c
 
    * Component: NXP::Device:SDK Drivers:snvs_lp:2.1.0
       Source file:   drivers\fsl_snvs_lp.c
       Include file:  drivers\fsl_snvs_lp.h
 
    * Component: NXP::Device:SDK Drivers:src:2.0.1
-      Include file:  drivers\fsl_src.h
       Source file:   drivers\fsl_src.c
+      Include file:  drivers\fsl_src.h
 
    * Component: NXP::Device:SDK Drivers:xbara:2.0.4
       Source file:   drivers\fsl_xbara.c
@@ -270,10 +270,10 @@ Package Vendor: NXP
 
    * Component: NXP::Device:SDK Utilities:debug_console:1.0.0
       Source file:   utilities\debug_console\fsl_debug_console.c
-      Include file:  utilities\debug_console\fsl_debug_console_conf.h
-      Source file:   utilities\str\fsl_str.c
       Include file:  utilities\debug_console\fsl_debug_console.h
       Include file:  utilities\str\fsl_str.h
+      Include file:  utilities\debug_console\fsl_debug_console_conf.h
+      Source file:   utilities\str\fsl_str.c
 
    * Component: NXP::Device:SDK Utilities:notifier:1.0.0
       Source file:   utilities\fsl_notifier.c
@@ -281,25 +281,25 @@ Package Vendor: NXP
 
    * Component: NXP::Device:SDK Utilities:serial_manager:1.0.0
       Include file:  components\serial_manager\serial_port_internal.h
-      Include file:  components\serial_manager\serial_manager.h
       Source file:   components\serial_manager\serial_manager.c
+      Include file:  components\serial_manager\serial_manager.h
 
    * Component: NXP::Device:SDK Utilities:serial_manager_uart:1.0.0
-      Include file:  components\serial_manager\serial_port_uart.h
       Source file:   components\serial_manager\serial_port_uart.c
+      Include file:  components\serial_manager\serial_port_uart.h
 
    * Component: NXP::Device:SDK Utilities:shell:1.0.0
       Source file:   utilities\fsl_shell.c
       Include file:  utilities\fsl_shell.h
 
    * Component: NXP::Device:Startup:MIMXRT1052_startup:1.0.0
-      Include file:  MIMXRT1052.h
       Source file:   arm\startup_MIMXRT1052.s
-      Source file:   system_MIMXRT1052.c
-      Include file:  system_MIMXRT1052.h
+      Include file:  MIMXRT1052.h
       Include file:  MIMXRT1052_features.h
       Include file:  fsl_device_registers.h
-Build Time Elapsed:  00:00:02
+      Source file:   system_MIMXRT1052.c
+      Include file:  system_MIMXRT1052.h
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

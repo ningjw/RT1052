@@ -155,17 +155,13 @@ uint32_t LPSPI4_ReadData(void)
     status_t sta;
     g_sys_para.ads1271IsOk = false;
     uint32_t spiData = 0;
+//	vPortEnterCritical();
     sta = LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI阻塞发送
+//	vPortExitCritical();
     if(sta == kStatus_Success){
         g_sys_para.ads1271IsOk = true;
         spiData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];
     }
-//  尝试使用DMA方式传输
-//	sta = LPSPI_MasterTransferEDMA(LPSPI4, &LPSPI4_handle, &spi_tranxfer);
-//	if(sta == kStatus_Success){
-//		g_sys_para.ads1271IsOk = true;
-//		spiData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];
-//	}
     return spiData;
 }
 
