@@ -117,16 +117,18 @@ void ADC_SampleStart(void)
 //    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
     /* Start channel 1. */
 //    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_1);
-	vPortEnterCritical();
+//	vPortEnterCritical();
+	NVIC_DisableAllIRQn();  
 	while (1) { //wait ads1271 ready
         while(ADC_READY == 0);
         ShakeADC[g_sys_para.shkCount++] = LPSPI4_ReadData();
 		if(g_sys_para.shkCount >= g_sys_para.sampNumber){
-			vPortExitCritical();
-			ADC_SampleStop();
 			break;
 		}
     }
+//	vPortExitCritical();
+	ADC_SampleStop();
+//	NVIC_EnableAllIRQn();
 }
 
 

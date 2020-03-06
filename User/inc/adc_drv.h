@@ -8,6 +8,7 @@ uint32_t LPSPI4_ReadData(void);
 void PWM1_Config(void);
 void PWM1_Start(void);
 void PWM1_Stop(void);
-
+void NVIC_DisableAllIRQn(void);
+void NVIC_EnableAllIRQn(void);
 
 #endif
