@@ -255,6 +255,7 @@
                   <pin peripheral="GPIO2" signal="gpio_io, 04" pin_num="C8" pin_signal="GPIO_B0_04">
                      <pin_features>
                         <pin_feature name="direction" value="INPUT"/>
+                        <pin_feature name="gpio_interrupt" value="kGPIO_NoIntmode"/>
                         <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
                   </pin>
@@ -1054,7 +1055,7 @@
                            <struct name="1">
                               <setting name="channelNumber" value="1"/>
                               <setting name="enableChain" value="false"/>
-                              <setting name="timerPeriod" value="1s"/>
+                              <setting name="timerPeriod" value="1ms"/>
                               <setting name="startTimer" value="false"/>
                               <setting name="enableInterrupt" value="true"/>
                            </struct>
@@ -1336,10 +1337,10 @@
                   </instance>
                   <instance name="GPIO2" type="igpio" type_id="igpio_b1c1fa279aa7069dca167502b8589cb7" mode="GPIO" peripheral="GPIO2" enabled="true">
                      <config_set name="fsl_gpio">
-                        <setting name="enable_irq_comb_0_15" value="true"/>
+                        <setting name="enable_irq_comb_0_15" value="false"/>
                         <struct name="gpio_interrupt_comb_0_15">
                            <setting name="IRQn" value="GPIO2_Combined_0_15_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
+                           <setting name="enable_priority" value="true"/>
                            <setting name="priority" value="0"/>
                            <setting name="enable_custom_name" value="true"/>
                            <setting name="handler_custom_name" value="GPIO2_COMB_0_15_IRQHANDLER"/>

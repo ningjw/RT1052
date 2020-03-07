@@ -155,9 +155,7 @@ uint32_t LPSPI4_ReadData(void)
     status_t sta;
     g_sys_para.ads1271IsOk = false;
     uint32_t spiData = 0;
-//	vPortEnterCritical();
     sta = LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI×èÈû·¢ËÍ
-//	vPortExitCritical();
     if(sta == kStatus_Success){
         g_sys_para.ads1271IsOk = true;
         spiData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];
@@ -175,10 +173,10 @@ uint32_t LPSPI4_ReadData(void)
 ***************************************************************************************/
 void NVIC_DisableAllIRQn(void)
 {   
-    NVIC_DisableIRQ(PendSV_IRQn               );   
-    NVIC_DisableIRQ(SysTick_IRQn              );   
-//    NVIC_DisableIRQ(GPIO2_Combined_0_15_IRQn  );     
-    NVIC_DisableIRQ(PIT_IRQn                  );
+    NVIC_DisableIRQ(PendSV_IRQn);   
+    NVIC_DisableIRQ(SysTick_IRQn);
+    NVIC_EnableIRQ(GPIO2_Combined_0_15_IRQn);     
+    NVIC_DisableIRQ(PIT_IRQn);
 }
 
 
@@ -189,10 +187,10 @@ void NVIC_DisableAllIRQn(void)
 ***************************************************************************************/
 void NVIC_EnableAllIRQn(void)
 {
-	NVIC_EnableIRQ(PendSV_IRQn               );   
-    NVIC_EnableIRQ(SysTick_IRQn              );   
+//	NVIC_EnableIRQ(PendSV_IRQn               );   
+//    NVIC_EnableIRQ(SysTick_IRQn              );   
 //    NVIC_EnableIRQ(GPIO2_Combined_0_15_IRQn  );     
-    NVIC_EnableIRQ(PIT_IRQn                  );
+    NVIC_EnableIRQ(PIT_IRQn);
 }
 
 

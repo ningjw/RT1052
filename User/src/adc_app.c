@@ -12,11 +12,11 @@ char  ShakeStrADC[ADC_LEN * 8 + 1];
 #define ADC_SYNC_HIGH            GPIO_PinWrite(BOARD_ADC_SYNC_GPIO, BOARD_ADC_SYNC_PIN, 1)
 #define ADC_SYNC_LOW             GPIO_PinWrite(BOARD_ADC_SYNC_GPIO, BOARD_ADC_SYNC_PIN, 0)
 TaskHandle_t ADC_TaskHandle = NULL;  /* ADC任务句柄 */
-
 static uint32_t counterClock = 0;
 uint32_t timeCapt = 0;
 char str[12];
 extern volatile uint32_t g_eventTimeMilliseconds;
+uint32_t ADC_ShakeValue = 0;
 /***************************************************************************************
   * @brief   kPIT_Chnl_0用于触发ADC采样 ；kPIT_Chnl_1 用于定时采样; kPIT_Chnl_2用于定时关机1分钟中断
   * @input
@@ -27,7 +27,7 @@ void PIT_IRQHandler(void)
     if( PIT_GetStatusFlags(PIT, kPIT_Chnl_1) == true ) {
         /* 清除中断标志位.*/
         PIT_ClearStatusFlags(PIT, kPIT_Chnl_1, kPIT_TimerFlag);
-        ADC_SampleStop();
+        ShakeADC[g_sys_para.shkCount++] = ADC_ShakeValue;
     }
     else if( PIT_GetStatusFlags(PIT, kPIT_Chnl_2) == true) {
         /* 清除中断标志位.*/
@@ -69,19 +69,18 @@ void ADC_ETC_IRQ0_IRQHandler(void)
     if(g_sys_para.spdCount < ADC_LEN) {
         SpeedADC[g_sys_para.spdCount++] = ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
     }
-	g_sys_para.shkCount++;
-//    uint32_t wait_time = 0;
-//    while (1) { //wait ads1271 ready
-//        if(ADC_READY == 0) {
-//            if( g_sys_para.shkCount < ADC_LEN) {
-//                ShakeADC[g_sys_para.shkCount++] = LPSPI4_ReadData();
-//            }
-//            break;
-//        }
-//        if(wait_time++ >= 5) break;
-//    }
 }
 
+/***************************************************************************************
+  * @brief   用于检测ADC_RDY引脚下降沿中断引脚
+  * @input
+  * @return
+***************************************************************************************/
+void GPIO2_Combined_0_15_IRQHandler(void)
+{
+	/* 清除中断标志位 */
+	GPIO_PortClearInterruptFlags(BOARD_ADC_RDY_PORT,1U << BOARD_ADC_RDY_PIN);
+}
 
 /***************************************************************************************
   * @brief   start adc sample
@@ -109,26 +108,28 @@ void ADC_SampleStart(void)
     QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 	/* Set channel 0 period (66000000 ticks). 用于触发内部ADC采样，采集转速信号*/
 //    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ / g_adc_set.SampleRate);
-    /* Set channel 1 period (66000000 ticks). 用于控制采样时间*/
-//    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_CLK_FREQ/1000 * g_sys_para.sampNumber);
+    /* Set channel 1 period (66000000 ticks). 用于控制采样频率*/
+    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_CLK_FREQ / g_adc_set.SampleRate);
     /* 输入捕获，计算转速信号周期 */
 //    QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
     /* Start channel 0. */
 //    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
     /* Start channel 1. */
-//    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_1);
+    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_1);
+	PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
 //	vPortEnterCritical();
-	NVIC_DisableAllIRQn();  
+//	NVIC_DisableAllIRQn();  
+	NVIC_DisableIRQ(PendSV_IRQn);   
+    NVIC_DisableIRQ(SysTick_IRQn);
 	while (1) { //wait ads1271 ready
         while(ADC_READY == 0);
-        ShakeADC[g_sys_para.shkCount++] = LPSPI4_ReadData();
+		ADC_ShakeValue = LPSPI4_ReadData();
 		if(g_sys_para.shkCount >= g_sys_para.sampNumber){
 			break;
 		}
     }
 //	vPortExitCritical();
 	ADC_SampleStop();
-//	NVIC_EnableAllIRQn();
 }
 
 
@@ -145,7 +146,10 @@ void ADC_SampleStop(void)
     /* Stop channel 0. */
     PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
     /* Stop channel 1. */
-//    PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_1);
+    PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_1);
+	/* Start channel 1. */
+	PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
+	
     vTaskResume(BAT_TaskHandle);
     vTaskResume(LED_TaskHandle);
     /* 触发ADC采样完成事件  */

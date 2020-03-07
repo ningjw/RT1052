@@ -176,7 +176,7 @@ instance:
       - 1:
         - channelNumber: '1'
         - enableChain: 'false'
-        - timerPeriod: '1s'
+        - timerPeriod: '1ms'
         - startTimer: 'false'
         - enableInterrupt: 'true'
       - 2:
@@ -196,7 +196,7 @@ void PIT1_init(void) {
   PIT_Init(PIT1_PERIPHERAL, &PIT1_config);
   /* Set channel 0 period to 100 µs (6600 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_0_TICKS);
-  /* Set channel 1 period to 1 s (66000000 ticks). */
+  /* Set channel 1 period to 1 ms (66000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_1_TICKS);
   /* Set channel 2 period to 1 s (66000000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_2, PIT1_2_TICKS);
@@ -690,10 +690,10 @@ instance:
 - peripheral: 'GPIO2'
 - config_sets:
   - fsl_gpio:
-    - enable_irq_comb_0_15: 'true'
+    - enable_irq_comb_0_15: 'false'
     - gpio_interrupt_comb_0_15:
       - IRQn: 'GPIO2_Combined_0_15_IRQn'
-      - enable_priority: 'false'
+      - enable_priority: 'true'
       - priority: '0'
       - enable_custom_name: 'true'
       - handler_custom_name: 'GPIO2_COMB_0_15_IRQHANDLER'
@@ -708,8 +708,6 @@ instance:
 
 void GPIO2_init(void) {
   /* Make sure, the clock gate for GPIO2 is enabled (e. g. in pin_mux.c) */
-  /* Enable interrupt GPIO2_Combined_0_15_IRQn request in the NVIC */
-  EnableIRQ(GPIO2_Combined_0_15_IRQn);
 }
 
 /***********************************************************************************************************************

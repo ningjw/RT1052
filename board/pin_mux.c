@@ -90,7 +90,7 @@ BOARD:
   - {pin_num: A10, peripheral: GPIO2, signal: 'gpio_io, 11', pin_signal: GPIO_B0_11, direction: OUTPUT, gpio_init_state: 'false'}
   - {pin_num: E11, peripheral: GPIO2, signal: 'gpio_io, 15', pin_signal: GPIO_B0_15, direction: OUTPUT}
   - {pin_num: E10, peripheral: GPIO2, signal: 'gpio_io, 14', pin_signal: GPIO_B0_14, direction: OUTPUT, gpio_init_state: 'true'}
-  - {pin_num: C8, peripheral: GPIO2, signal: 'gpio_io, 04', pin_signal: GPIO_B0_04, direction: INPUT, slew_rate: Slow}
+  - {pin_num: C8, peripheral: GPIO2, signal: 'gpio_io, 04', pin_signal: GPIO_B0_04, direction: INPUT, gpio_interrupt: kGPIO_NoIntmode, slew_rate: Slow}
   - {pin_num: C14, peripheral: GPIO2, signal: 'gpio_io, 30', pin_signal: GPIO_B1_14, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: D14, peripheral: LPUART5, signal: RX, pin_signal: GPIO_B1_13}
   - {pin_num: D13, peripheral: LPUART5, signal: TX, pin_signal: GPIO_B1_12}

@@ -51,7 +51,7 @@ extern "C" {
 /* Definition of ticks count for channel 0. */
 #define PIT1_0_TICKS 6599U
 /* Definition of ticks count for channel 1. */
-#define PIT1_1_TICKS 65999999U
+#define PIT1_1_TICKS 65999U
 /* Definition of ticks count for channel 2. */
 #define PIT1_2_TICKS 65999999U
 /* PIT1 interrupt vector ID (number). */
@@ -112,10 +112,6 @@ extern "C" {
 #define LPSPI4_PERIPHERAL LPSPI4
 /* Definition of clock source */
 #define LPSPI4_CLOCK_FREQ 120000000UL
-/* GPIO2 interrupt vector ID (number). */
-#define GPIO2_GPIO_COMB_0_15_IRQN GPIO2_Combined_0_15_IRQn
-/* GPIO2 interrupt handler identifier. */
-#define GPIO2_COMB_0_15_IRQHANDLER GPIO2_Combined_0_15_IRQHandler
 /* Definition of peripheral ID */
 #define QUADTIMER1_PERIPHERAL TMR1
 /* Definition of the timer channel Channel_0. */
