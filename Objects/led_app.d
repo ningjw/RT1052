@@ -30,10 +30,10 @@
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart_edma.h
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h
-.\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc.h
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc_etc.h
 .\objects\led_app.o: .\board\pin_mux.h
+.\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h

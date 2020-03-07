@@ -30,10 +30,10 @@
 .\objects\main.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h
 .\objects\main.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart_edma.h
 .\objects\main.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h
-.\objects\main.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
 .\objects\main.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc.h
 .\objects\main.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc_etc.h
 .\objects\main.o: .\board\pin_mux.h
+.\objects\main.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
 .\objects\main.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h
 .\objects\main.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h
 .\objects\main.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h

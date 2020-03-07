@@ -19,7 +19,6 @@
 #include "fsl_qtmr.h"
 #include "fsl_lpuart_edma.h"
 #include "fsl_lpspi.h"
-#include "fsl_gpio.h"
 #include "fsl_adc.h"
 #include "fsl_adc_etc.h"
 
@@ -50,8 +49,6 @@ extern "C" {
 #define PIT1_CLK_FREQ 66000000UL
 /* Definition of ticks count for channel 0. */
 #define PIT1_0_TICKS 6599U
-/* Definition of ticks count for channel 1. */
-#define PIT1_1_TICKS 65999U
 /* Definition of ticks count for channel 2. */
 #define PIT1_2_TICKS 65999999U
 /* PIT1 interrupt vector ID (number). */

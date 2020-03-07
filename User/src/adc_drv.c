@@ -165,34 +165,3 @@ uint32_t LPSPI4_ReadData(void)
 
 
 
-
-/***************************************************************************************
-  * @brief  关闭所有中断
-  * @input
-  * @return
-***************************************************************************************/
-void NVIC_DisableAllIRQn(void)
-{   
-    NVIC_DisableIRQ(PendSV_IRQn);   
-    NVIC_DisableIRQ(SysTick_IRQn);
-    NVIC_EnableIRQ(GPIO2_Combined_0_15_IRQn);     
-    NVIC_DisableIRQ(PIT_IRQn);
-}
-
-
-/***************************************************************************************
-  * @brief  打开所有中断
-  * @input
-  * @return
-***************************************************************************************/
-void NVIC_EnableAllIRQn(void)
-{
-//	NVIC_EnableIRQ(PendSV_IRQn               );   
-//    NVIC_EnableIRQ(SysTick_IRQn              );   
-//    NVIC_EnableIRQ(GPIO2_Combined_0_15_IRQn  );     
-    NVIC_EnableIRQ(PIT_IRQn);
-}
-
-
-
-

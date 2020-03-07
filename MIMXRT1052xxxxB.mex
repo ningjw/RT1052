@@ -746,16 +746,6 @@
                   <data type="Version">2.0.3</data>
                </feature>
             </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.igpio" description="在工具链/IDT 工程中未找到 igpio。" problem_level="2" source="Peripherals">
-               <feature name="enabled" evaluation="equal">
-                  <data type="Boolean">true</data>
-               </feature>
-            </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.igpio" description="工具链/IDT 工程中，该版本的 igpio 不被支持。所需的：${required_value},，实际的： ${actual_value}。" problem_level="1" source="Peripherals">
-               <feature name="version" evaluation="equivalent">
-                  <data type="Version">2.0.1</data>
-               </feature>
-            </dependency>
             <dependency resourceType="SWComponent" resourceId="platform.drivers.adc_12b1msps_sar" description="在工具链/IDT 工程中未找到 ADC Driver。" problem_level="2" source="Peripherals">
                <feature name="enabled" evaluation="equal">
                   <data type="Boolean">true</data>
@@ -986,7 +976,23 @@
                            <setting name="enableRoundRobinArbitration" value="false"/>
                            <setting name="enableDebugMode" value="false"/>
                         </struct>
-                        <array name="dma_table"/>
+                        <array name="dma_table">
+                           <struct name="0"/>
+                           <struct name="1"/>
+                           <struct name="2"/>
+                           <struct name="3"/>
+                           <struct name="4"/>
+                           <struct name="5"/>
+                           <struct name="6"/>
+                           <struct name="7"/>
+                           <struct name="8"/>
+                           <struct name="9"/>
+                           <struct name="10"/>
+                           <struct name="11"/>
+                           <struct name="12"/>
+                           <struct name="13"/>
+                           <struct name="14"/>
+                        </array>
                         <array name="edma_channels"/>
                      </config_set>
                   </instance>
@@ -1053,13 +1059,6 @@
                               <setting name="enableInterrupt" value="false"/>
                            </struct>
                            <struct name="1">
-                              <setting name="channelNumber" value="1"/>
-                              <setting name="enableChain" value="false"/>
-                              <setting name="timerPeriod" value="1ms"/>
-                              <setting name="startTimer" value="false"/>
-                              <setting name="enableInterrupt" value="true"/>
-                           </struct>
-                           <struct name="2">
                               <setting name="channelNumber" value="2"/>
                               <setting name="enableChain" value="false"/>
                               <setting name="timerPeriod" value="1s"/>
@@ -1333,25 +1332,6 @@
                         <setting name="self_powered" value="false"/>
                         <setting name="max_power" value="100"/>
                         <array name="interfaces"/>
-                     </config_set>
-                  </instance>
-                  <instance name="GPIO2" type="igpio" type_id="igpio_b1c1fa279aa7069dca167502b8589cb7" mode="GPIO" peripheral="GPIO2" enabled="true">
-                     <config_set name="fsl_gpio">
-                        <setting name="enable_irq_comb_0_15" value="false"/>
-                        <struct name="gpio_interrupt_comb_0_15">
-                           <setting name="IRQn" value="GPIO2_Combined_0_15_IRQn"/>
-                           <setting name="enable_priority" value="true"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="true"/>
-                           <setting name="handler_custom_name" value="GPIO2_COMB_0_15_IRQHANDLER"/>
-                        </struct>
-                        <setting name="enable_irq_comb_16_31" value="false"/>
-                        <struct name="gpio_interrupt_comb_16_31">
-                           <setting name="IRQn" value="GPIO2_Combined_16_31_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
-                        </struct>
                      </config_set>
                   </instance>
                   <instance name="QuadTimer1" type="qtmr" type_id="qtmr_460dd7aa3f3371843c2548acd54252b0" mode="general" peripheral="TMR1" enabled="true">

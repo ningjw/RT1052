@@ -17,6 +17,7 @@ uint32_t timeCapt = 0;
 char str[12];
 extern volatile uint32_t g_eventTimeMilliseconds;
 uint32_t ADC_ShakeValue = 0;
+uint8_t  ADC_InvalidCnt = 0;
 /***************************************************************************************
   * @brief   kPIT_Chnl_0用于触发ADC采样 ；kPIT_Chnl_1 用于定时采样; kPIT_Chnl_2用于定时关机1分钟中断
   * @input
@@ -24,12 +25,7 @@ uint32_t ADC_ShakeValue = 0;
 ***************************************************************************************/
 void PIT_IRQHandler(void)
 {
-    if( PIT_GetStatusFlags(PIT, kPIT_Chnl_1) == true ) {
-        /* 清除中断标志位.*/
-        PIT_ClearStatusFlags(PIT, kPIT_Chnl_1, kPIT_TimerFlag);
-        ShakeADC[g_sys_para.shkCount++] = ADC_ShakeValue;
-    }
-    else if( PIT_GetStatusFlags(PIT, kPIT_Chnl_2) == true) {
+    if( PIT_GetStatusFlags(PIT, kPIT_Chnl_2) == true) {
         /* 清除中断标志位.*/
         PIT_ClearStatusFlags(PIT, kPIT_Chnl_2, kPIT_TimerFlag);
 		g_eventTimeMilliseconds++;
@@ -68,7 +64,8 @@ void ADC_ETC_IRQ0_IRQHandler(void)
     /*读取转换结果*/
     if(g_sys_para.spdCount < ADC_LEN) {
         SpeedADC[g_sys_para.spdCount++] = ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
-    }
+		ShakeADC[g_sys_para.shkCount++] = ADC_ShakeValue;
+	}
 }
 
 /***************************************************************************************
@@ -107,28 +104,33 @@ void ADC_SampleStart(void)
     QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
     QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 	/* Set channel 0 period (66000000 ticks). 用于触发内部ADC采样，采集转速信号*/
-//    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ / g_adc_set.SampleRate);
+    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ / g_adc_set.SampleRate);
     /* Set channel 1 period (66000000 ticks). 用于控制采样频率*/
-    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_CLK_FREQ / g_adc_set.SampleRate);
+//    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_CLK_FREQ / g_adc_set.SampleRate);
     /* 输入捕获，计算转速信号周期 */
 //    QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
-    /* Start channel 0. */
-//    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
-    /* Start channel 1. */
-    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_1);
-	PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
-//	vPortEnterCritical();
-//	NVIC_DisableAllIRQn();  
 	NVIC_DisableIRQ(PendSV_IRQn);   
     NVIC_DisableIRQ(SysTick_IRQn);
+	/* stop channel 2. */
+	PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
+	ADC_InvalidCnt = 0;
+	while (1) { //wait ads1271 ready
+        while(ADC_READY == 0);
+		ADC_ShakeValue = LPSPI4_ReadData();
+		ADC_InvalidCnt++;
+		if(ADC_InvalidCnt > 20) break;//根据调试时的数据观察,丢弃前面20个数据
+    }
+    /* Start channel 0. 开启通道0,正式开始采样*/
+    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
 	while (1) { //wait ads1271 ready
         while(ADC_READY == 0);
 		ADC_ShakeValue = LPSPI4_ReadData();
 		if(g_sys_para.shkCount >= g_sys_para.sampNumber){
+			g_sys_para.shkCount = g_sys_para.sampNumber;
+			g_sys_para.spdCount = g_sys_para.sampNumber;
 			break;
 		}
     }
-//	vPortExitCritical();
 	ADC_SampleStop();
 }
 
@@ -140,16 +142,16 @@ void ADC_SampleStart(void)
 ***************************************************************************************/
 void ADC_SampleStop(void)
 {
+	/* Stop channel 0. */
+    PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
+	
+	/* Start channel 2. */
+	PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
+	
     /* Stop the timer */
     QTMR_StopTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL);
     QTMR_StopTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL);
-    /* Stop channel 0. */
-    PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
-    /* Stop channel 1. */
-    PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_1);
-	/* Start channel 1. */
-	PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
-	
+
     vTaskResume(BAT_TaskHandle);
     vTaskResume(LED_TaskHandle);
     /* 触发ADC采样完成事件  */

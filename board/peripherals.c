@@ -59,7 +59,22 @@ instance:
       - enableHaltOnError: 'true'
       - enableRoundRobinArbitration: 'false'
       - enableDebugMode: 'false'
-    - dma_table: []
+    - dma_table:
+      - 0: []
+      - 1: []
+      - 2: []
+      - 3: []
+      - 4: []
+      - 5: []
+      - 6: []
+      - 7: []
+      - 8: []
+      - 9: []
+      - 10: []
+      - 11: []
+      - 12: []
+      - 13: []
+      - 14: []
     - edma_channels: []
     - quick_selection: 'default'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
@@ -174,12 +189,6 @@ instance:
         - startTimer: 'false'
         - enableInterrupt: 'false'
       - 1:
-        - channelNumber: '1'
-        - enableChain: 'false'
-        - timerPeriod: '1ms'
-        - startTimer: 'false'
-        - enableInterrupt: 'true'
-      - 2:
         - channelNumber: '2'
         - enableChain: 'false'
         - timerPeriod: '1s'
@@ -196,12 +205,8 @@ void PIT1_init(void) {
   PIT_Init(PIT1_PERIPHERAL, &PIT1_config);
   /* Set channel 0 period to 100 µs (6600 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_0_TICKS);
-  /* Set channel 1 period to 1 ms (66000 ticks). */
-  PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_1_TICKS);
   /* Set channel 2 period to 1 s (66000000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_2, PIT1_2_TICKS);
-  /* Enable interrupts from channel 1. */
-  PIT_EnableInterrupts(PIT1_PERIPHERAL, kPIT_Chnl_1, kPIT_TimerInterruptEnable);
   /* Enable interrupts from channel 2. */
   PIT_EnableInterrupts(PIT1_PERIPHERAL, kPIT_Chnl_2, kPIT_TimerInterruptEnable);
   /* Interrupt vector PIT1_IRQN priority settings in the NVIC */
@@ -677,40 +682,6 @@ void LPSPI4_init(void) {
 }
 
 /***********************************************************************************************************************
- * GPIO2 initialization code
- **********************************************************************************************************************/
-/* clang-format off */
-/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
-instance:
-- name: 'GPIO2'
-- type: 'igpio'
-- mode: 'GPIO'
-- type_id: 'igpio_b1c1fa279aa7069dca167502b8589cb7'
-- functional_group: 'BOARD_InitPeripherals'
-- peripheral: 'GPIO2'
-- config_sets:
-  - fsl_gpio:
-    - enable_irq_comb_0_15: 'false'
-    - gpio_interrupt_comb_0_15:
-      - IRQn: 'GPIO2_Combined_0_15_IRQn'
-      - enable_priority: 'true'
-      - priority: '0'
-      - enable_custom_name: 'true'
-      - handler_custom_name: 'GPIO2_COMB_0_15_IRQHANDLER'
-    - enable_irq_comb_16_31: 'false'
-    - gpio_interrupt_comb_16_31:
-      - IRQn: 'GPIO2_Combined_16_31_IRQn'
-      - enable_priority: 'false'
-      - priority: '0'
-      - enable_custom_name: 'false'
- * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
-/* clang-format on */
-
-void GPIO2_init(void) {
-  /* Make sure, the clock gate for GPIO2 is enabled (e. g. in pin_mux.c) */
-}
-
-/***********************************************************************************************************************
  * QuadTimer1 initialization code
  **********************************************************************************************************************/
 /* clang-format off */
@@ -1064,7 +1035,6 @@ void BOARD_InitPeripherals(void)
   LPUART3_init();
   LPUART5_init();
   LPSPI4_init();
-  GPIO2_init();
   QuadTimer1_init();
   ADC1_init();
   ADC_ETC_init();

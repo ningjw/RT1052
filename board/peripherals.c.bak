@@ -176,7 +176,7 @@ instance:
       - 1:
         - channelNumber: '1'
         - enableChain: 'false'
-        - timerPeriod: '1s'
+        - timerPeriod: '1ms'
         - startTimer: 'false'
         - enableInterrupt: 'true'
       - 2:
@@ -196,7 +196,7 @@ void PIT1_init(void) {
   PIT_Init(PIT1_PERIPHERAL, &PIT1_config);
   /* Set channel 0 period to 100 µs (6600 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_0_TICKS);
-  /* Set channel 1 period to 1 s (66000000 ticks). */
+  /* Set channel 1 period to 1 ms (66000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_1_TICKS);
   /* Set channel 2 period to 1 s (66000000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_2, PIT1_2_TICKS);
