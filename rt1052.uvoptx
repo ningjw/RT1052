@@ -158,17 +158,27 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>g_lpuart2TxBuf</ItemText>
+          <ItemText>g_lpuart2RxBuf</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>g_lpuart2RxBuf</ItemText>
+          <ItemText>g_puart2RxCnt</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>spi_baudRate,0x0A</ItemText>
+          <ItemText>g_sys_para.sampPacks,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>g_sys_para.sampPacksCnt,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>time_delay,0x10</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

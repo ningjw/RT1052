@@ -91,6 +91,7 @@ typedef struct{
 	uint32_t sampSize;     //将采集到的数据,打包成json格式后的总长度
     char*    sampJson;     //已经打包成json格式的数据的首地址
 	
+	uint32_t sampPacksCnt; //计数器
     uint32_t sampPacks;	   //总共采集道的数据,需要分多少个包发给Android
 	uint32_t spdPacks;     //转速信号需要分多少个包发送完成
 	uint32_t shkPacks;     //震动信号需要分多少个包发送完成

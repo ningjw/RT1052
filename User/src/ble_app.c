@@ -42,6 +42,18 @@ void LPUART2_SendString(const char *str)
     LPUART_WriteBlocking(LPUART2, (uint8_t *)str, strlen(str));
 }
 
+/*****************************************************************
+* 功能：发送数据
+* 输入: send_buf:发送的字符串
+		recv_str：期待回令中包含的子字符串
+        p_at_cfg：AT配置
+* 输出：执行结果代码
+******************************************************************/
+uint8_t AT_SendData(const char *send_str, ATCfg_t *p_at_cfg)
+{
+	
+}
+
 
 /*****************************************************************
 * 功能：发送AT指令
@@ -98,6 +110,9 @@ void BLE_AppTask(void)
     uint8_t xReturn = pdFALSE;
     PRINTF("BLE Task Create and Running\r\n");
     uint8_t* sendBuf = NULL;
+
+	SET_COMMOND_MODE();
+	
 	//设置波特率为230400
 	xReturn = AT_SendCmd(BT_BAUD, "230400", BT_BAUD, &g_at_cfg);
 	LPUART_SetBaudRate(LPUART2, 230400, LPUART2_CLOCK_SOURCE);
@@ -106,7 +121,7 @@ void BLE_AppTask(void)
     if( xReturn == true ){
         g_sys_para.bleLedStatus = BLE_READY;
     }
-    /* 进入透传模式 */
+	    /* 进入透传模式 */
     SET_THROUGHPUT_MODE();
     memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
     g_puart2RxCnt = 0;
@@ -114,7 +129,7 @@ void BLE_AppTask(void)
     while(1)
     {
         /*wait task notify*/
-        xReturn = xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);
+        xReturn = xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, portMAX_DELAY);
         if ( pdTRUE == xReturn && ble_event == EVT_OK) {
             /* 只要蓝牙接受到数据,则表示当前有设备连接 */
             g_sys_para.bleLedStatus = BLE_CONNECT;
@@ -140,8 +155,8 @@ void BLE_AppTask(void)
             {
                 LPUART2_SendString((char *)sendBuf);
 				PRINTF("%s",sendBuf);
+				free(sendBuf);
             }
-
         }
 		else if(pdTRUE == xReturn && ble_event == ETV_TIMTOUT){//接受蓝牙数据超时
 			g_puart2StartRx = 0;
@@ -184,9 +199,15 @@ void LPUART2_IRQHandler(void)
 		}else if( ucTemp == '}'){
 			/* 接受完成,该标志清0*/
 			g_puart2StartRx = 0;
-			
-			/*设置接受完成事件 */
-			xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
+			//接受到Android发送的结束采集信号
+			if(memcmp(g_lpuart2RxBuf,"{\"Id\",12}",g_puart2RxCnt) == 0){
+				g_sys_para.sampNumber = 0;//如果此时正在采集数据, 该代码会触发采集完成信号
+//			}else if(memcmp(g_lpuart2RxBuf,"{\"Id\",10}",g_puart2RxCnt) == 0){//接受到Android发送的开始升级信号
+//				
+			}else{
+				/*设置接受完成事件 */
+				xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
+			}
 		}
         if(g_puart2RxCnt < LPUART2_BUFF_LEN){
 //            /* 情况定时器2的计数器*/

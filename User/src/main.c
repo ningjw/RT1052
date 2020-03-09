@@ -69,7 +69,7 @@ static void AppTaskCreate(void)
 ***************************************************************************************/
 void PrintClock(void)
 {
-        /* 打印系统时钟 */
+  /* 打印系统时钟 */
   PRINTF("\r\n");
   PRINTF("CPU:             %d Hz\r\n", CLOCK_GetFreq(kCLOCK_CpuClk));
   PRINTF("AHB:             %d Hz\r\n", CLOCK_GetFreq(kCLOCK_AhbClk));

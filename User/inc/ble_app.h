@@ -20,7 +20,7 @@
 
 
 
-#define LPUART2_BUFF_LEN 512
+#define LPUART2_BUFF_LEN 256
 
 typedef void (*SendMsgFunc_t)(uint8_t * buf, uint32_t len);
 

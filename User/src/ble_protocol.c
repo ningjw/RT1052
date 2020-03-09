@@ -389,15 +389,19 @@ static char * StartSample(cJSON *pJson, cJSON * pSub)
     if(NULL == pJsonRoot){
         return NULL;
     }
-    cJSON_AddNumberToObject(pJsonRoot, "Id",  8);
-    cJSON_AddNumberToObject(pJsonRoot, "Sid", 1);
-    cJSON_AddStringToObject(pJsonRoot, "fileName", g_sys_para.fileName);
-    cJSON_AddNumberToObject(pJsonRoot, "size", g_sys_para.sampSize);
-    cJSON_AddNumberToObject(pJsonRoot,"packs",  g_sys_para.sampPacks);
-    cJSON_AddNumberToObject(pJsonRoot, "shkNum", g_sys_para.shkCount);
-//    cJSON_AddNumberToObject(pJsonRoot, "shkV", g_sys_para.voltageADS1271);
-    cJSON_AddNumberToObject(pJsonRoot, "spdNum", g_sys_para.spdCount);
-//    cJSON_AddNumberToObject(pJsonRoot, "spdV", g_sys_para.voltageSpd);
+	
+	if(g_sys_para.sampNumber == 0){//Android发送了中断采集命令
+		cJSON_AddNumberToObject(pJsonRoot, "Id",  12);
+		cJSON_AddNumberToObject(pJsonRoot, "Sid", 0);
+	}else{
+		cJSON_AddNumberToObject(pJsonRoot, "Id",  8);
+		cJSON_AddNumberToObject(pJsonRoot, "Sid", 1);
+		cJSON_AddStringToObject(pJsonRoot, "fileName", g_sys_para.fileName);
+		cJSON_AddNumberToObject(pJsonRoot, "size", g_sys_para.sampSize);
+		cJSON_AddNumberToObject(pJsonRoot,"packs",  g_sys_para.sampPacks);
+		cJSON_AddNumberToObject(pJsonRoot, "shkNum", g_sys_para.shkCount);
+		cJSON_AddNumberToObject(pJsonRoot, "spdNum", g_sys_para.spdCount);
+	}
     char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     return p_reply;
@@ -487,16 +491,27 @@ char * GetSampleData(cJSON *pJson, cJSON * pSub)
 {
     uint32_t sid = 0;
 	uint32_t index = 0;
-    cJSON *pJsonRoot = cJSON_CreateObject();
-	if(NULL == pJsonRoot){
-        return NULL;
-    }
-	
+	uint32_t flag_get_all_data = 0;
+    g_sys_para.sampPacksCnt = 0;
+	cJSON *pJsonRoot = NULL;
     /*解析消息内容,并打包需要回复的内容*/
     pSub = cJSON_GetObjectItem(pJson, "Sid");
 	sid = pSub->valueint;
+	if(sid == g_sys_para.sampPacks){
+		flag_get_all_data = 1;
+	}
+	
+SEND_DATA:
+	if(flag_get_all_data){
+		sid = g_sys_para.sampPacksCnt;
+	}
+	pJsonRoot = cJSON_CreateObject();
+	if(NULL == pJsonRoot){
+        return NULL;
+    }
 	cJSON_AddNumberToObject(pJsonRoot, "Id", 9);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",sid);
+	
     switch(sid)	{
 		case 0:
 			cJSON_AddStringToObject(pJsonRoot, "IDPath", g_adc_set.IDPath);//硬件版本号
@@ -570,6 +585,21 @@ char * GetSampleData(cJSON *pJson, cJSON * pSub)
 	
 	char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
+	
+	if(flag_get_all_data ){
+		g_sys_para.sampPacksCnt++;
+		if(g_sys_para.sampPacksCnt < g_sys_para.sampPacks){
+			LPUART2_SendString((char *)p_reply);
+			vTaskDelay(1);
+//			uint32_t time_delay = 100000;
+//			while(time_delay--);
+			free(p_reply);
+			goto SEND_DATA;
+		}else{
+			//再次进入透传模式
+		}
+	}
+	
     return p_reply;
 }
 
