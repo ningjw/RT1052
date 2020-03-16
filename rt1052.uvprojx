@@ -490,6 +490,11 @@
               <FileType>1</FileType>
               <FilePath>.\User\src\utility.c</FilePath>
             </File>
+            <File>
+              <FileName>arithmetic.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>.\User\src\arithmetic.lib</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1087,6 +1092,11 @@
               <FileName>utility.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\utility.c</FilePath>
+            </File>
+            <File>
+              <FileName>arithmetic.lib</FileName>
+              <FileType>4</FileType>
+              <FilePath>.\User\src\arithmetic.lib</FilePath>
             </File>
           </Files>
         </Group>

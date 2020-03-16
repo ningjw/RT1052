@@ -1,6 +1,6 @@
 #include "main.h"
 
-#define ADC_LEN      50000
+#define ADC_LEN      30000
 float SpeedADC[ADC_LEN];
 float ShakeADC[ADC_LEN];
 char  SpeedStrADC[ADC_LEN * 8 + 1];
@@ -88,7 +88,7 @@ void ADC_SampleStart(void)
 {
     g_sys_para.spdCount = 0;
     g_sys_para.shkCount = 0;
-    g_sys_para.Ltc1063Clk = 1000 * g_adc_set.SampleRate / 25;
+    g_sys_para.Ltc1063Clk = 10000 * g_adc_set.SampleRate / 256;
 
 	//判断自动关机条件
     if(g_sys_para.inactiveCondition != 1) {
@@ -100,7 +100,7 @@ void ADC_SampleStart(void)
 	}
     vTaskSuspend(BAT_TaskHandle);
     vTaskSuspend(LED_TaskHandle);
-    /* Setup the PWM mode of the timer channel 用于LTC1063FA的时钟输入,控制采样带宽*/
+    /* Setup the PWM mode of the timer channel 用于LTC1063FA的时钟,控制采样带宽*/
     QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
     QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 	/* Set channel 0 period (66000000 ticks). 用于触发内部ADC采样，采集转速信号*/
@@ -220,7 +220,7 @@ void ADC_AppTask(void)
 //                    g_sys_para.voltageADS1271 += ShakeADC[i];
                 }
 				//计算发送震动信号需要多少个包
-				g_sys_para.shkPacks = (g_sys_para.shkCount / 13) +  (g_sys_para.shkCount%13?1:0);
+				g_sys_para.shkPacks = (g_sys_para.shkCount / 15) +  (g_sys_para.shkCount%15?1:0);
 //                g_sys_para.voltageADS1271 /= g_sys_para.shkCount;
                 g_sys_para.voltageADS1271 = ShakeADC[g_sys_para.shkCount - 1];
 				
@@ -239,14 +239,13 @@ void ADC_AppTask(void)
 //                g_sys_para.voltageSpd /= g_sys_para.spdCount;
                 g_sys_para.voltageSpd = SpeedADC[g_sys_para.spdCount - 1];
 				//计算发送震动信号需要多少个包
-				g_sys_para.spdPacks = (g_sys_para.spdCount / 13) +  (g_sys_para.spdCount%13?1:0);
+				g_sys_para.spdPacks = (g_sys_para.spdCount / 15) +  (g_sys_para.spdCount%15?1:0);
 				
 				//计算将一次采集数据全部发送到Android需要多少个包
 				g_sys_para.sampPacks = g_sys_para.spdPacks + g_sys_para.shkPacks + 5;
 				
                 /* -----------将采用数据打包成json格式,并保存到文件中-----*/
-				
-                PacketSampleData();
+//                PacketSampleData();
 
                 /* 发送任务通知，并解锁阻塞在该任务通知下的任务 */
                 xTaskNotifyGive( BLE_TaskHandle);
