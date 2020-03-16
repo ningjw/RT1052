@@ -59,22 +59,7 @@ instance:
       - enableHaltOnError: 'true'
       - enableRoundRobinArbitration: 'false'
       - enableDebugMode: 'false'
-    - dma_table:
-      - 0: []
-      - 1: []
-      - 2: []
-      - 3: []
-      - 4: []
-      - 5: []
-      - 6: []
-      - 7: []
-      - 8: []
-      - 9: []
-      - 10: []
-      - 11: []
-      - 12: []
-      - 13: []
-      - 14: []
+    - dma_table: []
     - edma_channels: []
     - quick_selection: 'default'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
@@ -185,9 +170,9 @@ instance:
       - 0:
         - channelNumber: '0'
         - enableChain: 'false'
-        - timerPeriod: '100us'
+        - timerPeriod: '1ms'
         - startTimer: 'false'
-        - enableInterrupt: 'false'
+        - enableInterrupt: 'true'
       - 1:
         - channelNumber: '2'
         - enableChain: 'false'
@@ -203,10 +188,12 @@ const pit_config_t PIT1_config = {
 void PIT1_init(void) {
   /* Initialize the PIT. */
   PIT_Init(PIT1_PERIPHERAL, &PIT1_config);
-  /* Set channel 0 period to 100 µs (6600 ticks). */
+  /* Set channel 0 period to 1 ms (66000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_0_TICKS);
   /* Set channel 2 period to 1 s (66000000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_2, PIT1_2_TICKS);
+  /* Enable interrupts from channel 0. */
+  PIT_EnableInterrupts(PIT1_PERIPHERAL, kPIT_Chnl_0, kPIT_TimerInterruptEnable);
   /* Enable interrupts from channel 2. */
   PIT_EnableInterrupts(PIT1_PERIPHERAL, kPIT_Chnl_2, kPIT_TimerInterruptEnable);
   /* Interrupt vector PIT1_IRQN priority settings in the NVIC */

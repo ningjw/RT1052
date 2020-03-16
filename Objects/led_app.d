@@ -67,6 +67,10 @@
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\event_groups.h
 .\objects\led_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
+.\objects\led_app.o: .\minilzo-2.10\minilzo.h
+.\objects\led_app.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
+.\objects\led_app.o: .\minilzo-2.10\lzodefs.h
+.\objects\led_app.o: .\minilzo-2.10\lzoconf.h
 .\objects\led_app.o: .\cjson\cJSON.h
 .\objects\led_app.o: .\User\inc\interrupt.h
 .\objects\led_app.o: .\User\inc\rtc_drv.h

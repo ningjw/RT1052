@@ -1,6 +1,5 @@
 #include "main.h"
 
-
 extern float ShakeADC[];
 extern float SpeedADC[];
 extern char  SpeedStrADC[];
@@ -492,11 +491,13 @@ char * PacketSampleData(void)
 char * GetSampleData(cJSON *pJson, cJSON * pSub)
 {
     uint8_t time_out = 0;
+	uint8_t retry_times = 0;
     uint32_t sid = 0;
     uint32_t index = 0;
     uint32_t flag_get_all_data = 0;
     g_sys_para.sampPacksCnt = 0;
     cJSON *pJsonRoot = NULL;
+
     /*解析消息内容,并打包需要回复的内容*/
     pSub = cJSON_GetObjectItem(pJson, "Sid");
     sid = pSub->valueint;
@@ -568,6 +569,7 @@ SEND_DATA:
             index = sid - 5;
             //每个数据占用8个byte(包含逗号与小数点);每包可以上传15个数据. 15*8=120
             memcpy(g_lpuart2TxBuf, ShakeStrADC+index*120, 120);
+
             //最后一个数据的逗号分隔符需要去掉.
             g_lpuart2TxBuf[strlen((char *)g_lpuart2TxBuf)-1] = 0x00;
             cJSON_AddStringToObject(pJsonRoot, "V", (char *)g_lpuart2TxBuf);
@@ -590,13 +592,15 @@ SEND_DATA:
     cJSON_Delete(pJsonRoot);
 
     if(flag_get_all_data ) {
+		retry_times = 0;
 RETRY:
+		retry_times++;
         memset(g_lpuart2RxBuf,0,LPUART2_BUFF_LEN);
         g_puart2RxCnt = 0;
         time_out = 0;
         AT_SendData((char *)p_reply);
         while(1) { //一直等待数据发送成功
-            if(strstr((char *)g_lpuart2RxBuf, "OK") != NULL) {
+            if((strstr((char *)g_lpuart2RxBuf, "OK") != NULL) || (retry_times>3)) {
                 break;
             } else if(strstr((char *)g_lpuart2RxBuf, "ERROR") != NULL || time_out>= 200) {
                 goto RETRY;

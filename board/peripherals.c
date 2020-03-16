@@ -170,7 +170,7 @@ instance:
       - 0:
         - channelNumber: '0'
         - enableChain: 'false'
-        - timerPeriod: '100us'
+        - timerPeriod: '1ms'
         - startTimer: 'false'
         - enableInterrupt: 'false'
       - 1:
@@ -178,6 +178,12 @@ instance:
         - enableChain: 'false'
         - timerPeriod: '1s'
         - startTimer: 'true'
+        - enableInterrupt: 'true'
+      - 2:
+        - channelNumber: '1'
+        - enableChain: 'false'
+        - timerPeriod: '1ms'
+        - startTimer: 'false'
         - enableInterrupt: 'true'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
@@ -188,12 +194,16 @@ const pit_config_t PIT1_config = {
 void PIT1_init(void) {
   /* Initialize the PIT. */
   PIT_Init(PIT1_PERIPHERAL, &PIT1_config);
-  /* Set channel 0 period to 100 µs (6600 ticks). */
+  /* Set channel 0 period to 1 ms (66000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_0_TICKS);
   /* Set channel 2 period to 1 s (66000000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_2, PIT1_2_TICKS);
+  /* Set channel 1 period to 1 ms (66000 ticks). */
+  PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_1_TICKS);
   /* Enable interrupts from channel 2. */
   PIT_EnableInterrupts(PIT1_PERIPHERAL, kPIT_Chnl_2, kPIT_TimerInterruptEnable);
+  /* Enable interrupts from channel 1. */
+  PIT_EnableInterrupts(PIT1_PERIPHERAL, kPIT_Chnl_1, kPIT_TimerInterruptEnable);
   /* Interrupt vector PIT1_IRQN priority settings in the NVIC */
   NVIC_SetPriority(PIT1_IRQN, PIT1_IRQ_PRIORITY);
   /* Enable interrupt PIT1_IRQN request in the NVIC */

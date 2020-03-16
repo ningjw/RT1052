@@ -104,6 +104,7 @@ int main(void)
 //    PWM1_Start();
 //    PWM1_Stop();
 //    PrintClock();
+	lzo_init();
 	ADC_CLK_Config();
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);/*1ms÷–∂œ£¨FreeRTOS π”√*/
     
