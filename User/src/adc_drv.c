@@ -63,71 +63,6 @@ void PWM1_Config(void)
 }
 
 
-/***************************************************************************************
-  * @brief   配置PWM1
-  * @input
-  * @return
-***************************************************************************************/
-void ADC_CLK_Config(void)
-{
-    pwm_config_t pwmConfig;
-    pwm_signal_param_t pwmSignal;
-    
-    //Route the PWMA output to the PWM_OUT_TRIG0 port
-    PWM1->SM[kPWM_Module_0].TCTRL |= PWM_TCTRL_PWAOT0_MASK;
-    //禁止错误检测
-    PWM1->SM[kPWM_Module_0].DISMAP[0]=0;
-    PWM_GetDefaultConfig(&pwmConfig);
-    pwmConfig.reloadLogic = kPWM_ReloadPwmFullCycle; //全周期更新
-    pwmConfig.pairOperation = kPWM_Independent;      //PWMA，PWMB各自独立输出
-    pwmConfig.enableDebugMode = true;                //使能 Debug 模式
-    PWM_Init(PWM1, kPWM_Module_0, &pwmConfig);       //初始化PWM1的通道3
-    
-    pwmSignal.pwmChannel = kPWM_PwmA;             //配置PWMA
-    pwmSignal.level = kPWM_LowTrue;              //有效电平为低
-    pwmSignal.dutyCyclePercent = 50;              //占空比50%        
-    /*配置PWM1 通道3 有符号中心对齐 PWM信号频率为5kHz*/
-    PWM_SetupPwm(PWM1, kPWM_Module_0, &pwmSignal, 1, kPWM_SignedCenterAligned, g_adc_set.SampleRate*512, CLOCK_GetFreq(kCLOCK_IpgClk));
-    /*设置Set LDOK 位，将初始化参数加载到相应的寄存器*/
-    PWM_SetPwmLdok(PWM1, kPWM_Control_Module_0, true);
-    /* 开启PWM 输出*/
-    PWM_StartTimer(PWM1, kPWM_Control_Module_0);
-}
-
-/***************************************************************************************
-  * @brief   配置PWM1
-  * @input
-  * @return
-***************************************************************************************/
-void LTC1063_Clk_Config(void)
-{
-	pwm_config_t pwmConfig;
-    pwm_signal_param_t pwmSignal;
-    
-    //Route the PWMA output to the PWM_OUT_TRIG0 port
-    PWM2->SM[kPWM_Module_0].TCTRL |= PWM_TCTRL_PWAOT0_MASK;
-    //禁止错误检测
-    PWM2->SM[kPWM_Module_0].DISMAP[0]=0;
-    PWM_GetDefaultConfig(&pwmConfig);
-    pwmConfig.reloadLogic = kPWM_ReloadPwmFullCycle; //全周期更新
-    pwmConfig.pairOperation = kPWM_Independent;      //PWMA，PWMB各自独立输出
-    pwmConfig.enableDebugMode = true;                //使能 Debug 模式
-    PWM_Init(PWM2, kPWM_Module_0, &pwmConfig);       //初始化PWM1的通道3
-    
-    pwmSignal.pwmChannel = kPWM_PwmA;             //配置PWMA
-    pwmSignal.level = kPWM_LowTrue;              //有效电平为低
-    pwmSignal.dutyCyclePercent = 50;              //占空比50%        
-    /*配置PWM1 通道3 有符号中心对齐 PWM信号频率为5kHz*/
-	g_sys_para.Ltc1063Clk = g_adc_set.SampleRate*100/2.56;
-//	g_sys_para.Ltc1063Clk = 0.9793*g_sys_para.Ltc1063Clk + 9883;
-
-    PWM_SetupPwm(PWM2, kPWM_Module_0, &pwmSignal, 1, kPWM_SignedCenterAligned, g_sys_para.Ltc1063Clk, CLOCK_GetFreq(kCLOCK_IpgClk));
-    /*设置Set LDOK 位，将初始化参数加载到相应的寄存器*/
-    PWM_SetPwmLdok(PWM2, kPWM_Control_Module_0, true);
-    /* 开启PWM 输出*/
-    PWM_StartTimer(PWM2, kPWM_Control_Module_0);
-}
-
 
 /***************************************************************************************
   * @brief   开始输出PWM1
@@ -148,8 +83,10 @@ void PWM1_Start(void)
 void PWM1_Stop(void)
 {
     //停止时该引脚输出高电平
-    XBARA_SetSignalsConnection(XBARA1, kXBARA1_InputLogicHigh, kXBARA1_OutputIomuxXbarInout12); 
+    XBARA_SetSignalsConnection(XBARA1,kXBARA1_InputLogicHigh,kXBARA1_OutputIomuxXbarInout12); 
 }
+
+
 
 
 /***************************************************************************************
@@ -218,7 +155,9 @@ uint32_t LPSPI4_ReadData(void)
     status_t sta;
     g_sys_para.ads1271IsOk = false;
     uint32_t spiData = 0;
+	__disable_irq();
     sta = LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI阻塞发送
+	__enable_irq();
     if(sta == kStatus_Success){
         g_sys_para.ads1271IsOk = true;
         spiData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];

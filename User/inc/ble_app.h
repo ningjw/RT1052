@@ -20,7 +20,7 @@
 
 
 
-#define LPUART2_BUFF_LEN 200
+#define LPUART2_BUFF_LEN 250
 
 typedef void (*SendMsgFunc_t)(uint8_t * buf, uint32_t len);
 
@@ -35,10 +35,9 @@ extern uint8_t g_puart2TxCnt;
 extern uint8_t g_puart2RxCnt;
 extern TaskHandle_t BLE_TaskHandle ;  /* À¶ÑÀÈÎÎñ¾ä±ú */
 extern uint8_t g_lpuart2TxBuf[];
-extern uint8_t g_lpuart2RxBuf[];
 
 void BLE_AppTask(void);
 void LPUART2_SendString(const char *str);
-void AT_SendData(char *str);
+
 
 #endif

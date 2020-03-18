@@ -342,7 +342,7 @@
 </MiscControls>
               <Define>SKIP_SYSCLK_INIT=1,CPU_MIMXRT1052CVL5B,XIP_EXTERNAL_FLASH=1, XIP_BOOT_HEADER_ENABLE =1,XIP_BOOT_HEADER_DCD_ENABLE =1,PRINTF_FLOAT_ENABLE=1,PRINTF_ADVANCED_ENABLE=1</Define>
               <Undefine></Undefine>
-              <IncludePath>.\board;.\User\inc;.\xip;.\sdmmc\inc;.\sdmmc\port\freertos;.\fatfs;.\fatfs\fsl_mmc_disk;.\cjson;.\minilzo-2.10</IncludePath>
+              <IncludePath>.\board;.\User\inc;.\xip;.\sdmmc\inc;.\sdmmc\port\freertos;.\fatfs;.\fatfs\fsl_mmc_disk;.\cjson</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -489,16 +489,6 @@
               <FileName>utility.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\utility.c</FilePath>
-            </File>
-            <File>
-              <FileName>arithmetic.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>.\User\src\arithmetic.lib</FilePath>
-            </File>
-            <File>
-              <FileName>minilzo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\minilzo-2.10\minilzo.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1097,16 +1087,6 @@
               <FileName>utility.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\utility.c</FilePath>
-            </File>
-            <File>
-              <FileName>arithmetic.lib</FileName>
-              <FileType>4</FileType>
-              <FilePath>.\User\src\arithmetic.lib</FilePath>
-            </File>
-            <File>
-              <FileName>minilzo.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\minilzo-2.10\minilzo.c</FilePath>
             </File>
           </Files>
         </Group>

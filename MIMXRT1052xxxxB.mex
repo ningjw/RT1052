@@ -59,7 +59,6 @@
                <pin_label pin_num="C10" pin_signal="GPIO_B0_12" label="PWR_WIFI_BLE" identifier="PWR_WIFI_BLE"/>
                <pin_label pin_num="B8" pin_signal="GPIO_B0_05" label="SYS_PWR_OFF" identifier="SYS_PWR_OFF"/>
                <pin_label pin_num="M6" pin_signal="ONOFF" label="ONOFF" identifier="ONOFF"/>
-               <pin_label pin_num="D10" pin_signal="GPIO_B0_13" label="ADC_CLK" identifier="ADC_CLK"/>
             </pin_labels>
          </pins_profile>
          <functions_list>
@@ -77,6 +76,11 @@
                      </feature>
                   </dependency>
                   <dependency resourceType="Peripheral" resourceId="LPI2C1" description="Peripheral LPI2C1 is not initialized" problem_level="1" source="Pins:BOARD">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="Peripheral" resourceId="TMR3" description="Peripheral TMR3 is not initialized" problem_level="1" source="Pins:BOARD">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
@@ -151,16 +155,6 @@
                         <data>true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="Peripheral" resourceId="PWM1" description="Peripheral PWM1 is not initialized" problem_level="1" source="Pins:BOARD">
-                     <feature name="initialized" evaluation="equal">
-                        <data>true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="Peripheral" resourceId="TMR3" description="Peripheral TMR3 is not initialized" problem_level="1" source="Pins:BOARD">
-                     <feature name="initialized" evaluation="equal">
-                        <data>true</data>
-                     </feature>
-                  </dependency>
                   <dependency resourceType="SWComponent" resourceId="platform.drivers.common" description="Pins initialization requires the COMMON Driver in the project." problem_level="2" source="Pins:BOARD">
                      <feature name="enabled" evaluation="equal" configuration="core0">
                         <data>true</data>
@@ -206,6 +200,12 @@
                         <pin_feature name="pull_up_down_config" value="Pull_Down_100K_Ohm"/>
                         <pin_feature name="pull_keeper_select" value="Pull"/>
                         <pin_feature name="open_drain" value="Enable"/>
+                        <pin_feature name="slew_rate" value="Slow"/>
+                     </pin_features>
+                  </pin>
+                  <pin peripheral="TMR3" signal="TIMER, 0" pin_num="A8" pin_signal="GPIO_B0_06">
+                     <pin_features>
+                        <pin_feature name="drive_strength" value="R0_6"/>
                         <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
                   </pin>
@@ -492,8 +492,6 @@
                         <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="PWM1" signal="TRIG, 0" pin_num="D10" pin_signal="GPIO_B0_13"/>
-                  <pin peripheral="TMR3" signal="TIMER, 0" pin_num="A8" pin_signal="GPIO_B0_06"/>
                </pins>
             </function>
          </functions_list>
@@ -978,7 +976,23 @@
                            <setting name="enableRoundRobinArbitration" value="false"/>
                            <setting name="enableDebugMode" value="false"/>
                         </struct>
-                        <array name="dma_table"/>
+                        <array name="dma_table">
+                           <struct name="0"/>
+                           <struct name="1"/>
+                           <struct name="2"/>
+                           <struct name="3"/>
+                           <struct name="4"/>
+                           <struct name="5"/>
+                           <struct name="6"/>
+                           <struct name="7"/>
+                           <struct name="8"/>
+                           <struct name="9"/>
+                           <struct name="10"/>
+                           <struct name="11"/>
+                           <struct name="12"/>
+                           <struct name="13"/>
+                           <struct name="14"/>
+                        </array>
                         <array name="edma_channels"/>
                      </config_set>
                   </instance>
@@ -1040,7 +1054,7 @@
                            <struct name="0">
                               <setting name="channelNumber" value="0"/>
                               <setting name="enableChain" value="false"/>
-                              <setting name="timerPeriod" value="1ms"/>
+                              <setting name="timerPeriod" value="100us"/>
                               <setting name="startTimer" value="false"/>
                               <setting name="enableInterrupt" value="false"/>
                            </struct>
@@ -1049,13 +1063,6 @@
                               <setting name="enableChain" value="false"/>
                               <setting name="timerPeriod" value="1s"/>
                               <setting name="startTimer" value="true"/>
-                              <setting name="enableInterrupt" value="true"/>
-                           </struct>
-                           <struct name="2">
-                              <setting name="channelNumber" value="1"/>
-                              <setting name="enableChain" value="false"/>
-                              <setting name="timerPeriod" value="1ms"/>
-                              <setting name="startTimer" value="false"/>
                               <setting name="enableInterrupt" value="true"/>
                            </struct>
                         </array>

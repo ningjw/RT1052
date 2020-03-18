@@ -887,23 +887,23 @@ static cJSON_bool print_string_ptr(const unsigned char * const input, printbuffe
     /* no characters have to be escaped */
     if (escape_characters == 0)
     {
-        if(flag_value){
-            output[0] = '[';
-        }else{
+//        if(flag_value){
+//            output[0] = '[';
+//        }else{
             output[0] = '\"';
-        }
+//        }
         memcpy(output + 1, input, output_length);
-        if(flag_value){
-            flag_value = 0;
-            output[output_length + 1] = ']';
-        }else{
+//        if(flag_value){
+//            flag_value = 0;
+//            output[output_length + 1] = ']';
+//        }else{
             output[output_length + 1] = '\"';
-        }
+//        }
         output[output_length + 2] = '\0';
         /* 下一次调用该函数就是打包Value的值了*/
-        if(strcmp((char *)input,"Value") == 0){
-            flag_value = 1;
-        }
+//        if(strcmp((char *)input,"Value") == 0){
+//            flag_value = 1;
+//        }
         return true;
     }
 

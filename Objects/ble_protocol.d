@@ -67,10 +67,6 @@
 .\objects\ble_protocol.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
 .\objects\ble_protocol.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\event_groups.h
 .\objects\ble_protocol.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
-.\objects\ble_protocol.o: .\minilzo-2.10\minilzo.h
-.\objects\ble_protocol.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
-.\objects\ble_protocol.o: .\minilzo-2.10\lzodefs.h
-.\objects\ble_protocol.o: .\minilzo-2.10\lzoconf.h
 .\objects\ble_protocol.o: .\cjson\cJSON.h
 .\objects\ble_protocol.o: .\User\inc\interrupt.h
 .\objects\ble_protocol.o: .\User\inc\rtc_drv.h

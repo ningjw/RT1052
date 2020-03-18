@@ -38,8 +38,6 @@
 #include "queue.h"
 #include "timers.h"
 
-#include "minilzo.h"
-
 
 #include "cJSON.h"
 #include "interrupt.h"

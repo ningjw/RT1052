@@ -5,7 +5,7 @@ extern float SpeedADC[];
 extern char  SpeedStrADC[];
 extern char  ShakeStrADC[];
 snvs_hp_rtc_datetime_t sampTime;
-
+uint16_t ble_wait_time = 32;
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
   * @input
@@ -245,6 +245,10 @@ static char * SetSamplePara(cJSON *pJson, cJSON * pSub)
             memset(g_adc_set.NamePath, 0, sizeof(g_adc_set.NamePath));
             strcpy(g_adc_set.NamePath, pSub->valuestring);
         }
+        pSub = cJSON_GetObjectItem(pJson, "D");
+        if (NULL != pSub) {
+            ble_wait_time = pSub->valueint;
+        }
         break;
     case 1:
         pSub = cJSON_GetObjectItem(pJson, "SpeedUnits");
@@ -295,7 +299,6 @@ static char * SetSamplePara(cJSON *pJson, cJSON * pSub)
         pSub = cJSON_GetObjectItem(pJson, "SampleRate");
         if (NULL != pSub) {
             g_adc_set.SampleRate = pSub->valueint;
-            ADC_CLK_Config();
         }
         pSub = cJSON_GetObjectItem(pJson, "Lines");
         if (NULL != pSub) {
@@ -376,7 +379,7 @@ static char * StartSample(cJSON *pJson, cJSON * pSub)
     cJSON_AddNumberToObject(pJsonReply, "Sid", 0);
     char *sendBuf = cJSON_PrintUnformatted(pJsonReply);
     cJSON_Delete(pJsonReply);
-    AT_SendData((char *)sendBuf);
+    LPUART2_SendString((char *)sendBuf);
     free(sendBuf);
     sendBuf = NULL;
     sampTime = rtcDate;
@@ -472,12 +475,12 @@ char * PacketSampleData(void)
     cJSON_Delete(pJsonRoot);
 
     /*将打包好的数据保存到文件 */
-    if (NULL != g_sys_para.sampJson) {
-        g_sys_para.sampSize = strlen(g_sys_para.sampJson);
-        eMMC_SaveSampleData(g_sys_para.sampJson, g_sys_para.sampSize);
-        //将数据通过串口打印出来
-        PRINTF("%s", g_sys_para.sampJson);
-    }
+//    if (NULL != g_sys_para.sampJson) {
+//        g_sys_para.sampSize = strlen(g_sys_para.sampJson);
+//        eMMC_SaveSampleData(g_sys_para.sampJson, g_sys_para.sampSize);
+//        //将数据通过串口打印出来
+//        PRINTF("%s", g_sys_para.sampJson);
+//    }
 
     return g_sys_para.sampJson;
 }
@@ -490,14 +493,11 @@ char * PacketSampleData(void)
 ***************************************************************************************/
 char * GetSampleData(cJSON *pJson, cJSON * pSub)
 {
-    uint8_t time_out = 0;
-	uint8_t retry_times = 0;
     uint32_t sid = 0;
     uint32_t index = 0;
     uint32_t flag_get_all_data = 0;
     g_sys_para.sampPacksCnt = 0;
     cJSON *pJsonRoot = NULL;
-
     /*解析消息内容,并打包需要回复的内容*/
     pSub = cJSON_GetObjectItem(pJson, "Sid");
     sid = pSub->valueint;
@@ -564,25 +564,25 @@ SEND_DATA:
         memset(g_lpuart2TxBuf, 0, LPUART2_BUFF_LEN);
         if(sid-5 < g_sys_para.shkPacks)
         {
-            cJSON_AddStringToObject(pJsonRoot, "T", "V");
-
+//            cJSON_AddStringToObject(pJsonRoot, "T", "V");
+            g_lpuart2TxBuf[0] = 'V';
             index = sid - 5;
-            //每个数据占用8个byte(包含逗号与小数点);每包可以上传15个数据. 15*8=120
-            memcpy(g_lpuart2TxBuf, ShakeStrADC+index*120, 120);
+            //每个数据占用4个byte;每包可以上传38个数据. 38*4=152
+            memcpy(g_lpuart2TxBuf+1, ShakeStrADC+index*152, 152);
 
             //最后一个数据的逗号分隔符需要去掉.
-            g_lpuart2TxBuf[strlen((char *)g_lpuart2TxBuf)-1] = 0x00;
+//            g_lpuart2TxBuf[strlen((char *)g_lpuart2TxBuf)-1] = 0x00;
             cJSON_AddStringToObject(pJsonRoot, "V", (char *)g_lpuart2TxBuf);
         }
         else if(sid - 5 - g_sys_para.shkPacks < g_sys_para.spdCount)
         {
-            cJSON_AddStringToObject(pJsonRoot, "T", "S");
-
+//            cJSON_AddStringToObject(pJsonRoot, "T", "S");
+            g_lpuart2TxBuf[0] = 'S';
             index = sid - 5 - g_sys_para.shkPacks;
-            //每个数据占用8个byte(包含逗号与小数点);每包可以上传15个数据. 15*8=120
-            memcpy(g_lpuart2TxBuf, SpeedStrADC+index*120, 120);
+            //每个数据占用4个byte;每包可以上传38个数据. 38*4=152
+            memcpy(g_lpuart2TxBuf, SpeedStrADC+index*152, 152);
             //最后一个数据的逗号分隔符需要去掉.
-            g_lpuart2TxBuf[strlen((char *)g_lpuart2TxBuf)-1] = 0x00;
+//            g_lpuart2TxBuf[strlen((char *)g_lpuart2TxBuf)-1] = 0x00;
             cJSON_AddStringToObject(pJsonRoot, "V", (char *)g_lpuart2TxBuf);
         }
         break;
@@ -592,23 +592,9 @@ SEND_DATA:
     cJSON_Delete(pJsonRoot);
 
     if(flag_get_all_data ) {
-		retry_times = 0;
-RETRY:
-		retry_times++;
-        memset(g_lpuart2RxBuf,0,LPUART2_BUFF_LEN);
-        g_puart2RxCnt = 0;
-        time_out = 0;
-        AT_SendData((char *)p_reply);
-        while(1) { //一直等待数据发送成功
-            if((strstr((char *)g_lpuart2RxBuf, "OK") != NULL) || (retry_times>3)) {
-                break;
-            } else if(strstr((char *)g_lpuart2RxBuf, "ERROR") != NULL || time_out>= 200) {
-                goto RETRY;
-            } else {
-                time_out++;
-                vTaskDelay(1);
-            }
-        }
+        LPUART2_SendString((char *)p_reply);
+        PRINTF("%s\r\n",(char *)p_reply);
+        vTaskDelay(ble_wait_time);
         free(p_reply);
         p_reply = NULL;
         g_sys_para.sampPacksCnt++;

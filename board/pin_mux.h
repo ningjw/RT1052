@@ -189,11 +189,6 @@ void BOARD_InitBootPins(void);
 #define BOARD_ONOFF_PERIPHERAL                                               SRC   /*!< Device name: SRC */
 #define BOARD_ONOFF_SIGNAL                                               RESET_B   /*!< SRC signal: RESET_B */
 
-/* GPIO_B0_13 (coord D10), ADC_CLK */
-#define BOARD_ADC_CLK_PERIPHERAL                                            PWM1   /*!< Device name: PWM1 */
-#define BOARD_ADC_CLK_SIGNAL                                                TRIG   /*!< PWM1 signal: TRIG */
-#define BOARD_ADC_CLK_CHANNEL                                                 0U   /*!< PWM1 TRIG channel: 0 */
-
 
 /*!
  * @brief Configures pin routing and optionally pin electrical features.

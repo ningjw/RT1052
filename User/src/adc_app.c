@@ -1,20 +1,10 @@
 #include "main.h"
 
-#define ADC_LEN      30000
-//#define IN_LEN      ADC_LEN
-//#define OUT_LEN     (IN_LEN + IN_LEN / 16 + 64 + 3)
-//#define HEAP_ALLOC(var,size) \
-//    lzo_align_t __LZO_MMODEL var [ ((size) + (sizeof(lzo_align_t) - 1)) / sizeof(lzo_align_t) ]
-
-//unsigned char __LZO_MMODEL compress_out [ OUT_LEN ];
-//HEAP_ALLOC(wrkmem, LZO1X_1_MEM_COMPRESS);
-//lzo_uint compress_len = 0;
-//lzo_uint compress_out_len = 0;
-	
+#define ADC_LEN      50000
 float SpeedADC[ADC_LEN];
 float ShakeADC[ADC_LEN];
-char  SpeedStrADC[ADC_LEN * 8 + 1];
-char  ShakeStrADC[ADC_LEN * 8 + 1];
+char  SpeedStrADC[ADC_LEN * 4 + 1];
+char  ShakeStrADC[ADC_LEN * 4 + 1];
 
 #define ADC_MODE_LOW_POWER       GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 1)  //低功耗模式
 #define ADC_MODE_HIGH_SPEED      GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 0)   //高速模式
@@ -35,14 +25,7 @@ uint8_t  ADC_InvalidCnt = 0;
 ***************************************************************************************/
 void PIT_IRQHandler(void)
 {
-	if(PIT_GetStatusFlags(PIT, kPIT_Chnl_1) == true){
-		/* 清除中断标志位.*/
-        PIT_ClearStatusFlags(PIT, kPIT_Chnl_1, kPIT_TimerFlag);
-		if(g_sys_para.shkCount < ADC_LEN) {
-			ShakeADC[g_sys_para.shkCount++] = ADC_ShakeValue;
-		}
-	}
-    else if( PIT_GetStatusFlags(PIT, kPIT_Chnl_2) == true) {
+    if( PIT_GetStatusFlags(PIT, kPIT_Chnl_2) == true) {
         /* 清除中断标志位.*/
         PIT_ClearStatusFlags(PIT, kPIT_Chnl_2, kPIT_TimerFlag);
 		g_eventTimeMilliseconds++;
@@ -66,9 +49,6 @@ void TMR1_IRQHandler(void)
     /* 清除中断标志 */
     QTMR_ClearStatusFlags(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_EdgeFlag);
     timeCapt = QUADTIMER1_PERIPHERAL->CHANNEL[QUADTIMER1_CHANNEL_0_CHANNEL].CAPT;//读取寄存器值
-	if(g_sys_para.spdCount < ADC_LEN) {
-		SpeedADC[g_sys_para.spdCount++] = timeCapt;
-	}
 }
 
 
@@ -82,8 +62,8 @@ void ADC_ETC_IRQ0_IRQHandler(void)
     /*清除转换完成中断标志位*/
     ADC_ETC_ClearInterruptStatusFlags(ADC_ETC, (adc_etc_external_trigger_source_t)0U, kADC_ETC_Done0StatusFlagMask);
     /*读取转换结果*/
-    if(g_sys_para.spdCount < ADC_LEN) {
-        SpeedADC[g_sys_para.spdCount++] = ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
+    if(g_sys_para.shkCount < ADC_LEN) {
+        ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
 		ShakeADC[g_sys_para.shkCount++] = ADC_ShakeValue;
 	}
 }
@@ -108,7 +88,7 @@ void ADC_SampleStart(void)
 {
     g_sys_para.spdCount = 0;
     g_sys_para.shkCount = 0;
-    g_sys_para.Ltc1063Clk = 10000 * g_adc_set.SampleRate / 256;
+    g_sys_para.Ltc1063Clk = 1000 * g_adc_set.SampleRate / 25;
 
 	//判断自动关机条件
     if(g_sys_para.inactiveCondition != 1) {
@@ -120,13 +100,13 @@ void ADC_SampleStart(void)
 	}
     vTaskSuspend(BAT_TaskHandle);
     vTaskSuspend(LED_TaskHandle);
-    /* Setup the PWM mode of the timer channel 用于LTC1063FA的时钟,控制采样带宽*/
+    /* Setup the PWM mode of the timer channel 用于LTC1063FA的时钟输入,控制采样带宽*/
     QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
     QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 	/* Set channel 0 period (66000000 ticks). 用于触发内部ADC采样，采集转速信号*/
-//    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ / g_adc_set.SampleRate);
+    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ / g_adc_set.SampleRate);
     /* Set channel 1 period (66000000 ticks). 用于控制采样频率*/
-    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_CLK_FREQ / g_adc_set.SampleRate);
+//    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_CLK_FREQ / g_adc_set.SampleRate);
     /* 输入捕获，计算转速信号周期 */
     QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 	NVIC_DisableIRQ(PendSV_IRQn);   
@@ -141,7 +121,7 @@ void ADC_SampleStart(void)
 		if(ADC_InvalidCnt > 20) break;//根据调试时的数据观察,丢弃前面20个数据
     }
     /* Start channel 0. 开启通道0,正式开始采样*/
-    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_1);
+    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
 	while (1) { //wait ads1271 ready
         while(ADC_READY == 0);
 		ADC_ShakeValue = LPSPI4_ReadData();
@@ -162,7 +142,7 @@ void ADC_SampleStart(void)
 void ADC_SampleStop(void)
 {
 	/* Stop channel 0. */
-    PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_1);
+    PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
 	
 	/* Start channel 2. */
 	PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
@@ -220,76 +200,49 @@ void ADC_AppTask(void)
                 /* 计算转速信号周期 */
 //                g_sys_para.periodSpdSignal = (timeCapt * 1000) / counterClock;
 
-                PRINTF("设置的采样频率为:%d Hz\r\n", g_adc_set.SampleRate);
-                PRINTF("设置的采样点数:%d ms\r\n", g_sys_para.sampNumber);
-//                PRINTF("计算出转速信号周期:%d us\r\n", g_sys_para.periodSpdSignal);
-                PRINTF("共采样到 %d 个震动信号\r\n", g_sys_para.shkCount);
-                PRINTF("共采样到 %d 个转速信号\r\n", g_sys_para.spdCount);
-
                 /* ---------------将震动信号转换-----------------------*/
+				PRINTF("共采样到 %d 个震动信号\r\n", g_sys_para.shkCount);
                 memset(ShakeStrADC, 0, sizeof(ShakeStrADC));
                 int pos = 0;
+				int tempValue = 0;
                 g_sys_para.voltageADS1271 = 0;
                 for(uint32_t i = 0; i < g_sys_para.shkCount; i++) {
                     ShakeADC[i] = ShakeADC[i] * g_sys_para.bias * 1.0f / 0x800000;
+					PRINTF("%01.5f,",ShakeADC[i]);
+					tempValue = ShakeADC[i] * 10000;//将浮点数转换为整数,并扩大100000倍
                     memset(str, 0, sizeof(str));
-                    sprintf(str, "%01.5f,", ShakeADC[i]);
-                    memcpy(ShakeStrADC + pos, str, 8);
-                    pos += 8;
-//                    g_sys_para.voltageADS1271 += ShakeADC[i];
+                    sprintf(str, "%04x", tempValue);
+                    memcpy(ShakeStrADC + pos, str, 4);
+                    pos += 4;
                 }
 				//计算发送震动信号需要多少个包
-				g_sys_para.shkPacks = (g_sys_para.shkCount / 15) +  (g_sys_para.shkCount%15?1:0);
-//                g_sys_para.voltageADS1271 /= g_sys_para.shkCount;
+				g_sys_para.shkPacks = (g_sys_para.shkCount / 38) +  (g_sys_para.shkCount%38?1:0);
                 g_sys_para.voltageADS1271 = ShakeADC[g_sys_para.shkCount - 1];
-				
-//				compress_len = strlen(ShakeStrADC);
-//				lzo1x_1_compress(ShakeStrADC,compress_len,compress_out,&compress_out_len, wrkmem);
-#if 1
+
 				/* ------------------将转速信号转换--------------------*/
+				PRINTF("\r\n共采样到 %d 个转速信号\r\n", g_sys_para.spdCount);
                 memset(SpeedStrADC, 0, sizeof(SpeedStrADC));
                 pos = 0;
                 g_sys_para.voltageSpd = 0;
                 for(uint32_t i = 0; i < g_sys_para.spdCount; i++) {
                     SpeedADC[i] = SpeedADC[i] * 1000 / counterClock;
+					PRINTF("%01.5f,",SpeedADC[i]);
+					tempValue = SpeedADC[i];
                     memset(str, 0, sizeof(str));
-                    sprintf(str, "%05.1f,", SpeedADC[i]);
-                    memcpy(SpeedStrADC + pos, str, 8);
-                    pos += 8;
-//                  g_sys_para.voltageSpd += SpeedADC[i];
+                    sprintf(str, "%04x", tempValue);
+                    memcpy(SpeedStrADC + pos, str, 4);
+                    pos += 4;
                 }
 //                g_sys_para.voltageSpd /= g_sys_para.spdCount;
                 g_sys_para.voltageSpd = SpeedADC[g_sys_para.spdCount - 1];
 				//计算发送震动信号需要多少个包
-				g_sys_para.spdPacks = (g_sys_para.spdCount / 15) +  (g_sys_para.spdCount%15?1:0);
+				g_sys_para.spdPacks = (g_sys_para.spdCount / 38) +  (g_sys_para.spdCount%38?1:0);
 				
 				//计算将一次采集数据全部发送到Android需要多少个包
 				g_sys_para.sampPacks = g_sys_para.spdPacks + g_sys_para.shkPacks + 5;
 
-#else
-				
-                /* ------------------将转速信号转换--------------------*/
-                memset(SpeedStrADC, 0, sizeof(SpeedStrADC));
-                pos = 0;
-                g_sys_para.voltageSpd = 0;
-                for(uint32_t i = 0; i < g_sys_para.spdCount; i++) {
-                    SpeedADC[i] = SpeedADC[i] * g_sys_para.refV / 4096.0f;
-                    memset(str, 0, sizeof(str));
-                    sprintf(str, "%01.5f,", SpeedADC[i]);
-                    memcpy(SpeedStrADC + pos, str, 8);
-                    pos += 8;
-//                  g_sys_para.voltageSpd += SpeedADC[i];
-                }
-//                g_sys_para.voltageSpd /= g_sys_para.spdCount;
-                g_sys_para.voltageSpd = SpeedADC[g_sys_para.spdCount - 1];
-				//计算发送震动信号需要多少个包
-				g_sys_para.spdPacks = (g_sys_para.spdCount / 15) +  (g_sys_para.spdCount%15?1:0);
-				
-				//计算将一次采集数据全部发送到Android需要多少个包
-				g_sys_para.sampPacks = g_sys_para.spdPacks + g_sys_para.shkPacks + 5;
-#endif
                 /* -----------将采用数据打包成json格式,并保存到文件中-----*/
-//                PacketSampleData();
+                PacketSampleData();
 
                 /* 发送任务通知，并解锁阻塞在该任务通知下的任务 */
                 xTaskNotifyGive( BLE_TaskHandle);

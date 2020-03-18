@@ -21,7 +21,7 @@ static void InitSysPara()
     g_sys_para.inactiveCondition = 1;//蓝牙连接没有通信后,15分钟关机.
 
     g_adc_set.SampleRate = 5120;     //取样频率
-    g_sys_para.sampNumber = 12288;    //取样点数,
+    g_sys_para.sampNumber = 6144;//12288;    //取样点数,
     g_sys_para.inactiveCount = 0;    //
     g_sys_para.sampLedStatus = WORK_FINE;
     g_sys_para.batLedStatus = BAT_NORMAL;
@@ -104,8 +104,6 @@ int main(void)
 //    PWM1_Start();
 //    PWM1_Stop();
 //    PrintClock();
-	lzo_init();
-	ADC_CLK_Config();
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);/*1ms中断，FreeRTOS使用*/
     
     /* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 

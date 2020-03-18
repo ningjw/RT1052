@@ -67,10 +67,6 @@
 .\objects\utility.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
 .\objects\utility.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\event_groups.h
 .\objects\utility.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
-.\objects\utility.o: .\minilzo-2.10\minilzo.h
-.\objects\utility.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\limits.h
-.\objects\utility.o: .\minilzo-2.10\lzodefs.h
-.\objects\utility.o: .\minilzo-2.10\lzoconf.h
 .\objects\utility.o: .\cjson\cJSON.h
 .\objects\utility.o: .\User\inc\interrupt.h
 .\objects\utility.o: .\User\inc\rtc_drv.h

@@ -25,7 +25,7 @@ uint32_t ble_event = 0;
 uint32_t  g_puart2RxTimeCnt = 0;
 TaskHandle_t        BLE_TaskHandle = NULL;//蓝牙任务句柄
 
-
+static char send_str[164] = {0};
 ATCfg_t g_at_cfg = {
     .resp_time = 100,//10ms后检测接受到的数据
     .try_times = 2,
@@ -42,23 +42,6 @@ void LPUART2_SendString(const char *str)
     LPUART_WriteBlocking(LPUART2, (uint8_t *)str, strlen(str));
 }
 
-/***************************************************************************************
-* @brief   通过蓝牙发送数据
-  * @input
-  * @return
-***************************************************************************************/
-void AT_SendData(char *str)
-{
-    uint8_t len = strlen(str);
-    char lens[4] = {0};
-    sprintf(lens,"%d,",len);
-    memset(g_lpuart2TxBuf, sizeof(g_lpuart2TxBuf), 0);
-    strcpy((char *)g_lpuart2TxBuf,"AT+LESEND=");
-    strcat((char *)g_lpuart2TxBuf,lens);
-    strcat((char *)g_lpuart2TxBuf,str);
-    strcat((char *)g_lpuart2TxBuf, "\r\n");
-    LPUART2_SendString((char *)g_lpuart2TxBuf);
-}
 
 /*****************************************************************
 * 功能：发送AT指令
@@ -71,19 +54,19 @@ uint8_t AT_SendCmd(const char *cmd, const char *param, const char *recv_str, ATC
 {
     p_at_cfg->try_cnt = 0;
 
-    memset(g_lpuart2TxBuf, sizeof(g_lpuart2TxBuf), 0);
-    strcpy((char *)g_lpuart2TxBuf, "AT");
-    strcat((char *)g_lpuart2TxBuf, cmd);
+    memset(send_str, sizeof(send_str), 0);
+    strcpy(send_str, "AT");
+    strcat(send_str, cmd);
     if (NULL != param) {
-        strcat((char *)g_lpuart2TxBuf, "=");
-        strcat((char *)g_lpuart2TxBuf, param);
+        strcat(send_str, "=");
+        strcat(send_str, param);
     }
-    strcat((char *)g_lpuart2TxBuf, "\r\n");
+    strcat(send_str, "\r\n");
 
 retry:
     g_puart2StartRx = 0;
     g_puart2RxCnt = 0;
-    LPUART2_SendString((char *)g_lpuart2TxBuf);//发送AT指令
+    LPUART2_SendString(send_str);//发送AT指令
 
     if (NULL == recv_str ) {
         return true;
@@ -122,14 +105,16 @@ void BLE_AppTask(void)
     xReturn = AT_SendCmd(BT_BAUD, "230400", BT_BAUD, &g_at_cfg);
     LPUART_SetBaudRate(LPUART2, 230400, LPUART2_CLOCK_SOURCE);
 
-    LPUART2_SendString("AT+TPMODE=0\r\n");
-    vTaskDelay(100);
-
     /* 设置蓝牙名称 */
     xReturn = AT_SendCmd(BT_NAME, DEVICE_BLE_NAME, RESP_OK, &g_at_cfg);
     if( xReturn == true ) {
         g_sys_para.bleLedStatus = BLE_READY;
     }
+
+    /* 进入透传模式 */
+    LPUART2_SendString("AT+TPMODE=1\r\n");
+    vTaskDelay(100);
+    SET_THROUGHPUT_MODE();
 
     memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
     g_puart2RxCnt = 0;
@@ -161,9 +146,10 @@ void BLE_AppTask(void)
             /* json数据包 */
             else if(NULL != sendBuf )
             {
-                AT_SendData((char *)sendBuf);
-                PRINTF("%s\r\n",sendBuf);
+                LPUART2_SendString((char *)sendBuf);
+                PRINTF("%s",sendBuf);
                 free(sendBuf);
+                sendBuf = NULL;
             }
         }
         else if(pdTRUE == xReturn && ble_event == ETV_TIMTOUT) { //接受蓝牙数据超时
@@ -201,19 +187,21 @@ void LPUART2_IRQHandler(void)
     {
         /*读取数据*/
         ucTemp = LPUART_ReadByte(LPUART2);
-		
-		if( ucTemp == '{') {
+        if( ucTemp == '{') {
             g_puart2StartRx = 1;
             g_puart2RxTimeCnt = 0;
-            g_puart2RxCnt = 0;
+			g_puart2RxCnt = 0;
         } 
-		
-        if(g_puart2RxCnt < LPUART2_BUFF_LEN) {
+
+		if(g_puart2RxCnt < LPUART2_BUFF_LEN) {
             /* 将接受到的数据保存到数组*/
             g_lpuart2RxBuf[g_puart2RxCnt++] = ucTemp;
+        }else{/* 数据超出指定长度, 清0 */
+            g_puart2StartRx = 0;
+            g_puart2RxCnt = 0;
         }
-        
-		if( ucTemp == '}') {
+		
+        if( ucTemp == '}') {
             /* 接受完成,该标志清0*/
             g_puart2StartRx = 0;
             //接受到Android发送的结束采集信号
@@ -226,7 +214,6 @@ void LPUART2_IRQHandler(void)
                 xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
             }
         }
-
     }
     /* 发生了未知中断, 重启串口2*/
     else
