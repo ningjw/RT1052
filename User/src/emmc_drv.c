@@ -74,8 +74,12 @@ void eMMC_GetFree(void)
         /* Get total sectors and free K */
         g_sys_para.emmc_tot_size = ((fs->n_fatent - 2) * fs->csize ) / 2;
         g_sys_para.emmc_fre_size = (fre_clust * fs->csize) / 2;
-        PRINTF("eMMC总大小:%d Mb\r\n",g_sys_para.emmc_tot_size/1024);
-        PRINTF("eMMC剩余大小:%d Mb\r\n",g_sys_para.emmc_fre_size/1024);
+        PRINTF("eMMC总大小:%d kb\r\n",g_sys_para.emmc_tot_size);
+        PRINTF("eMMC剩余大小:%d kb\r\n",g_sys_para.emmc_fre_size);
+		//为测试文件系统,是否会在内存满的时候自动删除最早的文件,增加如下测试代码模拟剩余空间已经不足
+//		if(g_sys_para.emmc_fre_size > 3786464){
+//			g_sys_para.emmc_fre_size -= 3786464;
+//		}else g_sys_para.emmc_fre_size = 0;
     } else {
         g_sys_para.emmcIsOk = false;
     }
@@ -123,6 +127,7 @@ void eMMC_DelEarliestFile(void)
         strcat(g_sys_para.earliestFile, driverNumberBuffer);
         memcpy(g_sys_para.earliestFile+3, fileStr, FILE_NAME_LEN);
         f_unlink(g_sys_para.earliestFile);
+		PRINTF("删除文件:%s\r\n",g_sys_para.earliestFile);
         fileStr += (FILE_NAME_LEN+2);//2个额外的字符为"\r\n"
     }
     /*将编辑好的内容打印出来*/
@@ -213,7 +218,7 @@ uint32_t eMMC_SaveSampleData(char *buff, uint32_t len)
     /* 获取日期 */
     SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
     
-    sprintf((char *)fileName, "%04d%02d%02d%02d%02d%02d", rtcDate.year, rtcDate.month, rtcDate.day, rtcDate.hour, rtcDate.minute, rtcDate.second);
+    sprintf((char *)fileName, "%d%02d%02d%02d%02d%02d", rtcDate.year%100, rtcDate.month, rtcDate.day, rtcDate.hour, rtcDate.minute, rtcDate.second);
     
     /*创建并打开文件*/
     res = f_open(&g_fileObject, _T(fileName), FA_CREATE_NEW);

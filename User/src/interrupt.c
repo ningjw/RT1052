@@ -7,8 +7,8 @@ lpuart_transfer_t uart3RevXfer = {
     .data     = g_lpuart3RxBuf,
     .dataSize = LPUART3_BUFF_LEN,
 };
-
-    
+extern const TCHAR driverNumberBuffer[3U];
+extern BYTE g_data_read[];
 
 /***************************************************************************************
   * @brief
@@ -44,7 +44,7 @@ void LPUART3_IRQHandler(void)
 		LPUART_TransferAbortReceiveEDMA(LPUART3, &LPUART3_eDMA_Handle);   //eDMA终止接收数据
 		LPUART_ReceiveEDMA(LPUART3, &LPUART3_eDMA_Handle, &uart3RevXfer);  //使用eDMA接收
         
-        PRINTF("%s:\r\n",uart3RevXfer.data);
+//        PRINTF("%s:\r\n",uart3RevXfer.data);
         if(strstr((char *)uart3RevXfer.data,"ls") != NULL){
             eMMC_ScanFile();
         }else if(strstr((char *)uart3RevXfer.data,"cat") != NULL){
@@ -56,6 +56,7 @@ void LPUART3_IRQHandler(void)
                 eMMC_DelEarliestFile();
             }else{
                 f_unlink((char *)&uart3RevXfer.data[4]);
+				PRINTF("删除:%s文件",&uart3RevXfer.data[4]);
             }
         }else if(strstr((char *)uart3RevXfer.data,"add") != NULL){
             eMMC_AppendmanageFile((char *)&uart3RevXfer.data[4]);
