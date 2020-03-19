@@ -59,22 +59,7 @@ instance:
       - enableHaltOnError: 'true'
       - enableRoundRobinArbitration: 'false'
       - enableDebugMode: 'false'
-    - dma_table:
-      - 0: []
-      - 1: []
-      - 2: []
-      - 3: []
-      - 4: []
-      - 5: []
-      - 6: []
-      - 7: []
-      - 8: []
-      - 9: []
-      - 10: []
-      - 11: []
-      - 12: []
-      - 13: []
-      - 14: []
+    - dma_table: []
     - edma_channels: []
     - quick_selection: 'default'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
@@ -646,9 +631,9 @@ instance:
   - main:
     - mode: 'kLPSPI_Master'
     - clockSource: 'LpspiClock'
-    - clockSourceFreq: 'BOARD_BootClockRUN'
+    - clockSourceFreq: 'custom:25000000'
     - master:
-      - baudRate: '100000000'
+      - baudRate: '25000000'
       - bitsPerFrame: '24'
       - cpol: 'kLPSPI_ClockPolarityActiveHigh'
       - cpha: 'kLPSPI_ClockPhaseSecondEdge'
@@ -663,7 +648,7 @@ instance:
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
 const lpspi_master_config_t LPSPI4_config = {
-  .baudRate = 100000000,
+  .baudRate = 25000000,
   .bitsPerFrame = 24,
   .cpol = kLPSPI_ClockPolarityActiveHigh,
   .cpha = kLPSPI_ClockPhaseSecondEdge,

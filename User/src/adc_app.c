@@ -1,6 +1,6 @@
 #include "main.h"
 
-#define ADC_LEN      50000
+#define ADC_LEN      10000
 float SpeedADC[ADC_LEN];
 float ShakeADC[ADC_LEN];
 char  SpeedStrADC[ADC_LEN * 4 + 1];
@@ -12,7 +12,7 @@ char  ShakeStrADC[ADC_LEN * 4 + 1];
 #define ADC_SYNC_HIGH            GPIO_PinWrite(BOARD_ADC_SYNC_GPIO, BOARD_ADC_SYNC_PIN, 1)
 #define ADC_SYNC_LOW             GPIO_PinWrite(BOARD_ADC_SYNC_GPIO, BOARD_ADC_SYNC_PIN, 0)
 TaskHandle_t ADC_TaskHandle = NULL;  /* ADC任务句柄 */
-static uint32_t counterClock = 0;
+
 uint32_t timeCapt = 0;
 char str[12];
 extern volatile uint32_t g_eventTimeMilliseconds;
@@ -48,7 +48,9 @@ void TMR1_IRQHandler(void)
 {
     /* 清除中断标志 */
     QTMR_ClearStatusFlags(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_EdgeFlag);
-    timeCapt = QUADTIMER1_PERIPHERAL->CHANNEL[QUADTIMER1_CHANNEL_0_CHANNEL].CAPT;//读取寄存器值
+	if(g_sys_para.spdCount < ADC_LEN){
+		SpeedADC[g_sys_para.spdCount++] = QUADTIMER1_PERIPHERAL->CHANNEL[QUADTIMER1_CHANNEL_0_CHANNEL].CAPT;//读取寄存器值
+	}
 }
 
 
@@ -63,7 +65,7 @@ void ADC_ETC_IRQ0_IRQHandler(void)
     ADC_ETC_ClearInterruptStatusFlags(ADC_ETC, (adc_etc_external_trigger_source_t)0U, kADC_ETC_Done0StatusFlagMask);
     /*读取转换结果*/
     if(g_sys_para.shkCount < ADC_LEN) {
-        ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
+//        ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
 		ShakeADC[g_sys_para.shkCount++] = ADC_ShakeValue;
 	}
 }
@@ -88,6 +90,8 @@ void ADC_SampleStart(void)
 {
     g_sys_para.spdCount = 0;
     g_sys_para.shkCount = 0;
+	memset(ShakeADC,0,ADC_LEN);
+	memset(SpeedADC,0,ADC_LEN);
     g_sys_para.Ltc1063Clk = 1000 * g_adc_set.SampleRate / 25;
 
 	//判断自动关机条件
@@ -122,7 +126,7 @@ void ADC_SampleStart(void)
     }
     /* Start channel 0. 开启通道0,正式开始采样*/
     PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
-	while (1) { //wait ads1271 ready
+	while(1) { //wait ads1271 ready
         while(ADC_READY == 0);
 		ADC_ShakeValue = LPSPI4_ReadData();
 		if(g_sys_para.shkCount >= g_sys_para.sampNumber){
@@ -175,9 +179,6 @@ void ADC_AppTask(void)
     /* 使能LPSPI4用于读取ADS1271的值*/
     LPSPI_Enable(LPSPI4, true);
 
-    /* 初始化counterClock,用于计算捕获周期 */
-    counterClock = QUADTIMER1_CHANNEL_0_CLOCK_SOURCE / 1000;
-
     ADC_MODE_HIGH_SPEED;
 
     /* 等待ADS1271 ready,并读取电压值,如果没有成功获取电压值, 则闪灯提示 */
@@ -197,9 +198,6 @@ void ADC_AppTask(void)
 			
             /* 完成采样事件*/
             if(r_event & NOTIFY_FINISH) {
-                /* 计算转速信号周期 */
-//                g_sys_para.periodSpdSignal = (timeCapt * 1000) / counterClock;
-
                 /* ---------------将震动信号转换-----------------------*/
 				PRINTF("共采样到 %d 个震动信号\r\n", g_sys_para.shkCount);
                 memset(ShakeStrADC, 0, sizeof(ShakeStrADC));
@@ -209,7 +207,7 @@ void ADC_AppTask(void)
                 for(uint32_t i = 0; i < g_sys_para.shkCount; i++) {
                     ShakeADC[i] = ShakeADC[i] * g_sys_para.bias * 1.0f / 0x800000;
 					PRINTF("%01.5f,",ShakeADC[i]);
-					tempValue = ShakeADC[i] * 10000;//将浮点数转换为整数,并扩大100000倍
+					tempValue = ShakeADC[i] * 10000;//将浮点数转换为整数,并扩大10000倍
                     memset(str, 0, sizeof(str));
                     sprintf(str, "%04x", tempValue);
                     memcpy(ShakeStrADC + pos, str, 4);
@@ -225,9 +223,9 @@ void ADC_AppTask(void)
                 pos = 0;
                 g_sys_para.voltageSpd = 0;
                 for(uint32_t i = 0; i < g_sys_para.spdCount; i++) {
-                    SpeedADC[i] = SpeedADC[i] * 1000 / counterClock;
-					PRINTF("%01.5f,",SpeedADC[i]);
-					tempValue = SpeedADC[i];
+                    SpeedADC[i] = SpeedADC[i] * 1000 / QUADTIMER1_CHANNEL_0_CLOCK_SOURCE;//单位ms
+					PRINTF("%f,",SpeedADC[i]);
+					tempValue = SpeedADC[i] * 10;//扩大10倍
                     memset(str, 0, sizeof(str));
                     sprintf(str, "%04x", tempValue);
                     memcpy(SpeedStrADC + pos, str, 4);
@@ -242,7 +240,7 @@ void ADC_AppTask(void)
 				g_sys_para.sampPacks = g_sys_para.spdPacks + g_sys_para.shkPacks + 5;
 
                 /* -----------将采用数据打包成json格式,并保存到文件中-----*/
-                PacketSampleData();
+//                PacketSampleData();
 
                 /* 发送任务通知，并解锁阻塞在该任务通知下的任务 */
                 xTaskNotifyGive( BLE_TaskHandle);

@@ -899,11 +899,6 @@
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="ClockOutput" resourceId="LPSPI_CLK_ROOT" description="LPSPI_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="frequency" evaluation="greaterThan">
-                        <data type="Frequency" unit="Hz">0</data>
-                     </feature>
-                  </dependency>
                   <dependency resourceType="ClockOutput" resourceId="IPG_CLK_ROOT" description="IPG_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="frequency" evaluation="greaterThan">
                         <data type="Frequency" unit="Hz">0</data>
@@ -976,23 +971,7 @@
                            <setting name="enableRoundRobinArbitration" value="false"/>
                            <setting name="enableDebugMode" value="false"/>
                         </struct>
-                        <array name="dma_table">
-                           <struct name="0"/>
-                           <struct name="1"/>
-                           <struct name="2"/>
-                           <struct name="3"/>
-                           <struct name="4"/>
-                           <struct name="5"/>
-                           <struct name="6"/>
-                           <struct name="7"/>
-                           <struct name="8"/>
-                           <struct name="9"/>
-                           <struct name="10"/>
-                           <struct name="11"/>
-                           <struct name="12"/>
-                           <struct name="13"/>
-                           <struct name="14"/>
-                        </array>
+                        <array name="dma_table"/>
                         <array name="edma_channels"/>
                      </config_set>
                   </instance>
@@ -1306,9 +1285,9 @@
                      <config_set name="main">
                         <setting name="mode" value="kLPSPI_Master"/>
                         <setting name="clockSource" value="LpspiClock"/>
-                        <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
+                        <setting name="clockSourceFreq" value="custom:25000000"/>
                         <struct name="master">
-                           <setting name="baudRate" value="100000000"/>
+                           <setting name="baudRate" value="25000000"/>
                            <setting name="bitsPerFrame" value="24"/>
                            <setting name="cpol" value="kLPSPI_ClockPolarityActiveHigh"/>
                            <setting name="cpha" value="kLPSPI_ClockPhaseSecondEdge"/>

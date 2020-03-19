@@ -475,12 +475,12 @@ char * PacketSampleData(void)
     cJSON_Delete(pJsonRoot);
 
     /*将打包好的数据保存到文件 */
-    if (NULL != g_sys_para.sampJson) {
-        g_sys_para.sampSize = strlen(g_sys_para.sampJson);
-        eMMC_SaveSampleData(g_sys_para.sampJson, g_sys_para.sampSize);
+//    if (NULL != g_sys_para.sampJson) {
+//        g_sys_para.sampSize = strlen(g_sys_para.sampJson);
+//        eMMC_SaveSampleData(g_sys_para.sampJson, g_sys_para.sampSize);
         //将数据通过串口打印出来
 //        PRINTF("%s", g_sys_para.sampJson);
-    }
+//    }
 
     return g_sys_para.sampJson;
 }
