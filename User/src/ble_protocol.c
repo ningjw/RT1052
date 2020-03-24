@@ -5,7 +5,7 @@ extern float SpeedADC[];
 extern char  SpeedStrADC[];
 extern char  ShakeStrADC[];
 snvs_hp_rtc_datetime_t sampTime;
-uint16_t ble_wait_time = 32;
+uint16_t ble_wait_time = 35;
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
   * @input
@@ -127,7 +127,12 @@ static char * CheckSelf(void)
     LED_CheckSelf();
 
     //红外测温模块自检
-    g_sys_para.objTemp = MXL_ReadObjTemp();
+	for(uint8_t i=0;i<3;i++){
+		g_sys_para.objTemp = MXL_ReadObjTemp();
+		if(g_sys_para.objTemp > -200){
+			break;
+		}
+	}
 
     //文件系统自检
     eMMC_CheckFatfs();
@@ -312,6 +317,9 @@ static char * SetSamplePara(cJSON *pJson, cJSON * pSub)
         if (NULL != pSub) {
             g_sys_para.refV = pSub->valuedouble;
         }
+		//计算采样点数
+        g_sys_para.sampNumber = 2.56 * g_adc_set.Lines * g_adc_set.Averages * (1 - g_adc_set.AverageOverlap)
+                                + 2.56 * g_adc_set.Lines * g_adc_set.AverageOverlap;
         break;
     case 3:
         pSub = cJSON_GetObjectItem(pJson, "Averages");
@@ -657,7 +665,12 @@ static char * StartUpgrade(cJSON *pJson, cJSON * pSub)
 static char * GetObjTemp(void)
 {
     //红外测温模块自检
-    g_sys_para.objTemp = MXL_ReadObjTemp();
+	for(uint8_t i=0;i<3;i++){
+		g_sys_para.objTemp = MXL_ReadObjTemp();
+		if(g_sys_para.objTemp > -200){
+			break;
+		}
+	}
     g_sys_para.envTemp = MXL_ReadEnvTemp();
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot) {

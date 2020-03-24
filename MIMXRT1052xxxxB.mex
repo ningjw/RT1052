@@ -1499,7 +1499,7 @@
                      </config_set>
                   </instance>
                   <instance name="LPI2C3" type="lpi2c" type_id="lpi2c_db68d4f4f06a22e25ab51fe9bd6db4d2" mode="master" peripheral="LPI2C3" enabled="true">
-                     <config_set name="main" quick_selection="qs_interrupt">
+                     <config_set name="main">
                         <setting name="clockSource" value="Lpi2cClock"/>
                         <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
                         <struct name="interrupt">
@@ -1514,10 +1514,10 @@
                         <struct name="config">
                            <setting name="enableMaster" value="true"/>
                            <setting name="enableDoze" value="true"/>
-                           <setting name="debugEnable" value="false"/>
+                           <setting name="debugEnable" value="true"/>
                            <setting name="ignoreAck" value="false"/>
                            <setting name="pinConfig" value="kLPI2C_2PinOpenDrain"/>
-                           <setting name="baudRate_Hz" value="1000"/>
+                           <setting name="baudRate_Hz" value="40000"/>
                            <setting name="busIdleTimeout_ns" value="0"/>
                            <setting name="pinLowTimeout_ns" value="0"/>
                            <setting name="sdaGlitchFilterWidth_ns" value="0"/>

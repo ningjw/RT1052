@@ -958,16 +958,15 @@ instance:
       - enable_priority: 'false'
       - priority: '0'
       - enable_custom_name: 'false'
-    - quick_selection: 'qs_interrupt'
   - master:
     - mode: 'polling'
     - config:
       - enableMaster: 'true'
       - enableDoze: 'true'
-      - debugEnable: 'false'
+      - debugEnable: 'true'
       - ignoreAck: 'false'
       - pinConfig: 'kLPI2C_2PinOpenDrain'
-      - baudRate_Hz: '1000'
+      - baudRate_Hz: '40000'
       - busIdleTimeout_ns: '0'
       - pinLowTimeout_ns: '0'
       - sdaGlitchFilterWidth_ns: '0'
@@ -981,10 +980,10 @@ instance:
 const lpi2c_master_config_t LPI2C3_masterConfig = {
   .enableMaster = true,
   .enableDoze = true,
-  .debugEnable = false,
+  .debugEnable = true,
   .ignoreAck = false,
   .pinConfig = kLPI2C_2PinOpenDrain,
-  .baudRate_Hz = 1000,
+  .baudRate_Hz = 40000,
   .busIdleTimeout_ns = 0,
   .pinLowTimeout_ns = 0,
   .sdaGlitchFilterWidth_ns = 0,

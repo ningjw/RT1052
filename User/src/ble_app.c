@@ -191,7 +191,7 @@ void LPUART2_IRQHandler(void)
             g_puart2StartRx = 1;
             g_puart2RxTimeCnt = 0;
 			g_puart2RxCnt = 0;
-        } 
+        }
 
 		if(g_puart2RxCnt < LPUART2_BUFF_LEN) {
             /* 将接受到的数据保存到数组*/
@@ -205,10 +205,11 @@ void LPUART2_IRQHandler(void)
             /* 接受完成,该标志清0*/
             g_puart2StartRx = 0;
             //接受到Android发送的结束采集信号
-            if(memcmp(g_lpuart2RxBuf,"{\"Id\",12}",g_puart2RxCnt) == 0) {
+            if(strstr((char *)g_lpuart2RxBuf, "{\"Id\":12,") != 0) {
+				LPUART2_SendString((char *)g_lpuart2RxBuf);
                 g_sys_para.sampNumber = 0;//如果此时正在采集数据, 该代码会触发采集完成信号
-//			}else if(memcmp(g_lpuart2RxBuf,"{\"Id\",10}",g_puart2RxCnt) == 0){//接受到Android发送的开始升级信号
-//
+//			}else if(strstr((char *)g_lpuart2RxBuf,"{\"Id\":10,") != 0){//接受到Android发送的开始升级信号
+				
             } else {
                 /*设置接受完成事件 */
                 xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);

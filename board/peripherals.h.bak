@@ -108,7 +108,7 @@ extern "C" {
 /* Definition of peripheral ID */
 #define LPSPI4_PERIPHERAL LPSPI4
 /* Definition of clock source */
-#define LPSPI4_CLOCK_FREQ 120000000UL
+#define LPSPI4_CLOCK_FREQ 25000000UL
 /* Definition of peripheral ID */
 #define QUADTIMER1_PERIPHERAL TMR1
 /* Definition of the timer channel Channel_0. */
@@ -153,7 +153,7 @@ extern "C" {
 /* Definition of peripheral ID */
 #define LPI2C3_PERIPHERAL LPI2C3
 /* Definition of clock source */
-#define LPI2C3_CLOCK_FREQ 20000000UL
+#define LPI2C3_CLOCK_FREQ 10000UL
 
 /***********************************************************************************************************************
  * Global variables
