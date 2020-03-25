@@ -128,7 +128,7 @@ void eMMC_DelEarliestFile(void)
         memcpy(g_sys_para.earliestFile+3, fileStr, FILE_NAME_LEN);
         f_unlink(g_sys_para.earliestFile);
 		PRINTF("删除文件:%s\r\n",g_sys_para.earliestFile);
-        fileStr += (FILE_NAME_LEN+2);//2个额外的字符为"\r\n"
+        fileStr += (FILE_NAME_LEN+1);//1个额外的字符为","
     }
     /*将编辑好的内容打印出来*/
     PRINTF("%s\r\n",fileStr);
@@ -163,7 +163,7 @@ void eMMC_AppendmanageFile(char *str)
     UINT    bw;
     TCHAR   fileName[20] = {0};
     strcat(fileName,str);
-    strcat(fileName,"\r\n");
+    strcat(fileName,",");
     f_open(&g_fileObject, _T("manage.txt"), (FA_WRITE | FA_OPEN_ALWAYS | FA_OPEN_APPEND));
     f_write(&g_fileObject, fileName, strlen(fileName), &bw);
     f_close(&g_fileObject);
@@ -178,14 +178,13 @@ void eMMC_PrintfManageFile(void)
     FRESULT res;
     UINT    br;
     char   *fileStr;
-    
-    //申请内存用于保存文件内容
-    fileStr = malloc(g_fileObject.obj.objsize + 1);
-    memset(fileStr, 0U, g_fileObject.obj.objsize + 1);
-    
+
     /*以可读可写方式打开文件*/
     f_open(&g_fileObject, _T("manage.txt"), (FA_READ | FA_OPEN_ALWAYS));
-
+	//申请内存用于保存文件内容
+    fileStr = malloc(g_fileObject.obj.objsize + 1);
+    memset(fileStr, 0U, g_fileObject.obj.objsize + 1);
+	
     /*读取文件的内容到 fileStr 缓冲区*/
     for (int i=0;;i++) {
         res = f_read(&g_fileObject, fileStr+i*ONE_LEN, ONE_LEN, &br);
@@ -193,6 +192,8 @@ void eMMC_PrintfManageFile(void)
         if (res || br == 0) break; /* error or eof */
     }
     PRINTF("%s\r\n",fileStr);
+	free(fileStr);
+	fileStr = NULL;
     f_close(&g_fileObject);
 }
 /***************************************************************************************

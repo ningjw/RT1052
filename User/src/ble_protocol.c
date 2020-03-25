@@ -3,7 +3,8 @@
 extern float ShakeADC[];
 extern float SpeedADC[];
 extern char  SpeedStrADC[];
-extern char  ShakeStrADC[];
+extern char  VibrateStrADC[];
+char sidStr[5];
 snvs_hp_rtc_datetime_t sampTime;
 uint16_t ble_wait_time = 35;
 /***************************************************************************************
@@ -240,12 +241,12 @@ static char * SetSamplePara(cJSON *pJson, cJSON * pSub)
     switch(pSub->valueint)
     {
     case 0:
-        pSub = cJSON_GetObjectItem(pJson, "IDPath");
+        pSub = cJSON_GetObjectItem(pJson, "IP");
         if (NULL != pSub) {
             memset(g_adc_set.IDPath, 0, sizeof(g_adc_set.IDPath));
             strcpy(g_adc_set.IDPath, pSub->valuestring);
         }
-        pSub = cJSON_GetObjectItem(pJson, "NamePath");
+        pSub = cJSON_GetObjectItem(pJson, "NP");
         if (NULL != pSub) {
             memset(g_adc_set.NamePath, 0, sizeof(g_adc_set.NamePath));
             strcpy(g_adc_set.NamePath, pSub->valuestring);
@@ -256,29 +257,29 @@ static char * SetSamplePara(cJSON *pJson, cJSON * pSub)
         }
         break;
     case 1:
-        pSub = cJSON_GetObjectItem(pJson, "SpeedUnits");
+        pSub = cJSON_GetObjectItem(pJson, "SU");
         if (NULL != pSub) {
             memset(g_adc_set.SpeedUnits, 0, sizeof(g_adc_set.SpeedUnits));
             strcpy(g_adc_set.SpeedUnits, pSub->valuestring);
         }
-        pSub = cJSON_GetObjectItem(pJson, "ProcessUnits");
+        pSub = cJSON_GetObjectItem(pJson, "PU");
         if (NULL != pSub) {
             memset(g_adc_set.ProcessUnits, 0, sizeof(g_adc_set.ProcessUnits));
             strcpy(g_adc_set.ProcessUnits, pSub->valuestring);
         }
-        pSub = cJSON_GetObjectItem(pJson, "DetectionType");
+        pSub = cJSON_GetObjectItem(pJson, "D");
         if (NULL != pSub) {
             g_adc_set.DetectionType = pSub->valueint;
         }
-        pSub = cJSON_GetObjectItem(pJson, "Senstivity");
+        pSub = cJSON_GetObjectItem(pJson, "S");
         if (NULL != pSub) {
             g_adc_set.Senstivity = pSub->valuedouble;
         }
-        pSub = cJSON_GetObjectItem(pJson, "Zerodrift");
+        pSub = cJSON_GetObjectItem(pJson, "ZD");
         if (NULL != pSub) {
             g_adc_set.Zerodrift = pSub->valuedouble;
         }
-        pSub = cJSON_GetObjectItem(pJson, "EUType");
+        pSub = cJSON_GetObjectItem(pJson, "ET");
         if (NULL != pSub) {
             g_adc_set.EUType = pSub->valueint;
         }
@@ -287,33 +288,31 @@ static char * SetSamplePara(cJSON *pJson, cJSON * pSub)
             memset(g_adc_set.EU, 0, sizeof(g_adc_set.EU));
             strcpy(g_adc_set.EU, pSub->valuestring);
         }
-        break;
-    case 2:
-        pSub = cJSON_GetObjectItem(pJson, "WindowsType");
+        pSub = cJSON_GetObjectItem(pJson, "W");
         if (NULL != pSub) {
             g_adc_set.WindowsType = pSub->valueint;
         }
-        pSub = cJSON_GetObjectItem(pJson, "StartFrequency");
+        pSub = cJSON_GetObjectItem(pJson, "SF");
         if (NULL != pSub) {
             g_adc_set.StartFrequency = pSub->valueint;
         }
-        pSub = cJSON_GetObjectItem(pJson, "EndFrequency");
+        pSub = cJSON_GetObjectItem(pJson, "EF");
         if (NULL != pSub) {
             g_adc_set.EndFrequency = pSub->valueint;
         }
-        pSub = cJSON_GetObjectItem(pJson, "SampleRate");
+        pSub = cJSON_GetObjectItem(pJson, "SR");
         if (NULL != pSub) {
             g_adc_set.SampleRate = pSub->valueint;
         }
-        pSub = cJSON_GetObjectItem(pJson, "Lines");
+        pSub = cJSON_GetObjectItem(pJson, "L");
         if (NULL != pSub) {
             g_adc_set.Lines = pSub->valueint;
         }
-        pSub = cJSON_GetObjectItem(pJson, "Bias");
+        pSub = cJSON_GetObjectItem(pJson, "B");
         if (NULL != pSub) {
             g_sys_para.bias = pSub->valuedouble;
         }
-        pSub = cJSON_GetObjectItem(pJson, "RefV");
+        pSub = cJSON_GetObjectItem(pJson, "RV");
         if (NULL != pSub) {
             g_sys_para.refV = pSub->valuedouble;
         }
@@ -321,28 +320,28 @@ static char * SetSamplePara(cJSON *pJson, cJSON * pSub)
         g_sys_para.sampNumber = 2.56 * g_adc_set.Lines * g_adc_set.Averages * (1 - g_adc_set.AverageOverlap)
                                 + 2.56 * g_adc_set.Lines * g_adc_set.AverageOverlap;
         break;
-    case 3:
-        pSub = cJSON_GetObjectItem(pJson, "Averages");
+    case 2:
+        pSub = cJSON_GetObjectItem(pJson, "A");
         if (NULL != pSub) {
             g_adc_set.Averages = pSub->valueint;
         }
-        pSub = cJSON_GetObjectItem(pJson, "AverageOverlap");
+        pSub = cJSON_GetObjectItem(pJson, "OL");
         if (NULL != pSub) {
             g_adc_set.AverageOverlap = pSub->valuedouble;
         }
-        pSub = cJSON_GetObjectItem(pJson, "AverageType");
+        pSub = cJSON_GetObjectItem(pJson, "AT");
         if (NULL != pSub) {
             g_adc_set.AverageType = pSub->valueint;
         }
-        pSub = cJSON_GetObjectItem(pJson, "EnvFilterLow");
+        pSub = cJSON_GetObjectItem(pJson, "EFL");
         if (NULL != pSub) {
             g_adc_set.EnvFilterLow = pSub->valueint;
         }
-        pSub = cJSON_GetObjectItem(pJson, "EnvFilterHigh");
+        pSub = cJSON_GetObjectItem(pJson, "EFH");
         if (NULL != pSub) {
             g_adc_set.EnvFilterHigh = pSub->valueint;
         }
-        pSub = cJSON_GetObjectItem(pJson, "IncludeMeasurements");
+        pSub = cJSON_GetObjectItem(pJson, "IM");
         if (NULL != pSub) {
             g_adc_set.IncludeMeasurements = pSub->valueint;
         }
@@ -396,26 +395,24 @@ static char * StartSample(cJSON *pJson, cJSON * pSub)
 
     /*wait task notify*/
     ulTaskNotifyTake( pdTRUE, portMAX_DELAY );
-
-    cJSON *pJsonRoot = cJSON_CreateObject();
-    if(NULL == pJsonRoot) {
-        return NULL;
-    }
-
-    if(g_sys_para.sampNumber == 0) { //Android发送了中断采集命令
-        cJSON_AddNumberToObject(pJsonRoot, "Id",  12);
-        cJSON_AddNumberToObject(pJsonRoot, "Sid", 0);
-    } else {
+	
+	char *p_reply = NULL;
+    if(g_sys_para.sampNumber != 0) { //Android发送了中断采集命令
+		cJSON *pJsonRoot = cJSON_CreateObject();
+		if(NULL == pJsonRoot) {
+			return NULL;
+		}
         cJSON_AddNumberToObject(pJsonRoot, "Id",  8);
         cJSON_AddNumberToObject(pJsonRoot, "Sid", 1);
-        cJSON_AddStringToObject(pJsonRoot, "fileName", g_sys_para.fileName);
-        cJSON_AddNumberToObject(pJsonRoot, "size", g_sys_para.sampSize);
-        cJSON_AddNumberToObject(pJsonRoot,"packs",  g_sys_para.sampPacks);
-        cJSON_AddNumberToObject(pJsonRoot, "shkNum", g_sys_para.shkCount);
-        cJSON_AddNumberToObject(pJsonRoot, "spdNum", g_sys_para.spdCount);
+        cJSON_AddStringToObject(pJsonRoot, "F", g_sys_para.fileName);
+        cJSON_AddNumberToObject(pJsonRoot, "S", g_sys_para.sampSize);
+        cJSON_AddNumberToObject(pJsonRoot,"PK",  g_sys_para.sampPacks);
+        cJSON_AddNumberToObject(pJsonRoot, "V", g_sys_para.shkCount);
+        cJSON_AddNumberToObject(pJsonRoot, "S", g_sys_para.spdCount);
+		char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
+		cJSON_Delete(pJsonRoot);
     }
-    char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
-    cJSON_Delete(pJsonRoot);
+    
     return p_reply;
 }
 
@@ -426,7 +423,7 @@ static char * StartSample(cJSON *pJson, cJSON * pSub)
   * @input
   * @return
 ***************************************************************************************/
-char * PacketSampleData(void)
+char *PacketSampleData(void)
 {
     free(g_sys_para.sampJson);
     g_sys_para.sampJson = NULL;
@@ -435,60 +432,53 @@ char * PacketSampleData(void)
     if(NULL == pJsonRoot) {
         return NULL;
     }
-    cJSON_AddNumberToObject(pJsonRoot, "Id",  9);
-    cJSON_AddNumberToObject(pJsonRoot, "Sid", 0);
-    cJSON_AddStringToObject(pJsonRoot, "IDPath", g_adc_set.IDPath);
-    cJSON_AddStringToObject(pJsonRoot, "NamePath", g_adc_set.NamePath);
-    cJSON_AddNumberToObject(pJsonRoot, "Speed", g_adc_set.Speed);// 取转速波形平均转速
-    cJSON_AddStringToObject(pJsonRoot, "SpeedUnits", g_adc_set.SpeedUnits);
-    cJSON_AddNumberToObject(pJsonRoot, "Process", g_adc_set.Process);//取平均温度
-    cJSON_AddNumberToObject(pJsonRoot, "ProcessMin", g_adc_set.ProcessMin);
-    cJSON_AddNumberToObject(pJsonRoot, "ProcessMax", g_adc_set.ProcessMax);
-    cJSON_AddStringToObject(pJsonRoot, "ProcessUnits", g_adc_set.ProcessUnits);//可以取温度、流量功率等
-    cJSON_AddStringToObject(pJsonRoot, "DAUID", g_adc_set.DAUID);//生成的DAUID
-    cJSON_AddNumberToObject(pJsonRoot, "DetectionType", g_adc_set.DetectionType);//手动检测0，时间定时检测1
-    cJSON_AddNumberToObject(pJsonRoot, "Senstivity", g_adc_set.Senstivity);//灵敏度
-    cJSON_AddNumberToObject(pJsonRoot, "Zerodrift", g_adc_set.Zerodrift);//零点偏移，用于将失调电压调节到零
-    cJSON_AddNumberToObject(pJsonRoot, "EUType", g_adc_set.EUType);//g:0，mm/s2:1，um:2,mm/s:3,, gse:4
-    cJSON_AddStringToObject(pJsonRoot, "EU", g_adc_set.EU);
-    cJSON_AddNumberToObject(pJsonRoot, "WindowsType", g_adc_set.WindowsType);// 矩形窗0，三角窗1，汉宁窗2，海明窗3，布莱克曼窗4，凯泽窗5
-    cJSON_AddStringToObject(pJsonRoot, "WindowName", g_adc_set.WindowName);//
-    cJSON_AddNumberToObject(pJsonRoot, "StartFrequency", g_adc_set.StartFrequency);//采集起始频率
-    cJSON_AddNumberToObject(pJsonRoot, "EndFrequency", g_adc_set.EndFrequency);//采集结束频率
-    cJSON_AddNumberToObject(pJsonRoot, "SampleRate", g_adc_set.SampleRate);//采样率
-    cJSON_AddNumberToObject(pJsonRoot, "Lines", g_adc_set.Lines);   //线数
-    cJSON_AddNumberToObject(pJsonRoot, "Averages", g_adc_set.Averages);//平均次数
-    cJSON_AddNumberToObject(pJsonRoot, "AverageOverlap", g_adc_set.AverageOverlap);//重叠率
-    cJSON_AddNumberToObject(pJsonRoot, "AverageType", g_adc_set.AverageType);//重叠方式
-    cJSON_AddNumberToObject(pJsonRoot, "EnvFilterLow", g_adc_set.EnvFilterLow);//包络滤波频段 低
-    cJSON_AddNumberToObject(pJsonRoot, "EnvFilterHigh", g_adc_set.EnvFilterHigh);//包络滤波频段 高
-    cJSON_AddNumberToObject(pJsonRoot, "StorageReson", g_adc_set.StorageReson);//采集方式     0手动采集，1定时采集
-    cJSON_AddStringToObject(pJsonRoot, "MeasurementComment", g_adc_set.MeasurementComment);//
-    cJSON_AddNumberToObject(pJsonRoot, "IncludeMeasurements", g_adc_set.IncludeMeasurements);
-    cJSON_AddStringToObject(pJsonRoot, "Content", g_adc_set.Content);
-
-    cJSON *measureMents = cJSON_AddArrayToObject(pJsonRoot, "MeasureMents");
-
-    cJSON *pJsonSub1 = cJSON_CreateObject();
-    cJSON_AddStringToObject(pJsonSub1, "MeasurementType", "VibRawData/EnvData");
-    cJSON_AddStringToObject(pJsonSub1, "Value", ShakeStrADC);
-    cJSON_AddItemToArray(measureMents, pJsonSub1);
-
-    pJsonSub1 = cJSON_CreateObject();
-    cJSON_AddStringToObject(pJsonSub1, "MeasurementType", "RotationSpeed");
-    cJSON_AddStringToObject(pJsonSub1, "Value", SpeedStrADC);
-    cJSON_AddItemToArray(measureMents, pJsonSub1);
+	cJSON_AddStringToObject(pJsonRoot, "DP", g_adc_set.IDPath);//硬件版本号
+	cJSON_AddStringToObject(pJsonRoot, "NP", g_adc_set.NamePath);//硬件版本号
+	cJSON_AddStringToObject(pJsonRoot, "SU", g_adc_set.SpeedUnits);
+	cJSON_AddStringToObject(pJsonRoot, "PU", g_adc_set.ProcessUnits);
+	cJSON_AddNumberToObject(pJsonRoot, "DT", g_adc_set.DetectionType);
+	cJSON_AddNumberToObject(pJsonRoot, "SEN", g_adc_set.Senstivity);
+	cJSON_AddNumberToObject(pJsonRoot, "ZD", g_adc_set.Zerodrift);
+	cJSON_AddNumberToObject(pJsonRoot, "ET", g_adc_set.EUType);
+	cJSON_AddStringToObject(pJsonRoot, "EU", g_adc_set.EU);
+	cJSON_AddNumberToObject(pJsonRoot, "W", g_adc_set.WindowsType);
+	cJSON_AddNumberToObject(pJsonRoot, "SF", g_adc_set.StartFrequency);
+	cJSON_AddNumberToObject(pJsonRoot, "EF", g_adc_set.EndFrequency);
+	cJSON_AddNumberToObject(pJsonRoot, "SR", g_adc_set.SampleRate);
+	cJSON_AddNumberToObject(pJsonRoot, "L", g_adc_set.Lines);
+	cJSON_AddNumberToObject(pJsonRoot, "B", g_sys_para.bias);
+	cJSON_AddNumberToObject(pJsonRoot, "RV", g_sys_para.refV);
+	cJSON_AddNumberToObject(pJsonRoot, "A", g_adc_set.Averages);
+	cJSON_AddNumberToObject(pJsonRoot, "OL", g_adc_set.AverageOverlap);
+	cJSON_AddNumberToObject(pJsonRoot, "AT", g_adc_set.AverageType);
+	cJSON_AddNumberToObject(pJsonRoot, "EFL", g_adc_set.EnvFilterLow);
+	cJSON_AddNumberToObject(pJsonRoot, "EFH", g_adc_set.EnvFilterHigh);
+	cJSON_AddNumberToObject(pJsonRoot, "IM", g_adc_set.IncludeMeasurements);
+	cJSON_AddNumberToObject(pJsonRoot, "SP", g_adc_set.Speed);
+	cJSON_AddNumberToObject(pJsonRoot, "P", g_adc_set.Process);
+	cJSON_AddNumberToObject(pJsonRoot, "PL", g_adc_set.ProcessMin);
+	cJSON_AddNumberToObject(pJsonRoot, "PH", g_adc_set.ProcessMax);
+	cJSON_AddNumberToObject(pJsonRoot, "PK", g_sys_para.sampPacks);
+	cJSON_AddNumberToObject(pJsonRoot, "Y", sampTime.year);
+	cJSON_AddNumberToObject(pJsonRoot, "M", sampTime.month);
+	cJSON_AddNumberToObject(pJsonRoot, "D", sampTime.day);
+	cJSON_AddNumberToObject(pJsonRoot, "H", sampTime.hour);
+	cJSON_AddNumberToObject(pJsonRoot, "Min", sampTime.minute);
+	cJSON_AddNumberToObject(pJsonRoot, "S", sampTime.second);
+		
+    cJSON_AddStringToObject(pJsonRoot, "Vibrate", VibrateStrADC);
+    cJSON_AddStringToObject(pJsonRoot, "Speed", SpeedStrADC);
 
     g_sys_para.sampJson = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
-
+	
     /*将打包好的数据保存到文件 */
-//    if (NULL != g_sys_para.sampJson) {
-//        g_sys_para.sampSize = strlen(g_sys_para.sampJson);
-//        eMMC_SaveSampleData(g_sys_para.sampJson, g_sys_para.sampSize);
-        //将数据通过串口打印出来
+    if (NULL != g_sys_para.sampJson) {
+        g_sys_para.sampSize = strlen(g_sys_para.sampJson);
+        eMMC_SaveSampleData(g_sys_para.sampJson, g_sys_para.sampSize);
+//        //将数据通过串口打印出来
 //        PRINTF("%s", g_sys_para.sampJson);
-//    }
+    }
 
     return g_sys_para.sampJson;
 }
@@ -506,6 +496,7 @@ char * GetSampleData(cJSON *pJson, cJSON * pSub)
     uint32_t flag_get_all_data = 0;
     g_sys_para.sampPacksCnt = 0;
     cJSON *pJsonRoot = NULL;
+	char *p_reply = NULL;
     /*解析消息内容,并打包需要回复的内容*/
     pSub = cJSON_GetObjectItem(pJson, "Sid");
     sid = pSub->valueint;
@@ -526,85 +517,89 @@ SEND_DATA:
 
     switch(sid)	{
     case 0:
-        cJSON_AddStringToObject(pJsonRoot, "IDPath", g_adc_set.IDPath);//硬件版本号
-        cJSON_AddStringToObject(pJsonRoot, "NamePath", g_adc_set.NamePath);//硬件版本号
+        cJSON_AddStringToObject(pJsonRoot, "DP", g_adc_set.IDPath);//硬件版本号
+        cJSON_AddStringToObject(pJsonRoot, "NP", g_adc_set.NamePath);//硬件版本号
+		p_reply = cJSON_PrintUnformatted(pJsonRoot);
         break;
     case 1:
-        cJSON_AddStringToObject(pJsonRoot, "SpeedUnits", g_adc_set.SpeedUnits);
-        cJSON_AddStringToObject(pJsonRoot, "ProcessUnits", g_adc_set.ProcessUnits);
-        cJSON_AddNumberToObject(pJsonRoot, "DetectionType", g_adc_set.DetectionType);
-        cJSON_AddNumberToObject(pJsonRoot, "Senstivity", g_adc_set.Senstivity);
-        cJSON_AddNumberToObject(pJsonRoot, "Zerodrift", g_adc_set.Zerodrift);
-        cJSON_AddNumberToObject(pJsonRoot, "EUType", g_adc_set.EUType);
+        cJSON_AddStringToObject(pJsonRoot, "SU", g_adc_set.SpeedUnits);
+        cJSON_AddStringToObject(pJsonRoot, "PU", g_adc_set.ProcessUnits);
+        cJSON_AddNumberToObject(pJsonRoot, "D", g_adc_set.DetectionType);
+        cJSON_AddNumberToObject(pJsonRoot, "S", g_adc_set.Senstivity);
+        cJSON_AddNumberToObject(pJsonRoot, "ZD", g_adc_set.Zerodrift);
+        cJSON_AddNumberToObject(pJsonRoot, "ET", g_adc_set.EUType);
         cJSON_AddStringToObject(pJsonRoot, "EU", g_adc_set.EU);
+		cJSON_AddNumberToObject(pJsonRoot, "W", g_adc_set.WindowsType);
+        cJSON_AddNumberToObject(pJsonRoot, "SF", g_adc_set.StartFrequency);
+        cJSON_AddNumberToObject(pJsonRoot, "EF", g_adc_set.EndFrequency);
+        cJSON_AddNumberToObject(pJsonRoot, "SR", g_adc_set.SampleRate);
+        cJSON_AddNumberToObject(pJsonRoot, "L", g_adc_set.Lines);
+        cJSON_AddNumberToObject(pJsonRoot, "B", g_sys_para.bias);
+        cJSON_AddNumberToObject(pJsonRoot, "RV", g_sys_para.refV);
+		p_reply = cJSON_PrintUnformatted(pJsonRoot);
         break;
     case 2:
-        cJSON_AddNumberToObject(pJsonRoot, "WindowsType", g_adc_set.WindowsType);
-        cJSON_AddNumberToObject(pJsonRoot, "StartFrequency", g_adc_set.StartFrequency);
-        cJSON_AddNumberToObject(pJsonRoot, "EndFrequency", g_adc_set.EndFrequency);
-        cJSON_AddNumberToObject(pJsonRoot, "SampleRate", g_adc_set.SampleRate);
-        cJSON_AddNumberToObject(pJsonRoot, "Lines", g_adc_set.Lines);
-        cJSON_AddNumberToObject(pJsonRoot, "Bias", g_sys_para.bias);
-        cJSON_AddNumberToObject(pJsonRoot, "RefV", g_sys_para.refV);
-        break;
-    case 3:
-        cJSON_AddNumberToObject(pJsonRoot, "Averages", g_adc_set.Averages);
-        cJSON_AddNumberToObject(pJsonRoot, "AverageOverlap", g_adc_set.AverageOverlap);
-        cJSON_AddNumberToObject(pJsonRoot, "AverageType", g_adc_set.AverageType);
-        cJSON_AddNumberToObject(pJsonRoot, "EnvFilterLow", g_adc_set.EnvFilterLow);
-        cJSON_AddNumberToObject(pJsonRoot, "EnvFilterHigh", g_adc_set.EnvFilterHigh);
-        cJSON_AddNumberToObject(pJsonRoot, "IncludeMeasurements", g_adc_set.IncludeMeasurements);
-        break;
-    case 4:
-        cJSON_AddNumberToObject(pJsonRoot, "Speed", g_adc_set.Speed);
-        cJSON_AddNumberToObject(pJsonRoot, "Process", g_adc_set.Process);
-        cJSON_AddNumberToObject(pJsonRoot, "ProcessMin", g_adc_set.ProcessMin);
-        cJSON_AddNumberToObject(pJsonRoot, "ProcessMax", g_adc_set.ProcessMax);
-        cJSON_AddNumberToObject(pJsonRoot, "packs", g_sys_para.sampPacks);
+        cJSON_AddNumberToObject(pJsonRoot, "A", g_adc_set.Averages);
+        cJSON_AddNumberToObject(pJsonRoot, "OL", g_adc_set.AverageOverlap);
+        cJSON_AddNumberToObject(pJsonRoot, "AT", g_adc_set.AverageType);
+        cJSON_AddNumberToObject(pJsonRoot, "EFL", g_adc_set.EnvFilterLow);
+        cJSON_AddNumberToObject(pJsonRoot, "EFH", g_adc_set.EnvFilterHigh);
+        cJSON_AddNumberToObject(pJsonRoot, "IM", g_adc_set.IncludeMeasurements);
+		cJSON_AddNumberToObject(pJsonRoot, "SP", g_adc_set.Speed);
+        cJSON_AddNumberToObject(pJsonRoot, "P", g_adc_set.Process);
+        cJSON_AddNumberToObject(pJsonRoot, "PL", g_adc_set.ProcessMin);
+        cJSON_AddNumberToObject(pJsonRoot, "PH", g_adc_set.ProcessMax);
+        cJSON_AddNumberToObject(pJsonRoot, "PK", g_sys_para.sampPacks);
         cJSON_AddNumberToObject(pJsonRoot, "Y", sampTime.year);
-        cJSON_AddNumberToObject(pJsonRoot, "Mon", sampTime.month);
+        cJSON_AddNumberToObject(pJsonRoot, "M", sampTime.month);
         cJSON_AddNumberToObject(pJsonRoot, "D", sampTime.day);
         cJSON_AddNumberToObject(pJsonRoot, "H", sampTime.hour);
         cJSON_AddNumberToObject(pJsonRoot, "Min", sampTime.minute);
         cJSON_AddNumberToObject(pJsonRoot, "S", sampTime.second);
+		p_reply = cJSON_PrintUnformatted(pJsonRoot);
         break;
     default:
-        memset(g_lpuart2TxBuf, 0, LPUART2_BUFF_LEN);
-        if(sid-5 < g_sys_para.shkPacks)
+		p_reply = malloc(200);
+        memset(p_reply, 0, 200);
+		memset(g_lpuart2TxBuf, 0, LPUART2_BUFF_LEN);
+	    memset(sidStr, 0, sizeof(sidStr));
+		sprintf(sidStr,"%d,",sid);
+        if(sid-3 < g_sys_para.shkPacks)
         {
-//            cJSON_AddStringToObject(pJsonRoot, "T", "V");
-            g_lpuart2TxBuf[0] = 'V';
-            index = sid - 5;
+            index = sid - 3;
             //每个数据占用4个byte;每包可以上传38个数据. 38*4=152
-            memcpy(g_lpuart2TxBuf+1, ShakeStrADC+index*152, 152);
-
-            //最后一个数据的逗号分隔符需要去掉.
-//            g_lpuart2TxBuf[strlen((char *)g_lpuart2TxBuf)-1] = 0x00;
-            cJSON_AddStringToObject(pJsonRoot, "V", (char *)g_lpuart2TxBuf);
+            memcpy(g_lpuart2TxBuf, VibrateStrADC+index*152, 152);
+			
+			strcat(p_reply, "{9,");
+			strcat(p_reply, sidStr);
+			strcat(p_reply,"V,");
+			strcat(p_reply,(char *)g_lpuart2TxBuf);
+//            cJSON_AddStringToObject(pJsonRoot, "V", (char *)g_lpuart2TxBuf);
         }
-        else if(sid - 5 - g_sys_para.shkPacks < g_sys_para.spdCount)
+        else if(sid - 3 - g_sys_para.shkPacks < g_sys_para.spdCount)
         {
-//            cJSON_AddStringToObject(pJsonRoot, "T", "S");
-            g_lpuart2TxBuf[0] = 'S';
-            index = sid - 5 - g_sys_para.shkPacks;
+            index = sid - 3 - g_sys_para.shkPacks;
             //每个数据占用4个byte;每包可以上传38个数据. 38*4=152
             memcpy(g_lpuart2TxBuf, SpeedStrADC+index*152, 152);
-            //最后一个数据的逗号分隔符需要去掉.
-//            g_lpuart2TxBuf[strlen((char *)g_lpuart2TxBuf)-1] = 0x00;
-            cJSON_AddStringToObject(pJsonRoot, "V", (char *)g_lpuart2TxBuf);
+
+			strcat(p_reply, "{9,");
+			strcat(p_reply, sidStr);
+			strcat(p_reply, "V,");
+			strcat(p_reply,(char *)g_lpuart2TxBuf);
+			
+//            cJSON_AddStringToObject(pJsonRoot, "V", (char *)g_lpuart2TxBuf);
         }
         break;
     }
 
-    char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
 
     if(flag_get_all_data ) {
         LPUART2_SendString((char *)p_reply);
         PRINTF("%s\r\n",(char *)p_reply);
         vTaskDelay(ble_wait_time);
-        free(p_reply);
-        p_reply = NULL;
+		free(p_reply);
+		p_reply = NULL;
         g_sys_para.sampPacksCnt++;
         if(g_sys_para.sampPacksCnt < g_sys_para.sampPacks) {
             goto SEND_DATA;
@@ -685,7 +680,267 @@ static char * GetObjTemp(void)
     return p_reply;
 }
 
+/***************************************************************************************
+  * @brief   处理消息id为13的消息, 该消息为获取manage文件内容
+  * @input
+  * @return
+***************************************************************************************/
+static char* GetManageFile(cJSON *pJson, cJSON * pSub)
+{
+	FRESULT res;
+    UINT    br;
+    char   *fileStr;
+    extern FIL   g_fileObject ;
+	int sid = 0, num = 0, offset = 0;
+	
+	/*解析消息内容,*/
+    pSub = cJSON_GetObjectItem(pJson, "Sid");
+	if(pSub != NULL){
+		sid = pSub->valueint;
+	}
+	
+    //申请内存用于保存文件内容
+    fileStr = malloc(200);
+    memset(fileStr, 0U, 200);
+    
+    /*以可写方式打开文件*/
+    res = f_open(&g_fileObject, _T("manage.txt"), (FA_READ));
+	if(res == FR_OK){
+		num = g_fileObject.obj.objsize / 13 + (g_fileObject.obj.objsize%13?1:0);//文件名长度12个字符+1个逗号分隔符
+	}
+	
+	if(sid <= num && res == FR_OK){
+		/*定位到指定位置,并读取文件的内容到 fileStr 缓冲区*/
+		offset = (num - sid - 1) * 13;//sid = 0, offset = 0; sid = 1, offset = 130;
+		f_lseek(&g_fileObject, offset);
+		res = f_read(&g_fileObject, fileStr, 13*10, &br);//每次读取10个文件名
+	}else{
+		fileStr = NULL;
+	}
+    f_close(&g_fileObject);
+	
+	/*制作cjson格式的回复消息*/
+    cJSON *pJsonRoot = cJSON_CreateObject();
+    if(NULL == pJsonRoot) {
+        return NULL;
+    }
+    cJSON_AddNumberToObject(pJsonRoot, "Id", 13);
+    cJSON_AddNumberToObject(pJsonRoot, "Sid",sid);
+	cJSON_AddNumberToObject(pJsonRoot, "num",num);
+	cJSON_AddStringToObject(pJsonRoot, "content", fileStr);
+    char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
+    cJSON_Delete(pJsonRoot);
+	free(fileStr);
+	fileStr = NULL;
+    return p_reply;
+}
+/***************************************************************************************
+  * @brief   处理消息id为14的消息, 该消息为通过文件名获取采集数据
+  * @input
+  * @return
+***************************************************************************************/
+static char* GetSampleFile(cJSON *pJson, cJSON * pSub)
+{
+	FRESULT res;
+    UINT    br;
+    char   *fileStr;
+    extern FIL   g_fileObject ;
+	char fileName[15] = {0};
+	int packs = 0;
+	
+	/*解析消息内容,*/
+    pSub = cJSON_GetObjectItem(pJson, "fileName");
+	if(pSub != NULL && strlen(pSub->valuestring) == 12){
+		strcpy(fileName,pSub->valuestring);
+	}
+	
+    /*以可写方式打开文件*/
+    res = f_open(&g_fileObject, _T("manage.txt"), (FA_READ));
+	if(res == FR_OK){
+		//申请内存用于保存文件内容
+		fileStr = malloc(g_fileObject.obj.objsize);
+		memset(fileStr, 0U, g_fileObject.obj.objsize);
+		
+		/*读取文件的内容到 fileStr 缓冲区*/
+		for (int i=0;;i++) {
+			res = f_read(&g_fileObject, fileStr+i*4096, 4096, &br);
+			if (res || br == 0) break; /* error or eof */
+		}
+		
+		/*将读出来的文件数据按照json格式进行解析*/
+		cJSON *pFileJson = cJSON_Parse((char *)fileStr);
+		if(NULL == pFileJson) {
+			return NULL;
+		}
+		pSub = cJSON_GetObjectItem(pJson, "DP");
+        if (NULL != pSub) {
+            memset(g_adc_set.IDPath, 0, sizeof(g_adc_set.IDPath));
+            strcpy(g_adc_set.IDPath, pSub->valuestring);
+        }
+        pSub = cJSON_GetObjectItem(pJson, "NP");
+        if (NULL != pSub) {
+            memset(g_adc_set.NamePath, 0, sizeof(g_adc_set.NamePath));
+            strcpy(g_adc_set.NamePath, pSub->valuestring);
+        }
+        pSub = cJSON_GetObjectItem(pJson, "SU");
+        if (NULL != pSub) {
+            memset(g_adc_set.SpeedUnits, 0, sizeof(g_adc_set.SpeedUnits));
+            strcpy(g_adc_set.SpeedUnits, pSub->valuestring);
+        }
+        pSub = cJSON_GetObjectItem(pJson, "PU");
+        if (NULL != pSub) {
+            memset(g_adc_set.ProcessUnits, 0, sizeof(g_adc_set.ProcessUnits));
+            strcpy(g_adc_set.ProcessUnits, pSub->valuestring);
+        }
+        pSub = cJSON_GetObjectItem(pJson, "DT");
+        if (NULL != pSub) {
+            g_adc_set.DetectionType = pSub->valueint;
+        }
+        pSub = cJSON_GetObjectItem(pJson, "SEN");
+        if (NULL != pSub) {
+            g_adc_set.Senstivity = pSub->valuedouble;
+        }
+        pSub = cJSON_GetObjectItem(pJson, "ZD");
+        if (NULL != pSub) {
+            g_adc_set.Zerodrift = pSub->valuedouble;
+        }
+        pSub = cJSON_GetObjectItem(pJson, "ET");
+        if (NULL != pSub) {
+            g_adc_set.EUType = pSub->valueint;
+        }
+        pSub = cJSON_GetObjectItem(pJson, "EU");
+        if (NULL != pSub) {
+            memset(g_adc_set.EU, 0, sizeof(g_adc_set.EU));
+            strcpy(g_adc_set.EU, pSub->valuestring);
+        }
+        pSub = cJSON_GetObjectItem(pJson, "W");
+        if (NULL != pSub) {
+            g_adc_set.WindowsType = pSub->valueint;
+        }
+        pSub = cJSON_GetObjectItem(pJson, "SF");
+        if (NULL != pSub) {
+            g_adc_set.StartFrequency = pSub->valueint;
+        }
+        pSub = cJSON_GetObjectItem(pJson, "EF");
+        if (NULL != pSub) {
+            g_adc_set.EndFrequency = pSub->valueint;
+        }
+        pSub = cJSON_GetObjectItem(pJson, "SR");
+        if (NULL != pSub) {
+            g_adc_set.SampleRate = pSub->valueint;
+        }
+        pSub = cJSON_GetObjectItem(pJson, "L");
+        if (NULL != pSub) {
+            g_adc_set.Lines = pSub->valueint;
+        }
+        pSub = cJSON_GetObjectItem(pJson, "B");
+        if (NULL != pSub) {
+            g_sys_para.bias = pSub->valuedouble;
+        }
+        pSub = cJSON_GetObjectItem(pJson, "RV");
+        if (NULL != pSub) {
+            g_sys_para.refV = pSub->valuedouble;
+        }
+		pSub = cJSON_GetObjectItem(pJson, "A");
+        if (NULL != pSub) {
+            g_adc_set.Averages = pSub->valueint;
+        }
+        pSub = cJSON_GetObjectItem(pJson, "OL");
+        if (NULL != pSub) {
+            g_adc_set.AverageOverlap = pSub->valuedouble;
+        }
+        pSub = cJSON_GetObjectItem(pJson, "AT");
+        if (NULL != pSub) {
+            g_adc_set.AverageType = pSub->valueint;
+        }
+        pSub = cJSON_GetObjectItem(pJson, "EFL");
+        if (NULL != pSub) {
+            g_adc_set.EnvFilterLow = pSub->valueint;
+        }
+        pSub = cJSON_GetObjectItem(pJson, "EFH");
+        if (NULL != pSub) {
+            g_adc_set.EnvFilterHigh = pSub->valueint;
+        }
+        pSub = cJSON_GetObjectItem(pJson, "IM");
+		if (NULL != pSub) {
+            g_adc_set.IncludeMeasurements = pSub->valueint;
+        }
+		pSub = cJSON_GetObjectItem(pJson, "SP");
+		if (NULL != pSub) {
+            g_adc_set.Speed = pSub->valueint;
+        }
+		pSub = cJSON_GetObjectItem(pJson, "P");
+		if (NULL != pSub) {
+            g_adc_set.Process = pSub->valueint;
+        }
+		pSub = cJSON_GetObjectItem(pJson, "PL");
+		if (NULL != pSub) {
+            g_adc_set.ProcessMin = pSub->valueint;
+        }
+		pSub = cJSON_GetObjectItem(pJson, "PH");
+		if (NULL != pSub) {
+            g_adc_set.ProcessMax = pSub->valueint;
+        }
+		pSub = cJSON_GetObjectItem(pJson, "PK");
+		if (NULL != pSub) {
+            g_sys_para.sampPacks = pSub->valueint;
+        }
+		pSub = cJSON_GetObjectItem(pJson, "Y");
+		if (NULL != pSub) {
+            sampTime.year = pSub->valueint;
+        }
+		pSub = cJSON_GetObjectItem(pJson, "M");
+		if (NULL != pSub) {
+            sampTime.month = pSub->valueint;
+        }
+		pSub = cJSON_GetObjectItem(pJson, "D");
+		if (NULL != pSub) {
+            sampTime.day = pSub->valueint;
+        }
+		pSub = cJSON_GetObjectItem(pJson, "H");
+		if (NULL != pSub) {
+            sampTime.hour = pSub->valueint;
+        }
+		pSub = cJSON_GetObjectItem(pJson, "Min");
+		if (NULL != pSub) {
+            sampTime.minute = pSub->valueint;
+        }
+		pSub = cJSON_GetObjectItem(pJson, "S");
+		if (NULL != pSub) {
+            sampTime.second = pSub->valueint;
+        }
+		pSub = cJSON_GetObjectItem(pJson, "Vibrate");
+		memset(VibrateStrADC, 0, ADC_LEN * 4 + 1);
+		if (NULL != pSub) {
+            strcpy(VibrateStrADC, pSub->valuestring);
+        }
+		pSub = cJSON_GetObjectItem(pJson, "Speed");
+		memset(SpeedStrADC, 0, ADC_LEN * 4 + 1);
+		if (NULL != pSub) {
+            strcpy(SpeedStrADC, pSub->valuestring);
+        }
 
+		cJSON_Delete(pFileJson);
+	}
+	f_close(&g_fileObject);
+	
+	
+	/*制作cjson格式的回复消息*/
+    cJSON *pJsonRoot = cJSON_CreateObject();
+    if(NULL == pJsonRoot) {
+        return NULL;
+    }
+    cJSON_AddNumberToObject(pJsonRoot, "Id", 14);
+    cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
+	cJSON_AddNumberToObject(pJsonRoot, "packs",packs);
+    char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
+    cJSON_Delete(pJsonRoot);
+	
+	free(fileStr);
+	fileStr = NULL;
+    
+	return p_reply;
+}
 
 /***************************************************************************************
   * @brief   解析json数据包
@@ -742,6 +997,12 @@ uint8_t* ParseJson(char *pMsg)
     case 11:
         p_reply = GetObjTemp();
         break;
+	case 13:
+		p_reply = GetManageFile(pJson, pSub);
+		break;
+	case 14:
+		p_reply = GetSampleFile(pJson, pSub);
+		break;
     }
 
     cJSON_Delete(pJson);

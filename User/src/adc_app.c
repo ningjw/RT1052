@@ -1,10 +1,10 @@
 #include "main.h"
 
-#define ADC_LEN      10000
+
 float SpeedADC[ADC_LEN];
 float ShakeADC[ADC_LEN];
 char  SpeedStrADC[ADC_LEN * 4 + 1];
-char  ShakeStrADC[ADC_LEN * 4 + 1];
+char  VibrateStrADC[ADC_LEN * 4 + 1];
 
 #define ADC_MODE_LOW_POWER       GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 1)  //低功耗模式
 #define ADC_MODE_HIGH_SPEED      GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 0)   //高速模式
@@ -205,7 +205,7 @@ void ADC_AppTask(void)
             if(r_event & NOTIFY_FINISH) {
                 /* ---------------将震动信号转换-----------------------*/
 				PRINTF("共采样到 %d 个震动信号\r\n", g_sys_para.shkCount);
-                memset(ShakeStrADC, 0, sizeof(ShakeStrADC));
+                memset(VibrateStrADC, 0, sizeof(VibrateStrADC));
                 int pos = 0;
 				int tempValue = 0;
                 for(uint32_t i = 0; i < g_sys_para.shkCount; i++) {
@@ -214,7 +214,7 @@ void ADC_AppTask(void)
 					tempValue = ShakeADC[i] * 10000;//将浮点数转换为整数,并扩大10000倍
                     memset(str, 0, sizeof(str));
                     sprintf(str, "%04x", tempValue);
-                    memcpy(ShakeStrADC + pos, str, 4);
+                    memcpy(VibrateStrADC + pos, str, 4);
                     pos += 4;
                 }
 				//计算发送震动信号需要多少个包
@@ -241,7 +241,7 @@ void ADC_AppTask(void)
 				g_sys_para.sampPacks = g_sys_para.spdPacks + g_sys_para.shkPacks + 5;
 
                 /* -----------将采用数据打包成json格式,并保存到文件中-----*/
-//                PacketSampleData();
+                PacketSampleData();
 
                 /* 发送任务通知，并解锁阻塞在该任务通知下的任务 */
                 xTaskNotifyGive( BLE_TaskHandle);

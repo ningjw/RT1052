@@ -9,6 +9,8 @@
 #define NOTIFY_FINISH          (1<<4)
 #define NOTIFY_SAMPLE_FINISHED (1<<5)
 
+#define ADC_LEN      10000
+
 extern TaskHandle_t ADC_TaskHandle ;  /* ADCÈÎÎñ¾ä±ú */
 
 void ADC_SampleStart(void);
