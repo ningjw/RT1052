@@ -405,11 +405,11 @@ static char * StartSample(cJSON *pJson, cJSON * pSub)
         cJSON_AddNumberToObject(pJsonRoot, "Id",  8);
         cJSON_AddNumberToObject(pJsonRoot, "Sid", 1);
         cJSON_AddStringToObject(pJsonRoot, "F", g_sys_para.fileName);
-        cJSON_AddNumberToObject(pJsonRoot, "S", g_sys_para.sampSize);
+        cJSON_AddNumberToObject(pJsonRoot, "Si", g_sys_para.sampSize);
         cJSON_AddNumberToObject(pJsonRoot,"PK",  g_sys_para.sampPacks);
         cJSON_AddNumberToObject(pJsonRoot, "V", g_sys_para.shkCount);
         cJSON_AddNumberToObject(pJsonRoot, "S", g_sys_para.spdCount);
-		char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
+		p_reply = cJSON_PrintUnformatted(pJsonRoot);
 		cJSON_Delete(pJsonRoot);
     }
     
@@ -517,6 +517,7 @@ SEND_DATA:
 
     switch(sid)	{
     case 0:
+		cJSON_AddNumberToObject(pJsonRoot, "D", ble_wait_time);
         cJSON_AddStringToObject(pJsonRoot, "DP", g_adc_set.IDPath);//硬件版本号
         cJSON_AddStringToObject(pJsonRoot, "NP", g_adc_set.NamePath);//硬件版本号
 		p_reply = cJSON_PrintUnformatted(pJsonRoot);
@@ -559,36 +560,31 @@ SEND_DATA:
 		p_reply = cJSON_PrintUnformatted(pJsonRoot);
         break;
     default:
-		p_reply = malloc(200);
-        memset(p_reply, 0, 200);
-		memset(g_lpuart2TxBuf, 0, LPUART2_BUFF_LEN);
-	    memset(sidStr, 0, sizeof(sidStr));
-		sprintf(sidStr,"%d,",sid);
+		p_reply = malloc(250);
+		memset(p_reply, 0, 250);
+		char *tempJson = cJSON_PrintUnformatted(pJsonRoot);
+		memset(p_reply, 0, LPUART2_BUFF_LEN);
+		strcat(p_reply, tempJson);
+		p_reply[strlen(p_reply) - 1] = 0x00;//先去掉jsong格式后面的"}"
         if(sid-3 < g_sys_para.shkPacks)
         {
+			strcat(p_reply,",V,");
             index = sid - 3;
             //每个数据占用4个byte;每包可以上传38个数据. 38*4=152
-            memcpy(g_lpuart2TxBuf, VibrateStrADC+index*152, 152);
+            memcpy(p_reply+strlen(p_reply), VibrateStrADC+index*152, 152);
+			strcat(p_reply,"}");
 			
-			strcat(p_reply, "{9,");
-			strcat(p_reply, sidStr);
-			strcat(p_reply,"V,");
-			strcat(p_reply,(char *)g_lpuart2TxBuf);
-//            cJSON_AddStringToObject(pJsonRoot, "V", (char *)g_lpuart2TxBuf);
         }
         else if(sid - 3 - g_sys_para.shkPacks < g_sys_para.spdCount)
         {
+			strcat((char *)g_lpuart2TxBuf,",S,");
             index = sid - 3 - g_sys_para.shkPacks;
             //每个数据占用4个byte;每包可以上传38个数据. 38*4=152
-            memcpy(g_lpuart2TxBuf, SpeedStrADC+index*152, 152);
-
-			strcat(p_reply, "{9,");
-			strcat(p_reply, sidStr);
-			strcat(p_reply, "V,");
-			strcat(p_reply,(char *)g_lpuart2TxBuf);
-			
-//            cJSON_AddStringToObject(pJsonRoot, "V", (char *)g_lpuart2TxBuf);
+            memcpy(p_reply+strlen(p_reply), SpeedStrADC+index*152, 152);
+			strcat(p_reply, "}");
         }
+		free(tempJson);
+		tempJson = NULL;
         break;
     }
 

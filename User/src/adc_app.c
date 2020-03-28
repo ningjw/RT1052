@@ -108,7 +108,7 @@ void ADC_SampleStart(void)
     QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
     QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 	/* Set channel 0 period (66000000 ticks). 用于触发内部ADC采样，采集转速信号*/
-//    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ / g_adc_set.SampleRate);
+    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ / g_adc_set.SampleRate);
     /* Set channel 1 period (66000000 ticks). 用于控制采样频率*/
 //    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_CLK_FREQ / g_adc_set.SampleRate);
     
@@ -126,11 +126,11 @@ void ADC_SampleStart(void)
 	/* 输入捕获，计算转速信号周期 */
     QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
     /* Start channel 0. 开启通道0,正式开始采样*/
-//    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
+    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
 	while(1) { //wait ads1271 ready
         while(ADC_READY == 0);
-//		ADC_ShakeValue = LPSPI4_ReadData();
-		ShakeADC[g_sys_para.shkCount++] = LPSPI4_ReadData();
+		ADC_ShakeValue = LPSPI4_ReadData();
+//		ShakeADC[g_sys_para.shkCount++] = LPSPI4_ReadData();
 		if(g_sys_para.shkCount >= g_sys_para.sampNumber){
 			g_sys_para.shkCount = g_sys_para.sampNumber;
 			if(g_sys_para.sampNumber == 0){//Android发送中断采集命令后,该值为0
@@ -238,7 +238,7 @@ void ADC_AppTask(void)
 				g_sys_para.spdPacks = (g_sys_para.spdCount / 38) +  (g_sys_para.spdCount%38?1:0);
 				
 				//计算将一次采集数据全部发送到Android需要多少个包
-				g_sys_para.sampPacks = g_sys_para.spdPacks + g_sys_para.shkPacks + 5;
+				g_sys_para.sampPacks = g_sys_para.spdPacks + g_sys_para.shkPacks + 3;
 
                 /* -----------将采用数据打包成json格式,并保存到文件中-----*/
                 PacketSampleData();

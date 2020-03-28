@@ -8,8 +8,7 @@
 #define NOTIFY_ADS1271         (1<<3)
 #define NOTIFY_FINISH          (1<<4)
 #define NOTIFY_SAMPLE_FINISHED (1<<5)
-
-#define ADC_LEN      10000
+#define ADC_LEN      20000
 
 extern TaskHandle_t ADC_TaskHandle ;  /* ADCÈÎÎñ¾ä±ú */
 
