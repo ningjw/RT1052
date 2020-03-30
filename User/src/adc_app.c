@@ -218,7 +218,7 @@ void ADC_AppTask(void)
                     pos += 4;
                 }
 				//计算发送震动信号需要多少个包
-				g_sys_para.shkPacks = (g_sys_para.shkCount / 38) +  (g_sys_para.shkCount%38?1:0);
+				g_sys_para.shkPacks = (g_sys_para.shkCount / 40) +  (g_sys_para.shkCount%40?1:0);
 
 				/* ------------------将转速信号转换--------------------*/
 				PRINTF("\r\n共采样到 %d 个转速信号\r\n", g_sys_para.spdCount);
@@ -235,7 +235,7 @@ void ADC_AppTask(void)
                     pos += 4;
                 }
 				//计算发送震动信号需要多少个包
-				g_sys_para.spdPacks = (g_sys_para.spdCount / 38) +  (g_sys_para.spdCount%38?1:0);
+				g_sys_para.spdPacks = (g_sys_para.spdCount / 40) +  (g_sys_para.spdCount%40?1:0);
 				
 				//计算将一次采集数据全部发送到Android需要多少个包
 				g_sys_para.sampPacks = g_sys_para.spdPacks + g_sys_para.shkPacks + 3;

@@ -21,8 +21,9 @@ uint8_t g_lpuart2RxBuf[LPUART2_BUFF_LEN] = {0};//串口接收缓冲区
 uint8_t g_puart2RxCnt = 0;
 uint8_t g_puart2TxCnt = 0;
 uint8_t g_puart2StartRx = 0;
-uint32_t ble_event = 0;
 uint32_t  g_puart2RxTimeCnt = 0;
+uint32_t ble_event = 0;
+
 TaskHandle_t        BLE_TaskHandle = NULL;//蓝牙任务句柄
 
 static char send_str[164] = {0};
@@ -187,34 +188,44 @@ void LPUART2_IRQHandler(void)
     {
         /*读取数据*/
         ucTemp = LPUART_ReadByte(LPUART2);
-        if( ucTemp == '{') {
-            g_puart2StartRx = 1;
-            g_puart2RxTimeCnt = 0;
-			g_puart2RxCnt = 0;
-        }
-
-		if(g_puart2RxCnt < LPUART2_BUFF_LEN) {
-            /* 将接受到的数据保存到数组*/
-            g_lpuart2RxBuf[g_puart2RxCnt++] = ucTemp;
-        }else{/* 数据超出指定长度, 清0 */
-            g_puart2StartRx = 0;
-            g_puart2RxCnt = 0;
-        }
 		
-        if( ucTemp == '}') {
-            /* 接受完成,该标志清0*/
-            g_puart2StartRx = 0;
-            //接受到Android发送的结束采集信号
-            if(strstr((char *)g_lpuart2RxBuf, "{\"Id\":12,") != 0) {
-				LPUART2_SendString((char *)g_lpuart2RxBuf);
-                g_sys_para.sampNumber = 0;//如果此时正在采集数据, 该代码会触发采集完成信号
-//			}else if(strstr((char *)g_lpuart2RxBuf,"{\"Id\":10,") != 0){//接受到Android发送的开始升级信号
-				
-            } else {
-                /*设置接受完成事件 */
-                xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
-            }
-        }
+		//蓝牙升级固件时是按照16进制来传送的所以需要区分开来
+//		if(g_sys_para.bleLedStatus == BLE_UPDATE){
+//			/* 将接受到的数据保存到数组*/
+//			g_lpuart2RxBuf[g_puart2RxCnt++] = ucTemp;
+//			/*固件升级时,每一包的长度都是固定的133个数据*/
+//			if(g_puart2RxCnt >= 133) {
+//				g_puart2RxCnt = 0;
+//				xTaskNotify(BLE_TaskHandle, ETV_TIMTOUT, eSetBits);
+//			}
+//		}else{
+			if( ucTemp == '{') {
+				g_puart2StartRx = 1;
+				g_puart2RxTimeCnt = 0;
+				g_puart2RxCnt = 0;
+			}
+
+			if(g_puart2RxCnt < LPUART2_BUFF_LEN) {
+				/* 将接受到的数据保存到数组*/
+				g_lpuart2RxBuf[g_puart2RxCnt++] = ucTemp;
+			}else{/* 数据超出指定长度, 清0 */
+				g_puart2StartRx = 0;
+				g_puart2RxCnt = 0;
+			}
+			
+			if( ucTemp == '}') {
+				/* 接受完成,该标志清0*/
+				g_puart2StartRx = 0;
+				//接受到Android发送的结束采集信号
+				if(strstr((char *)g_lpuart2RxBuf, "{\"Id\":12,") != 0) {
+					LPUART2_SendString((char *)g_lpuart2RxBuf);
+					g_sys_para.sampNumber = 0;//如果此时正在采集数据, 该代码会触发采集完成信号
+				} else {
+					/*设置接受完成事件 */
+					xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
+				}
+			}
+//		}
     }
     /* 发生了未知中断, 重启串口2*/
     else
@@ -239,33 +250,15 @@ void LPUART2_TimeTick(void)
     if(g_puart2StartRx)
     {
         g_puart2RxTimeCnt++;
-        if(g_puart2RxTimeCnt >= 200) { //接受数据超时
+		if(g_sys_para.bleLedStatus == BLE_UPDATE){
+			if(g_puart2RxTimeCnt >= 200){
+				g_sys_para.bleLedStatus = BLE_CONNECT;//蓝牙升级超时
+			}
+		}else if(g_puart2RxTimeCnt >= 200) { //接受数据超时
             xTaskNotify(BLE_TaskHandle, ETV_TIMTOUT, eSetBits);
         }
     }
 }
-/***************************************************************************************
-  * @brief
-  * @input
-  * @return
-***************************************************************************************/
-void TMR2_IRQHandler(void)
-{
-    /* 接受完成,该标志清0*/
-    g_puart2StartRx = 0;
 
-    /* 待机条件为1, 接受到蓝牙数据就清0计数器*/
-    if(g_sys_para.inactiveCondition == 1) {
-        g_sys_para.inactiveCount = 0;
-    }
-    /* 清中断标志 */
-    QTMR_ClearStatusFlags(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL, kQTMR_CompareFlag);
-
-    /* 本次数据接受完成,停止计数器 */
-    QTMR_StopTimer(QUADTIMER2_PERIPHERAL, QUADTIMER2_CHANNEL_0_CHANNEL);
-
-    /*设置接受完成事件 */
-    xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
-}
 
 

@@ -390,7 +390,7 @@ const lpuart_config_t LPUART2_config = {
 
 void LPUART2_init(void) {
   LPUART_Init(LPUART2_PERIPHERAL, &LPUART2_config, LPUART2_CLOCK_SOURCE);
-  LPUART_EnableInterrupts(LPUART2_PERIPHERAL, kLPUART_RxDataRegFullInterruptEnable | kLPUART_RxOverrunInterruptEnable);
+  LPUART_EnableInterrupts(LPUART2_PERIPHERAL, kLPUART_RxDataRegFullInterruptEnable);
   /* Enable interrupt LPUART2_IRQn request in the NVIC */
   EnableIRQ(LPUART2_SERIAL_RX_TX_IRQN);
 }

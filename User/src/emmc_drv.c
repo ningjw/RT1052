@@ -96,7 +96,8 @@ void eMMC_DelEarliestFile(void)
 {
     FRESULT res;
     UINT    br,bw;
-    char   *fileStr;
+	char   *fileStrMalloc = NULL;
+    char   *fileStr = NULL;
     
     /*以可读可写方式打开文件*/
     res = f_open(&g_fileObject, _T("manage.txt"), (FA_READ | FA_OPEN_ALWAYS));
@@ -108,7 +109,8 @@ void eMMC_DelEarliestFile(void)
     }
     
     //申请内存用于保存文件内容
-    fileStr = malloc(g_fileObject.obj.objsize + 20);
+	fileStrMalloc = malloc(g_fileObject.obj.objsize + 20);
+    fileStr = fileStrMalloc;
     memset(fileStr, 0U, g_fileObject.obj.objsize + 20);
     
     /* 移动文件读写指针到文件开始处 */
@@ -120,7 +122,7 @@ void eMMC_DelEarliestFile(void)
         if (res || br == 0) break; /* error or eof */
     }
     f_close(&g_fileObject);
-    
+    if(strlen(fileStr) == 0) return;//读出的文件为空
     /*编辑文件内容*/
     if(g_fileObject.obj.objsize){//如果文件内容不为空
         memset(g_sys_para.earliestFile, 0, sizeof(g_sys_para.earliestFile));
@@ -128,7 +130,7 @@ void eMMC_DelEarliestFile(void)
         memcpy(g_sys_para.earliestFile+3, fileStr, FILE_NAME_LEN);
         f_unlink(g_sys_para.earliestFile);
 		PRINTF("删除文件:%s\r\n",g_sys_para.earliestFile);
-        fileStr += (FILE_NAME_LEN+2);//2个额外的字符为"\r\n"
+        fileStr += (FILE_NAME_LEN+1);//1个额外的字符为逗号
     }
     /*将编辑好的内容打印出来*/
     PRINTF("%s\r\n",fileStr);
@@ -148,6 +150,8 @@ void eMMC_DelEarliestFile(void)
         
         f_write(&g_fileObject, fileStr+i*ONE_LEN, w_len, &bw);
     }
+	free(fileStrMalloc);
+	fileStrMalloc = NULL;
     f_close(&g_fileObject);
 }
 
@@ -163,7 +167,7 @@ void eMMC_AppendmanageFile(char *str)
     UINT    bw;
     TCHAR   fileName[20] = {0};
     strcat(fileName,str);
-    strcat(fileName,"\r\n");
+    strcat(fileName,",");
     f_open(&g_fileObject, _T("manage.txt"), (FA_WRITE | FA_OPEN_ALWAYS | FA_OPEN_APPEND));
     f_write(&g_fileObject, fileName, strlen(fileName), &bw);
     f_close(&g_fileObject);
@@ -193,6 +197,8 @@ void eMMC_PrintfManageFile(void)
         if (res || br == 0) break; /* error or eof */
     }
     PRINTF("%s\r\n",fileStr);
+	free(fileStr);
+	fileStr = NULL;
     f_close(&g_fileObject);
 }
 /***************************************************************************************
@@ -345,7 +351,7 @@ void eMMC_CheckFatfs(void)
     }
 
     eMMC_GetFree();
-
+	
     /*判断文件系统是否测试成功*/
     if(g_sys_para.emmcIsOk == false) {
         g_sys_para.sampLedStatus = WORK_ERR;

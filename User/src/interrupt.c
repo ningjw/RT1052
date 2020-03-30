@@ -44,7 +44,7 @@ void LPUART3_IRQHandler(void)
 		LPUART_TransferAbortReceiveEDMA(LPUART3, &LPUART3_eDMA_Handle);   //eDMA终止接收数据
 		LPUART_ReceiveEDMA(LPUART3, &LPUART3_eDMA_Handle, &uart3RevXfer);  //使用eDMA接收
         
-//        PRINTF("%s:\r\n",uart3RevXfer.data);
+        PRINTF("%s:\r\n",uart3RevXfer.data);
         if(strstr((char *)uart3RevXfer.data,"ls") != NULL){
             eMMC_ScanFile();
         }else if(strstr((char *)uart3RevXfer.data,"cat") != NULL){
