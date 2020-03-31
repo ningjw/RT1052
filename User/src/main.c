@@ -21,7 +21,7 @@ static void InitSysPara()
     g_sys_para.inactiveCondition = 1;//蓝牙连接没有通信后,15分钟关机.
 
     g_adc_set.SampleRate = 5120;     //取样频率
-    g_sys_para.sampNumber = 6144;//12288;    //取样点数,
+    g_sys_para.sampNumber = 6144;    //12288;    //取样点数,
     g_sys_para.inactiveCount = 0;    //
     g_sys_para.sampLedStatus = WORK_FINE;
     g_sys_para.batLedStatus = BAT_NORMAL;
@@ -32,6 +32,11 @@ static void InitSysPara()
     g_sys_para.firmPacksCount = 0;
     g_sys_para.firmSizeCurrent = 0;
     g_sys_para.firmNextAddr = FIRM_DATA_ADDR;
+	
+//	g_sys_para.Ltc1063Clk = 2000000;
+//	QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
+//    QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
+	
 }
 
 /***********************************************************************

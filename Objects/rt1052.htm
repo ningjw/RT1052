@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\rt1052.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rt1052.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Mar 30 22:26:12 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Mar 31 20:05:10 2020
 <BR><P>
 <H3>Maximum Stack Usage =       2072 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1371,7 +1371,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[109]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC1_init
 </UL>
 
-<P><STRONG><a name="[125]"></a>ADC_SampleStart</STRONG> (Thumb, 318 bytes, Stack size 16 bytes, adc_app.o(i.ADC_SampleStart))
+<P><STRONG><a name="[125]"></a>ADC_SampleStart</STRONG> (Thumb, 322 bytes, Stack size 16 bytes, adc_app.o(i.ADC_SampleStart))
 <BR><BR>[Stack]<UL><LI>Max Depth = 792<LI>Call Chain = ADC_SampleStart &rArr; LPSPI4_ReadData &rArr; LPSPI_MasterTransferBlocking &rArr; LPSPI_SeparateReadData &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[112]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI4_ReadData
@@ -2517,7 +2517,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
-<P><STRONG><a name="[112]"></a>LPSPI4_ReadData</STRONG> (Thumb, 62 bytes, Stack size 16 bytes, adc_drv.o(i.LPSPI4_ReadData))
+<P><STRONG><a name="[112]"></a>LPSPI4_ReadData</STRONG> (Thumb, 58 bytes, Stack size 16 bytes, adc_drv.o(i.LPSPI4_ReadData))
 <BR><BR>[Stack]<UL><LI>Max Depth = 776<LI>Call Chain = LPSPI4_ReadData &rArr; LPSPI_MasterTransferBlocking &rArr; LPSPI_SeparateReadData &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPSPI_MasterTransferBlocking

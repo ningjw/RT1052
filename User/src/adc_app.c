@@ -93,7 +93,7 @@ void ADC_SampleStart(void)
 	memset(ShakeADC,0,ADC_LEN);
 	memset(SpeedADC,0,ADC_LEN);
     g_sys_para.Ltc1063Clk = 1000 * g_adc_set.SampleRate / 25;
-
+//	g_sys_para.Ltc1063Clk = 4000000;
 	//判断自动关机条件
     if(g_sys_para.inactiveCondition != 1) {
         g_sys_para.inactiveCount = 0;
@@ -109,9 +109,7 @@ void ADC_SampleStart(void)
     QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 	/* Set channel 0 period (66000000 ticks). 用于触发内部ADC采样，采集转速信号*/
     PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ / g_adc_set.SampleRate);
-    /* Set channel 1 period (66000000 ticks). 用于控制采样频率*/
-//    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_1, PIT1_CLK_FREQ / g_adc_set.SampleRate);
-    
+
 	NVIC_DisableIRQ(PendSV_IRQn);   
     NVIC_DisableIRQ(SysTick_IRQn);
 	/* stop channel 2. */
@@ -127,10 +125,13 @@ void ADC_SampleStart(void)
     QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
     /* Start channel 0. 开启通道0,正式开始采样*/
     PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
+	
 	while(1) { //wait ads1271 ready
         while(ADC_READY == 0);
+		__disable_fiq();
 		ADC_ShakeValue = LPSPI4_ReadData();
 //		ShakeADC[g_sys_para.shkCount++] = LPSPI4_ReadData();
+		__enable_fiq();
 		if(g_sys_para.shkCount >= g_sys_para.sampNumber){
 			g_sys_para.shkCount = g_sys_para.sampNumber;
 			if(g_sys_para.sampNumber == 0){//Android发送中断采集命令后,该值为0
@@ -139,6 +140,7 @@ void ADC_SampleStart(void)
 			break;
 		}
     }
+	
 	ADC_SampleStop();
 }
 

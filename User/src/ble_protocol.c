@@ -7,7 +7,7 @@ extern char  VibrateStrADC[];
 extern const TCHAR driverNumberBuffer[];
 extern BYTE g_data_read[FF_MAX_SS];
 snvs_hp_rtc_datetime_t sampTime;
-uint16_t ble_wait_time = 40;
+uint16_t ble_wait_time = 60;
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
   * @input

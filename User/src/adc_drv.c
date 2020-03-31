@@ -152,16 +152,15 @@ lpspi_transfer_t spi_tranxfer = {
 ***************************************************************************************/
 uint32_t LPSPI4_ReadData(void)
 {
+	extern float ShakeADC[];
     status_t sta;
     g_sys_para.ads1271IsOk = false;
     uint32_t spiData = 0;
-	__disable_irq();
     sta = LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI×èÈû·¢ËÍ
     if(sta == kStatus_Success){
         g_sys_para.ads1271IsOk = true;
         spiData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];
     }
-	__enable_irq();
     return spiData;
 }
 
