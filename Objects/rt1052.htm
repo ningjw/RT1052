@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\rt1052.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\rt1052.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Mar 31 20:05:10 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Mar 31 22:28:26 2020
 <BR><P>
 <H3>Maximum Stack Usage =       2072 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1444,7 +1444,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> main.o(i.AppTaskCreate)
 </UL>
-<P><STRONG><a name="[de]"></a>BLE_AppTask</STRONG> (Thumb, 376 bytes, Stack size 0 bytes, ble_app.o(i.BLE_AppTask))
+<P><STRONG><a name="[de]"></a>BLE_AppTask</STRONG> (Thumb, 358 bytes, Stack size 0 bytes, ble_app.o(i.BLE_AppTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 2072<LI>Call Chain = BLE_AppTask &rArr; ParseProtocol &rArr; ParseJson &rArr; FormatEmmc &rArr; eMMC_Init &rArr; eMMC_ScanFile &rArr; f_opendir &rArr; follow_path &rArr; dir_find &rArr; dir_next &rArr; create_chain &rArr; put_fat &rArr; move_window &rArr; sync_window &rArr; disk_write &rArr; mmc_disk_write &rArr; MMC_WriteBlocks &rArr; MMC_Write &rArr; MMC_WaitWriteComplete &rArr; MMC_Transfer &rArr; MMC_ExecuteTuning &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[114]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskNotifyWait
@@ -1868,6 +1868,7 @@ Global Symbols
 <LI><a href="#[191]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eMMC_CheckFatfs
 <LI><a href="#[1db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GetSampleData
 <LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_assert
+<LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART2_IRQHandler
 <LI><a href="#[216]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eMMC_ScanFile
 <LI><a href="#[217]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eMMC_PrintfManageFile
 <LI><a href="#[1d3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eMMC_GetFree
@@ -2652,8 +2653,8 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_mimxrt1052.o(.text)
 </UL>
-<P><STRONG><a name="[22]"></a>LPUART2_IRQHandler</STRONG> (Thumb, 240 bytes, Stack size 8 bytes, ble_app.o(i.LPUART2_IRQHandler))
-<BR><BR>[Stack]<UL><LI>Max Depth = 752<LI>Call Chain = LPUART2_IRQHandler &rArr; LPUART2_init &rArr; LPUART_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
+<P><STRONG><a name="[22]"></a>LPUART2_IRQHandler</STRONG> (Thumb, 312 bytes, Stack size 16 bytes, ble_app.o(i.LPUART2_IRQHandler))
+<BR><BR>[Stack]<UL><LI>Max Depth = 760<LI>Call Chain = LPUART2_IRQHandler &rArr; LPUART2_init &rArr; LPUART_Init &rArr; CLOCK_ControlGate &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; StrFormatPrintf &rArr; ConvertFloatRadixNumToString &rArr; __hardfp_pow &rArr; sqrt
 </UL>
 <BR>[Calls]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGenericNotify
 <LI><a href="#[143]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_SetBaudRate
@@ -2661,6 +2662,7 @@ Global Symbols
 <LI><a href="#[16b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART2_init
 <LI><a href="#[132]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART2_SendString
 <LI><a href="#[210]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LPUART_GetStatusFlags
+<LI><a href="#[113]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DbgConsole_Printf
 <LI><a href="#[133]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strstr
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
 </UL>
@@ -2679,7 +2681,7 @@ Global Symbols
 <LI><a href="#[de]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BLE_AppTask
 </UL>
 
-<P><STRONG><a name="[213]"></a>LPUART2_TimeTick</STRONG> (Thumb, 70 bytes, Stack size 8 bytes, ble_app.o(i.LPUART2_TimeTick))
+<P><STRONG><a name="[213]"></a>LPUART2_TimeTick</STRONG> (Thumb, 86 bytes, Stack size 8 bytes, ble_app.o(i.LPUART2_TimeTick))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = LPUART2_TimeTick &rArr; xTaskGenericNotify
 </UL>
 <BR>[Calls]<UL><LI><a href="#[118]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGenericNotify

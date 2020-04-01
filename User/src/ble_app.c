@@ -125,8 +125,6 @@ void BLE_AppTask(void)
         /*wait task notify*/
         xReturn = xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, portMAX_DELAY);
         if ( pdTRUE == xReturn && ble_event == EVT_OK) {
-            /* 只要蓝牙接受到数据,则表示当前有设备连接 */
-            g_sys_para.bleLedStatus = BLE_CONNECT;
 
             /* 处理蓝牙数据协议 */
             sendBuf = ParseProtocol(g_lpuart2RxBuf);
@@ -167,10 +165,10 @@ void BLE_AppTask(void)
         }
 
         /* 判断蓝牙连接状态*/
-        if(BLE_STATUS()) { //Connected
-            g_sys_para.bleLedStatus = BLE_CONNECT;
-        } else { //Disconnected
+        if(!BLE_STATUS()) { //Disconnected
             g_sys_para.bleLedStatus = BLE_READY;
+        } else { //Connected
+            
         }
     }
 }
@@ -190,17 +188,18 @@ void LPUART2_IRQHandler(void)
         ucTemp = LPUART_ReadByte(LPUART2);
 		
 		//蓝牙升级固件时是按照16进制来传送的所以需要区分开来
-//		if(g_sys_para.bleLedStatus == BLE_UPDATE){
-//			/* 将接受到的数据保存到数组*/
-//			g_lpuart2RxBuf[g_puart2RxCnt++] = ucTemp;
-//			/*固件升级时,每一包的长度都是固定的133个数据*/
-//			if(g_puart2RxCnt >= 133) {
-//				g_puart2RxCnt = 0;
-//				xTaskNotify(BLE_TaskHandle, ETV_TIMTOUT, eSetBits);
-//			}
-//		}else{
+		if(g_sys_para.bleLedStatus == BLE_UPDATE){
+			/* 将接受到的数据保存到数组*/
+			g_lpuart2RxBuf[g_puart2RxCnt++] = ucTemp;
+			/*固件升级时,每一包的长度都是固定的134个数据*/
+			if(g_puart2RxCnt >= 134) {
+				for(int i = 4; i<132; i++)
+					PRINTF("0x%02x,", g_lpuart2RxBuf[i]);
+				xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
+			}
+		}else{
 			if( ucTemp == '{') {
-				g_puart2StartRx = 1;
+				g_puart2StartRx = true;
 				g_puart2RxTimeCnt = 0;
 				g_puart2RxCnt = 0;
 			}
@@ -209,7 +208,7 @@ void LPUART2_IRQHandler(void)
 				/* 将接受到的数据保存到数组*/
 				g_lpuart2RxBuf[g_puart2RxCnt++] = ucTemp;
 			}else{/* 数据超出指定长度, 清0 */
-				g_puart2StartRx = 0;
+				g_puart2StartRx = false;
 				g_puart2RxCnt = 0;
 			}
 			
@@ -225,7 +224,7 @@ void LPUART2_IRQHandler(void)
 					xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
 				}
 			}
-//		}
+		}
     }
     /* 发生了未知中断, 重启串口2*/
     else
@@ -251,10 +250,12 @@ void LPUART2_TimeTick(void)
     {
         g_puart2RxTimeCnt++;
 		if(g_sys_para.bleLedStatus == BLE_UPDATE){
-			if(g_puart2RxTimeCnt >= 200){
+			if(g_puart2RxTimeCnt >= 5000){
+				g_puart2RxTimeCnt = 0;
 				g_sys_para.bleLedStatus = BLE_CONNECT;//蓝牙升级超时
 			}
 		}else if(g_puart2RxTimeCnt >= 200) { //接受数据超时
+			g_puart2RxTimeCnt = 0;
             xTaskNotify(BLE_TaskHandle, ETV_TIMTOUT, eSetBits);
         }
     }

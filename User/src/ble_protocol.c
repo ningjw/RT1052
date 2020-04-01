@@ -641,7 +641,7 @@ static char * StartUpgrade(cJSON *pJson, cJSON * pSub)
     char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     g_sys_para.bleLedStatus = BLE_UPDATE;
-
+//	g_puart2StartRx = true;//开始超市检测,5s中未接受到数据则超时
     return p_reply;
 }
 
@@ -1078,7 +1078,7 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
     uint16_t crc = 0;
     uint8_t  err_code = 0;
 
-    crc = CRC16(pMsg, 131);//自己计算出的CRC16
+    crc = CRC16(pMsg+4, 128);//自己计算出的CRC16
     if(pMsg[132] != (crc>>8) || pMsg[133] != (uint8_t)crc) {
         err_code = 1;
     } else {

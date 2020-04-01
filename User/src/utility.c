@@ -34,10 +34,9 @@ void Uart_SendString( LPUART_Type *base,  const char *str)
 ***************************************************************************************/
 uint16_t CRC16(uint8_t *data,uint32_t length)
 {
-    uint16_t result;
+    uint16_t result = 0xFFFF;
     uint32_t i,j;
 
-    result=0xFFFF;
     if(length!=0)
     {
         for(i=0; i<length; i++)
@@ -45,7 +44,7 @@ uint16_t CRC16(uint8_t *data,uint32_t length)
             result^=(uint16_t)(data[i]);
             for(j=0; j<8; j++)
             {
-                if((result&0x0001)==0x0001)
+                if((result&0x0001) != 0)
                 {
                     result>>=1;
                     result^=0xA001;	//a001
