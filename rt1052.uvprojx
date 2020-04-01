@@ -440,6 +440,11 @@
               <FileType>5</FileType>
               <FilePath>.\User\inc\led_app.h</FilePath>
             </File>
+            <File>
+              <FileName>lpm_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\lpm_app.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1038,6 +1043,11 @@
               <FileType>5</FileType>
               <FilePath>.\User\inc\led_app.h</FilePath>
             </File>
+            <File>
+              <FileName>lpm_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\lpm_app.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1408,6 +1418,13 @@
         </targetInfos>
       </component>
       <component Cclass="Device" Cgroup="SDK Drivers" Csub="flexspi" Cvendor="NXP" Cversion="2.1.1" condition="device.MIMXRT1052_AND_driver.common">
+        <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
+        <targetInfos>
+          <targetInfo name="debug"/>
+          <targetInfo name="nor_sdram"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="SDK Drivers" Csub="gpc" Cvendor="NXP" Cversion="2.1.0" condition="device.MIMXRT1052_AND_driver.common">
         <package license="Licenses.txt" name="MIMXRT1052_DFP" schemaVersion="1.4" url="http://mcuxpresso.nxp.com/cmsis_pack/repo/" vendor="NXP" version="12.0.0"/>
         <targetInfos>
           <targetInfo name="debug"/>

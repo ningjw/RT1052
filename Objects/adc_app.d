@@ -52,6 +52,7 @@
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dcdc.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_src.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_pwm.h
+.\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpc.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h
 .\objects\adc_app.o: .\RTE\RTOS\FreeRTOSConfig.h
 .\objects\adc_app.o: .\RTE\_nor_sdram\RTE_Components.h
@@ -67,6 +68,7 @@
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\event_groups.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
+.\objects\adc_app.o: .\User\inc\lpm_app.h
 .\objects\adc_app.o: .\cjson\cJSON.h
 .\objects\adc_app.o: .\User\inc\interrupt.h
 .\objects\adc_app.o: .\User\inc\rtc_drv.h

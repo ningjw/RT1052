@@ -16,7 +16,7 @@ typedef enum{
     BAT_ALARM,     //红色，快速闪烁：表示电池电量过低。电量过低可通过 APP 来设定最低报警值。如电量低于 10%时，可自动报警
     BAT_NORMAL,    //电池未充电,且电量大于20%
 }led_sta_t;
-    
+
 
 extern TaskHandle_t LED_TaskHandle;
 void LED_AppTask(void);

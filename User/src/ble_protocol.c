@@ -631,7 +631,11 @@ static char * StartUpgrade(cJSON *pJson, cJSON * pSub)
     g_sys_para.firmPacksCount = 0;
     g_sys_para.firmSizeCurrent = 0;
     g_sys_para.firmUpdate = false;
-
+	/* 按照文件大小擦除对应大小的空间 */
+    for(int i = 0; i<= g_sys_para.firmSizeTotal/SECTOR_SIZE; i++){
+        FlexSPI_NorFlash_Erase_Sector(FLEXSPI, FIRM_DATA_ADDR + i*SECTOR_SIZE);
+    }
+	
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot) {
         return NULL;
@@ -641,7 +645,7 @@ static char * StartUpgrade(cJSON *pJson, cJSON * pSub)
     char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     g_sys_para.bleLedStatus = BLE_UPDATE;
-//	g_puart2StartRx = true;//开始超市检测,5s中未接受到数据则超时
+	g_puart2StartRx = true;//开始超市检测,5s中未接受到数据则超时
     return p_reply;
 }
 
@@ -1078,25 +1082,22 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
     uint16_t crc = 0;
     uint8_t  err_code = 0;
 
-    crc = CRC16(pMsg+4, 128);//自己计算出的CRC16
-    if(pMsg[132] != (crc>>8) || pMsg[133] != (uint8_t)crc) {
+    crc = CRC16(pMsg+4, FIRM_ONE_PACKE_LEN-6);//自己计算出的CRC16
+    if(pMsg[FIRM_ONE_PACKE_LEN-2] != (uint8_t)crc || pMsg[FIRM_ONE_PACKE_LEN-1] != (crc>>8)) {
         err_code = 1;
     } else {
         /* 包id */
-        g_sys_para.firmPacksCount = pMsg[2];
+        g_sys_para.firmPacksCount = pMsg[2] | (pMsg[3]<<8);
 
         /* 根据包id,计算出该包需要保存的地址*/
         g_sys_para.firmNextAddr = FIRM_DATA_ADDR + g_sys_para.firmPacksCount * FIRM_ONE_PACKE_LEN;
-
-        /* 当前接受到的包长度 */
-        g_sys_para.firmSizeCurrent += pMsg[3];
-
+		
         /* 保存固件数据到Nor Flash*/
         NorFlash_WriteApp(&pMsg[4], FIRM_ONE_PACKE_LEN);
     }
 
     /* 当前为最后一包,计算整个固件的crc16码 */
-    if(pMsg[2] == g_sys_para.firmPacksTotal - 1 ) {
+    if(g_sys_para.firmPacksCount == g_sys_para.firmPacksTotal - 1 ) {
         crc = CRC16((void *)FIRM_DATA_ADDR, g_sys_para.firmSizeTotal);
         if(crc != g_sys_para.firmCrc16) {
             g_sys_para.firmUpdate = false;
@@ -1108,13 +1109,11 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
 
     /* 固件包,点检仪固定回复7Byte数据 */
     g_puart2TxCnt = 7;
-    memcpy(g_lpuart2TxBuf, pMsg, 3);
-    g_lpuart2TxBuf[3] = g_puart2RxCnt - 6;//接受到的有效数据个数
+    memcpy(g_lpuart2TxBuf, pMsg, 4);
     g_lpuart2TxBuf[4] = err_code;         //错误码
     crc = CRC16(g_lpuart2TxBuf, g_puart2TxCnt);
     g_lpuart2TxBuf[5] = crc>>8;           //CRC H
     g_lpuart2TxBuf[6] = (uint8_t)crc;     //CRC L
-    g_sys_para.bleLedStatus = BLE_UPDATE;
     return g_lpuart2TxBuf;
 }
 

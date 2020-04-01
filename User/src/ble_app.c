@@ -167,8 +167,8 @@ void BLE_AppTask(void)
         /* 判断蓝牙连接状态*/
         if(!BLE_STATUS()) { //Disconnected
             g_sys_para.bleLedStatus = BLE_READY;
-        } else { //Connected
-            
+        } else if(g_sys_para.bleLedStatus != BLE_UPDATE){ 
+            g_sys_para.bleLedStatus = BLE_CONNECT;//Connected
         }
     }
 }
@@ -189,12 +189,14 @@ void LPUART2_IRQHandler(void)
 		
 		//蓝牙升级固件时是按照16进制来传送的所以需要区分开来
 		if(g_sys_para.bleLedStatus == BLE_UPDATE){
+			g_puart2RxTimeCnt = 0;
 			/* 将接受到的数据保存到数组*/
 			g_lpuart2RxBuf[g_puart2RxCnt++] = ucTemp;
 			/*固件升级时,每一包的长度都是固定的134个数据*/
-			if(g_puart2RxCnt >= 134) {
-				for(int i = 4; i<132; i++)
-					PRINTF("0x%02x,", g_lpuart2RxBuf[i]);
+			if(g_puart2RxCnt >= FIRM_ONE_PACKE_LEN) {
+				PRINTF("\r\n包id = %d\r\n",g_lpuart2RxBuf[2] | (g_lpuart2RxBuf[3]<<8));
+				for(int i = 0; i<FIRM_ONE_PACKE_LEN; i++)
+					PRINTF("%02x ", g_lpuart2RxBuf[i]);
 				xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
 			}
 		}else{
@@ -250,9 +252,14 @@ void LPUART2_TimeTick(void)
     {
         g_puart2RxTimeCnt++;
 		if(g_sys_para.bleLedStatus == BLE_UPDATE){
+			
 			if(g_puart2RxTimeCnt >= 5000){
 				g_puart2RxTimeCnt = 0;
 				g_sys_para.bleLedStatus = BLE_CONNECT;//蓝牙升级超时
+				PRINTF("接受数据超时,退出升级模式");
+			}else if(g_puart2RxTimeCnt == 500 || g_puart2RxTimeCnt == 1000){
+				PRINTF("\r\n接受数据超时,当前接受%d个数据",g_puart2RxCnt);
+				xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
 			}
 		}else if(g_puart2RxTimeCnt >= 200) { //接受数据超时
 			g_puart2RxTimeCnt = 0;

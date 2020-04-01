@@ -52,6 +52,7 @@
 .\objects\iic_temp_drv.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dcdc.h
 .\objects\iic_temp_drv.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_src.h
 .\objects\iic_temp_drv.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_pwm.h
+.\objects\iic_temp_drv.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpc.h
 .\objects\iic_temp_drv.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h
 .\objects\iic_temp_drv.o: .\RTE\RTOS\FreeRTOSConfig.h
 .\objects\iic_temp_drv.o: .\RTE\_nor_sdram\RTE_Components.h
@@ -67,6 +68,7 @@
 .\objects\iic_temp_drv.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
 .\objects\iic_temp_drv.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\event_groups.h
 .\objects\iic_temp_drv.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
+.\objects\iic_temp_drv.o: .\User\inc\lpm_app.h
 .\objects\iic_temp_drv.o: .\cjson\cJSON.h
 .\objects\iic_temp_drv.o: .\User\inc\interrupt.h
 .\objects\iic_temp_drv.o: .\User\inc\rtc_drv.h

@@ -26,11 +26,6 @@ extern uint8_t  FlexSPI_FlashUUID_Get_ISSI(uint8_t *buf);
 ***************************************************************************************/
 int NorFlash_WriteApp(uint8_t* buff, uint8_t len)
 {
-    /* 判断是否需要擦除Nor Flash的Sector*/
-    if(g_sys_para.firmPacksCount % 32 == 0){
-        FlexSPI_NorFlash_Erase_Sector(FLEXSPI, g_sys_para.firmNextAddr);
-    }
-    
     /* 写入数据到Nor Flash */
     FlexSPI_NorFlash_Buffer_Program(FLEXSPI, g_sys_para.firmNextAddr, buff, FIRM_ONE_PACKE_LEN);
     

@@ -7,7 +7,7 @@
 #define ULONG_MAX          0xFFFFFFFF
 #define FIRM_INFO_ADDR    0x6001F000
 #define FIRM_DATA_ADDR    0x60020000
-#define FIRM_ONE_PACKE_LEN 128
+#define FIRM_ONE_PACKE_LEN 176
 
 #include "stdint.h"
 #include "string.h"
@@ -30,6 +30,7 @@
 #include "fsl_dcdc.h"
 #include "fsl_src.h"
 #include "fsl_pwm.h"
+#include "fsl_gpc.h"
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -38,7 +39,7 @@
 #include "queue.h"
 #include "timers.h"
 
-
+#include "lpm_app.h"
 #include "cJSON.h"
 #include "interrupt.h"
 #include "rtc_drv.h"
