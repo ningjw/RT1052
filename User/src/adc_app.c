@@ -93,7 +93,7 @@ void ADC_SampleStart(void)
 	memset(ShakeADC,0,ADC_LEN);
 	memset(SpeedADC,0,ADC_LEN);
     g_sys_para.Ltc1063Clk = 1000 * g_adc_set.SampleRate / 25;
-//	g_sys_para.Ltc1063Clk = 4000000;
+	g_sys_para.Ltc1063Clk = 1000000;
 	//判断自动关机条件
     if(g_sys_para.inactiveCondition != 1) {
         g_sys_para.inactiveCount = 0;
@@ -116,22 +116,23 @@ void ADC_SampleStart(void)
 	PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
 	ADC_InvalidCnt = 0;
 	while (1) { //wait ads1271 ready
-        while(ADC_READY == 0);
+        while(ADC_READY == 1){};//等待ADC_READY为低电平
 		ADC_ShakeValue = LPSPI4_ReadData();
 		ADC_InvalidCnt++;
-		if(ADC_InvalidCnt > 20) break;//根据调试时的数据观察,丢弃前面20个数据
+		if(ADC_InvalidCnt > 200) break;//根据调试时的数据观察,丢弃前面20个数据
     }
 	/* 输入捕获，计算转速信号周期 */
     QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
     /* Start channel 0. 开启通道0,正式开始采样*/
-    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
+//    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
 	
 	while(1) { //wait ads1271 ready
-        while(ADC_READY == 0);
-		__disable_fiq();
-		ADC_ShakeValue = LPSPI4_ReadData();
-//		ShakeADC[g_sys_para.shkCount++] = LPSPI4_ReadData();
-		__enable_fiq();
+//        while(ADC_READY == 0){};//等待ADC_READY为高电平
+        while(ADC_READY == 1){};//等待ADC_READY为低电平
+//		ADC_ShakeValue = LPSPI4_ReadData();
+		__disable_irq();//关闭中断
+		ShakeADC[g_sys_para.shkCount++] = LPSPI4_ReadData();//读取数据
+		__enable_irq();//开启中断
 		if(g_sys_para.shkCount >= g_sys_para.sampNumber){
 			g_sys_para.shkCount = g_sys_para.sampNumber;
 			if(g_sys_para.sampNumber == 0){//Android发送中断采集命令后,该值为0
@@ -139,6 +140,7 @@ void ADC_SampleStart(void)
 			}
 			break;
 		}
+//		while(ADC_READY == 1){};//等待ADC_READY为低电平
     }
 	
 	ADC_SampleStop();
@@ -186,14 +188,14 @@ void ADC_AppTask(void)
     /* 使能LPSPI4用于读取ADS1271的值*/
     LPSPI_Enable(LPSPI4, true);
 
-    ADC_MODE_HIGH_SPEED;
-
+//    ADC_MODE_HIGH_SPEED;
+	ADC_MODE_LOW_POWER;
     /* 等待ADS1271 ready,并读取电压值,如果没有成功获取电压值, 则闪灯提示 */
     while (ADC_READY == 0);  //wait ads1271 ready
     if(LPSPI4_ReadData() == 0) {
         g_sys_para.sampLedStatus = WORK_FATAL_ERR;
     }
-
+	
     PRINTF("ADC Task Create and Running\r\n");
     while(1)
     {
@@ -212,7 +214,7 @@ void ADC_AppTask(void)
 				int tempValue = 0;
                 for(uint32_t i = 0; i < g_sys_para.shkCount; i++) {
                     ShakeADC[i] = ShakeADC[i] * g_sys_para.bias * 1.0f / 0x800000;
-					PRINTF("%01.5f,",ShakeADC[i]);
+//					PRINTF("%01.5f,",ShakeADC[i]);
 					tempValue = ShakeADC[i] * 10000;//将浮点数转换为整数,并扩大10000倍
                     memset(str, 0, sizeof(str));
                     sprintf(str, "%04x", tempValue);
@@ -229,7 +231,7 @@ void ADC_AppTask(void)
 				SpeedADC[0] = SpeedADC[1];//采集的第一个数据可能不是一个完整的周期,所以第一个数据丢弃.
                 for(uint32_t i = 0; i < g_sys_para.spdCount; i++) {
                     SpeedADC[i] = SpeedADC[i] * 1000 / QUADTIMER1_CHANNEL_0_CLOCK_SOURCE;//单位ms
-					PRINTF("%f,",SpeedADC[i]);
+//					PRINTF("%f,",SpeedADC[i]);
 					tempValue = SpeedADC[i] * 10;//扩大10倍
                     memset(str, 0, sizeof(str));
                     sprintf(str, "%04x", tempValue);

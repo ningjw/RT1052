@@ -360,7 +360,7 @@ instance:
       - enableTx: 'true'
       - enableRx: 'true'
   - interruptsCfg:
-    - interrupts: 'kLPUART_RxDataRegFullInterruptEnable kLPUART_RxOverrunInterruptEnable'
+    - interrupts: 'kLPUART_RxDataRegFullInterruptEnable'
     - interrupt_vectors:
       - enable_rx_tx_irq: 'true'
       - interrupt_rx_tx:

@@ -119,14 +119,14 @@ Package Vendor: NXP
       Include file:  CMSIS\RTOS2\FreeRTOS\Config\ARMCM\FreeRTOSConfig.h
 
    * Component: ARM.FreeRTOS::RTOS:Core:Cortex-M:10.2.0
-      Source file:   Source\queue.c
-      Include file:  Source\include\queue.h
-      Include file:  Source\include\task.h
-      Source file:   Source\tasks.c
       Include file:  Source\include\FreeRTOS.h
-      Include file:  Source\include\semphr.h
+      Source file:   Source\tasks.c
+      Include file:  Source\include\queue.h
+      Source file:   Source\queue.c
+      Include file:  Source\include\task.h
       Source file:   Source\portable\RVDS\ARM_CM7\r0p1\port.c
       Source file:   Source\list.c
+      Include file:  Source\include\semphr.h
       Source file:   CMSIS\RTOS2\FreeRTOS\Source\freertos_evr.c
 
    * Component: ARM.FreeRTOS::RTOS:Coroutines:10.2.0
@@ -134,8 +134,8 @@ Package Vendor: NXP
       Source file:   Source\croutine.c
 
    * Component: ARM.FreeRTOS::RTOS:Event Groups:10.2.0
-      Source file:   Source\event_groups.c
       Include file:  Source\include\event_groups.h
+      Source file:   Source\event_groups.c
 
    * Component: ARM.FreeRTOS::RTOS:Heap:Heap_4:10.2.0
       Source file:   Source\portable\MemMang\heap_4.c
@@ -149,19 +149,19 @@ Package Vendor: NXP
       Include file:  Source\include\stream_buffer.h
 
    * Component: ARM.FreeRTOS::RTOS:Timers:10.2.0
-      Include file:  Source\include\timers.h
       Source file:   Source\timers.c
+      Include file:  Source\include\timers.h
 
    * Component: ARM::CMSIS:CORE:5.3.0
 
    * Component: ARM::CMSIS:RTOS2:FreeRTOS:10.2.0
-      Source file:   CMSIS\RTOS2\FreeRTOS\Source\cmsis_os2.c
       Source file:   CMSIS\RTOS2\FreeRTOS\Source\ARM\clib_arm.c
       Source file:   CMSIS\RTOS2\FreeRTOS\Source\os_systick.c
+      Source file:   CMSIS\RTOS2\FreeRTOS\Source\cmsis_os2.c
 
    * Component: NXP::Device:SDK Drivers:adc_12b1msps_sar:2.0.2
-      Include file:  drivers\fsl_adc.h
       Source file:   drivers\fsl_adc.c
+      Include file:  drivers\fsl_adc.h
 
    * Component: NXP::Device:SDK Drivers:adc_etc:2.0.1
       Source file:   drivers\fsl_adc_etc.c
@@ -176,8 +176,8 @@ Package Vendor: NXP
       Source file:   drivers\fsl_common.c
 
    * Component: NXP::Device:SDK Drivers:dcdc_1:2.0.0
-      Include file:  drivers\fsl_dcdc.h
       Source file:   drivers\fsl_dcdc.c
+      Include file:  drivers\fsl_dcdc.h
 
    * Component: NXP::Device:SDK Drivers:dmamux:2.0.2
       Source file:   drivers\fsl_dmamux.c
@@ -188,8 +188,8 @@ Package Vendor: NXP
       Include file:  drivers\fsl_edma.h
 
    * Component: NXP::Device:SDK Drivers:flexspi:2.1.1
-      Include file:  drivers\fsl_flexspi.h
       Source file:   drivers\fsl_flexspi.c
+      Include file:  drivers\fsl_flexspi.h
 
    * Component: NXP::Device:SDK Drivers:gpc:2.1.0
       Source file:   drivers\fsl_gpc.c
@@ -200,31 +200,31 @@ Package Vendor: NXP
       Include file:  drivers\fsl_gpio.h
 
    * Component: NXP::Device:SDK Drivers:gpt:2.0.0
-      Source file:   drivers\fsl_gpt.c
       Include file:  drivers\fsl_gpt.h
+      Source file:   drivers\fsl_gpt.c
 
    * Component: NXP::Device:SDK Drivers:i2c:2.1.9
-      Source file:   drivers\fsl_lpi2c.c
       Include file:  drivers\fsl_lpi2c.h
+      Source file:   drivers\fsl_lpi2c.c
 
    * Component: NXP::Device:SDK Drivers:iomuxc:2.0.0
       Include file:  drivers\fsl_iomuxc.h
 
    * Component: NXP::Device:SDK Drivers:lists:1.0.0
-      Include file:  components\lists\generic_list.h
       Source file:   components\lists\generic_list.c
+      Include file:  components\lists\generic_list.h
 
    * Component: NXP::Device:SDK Drivers:lpspi:2.0.3
-      Include file:  drivers\fsl_lpspi.h
       Source file:   drivers\fsl_lpspi.c
+      Include file:  drivers\fsl_lpspi.h
 
    * Component: NXP::Device:SDK Drivers:lpspi_edma:2.0.2
       Include file:  drivers\fsl_lpspi_edma.h
       Source file:   drivers\fsl_lpspi_edma.c
 
    * Component: NXP::Device:SDK Drivers:lpuart:2.2.7
-      Source file:   drivers\fsl_lpuart.c
       Include file:  drivers\fsl_lpuart.h
+      Source file:   drivers\fsl_lpuart.c
 
    * Component: NXP::Device:SDK Drivers:lpuart_adapter:1.0.0
       Include file:  components\uart\uart.h
@@ -239,12 +239,12 @@ Package Vendor: NXP
       Source file:   drivers\fsl_pit.c
 
    * Component: NXP::Device:SDK Drivers:pwm:2.0.0
-      Include file:  drivers\fsl_pwm.h
       Source file:   drivers\fsl_pwm.c
+      Include file:  drivers\fsl_pwm.h
 
    * Component: NXP::Device:SDK Drivers:qtmr:2.0.0
-      Include file:  drivers\fsl_qtmr.h
       Source file:   drivers\fsl_qtmr.c
+      Include file:  drivers\fsl_qtmr.h
 
    * Component: NXP::Device:SDK Drivers:sdhc:2.2.8
       Source file:   drivers\fsl_usdhc.c
@@ -263,17 +263,17 @@ Package Vendor: NXP
       Source file:   drivers\fsl_src.c
 
    * Component: NXP::Device:SDK Drivers:xbara:2.0.4
-      Include file:  drivers\fsl_xbara.h
       Source file:   drivers\fsl_xbara.c
+      Include file:  drivers\fsl_xbara.h
 
    * Component: NXP::Device:SDK Utilities:assert:1.0.0
       Source file:   utilities\fsl_assert.c
 
    * Component: NXP::Device:SDK Utilities:debug_console:1.0.0
+      Source file:   utilities\debug_console\fsl_debug_console.c
+      Include file:  utilities\debug_console\fsl_debug_console_conf.h
       Source file:   utilities\str\fsl_str.c
       Include file:  utilities\str\fsl_str.h
-      Include file:  utilities\debug_console\fsl_debug_console_conf.h
-      Source file:   utilities\debug_console\fsl_debug_console.c
       Include file:  utilities\debug_console\fsl_debug_console.h
 
    * Component: NXP::Device:SDK Utilities:notifier:1.0.0
@@ -281,8 +281,8 @@ Package Vendor: NXP
       Include file:  utilities\fsl_notifier.h
 
    * Component: NXP::Device:SDK Utilities:serial_manager:1.0.0
-      Include file:  components\serial_manager\serial_manager.h
       Source file:   components\serial_manager\serial_manager.c
+      Include file:  components\serial_manager\serial_manager.h
       Include file:  components\serial_manager\serial_port_internal.h
 
    * Component: NXP::Device:SDK Utilities:serial_manager_uart:1.0.0
@@ -295,11 +295,11 @@ Package Vendor: NXP
 
    * Component: NXP::Device:Startup:MIMXRT1052_startup:1.0.0
       Source file:   arm\startup_MIMXRT1052.s
-      Include file:  MIMXRT1052_features.h
+      Source file:   system_MIMXRT1052.c
       Include file:  MIMXRT1052.h
       Include file:  fsl_device_registers.h
-      Source file:   system_MIMXRT1052.c
       Include file:  system_MIMXRT1052.h
+      Include file:  MIMXRT1052_features.h
 Build Time Elapsed:  00:00:01
 </pre>
 </body>

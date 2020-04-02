@@ -160,7 +160,9 @@ uint32_t LPSPI4_ReadData(void)
     if(sta == kStatus_Success){
         g_sys_para.ads1271IsOk = true;
         spiData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];
-    }
+    }else{
+		g_sys_para.ads1271IsOk = false;
+	}
     return spiData;
 }
 

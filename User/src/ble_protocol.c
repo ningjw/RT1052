@@ -730,6 +730,8 @@ static char* GetManageFile(cJSON *pJson, cJSON * pSub)
     fileStr = NULL;
     return p_reply;
 }
+
+
 /***************************************************************************************
   * @brief   处理消息id为14的消息, 该消息为通过文件名获取采集数据
   * @input

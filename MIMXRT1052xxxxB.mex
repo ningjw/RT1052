@@ -1141,7 +1141,6 @@
                         <set name="interrupts">
                            <selected>
                               <id>kLPUART_RxDataRegFullInterruptEnable</id>
-                              <id>kLPUART_RxOverrunInterruptEnable</id>
                            </selected>
                         </set>
                         <struct name="interrupt_vectors">

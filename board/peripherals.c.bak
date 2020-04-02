@@ -360,7 +360,7 @@ instance:
       - enableTx: 'true'
       - enableRx: 'true'
   - interruptsCfg:
-    - interrupts: 'kLPUART_RxDataRegFullInterruptEnable kLPUART_RxOverrunInterruptEnable'
+    - interrupts: 'kLPUART_RxDataRegFullInterruptEnable'
     - interrupt_vectors:
       - enable_rx_tx_irq: 'true'
       - interrupt_rx_tx:
@@ -390,7 +390,7 @@ const lpuart_config_t LPUART2_config = {
 
 void LPUART2_init(void) {
   LPUART_Init(LPUART2_PERIPHERAL, &LPUART2_config, LPUART2_CLOCK_SOURCE);
-  LPUART_EnableInterrupts(LPUART2_PERIPHERAL, kLPUART_RxDataRegFullInterruptEnable | kLPUART_RxOverrunInterruptEnable);
+  LPUART_EnableInterrupts(LPUART2_PERIPHERAL, kLPUART_RxDataRegFullInterruptEnable);
   /* Enable interrupt LPUART2_IRQn request in the NVIC */
   EnableIRQ(LPUART2_SERIAL_RX_TX_IRQN);
 }
@@ -631,9 +631,9 @@ instance:
   - main:
     - mode: 'kLPSPI_Master'
     - clockSource: 'LpspiClock'
-    - clockSourceFreq: 'custom:25000000'
+    - clockSourceFreq: 'BOARD_BootClockRUN'
     - master:
-      - baudRate: '25000000'
+      - baudRate: '100000000'
       - bitsPerFrame: '24'
       - cpol: 'kLPSPI_ClockPolarityActiveHigh'
       - cpha: 'kLPSPI_ClockPhaseSecondEdge'
@@ -965,7 +965,7 @@ instance:
       - enableDoze: 'true'
       - debugEnable: 'true'
       - ignoreAck: 'false'
-      - pinConfig: 'kLPI2C_2PinPushPull'
+      - pinConfig: 'kLPI2C_2PinOpenDrain'
       - baudRate_Hz: '40000'
       - busIdleTimeout_ns: '0'
       - pinLowTimeout_ns: '0'
@@ -982,7 +982,7 @@ const lpi2c_master_config_t LPI2C3_masterConfig = {
   .enableDoze = true,
   .debugEnable = true,
   .ignoreAck = false,
-  .pinConfig = kLPI2C_2PinPushPull,
+  .pinConfig = kLPI2C_2PinOpenDrain,
   .baudRate_Hz = 40000,
   .busIdleTimeout_ns = 0,
   .pinLowTimeout_ns = 0,
