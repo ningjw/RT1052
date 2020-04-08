@@ -101,6 +101,7 @@ typedef struct{
 	uint32_t periodSpdSignal;//转速信号周期(us)
     uint32_t spdCount;   //转速信号采集到的个数
     uint32_t shkCount;   //震动信号采集到的个数
+	uint32_t tempCount;//当前记录的温度个数
 	
     float    bias;         //震动传感器偏置电压
     float    refV;         //1052的参考电压值

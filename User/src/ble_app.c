@@ -111,7 +111,9 @@ void BLE_AppTask(void)
     if( xReturn == true ) {
         g_sys_para.bleLedStatus = BLE_READY;
     }
-
+	/*进入低功耗模式*/
+	LPUART2_SendString("AT+LPM=1\r\n");
+	vTaskDelay(100);
     /* 进入透传模式 */
     LPUART2_SendString("AT+TPMODE=1\r\n");
     vTaskDelay(100);
@@ -195,8 +197,8 @@ void LPUART2_IRQHandler(void)
 			/*固件升级时,每一包的长度都是固定的134个数据*/
 			if(g_puart2RxCnt >= FIRM_ONE_PACKE_LEN) {
 				PRINTF("\r\n包id = %d\r\n",g_lpuart2RxBuf[2] | (g_lpuart2RxBuf[3]<<8));
-				for(int i = 0; i<FIRM_ONE_PACKE_LEN; i++)
-					PRINTF("%02x ", g_lpuart2RxBuf[i]);
+//				for(int i = 0; i<FIRM_ONE_PACKE_LEN; i++)
+//					PRINTF("%02x ", g_lpuart2RxBuf[i]);
 				xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
 			}
 		}else{
@@ -216,7 +218,7 @@ void LPUART2_IRQHandler(void)
 			
 			if( ucTemp == '}') {
 				/* 接受完成,该标志清0*/
-				g_puart2StartRx = 0;
+				g_puart2StartRx = false;
 				//接受到Android发送的结束采集信号
 				if(strstr((char *)g_lpuart2RxBuf, "{\"Id\":12,") != 0) {
 					LPUART2_SendString((char *)g_lpuart2RxBuf);
@@ -257,7 +259,7 @@ void LPUART2_TimeTick(void)
 				g_puart2RxTimeCnt = 0;
 				g_sys_para.bleLedStatus = BLE_CONNECT;//蓝牙升级超时
 				PRINTF("接受数据超时,退出升级模式");
-			}else if(g_puart2RxTimeCnt == 500 || g_puart2RxTimeCnt == 1000){
+			}else if(g_puart2RxTimeCnt == 300 || g_puart2RxTimeCnt == 600 || g_puart2RxTimeCnt == 1000){
 				PRINTF("\r\n接受数据超时,当前接受%d个数据",g_puart2RxCnt);
 				xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
 			}

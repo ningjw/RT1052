@@ -5,8 +5,6 @@
 #define APP_WAKEUP_BUTTON_IRQ         GPIO1_Combined_0_15_IRQn
 #define APP_WAKEUP_BUTTON_IRQ_HANDLER GPIO1_Combined_0_15_IRQHandler
 
-#define LPM_GPC_IMR_NUM (sizeof(GPC->IMR) / sizeof(GPC->IMR[0]))
-	
 #define GPR4_STOP_REQ_BITS                                                                                          \
     (IOMUXC_GPR_GPR4_ENET_STOP_REQ_MASK | IOMUXC_GPR_GPR4_SAI1_STOP_REQ_MASK | IOMUXC_GPR_GPR4_SAI2_STOP_REQ_MASK | \
      IOMUXC_GPR_GPR4_SAI3_STOP_REQ_MASK | IOMUXC_GPR_GPR4_SEMC_STOP_REQ_MASK | IOMUXC_GPR_GPR4_PIT_STOP_REQ_MASK |  \
@@ -62,14 +60,39 @@
 
 #define GPR12_STOP_MODE_BITS (IOMUXC_GPR_GPR12_FLEXIO1_IPG_STOP_MODE_MASK | IOMUXC_GPR_GPR12_FLEXIO2_IPG_STOP_MODE_MASK)
 
+#define LPM_GPC_IMR_NUM (sizeof(GPC->IMR) / sizeof(GPC->IMR[0]))
+	
+#define CLOCK_CCM_HANDSHAKE_WAIT() \
+                                   \
+    do                             \
+    {                              \
+        while (CCM->CDHIPR != 0)   \
+        {                          \
+        }                          \
+                                   \
+    } while (0)
+	
+	
 static uint32_t g_savedPrimask;
 
 /**
- * @brief  配置LPM停止模式
+ * @brief  LPM进入等待模式
  * @return 无
  *   @retval 无
  */
-void LPM_SetStopModeConfig(void)
+void LPM_PreEnterWaitMode(void)
+{
+    g_savedPrimask = DisableGlobalIRQ();
+    __DSB();
+    __ISB();
+}
+
+/**
+ * @brief  配置LPM等待模式
+ * @return 无
+ *   @retval 无
+ */
+void LPM_SetWaitModeConfig(void)
 {
     uint32_t clpcr;
 
@@ -86,8 +109,7 @@ void LPM_SetStopModeConfig(void)
      *      is set (set bits 0-1 of CCM_CLPCR).
      */
 	/*
-	
-	译文：* ERR007265：CCM：使用不正确的低功率序列时，
+		译文：* ERR007265：CCM：使用不正确的低功率序列时，
       * SoC在ARM内核执行WFI之前进入低功耗模式。
      *
       *软件解决方法：
@@ -96,14 +118,16 @@ void LPM_SetStopModeConfig(void)
       * 2）软件应在设置CCM之前在GPC中取消屏蔽IRQ＃41
       *低功耗模式。
       * 3）软件应在CCM低功耗模式后立即屏蔽IRQ＃41
-      *置位（设置CCM_CLPCR的0-1位）。*/
+      *置位（设置CCM_CLPCR的0-1位）。
+	*/
     GPC_EnableIRQ(GPC, GPR_IRQ_IRQn);
     clpcr      = CCM->CLPCR & (~(CCM_CLPCR_LPM_MASK | CCM_CLPCR_ARM_CLK_DIS_ON_LPM_MASK));
-    CCM->CLPCR = clpcr | CCM_CLPCR_LPM(kCLOCK_ModeStop) | CCM_CLPCR_MASK_L2CC_IDLE_MASK | CCM_CLPCR_MASK_SCU_IDLE_MASK |
-                 CCM_CLPCR_VSTBY_MASK | CCM_CLPCR_STBY_COUNT_MASK | CCM_CLPCR_SBYOS_MASK |
-                 CCM_CLPCR_ARM_CLK_DIS_ON_LPM_MASK | CCM_CLPCR_BYPASS_LPM_HS0_MASK | CCM_CLPCR_BYPASS_LPM_HS1_MASK;
+    CCM->CLPCR = clpcr | CCM_CLPCR_LPM(kCLOCK_ModeWait) | CCM_CLPCR_MASK_SCU_IDLE_MASK | CCM_CLPCR_MASK_L2CC_IDLE_MASK |
+                 CCM_CLPCR_ARM_CLK_DIS_ON_LPM_MASK | CCM_CLPCR_STBY_COUNT_MASK | CCM_CLPCR_BYPASS_LPM_HS0_MASK |
+                 CCM_CLPCR_BYPASS_LPM_HS1_MASK;
     GPC_DisableIRQ(GPC, GPR_IRQ_IRQn);
 }
+
 
 
 
@@ -128,6 +152,144 @@ void SetLowPowerClockGate(void)
 }
 
 
+
+void ClockSelectRcOsc(void)
+{
+    /* 启用内部RC. */
+    XTALOSC24M->LOWPWR_CTRL |= XTALOSC24M_LOWPWR_CTRL_RC_OSC_EN_MASK;
+    /* 等待CCM操作完成 */
+    CLOCK_CCM_HANDSHAKE_WAIT();
+    /* 延时 */
+    SDK_DelayAtLeastUs(4000);
+    /* 将时钟源切换到内部RC. */
+    XTALOSC24M->LOWPWR_CTRL_SET = XTALOSC24M_LOWPWR_CTRL_SET_OSC_SEL_MASK;
+    /* 禁用XTAL 24MHz时钟源. */
+    CCM_ANALOG->MISC0_SET = CCM_ANALOG_MISC0_XTAL_24M_PWD_MASK;
+}
+/*!
+ * @brief将CCM DIV节点设置为特定值。
+ *
+ * @param divider 要设置哪个div节点，请参阅\ ref clock_div_t。
+ * @param value   时钟div值设置，不同的分频器具有不同的值范围。
+ */
+void CLOCK_SET_DIV(clock_div_t divider, uint32_t value)
+{
+    uint32_t busyShift;
+
+    busyShift                   = CCM_TUPLE_BUSY_SHIFT(divider);
+    CCM_TUPLE_REG(CCM, divider) = (CCM_TUPLE_REG(CCM, divider) & (~CCM_TUPLE_MASK(divider))) |
+                                  (((uint32_t)((value) << CCM_TUPLE_SHIFT(divider))) & CCM_TUPLE_MASK(divider));
+
+    assert(busyShift <= CCM_NO_BUSY_WAIT);
+
+    /* 时钟切换需要握手吗？ */
+    if (CCM_NO_BUSY_WAIT != busyShift)
+    {
+        /*等到CCM内部握手完成。 */
+        while (CCM->CDHIPR & (1U << busyShift))
+        {
+        }
+    }
+}
+
+/*!
+ * @brief 将CCM MUX节点设置为特定值。
+ *
+ * @param mux   要设置哪个mux节点，请参阅\ ref clock_mux_t。
+ * @param value 时钟复用值设置，不同的复用器具有不同的值范围。
+ */
+void CLOCK_SET_MUX(clock_mux_t mux, uint32_t value)
+{
+    uint32_t busyShift;
+
+    busyShift               = CCM_TUPLE_BUSY_SHIFT(mux);
+    CCM_TUPLE_REG(CCM, mux) = (CCM_TUPLE_REG(CCM, mux) & (~CCM_TUPLE_MASK(mux))) |
+                              (((uint32_t)((value) << CCM_TUPLE_SHIFT(mux))) & CCM_TUPLE_MASK(mux));
+
+    assert(busyShift <= CCM_NO_BUSY_WAIT);
+
+    /* 时钟切换需要握手吗？ */
+    if (CCM_NO_BUSY_WAIT != busyShift)
+    {
+        /* 等到CCM内部握手完成。 */
+        while (CCM->CDHIPR & (1U << busyShift))
+        {
+        }
+    }
+}
+
+
+
+
+/**
+ * @brief 选择系统时钟
+ * @param power_mode 电源模式
+ * @return 无
+ *   @retval 无
+ */
+void SwitchSystemClocks(void)
+{
+	CLOCK_SET_DIV(kCLOCK_PeriphClk2Div, 0);
+	CLOCK_SET_MUX(kCLOCK_PeriphClk2Mux, 1); // PERIPH_CLK2多路复用到OSC
+	CLOCK_SET_MUX(kCLOCK_PeriphMux, 1);     // PERIPH_CLK mux到PERIPH_CLK2
+	CLOCK_SET_DIV(kCLOCK_SemcDiv, 0);
+	CLOCK_SET_MUX(kCLOCK_SemcMux, 0);    // SEMC复用到PERIPH_CLK
+//        CLOCK_SET_DIV(kCLOCK_FlexspiDiv, 0); // DDR模式下的FLEXSPI
+//        CLOCK_SET_MUX(kCLOCK_FlexspiMux, 0); // FLEXSPI mux到semc_clk_root_pre
+	/* CORE CLK至24MHz，AHB，IPG，PERCLK至12MHz */
+	CLOCK_SET_DIV(kCLOCK_PerclkDiv, 0);
+	CLOCK_SET_DIV(kCLOCK_IpgDiv, 1);
+	CLOCK_SET_DIV(kCLOCK_AhbDiv, 0);
+	CLOCK_SET_MUX(kCLOCK_PerclkMux, 0); // PERCLK mux到IPG CLK
+}
+/**
+ * @brief 时钟设置为低功耗空闲模式
+ * @return 无
+ *   @retval 无
+ */
+void ClockSetToLowPowerIdle(void)
+{
+    // CORE CLK mux to 24M before reconfigure PLLs
+    SwitchSystemClocks();
+    ClockSelectRcOsc();
+
+    /* Deinit ARM PLL */
+    CLOCK_DeinitArmPll();
+
+    /* Deinit SYS PLL */
+    CLOCK_DeinitSysPll();
+
+    /* Deinit SYS PLL PFD 0 1 2 3 */
+    CLOCK_DeinitSysPfd(kCLOCK_Pfd0);
+    CLOCK_DeinitSysPfd(kCLOCK_Pfd1);
+    CLOCK_DeinitSysPfd(kCLOCK_Pfd2);
+    CLOCK_DeinitSysPfd(kCLOCK_Pfd3);
+
+//    /* Deinit USB1 PLL */
+//    CLOCK_DeinitUsb1Pll();
+
+//    /* Deinit USB1 PLL PFD 0 1 2 3 */
+//    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd0);
+//    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd1);
+//    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd2);
+//    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd3);
+
+    /* Deinit USB2 PLL */
+    CLOCK_DeinitUsb2Pll();
+
+    /* Deinit AUDIO PLL */
+    CLOCK_DeinitAudioPll();
+
+    /* Deinit VIDEO PLL */
+    CLOCK_DeinitVideoPll();
+
+    /* Deinit ENET PLL */
+    CLOCK_DeinitEnetPll();
+
+    SwitchSystemClocks();
+}
+
+
 /**
  * @brief 断电 USB PHY
  * @return 无
@@ -140,93 +302,55 @@ void PowerDownUSBPHY(void)
 }
 
 /**
- * @brief 外设退出停止模式
+ * @brief 使能弱LDO
  * @return 无
  *   @retval 无
  */
-void PeripheralEnterStopMode(void)
+void EnableWeakLDO(void)
 {
-    IOMUXC_GPR->GPR4 = IOMUXC_GPR_GPR4_ENET_STOP_REQ_MASK;
-    while ((IOMUXC_GPR->GPR4 & IOMUXC_GPR_GPR4_ENET_STOP_ACK_MASK) != IOMUXC_GPR_GPR4_ENET_STOP_ACK_MASK)
-    {
-    }
-    IOMUXC_GPR->GPR4 = GPR4_STOP_REQ_BITS;
-    IOMUXC_GPR->GPR7 = GPR7_STOP_REQ_BITS;
-    IOMUXC_GPR->GPR8 = GPR8_DOZE_BITS | GPR8_STOP_MODE_BITS;
-    IOMUXC_GPR->GPR12 = GPR12_DOZE_BITS | GPR12_STOP_MODE_BITS;
-    while ((IOMUXC_GPR->GPR4 & GPR4_STOP_ACK_BITS) != GPR4_STOP_ACK_BITS)
-    {
-    }
-    while ((IOMUXC_GPR->GPR7 & GPR7_STOP_ACK_BITS) != GPR7_STOP_ACK_BITS)
-    {
-    }
+    /*  Enable Weak LDO 2P5 and 1P1 */
+    PMU->REG_2P5_SET = PMU_REG_2P5_ENABLE_WEAK_LINREG_MASK;
+    PMU->REG_1P1_SET = PMU_REG_1P1_ENABLE_WEAK_LINREG_MASK;
+
+    SDK_DelayAtLeastUs(40);
+}
+
+
+/**
+ * @brief 失能常规LDO
+ * @return 无
+ *   @retval 无
+ */
+void DisableRegularLDO(void)
+{
+    /* Disable Regular LDO 2P5 and 1P1 */
+    PMU->REG_2P5_CLR = PMU_REG_2P5_ENABLE_LINREG_MASK;
+    PMU->REG_1P1_CLR = PMU_REG_1P1_ENABLE_LINREG_MASK;
+}
+
+
+/**
+ * @brief 带隙失能
+ * @return 无
+ *   @retval 无
+ */
+void BandgapOff(void)
+{
+    XTALOSC24M->LOWPWR_CTRL_SET = XTALOSC24M_LOWPWR_CTRL_LPBG_SEL_MASK;
+    PMU->MISC0_SET              = PMU_MISC0_REFTOP_PWD_MASK;
 }
 
 /**
- * @brief  LPM进入停止模式
+ * @brief 外设进入打盹模式
  * @return 无
  *   @retval 无
  */
-void LPM_PreEnterStopMode(void)
+void PeripheralEnterDozeMode(void)
 {
-    g_savedPrimask = DisableGlobalIRQ();
-    __DSB();
-    __ISB();
+    IOMUXC_GPR->GPR8 = GPR8_DOZE_BITS;
+    IOMUXC_GPR->GPR12 = GPR12_DOZE_BITS;
 }
 
-void LPM_PostExitStopMode(void)
-{
-    EnableGlobalIRQ(g_savedPrimask);
-    __DSB();
-    __ISB();
-}
-
-/**
- * @brief  LPM关闭唤醒源
- * @return 无
- *   @retval 无
- */
-void LPM_DisableWakeupSource(uint32_t irq)
-{
-    GPC_DisableIRQ(GPC, irq);
-}
-
-/**
- * @brief  LPM启用唤醒源
- * @return 无
- *   @retval 无
- */
-void LPM_EnableWakeupSource(uint32_t irq)
-{
-    GPC_EnableIRQ(GPC, irq);
-}
-
-/**
- * @brief 设置唤醒配置
- * @param targetMode 当前模式
- * @return 无
- *   @retval 无
- */
-void APP_SetWakeupConfig(void)
-{
-	/* 定义输入开关管脚的初始化结构*/
-    gpio_pin_config_t swConfig = {
-        kGPIO_DigitalInput,
-        0,
-        kGPIO_IntRisingEdge,
-    };
-	/* Init输入开关GPIO。 */
-    GPIO_PinInit(APP_WAKEUP_BUTTON_GPIO, APP_WAKEUP_BUTTON_GPIO_PIN, &swConfig);
-	
-	GPIO_ClearPinsInterruptFlags(APP_WAKEUP_BUTTON_GPIO, 1U << APP_WAKEUP_BUTTON_GPIO_PIN);
-	/* 使能GPIO引脚中断 */
-	GPIO_EnableInterrupts(APP_WAKEUP_BUTTON_GPIO, 1U << APP_WAKEUP_BUTTON_GPIO_PIN);
-	NVIC_EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
-	/* 启用中断*/
-	EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
-	/* 启用GPC中断*/
-	LPM_EnableWakeupSource(APP_WAKEUP_BUTTON_IRQ);
-}
 
 /**
  * @brief  LPM 初始化
@@ -272,6 +396,223 @@ void LPM_Init(void)
     for (i = 0; i < LPM_GPC_IMR_NUM; i++)
     {
         GPC->IMR[i] = 0xFFFFFFFFU;
+    }
+}
+
+/**
+ * @brief 外设退出打盹模式
+ * @return 无
+ *   @retval 无
+ */
+void PeripheralExitDozeMode(void)
+{
+    IOMUXC_GPR->GPR8 = 0x00000000;
+    IOMUXC_GPR->GPR12 = 0x00000000;
+}
+
+/**
+ * @brief  配置LPM运行模式
+ * @return 无
+ *   @retval 无
+ */
+void LPM_SetRunModeConfig(void)
+{
+    CCM->CLPCR &= ~(CCM_CLPCR_LPM_MASK | CCM_CLPCR_ARM_CLK_DIS_ON_LPM_MASK);
+}
+
+/**
+ * @brief  LPM退出低功耗空闲
+ * @return 无
+ *   @retval 无
+ */
+void LPM_ExitLowPowerIdle(void)
+{
+    /* 外设退出打盹模式 */
+    PeripheralExitDozeMode();
+    /* 设置运行模式 */
+    LPM_SetRunModeConfig();
+}
+
+/**
+ * @brief  LPM退出等待模式
+ * @return 无
+ *   @retval 无
+ */
+void LPM_PostExitWaitMode(void)
+{
+    EnableGlobalIRQ(g_savedPrimask);
+    __DSB();
+    __ISB();
+}
+
+/**
+ * @brief  LPM启用唤醒源
+ * @return 无
+ *   @retval 无
+ */
+void LPM_EnableWakeupSource(uint32_t irq)
+{
+    GPC_EnableIRQ(GPC, irq);
+}
+
+/**
+ * @brief 设置唤醒配置
+ * @param targetMode 当前模式
+ * @return 无
+ *   @retval 无
+ */
+void APP_SetWakeupConfig(void)
+{
+	GPIO_ClearPinsInterruptFlags(APP_WAKEUP_BUTTON_GPIO, 1U << APP_WAKEUP_BUTTON_GPIO_PIN);
+	/* 使能GPIO引脚中断 */
+	GPIO_EnableInterrupts(APP_WAKEUP_BUTTON_GPIO, 1U << APP_WAKEUP_BUTTON_GPIO_PIN);
+	NVIC_EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
+	/* 启用中断*/
+	EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
+	/* 启用GPC中断*/
+	LPM_EnableWakeupSource(APP_WAKEUP_BUTTON_IRQ);
+}
+
+/**
+ * @brief  LPM进入低功耗空闲
+ * @return 无
+ *   @retval 无
+ */
+void LPM_EnterLowPowerIdle(void)
+{
+	//设置唤醒源
+	APP_SetWakeupConfig();
+	
+	LPM_PreEnterWaitMode();
+     /*************************第一部分*********************/
+     /* 设置等待模式配置 */
+    LPM_SetWaitModeConfig();
+     /* 设置低功耗时钟门 */
+    SetLowPowerClockGate();
+     /* 将时钟设置成低功耗空闲 */
+    ClockSetToLowPowerIdle();
+    /*断电 USBPHY */
+    PowerDownUSBPHY();
+     /*************************第二部分*********************/
+    /* 将SOC电压调整为0.95V */
+    DCDC_AdjustTargetVoltage(DCDC, 0x6, 0x1);
+    /* DCM 模式 */
+    DCDC_BootIntoDCM(DCDC);
+    /* 断开负载电阻的内部 */
+    DCDC->REG1 &= ~DCDC_REG1_REG_RLOAD_SW_MASK;
+    /* 掉电输出范围比较器*/
+    DCDC->REG0 |= DCDC_REG0_PWD_CMP_OFFSET_MASK;
+    /* 使能 FET ODRIVE */
+    PMU->REG_CORE_SET = PMU_REG_CORE_FET_ODRIVE_MASK;
+    /* 连接vdd_high_in并连接vdd_snvs_in */
+    PMU->MISC0_CLR = PMU_MISC0_DISCON_HIGH_SNVS_MASK;
+     /*************************第三部分*********************/
+    /* 使能弱LDO */
+    EnableWeakLDO();
+    /* 失能常规LDO */
+    DisableRegularLDO();
+    /* 带隙失能 */
+    BandgapOff();
+    /* 外围设备进入打盹模式 */
+    PeripheralEnterDozeMode();
+    __DSB();
+    __WFI();
+    __ISB();
+	LPM_ExitLowPowerIdle();
+    LPM_PostExitWaitMode();
+}
+
+
+/**
+ * @brief  LPM进入停止模式
+ * @return 无
+ *   @retval 无
+ */
+void LPM_PreEnterStopMode(void)
+{
+    g_savedPrimask = DisableGlobalIRQ();
+    __DSB();
+    __ISB();
+}
+
+void LPM_PostExitStopMode(void)
+{
+    EnableGlobalIRQ(g_savedPrimask);
+    __DSB();
+    __ISB();
+}
+
+/**
+ * @brief  LPM关闭唤醒源
+ * @return 无
+ *   @retval 无
+ */
+void LPM_DisableWakeupSource(uint32_t irq)
+{
+    GPC_DisableIRQ(GPC, irq);
+}
+
+/**
+ * @brief  配置LPM停止模式
+ * @return 无
+ *   @retval 无
+ */
+void LPM_SetStopModeConfig(void)
+{
+    uint32_t clpcr;
+
+    /*
+     * ERR007265: CCM: When improper low-power sequence is used,
+     * the SoC enters low power mode before the ARM core executes WFI.
+     *
+     * Software workaround:
+     * 1) Software should trigger IRQ #41 (GPR_IRQ) to be always pending
+     *      by setting IOMUXC_GPR_GPR1_GINT.
+     * 2) Software should then unmask IRQ #41 in GPC before setting CCM
+     *      Low-Power mode.
+     * 3) Software should mask IRQ #41 right after CCM Low-Power mode
+     *      is set (set bits 0-1 of CCM_CLPCR).
+     */
+	/*
+	
+	译文：* ERR007265：CCM：使用不正确的低功率序列时，
+      * SoC在ARM内核执行WFI之前进入低功耗模式。
+     *
+      *软件解决方法：
+      * 1）软件应触发IRQ＃41（GPR_IRQ）始终挂起
+      *通过设置IOMUXC_GPR_GPR1_GINT。
+      * 2）软件应在设置CCM之前在GPC中取消屏蔽IRQ＃41
+      *低功耗模式。
+      * 3）软件应在CCM低功耗模式后立即屏蔽IRQ＃41
+      *置位（设置CCM_CLPCR的0-1位）。*/
+    GPC_EnableIRQ(GPC, GPR_IRQ_IRQn);
+    clpcr      = CCM->CLPCR & (~(CCM_CLPCR_LPM_MASK | CCM_CLPCR_ARM_CLK_DIS_ON_LPM_MASK));
+    CCM->CLPCR = clpcr | CCM_CLPCR_LPM(kCLOCK_ModeStop) | CCM_CLPCR_MASK_L2CC_IDLE_MASK | CCM_CLPCR_MASK_SCU_IDLE_MASK |
+                 CCM_CLPCR_VSTBY_MASK | CCM_CLPCR_STBY_COUNT_MASK | CCM_CLPCR_SBYOS_MASK |
+                 CCM_CLPCR_ARM_CLK_DIS_ON_LPM_MASK | CCM_CLPCR_BYPASS_LPM_HS0_MASK | CCM_CLPCR_BYPASS_LPM_HS1_MASK;
+    GPC_DisableIRQ(GPC, GPR_IRQ_IRQn);
+}
+
+/**
+ * @brief 外设退出停止模式
+ * @return 无
+ *   @retval 无
+ */
+void PeripheralEnterStopMode(void)
+{
+    IOMUXC_GPR->GPR4 = IOMUXC_GPR_GPR4_ENET_STOP_REQ_MASK;
+    while ((IOMUXC_GPR->GPR4 & IOMUXC_GPR_GPR4_ENET_STOP_ACK_MASK) != IOMUXC_GPR_GPR4_ENET_STOP_ACK_MASK)
+    {
+    }
+    IOMUXC_GPR->GPR4 = GPR4_STOP_REQ_BITS;
+    IOMUXC_GPR->GPR7 = GPR7_STOP_REQ_BITS;
+    IOMUXC_GPR->GPR8 = GPR8_DOZE_BITS | GPR8_STOP_MODE_BITS;
+    IOMUXC_GPR->GPR12 = GPR12_DOZE_BITS | GPR12_STOP_MODE_BITS;
+    while ((IOMUXC_GPR->GPR4 & GPR4_STOP_ACK_BITS) != GPR4_STOP_ACK_BITS)
+    {
+    }
+    while ((IOMUXC_GPR->GPR7 & GPR7_STOP_ACK_BITS) != GPR7_STOP_ACK_BITS)
+    {
     }
 }
 
@@ -350,9 +691,30 @@ void LPM_EnterSuspend(void)
     __WFI();
     __ISB();
 	LPM_PostExitStopMode();
-	
 }
 
+/**
+ * @brief 配置串口引脚
+ * @return 无
+ *   @retval 无
+ */
+void ConfigUartRxPinToGpio(void)
+{
+    IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_13_GPIO1_IO13, 0);
+    IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_13_GPIO1_IO13,
+                        IOMUXC_SW_PAD_CTL_PAD_PKE_MASK | IOMUXC_SW_PAD_CTL_PAD_PUS(2) | IOMUXC_SW_PAD_CTL_PAD_PUE_MASK);
+}
+
+/**
+ * @brief 再次配置串口引脚
+ * @return 无
+ *   @retval 无
+ */
+void ReConfigUartRxPin(void)
+{
+    IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_13_LPUART1_RX, 0);
+    IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_13_LPUART1_RX, IOMUXC_SW_PAD_CTL_PAD_SPEED(2));
+}
 
 /**
  * @brief 按键唤醒服务函数
@@ -371,4 +733,3 @@ void APP_WAKEUP_BUTTON_IRQ_HANDLER(void)
         LPM_DisableWakeupSource(APP_WAKEUP_BUTTON_IRQ);
     }
 }
-

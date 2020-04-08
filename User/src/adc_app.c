@@ -3,6 +3,7 @@
 
 float SpeedADC[ADC_LEN];
 float ShakeADC[ADC_LEN];
+float Temperature[64];
 char  SpeedStrADC[ADC_LEN * 4 + 1];
 char  VibrateStrADC[ADC_LEN * 4 + 1];
 
@@ -12,6 +13,7 @@ char  VibrateStrADC[ADC_LEN * 4 + 1];
 #define ADC_SYNC_HIGH            GPIO_PinWrite(BOARD_ADC_SYNC_GPIO, BOARD_ADC_SYNC_PIN, 1)
 #define ADC_SYNC_LOW             GPIO_PinWrite(BOARD_ADC_SYNC_GPIO, BOARD_ADC_SYNC_PIN, 0)
 TaskHandle_t ADC_TaskHandle = NULL;  /* ADC任务句柄 */
+
 
 uint32_t timeCapt = 0;
 char str[12];
@@ -88,12 +90,13 @@ void GPIO2_Combined_0_15_IRQHandler(void)
 ***************************************************************************************/
 void ADC_SampleStart(void)
 {
+	g_sys_para.tempCount = 0;
     g_sys_para.spdCount = 0;
     g_sys_para.shkCount = 0;
 	memset(ShakeADC,0,ADC_LEN);
 	memset(SpeedADC,0,ADC_LEN);
     g_sys_para.Ltc1063Clk = 1000 * g_adc_set.SampleRate / 25;
-	g_sys_para.Ltc1063Clk = 1000000;
+
 	//判断自动关机条件
     if(g_sys_para.inactiveCondition != 1) {
         g_sys_para.inactiveCount = 0;
@@ -115,6 +118,10 @@ void ADC_SampleStart(void)
 	/* stop channel 2. */
 	PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
 	ADC_InvalidCnt = 0;
+	
+	//开始采集数据前获取一次温度
+	Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();
+	
 	while (1) { //wait ads1271 ready
         while(ADC_READY == 1){};//等待ADC_READY为低电平
 		ADC_ShakeValue = LPSPI4_ReadData();
@@ -124,14 +131,13 @@ void ADC_SampleStart(void)
 	/* 输入捕获，计算转速信号周期 */
     QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
     /* Start channel 0. 开启通道0,正式开始采样*/
-//    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
+    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
 	
 	while(1) { //wait ads1271 ready
-//        while(ADC_READY == 0){};//等待ADC_READY为高电平
         while(ADC_READY == 1){};//等待ADC_READY为低电平
-//		ADC_ShakeValue = LPSPI4_ReadData();
 		__disable_irq();//关闭中断
-		ShakeADC[g_sys_para.shkCount++] = LPSPI4_ReadData();//读取数据
+		ADC_ShakeValue = LPSPI4_ReadData();
+//		ShakeADC[g_sys_para.shkCount++] = LPSPI4_ReadData();//读取数据
 		__enable_irq();//开启中断
 		if(g_sys_para.shkCount >= g_sys_para.sampNumber){
 			g_sys_para.shkCount = g_sys_para.sampNumber;
@@ -140,8 +146,8 @@ void ADC_SampleStart(void)
 			}
 			break;
 		}
-//		while(ADC_READY == 1){};//等待ADC_READY为低电平
     }
+	
 	
 	ADC_SampleStop();
 }
@@ -166,6 +172,10 @@ void ADC_SampleStop(void)
 
     vTaskResume(BAT_TaskHandle);
     vTaskResume(LED_TaskHandle);
+	
+	//结束采集后获取一次温度
+	Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();
+	
     /* 触发ADC采样完成事件  */
     xTaskNotify(ADC_TaskHandle, NOTIFY_FINISH, eSetBits);
 }
@@ -238,12 +248,25 @@ void ADC_AppTask(void)
                     memcpy(SpeedStrADC + pos, str, 4);
                     pos += 4;
                 }
-				//计算发送震动信号需要多少个包
+				//计算发送转速信号需要多少个包
 				g_sys_para.spdPacks = (g_sys_para.spdCount / 40) +  (g_sys_para.spdCount%40?1:0);
 				
 				//计算将一次采集数据全部发送到Android需要多少个包
 				g_sys_para.sampPacks = g_sys_para.spdPacks + g_sys_para.shkPacks + 3;
-
+				
+                /* ------------------统计平均温度,最小温度,最大温度--------------------*/
+			    float sum = 0;
+				int min_i = 0;
+				int max_i = 0;
+				for(int i=0;i<g_sys_para.tempCount;i++){
+					sum += Temperature[g_sys_para.tempCount];
+					min_i = Temperature[i] < Temperature[min_i] ? i : min_i;
+					max_i = Temperature[i] > Temperature[max_i] ? i : max_i;
+				}
+				g_adc_set.Process = sum / g_sys_para.tempCount;
+				g_adc_set.ProcessMax = Temperature[max_i];
+				g_adc_set.ProcessMin = Temperature[min_i];
+				
                 /* -----------将采用数据打包成json格式,并保存到文件中-----*/
                 PacketSampleData();
 

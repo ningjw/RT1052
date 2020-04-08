@@ -2,6 +2,7 @@
 #define __LPM_APP_H
 
 void LPM_Init(void);
+void LPM_EnterLowPowerIdle(void);
 void LPM_EnterSuspend(void);
 
 #endif
