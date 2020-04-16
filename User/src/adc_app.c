@@ -30,6 +30,11 @@ void PIT_IRQHandler(void)
     if( PIT_GetStatusFlags(PIT, kPIT_Chnl_2) == true) {
         /* 清除中断标志位.*/
         PIT_ClearStatusFlags(PIT, kPIT_Chnl_2, kPIT_TimerFlag);
+		
+		//在采集数据时,每间隔1S获取一次温度数据
+		if (g_sys_para.tempCount < sizeof(Temperature) && g_sys_para.WorkStatus){
+			Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();
+		}
 		g_eventTimeMilliseconds++;
         if(g_sys_para.inactiveCount++ >= (g_sys_para.inactiveTime + 1)*60-5) { //定时时间到
             GPIO_PinWrite(BOARD_SYS_PWR_OFF_GPIO, BOARD_SYS_PWR_OFF_PIN, 1);
@@ -110,15 +115,11 @@ void ADC_SampleStart(void)
     /* Setup the PWM mode of the timer channel 用于LTC1063FA的时钟输入,控制采样带宽*/
     QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
     QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
-	/* Set channel 0 period (66000000 ticks). 用于触发内部ADC采样，采集转速信号*/
-    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ / g_adc_set.SampleRate);
 
 	NVIC_DisableIRQ(PendSV_IRQn);   
     NVIC_DisableIRQ(SysTick_IRQn);
-	/* stop channel 2. */
-	PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
-	ADC_InvalidCnt = 0;
 	
+	ADC_InvalidCnt = 0;
 	//开始采集数据前获取一次温度
 	Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();
 	
@@ -126,10 +127,17 @@ void ADC_SampleStart(void)
         while(ADC_READY == 1){};//等待ADC_READY为低电平
 		ADC_ShakeValue = LPSPI4_ReadData();
 		ADC_InvalidCnt++;
-		if(ADC_InvalidCnt > 200) break;//根据调试时的数据观察,丢弃前面20个数据
+		if(ADC_InvalidCnt > 100) break;//根据调试时的数据观察,丢弃前面20个数据
     }
+	
+	g_sys_para.WorkStatus = true;//设置为true后,会在PIT中断中采集温度数据
+	PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
+	PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
+	
 	/* 输入捕获，计算转速信号周期 */
     QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
+	/* Set channel 0 period (66000000 ticks). 用于触发内部ADC采样，采集转速信号*/
+    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ / g_adc_set.SampleRate);
     /* Start channel 0. 开启通道0,正式开始采样*/
     PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
 	
@@ -147,8 +155,7 @@ void ADC_SampleStart(void)
 			break;
 		}
     }
-	
-	
+
 	ADC_SampleStop();
 }
 
@@ -162,14 +169,12 @@ void ADC_SampleStop(void)
 {
 	/* Stop channel 0. */
     PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
-	
-	/* Start channel 2. */
-	PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
-	
+	/* Stop get temperature*/
+	g_sys_para.WorkStatus = false;
     /* Stop the timer */
     QTMR_StopTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL);
     QTMR_StopTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL);
-
+	
     vTaskResume(BAT_TaskHandle);
     vTaskResume(LED_TaskHandle);
 	
@@ -200,8 +205,11 @@ void ADC_AppTask(void)
 
 //    ADC_MODE_HIGH_SPEED;
 	ADC_MODE_LOW_POWER;
+	
+	vTaskDelay(200);
+	
     /* 等待ADS1271 ready,并读取电压值,如果没有成功获取电压值, 则闪灯提示 */
-    while (ADC_READY == 0);  //wait ads1271 ready
+    while (ADC_READY == 1){};  //wait ads1271 ready
     if(LPSPI4_ReadData() == 0) {
         g_sys_para.sampLedStatus = WORK_FATAL_ERR;
     }

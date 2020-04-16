@@ -6,8 +6,9 @@
 #include "./norflash/bsp_norflash.h"
 
 #define FIRM_APP_ADDR     0x60010000		//	APP代码起始地址
-#define FIRM_INFO_ADDR    0x6001F000
-#define FIRM_DATA_ADDR    0x60020000
+
+#define APP_INFO_SECTOR    63 /* 升级信息保存在NorFlash的第63个扇区*/
+#define APP_START_SECTOR   64 /* App数据从第64个扇区开始保存 */
 /*******************************************************************
  * Prototypes
  *******************************************************************/

@@ -35,6 +35,7 @@ extern uint8_t g_puart2TxCnt;
 extern uint8_t g_puart2RxCnt;
 extern TaskHandle_t BLE_TaskHandle ;  /* À¶ÑÀÈÎÎñ¾ä±ú */
 extern uint8_t g_lpuart2TxBuf[];
+extern uint8_t g_lpuart2RxBuf[];
 extern uint8_t g_puart2StartRx;
 extern uint32_t  g_puart2RxTimeCnt;
 

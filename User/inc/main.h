@@ -1,13 +1,17 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#define SOFT_VERSION       0.09
-#define HARD_VERSION       1.0
+#define SOFT_VERSION       "0.09"
+#define HARD_VERSION       "1.0"
 #define POWER_ON_TIMER_ID  1
 #define ULONG_MAX          0xFFFFFFFF
-#define FIRM_INFO_ADDR    0x6001F000
-#define FIRM_DATA_ADDR    0x60020000
+//#define FIRM_INFO_ADDR    (0x6001F000U)
+//#define FIRM_DATA_ADDR    (0x60020000U)
+
+#define APP_INFO_SECTOR    63 /* 升级信息保存在NorFlash的第63个扇区*/
+#define APP_START_SECTOR   64 /* App数据从第64个扇区开始保存 */
 #define FIRM_ONE_PACKE_LEN 176
+#define FIRM_ONE_LEN (FIRM_ONE_PACKE_LEN - 6)
 
 #include "stdint.h"
 #include "string.h"
@@ -101,7 +105,8 @@ typedef struct{
 	uint32_t periodSpdSignal;//转速信号周期(us)
     uint32_t spdCount;   //转速信号采集到的个数
     uint32_t shkCount;   //震动信号采集到的个数
-	uint32_t tempCount;//当前记录的温度个数
+	uint32_t tempCount;  //当前记录的温度个数
+	bool     WorkStatus; //用于指示当前是否正在采集.
 	
     float    bias;         //震动传感器偏置电压
     float    refV;         //1052的参考电压值

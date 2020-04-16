@@ -1,5 +1,5 @@
 .\nor_sdram_txt_sdram\objects\system_mimxrt1052.o: ..\libraries\system_MIMXRT1052.c
-.\nor_sdram_txt_sdram\objects\system_mimxrt1052.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\nor_sdram_txt_sdram\objects\system_mimxrt1052.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\nor_sdram_txt_sdram\objects\system_mimxrt1052.o: ..\libraries\fsl_device_registers.h
 .\nor_sdram_txt_sdram\objects\system_mimxrt1052.o: ..\libraries\MIMXRT1052.h
 .\nor_sdram_txt_sdram\objects\system_mimxrt1052.o: ..\libraries\CMSIS\Include\core_cm7.h

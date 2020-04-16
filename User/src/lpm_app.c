@@ -1,9 +1,9 @@
 #include "main.h"
 
-#define APP_WAKEUP_BUTTON_GPIO        BOARD_BLE_STATUS_GPIO
-#define APP_WAKEUP_BUTTON_GPIO_PIN    BOARD_BLE_STATUS_PIN
-#define APP_WAKEUP_BUTTON_IRQ         GPIO1_Combined_0_15_IRQn
-#define APP_WAKEUP_BUTTON_IRQ_HANDLER GPIO1_Combined_0_15_IRQHandler
+#define APP_WAKEUP_BUTTON_GPIO        GPIO1
+#define APP_WAKEUP_BUTTON_GPIO_PIN    19U
+#define APP_WAKEUP_BUTTON_IRQ         GPIO1_Combined_16_31_IRQn
+#define APP_WAKEUP_BUTTON_IRQ_HANDLER GPIO1_Combined_16_31_IRQnHandler
 
 #define GPR4_STOP_REQ_BITS                                                                                          \
     (IOMUXC_GPR_GPR4_ENET_STOP_REQ_MASK | IOMUXC_GPR_GPR4_SAI1_STOP_REQ_MASK | IOMUXC_GPR_GPR4_SAI2_STOP_REQ_MASK | \
@@ -61,7 +61,7 @@
 #define GPR12_STOP_MODE_BITS (IOMUXC_GPR_GPR12_FLEXIO1_IPG_STOP_MODE_MASK | IOMUXC_GPR_GPR12_FLEXIO2_IPG_STOP_MODE_MASK)
 
 #define LPM_GPC_IMR_NUM (sizeof(GPC->IMR) / sizeof(GPC->IMR[0]))
-	
+
 #define CLOCK_CCM_HANDSHAKE_WAIT() \
                                    \
     do                             \
@@ -470,7 +470,8 @@ void APP_SetWakeupConfig(void)
 	/* 启用中断*/
 	EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
 	/* 启用GPC中断*/
-	LPM_EnableWakeupSource(APP_WAKEUP_BUTTON_IRQ);
+//	LPM_EnableWakeupSource(APP_WAKEUP_BUTTON_IRQ);
+	LPM_EnableWakeupSource(LPUART2_IRQn);
 }
 
 /**
@@ -643,7 +644,7 @@ void LPM_EnterSuspend(void)
     /*清理并禁用数据高速缓存以确保将上下文保存到RAM中 */
     SCB_CleanDCache();
     SCB_DisableDCache();
-		/*************************第三部分*********************/
+	/*************************第三部分*********************/
     /* 将LP电压调整为0.925V */
     DCDC_AdjustTargetVoltage(DCDC, 0x13, 0x1);
     /* 切换DCDC以使用DCDC内部OSC */
@@ -700,9 +701,11 @@ void LPM_EnterSuspend(void)
  */
 void ConfigUartRxPinToGpio(void)
 {
-    IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_13_GPIO1_IO13, 0);
-    IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_13_GPIO1_IO13,
-                        IOMUXC_SW_PAD_CTL_PAD_PKE_MASK | IOMUXC_SW_PAD_CTL_PAD_PUS(2) | IOMUXC_SW_PAD_CTL_PAD_PUE_MASK);
+    IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_03_GPIO1_IO19, 0);
+    IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_03_GPIO1_IO19,
+                        IOMUXC_SW_PAD_CTL_PAD_PKE_MASK | 
+	                    IOMUXC_SW_PAD_CTL_PAD_PUS(2) | 
+	                    IOMUXC_SW_PAD_CTL_PAD_PUE_MASK);
 }
 
 /**
@@ -712,8 +715,9 @@ void ConfigUartRxPinToGpio(void)
  */
 void ReConfigUartRxPin(void)
 {
-    IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_13_LPUART1_RX, 0);
-    IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B0_13_LPUART1_RX, IOMUXC_SW_PAD_CTL_PAD_SPEED(2));
+    /* GPIO_AD_B1_03 is configured as LPUART2_RX */
+	IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B1_03_LPUART2_RX,0U);
+    IOMUXC_SetPinConfig(IOMUXC_GPIO_AD_B1_03_LPUART2_RX, IOMUXC_SW_PAD_CTL_PAD_SPEED(2));
 }
 
 /**
@@ -725,7 +729,7 @@ void APP_WAKEUP_BUTTON_IRQ_HANDLER(void)
 {
     if ((1U << APP_WAKEUP_BUTTON_GPIO_PIN) & GPIO_GetPinsInterruptFlags(APP_WAKEUP_BUTTON_GPIO))
     {
-         /* 禁用中断. */
+        /* 禁用中断. */
         GPIO_DisableInterrupts(APP_WAKEUP_BUTTON_GPIO, 1U << APP_WAKEUP_BUTTON_GPIO_PIN);
          /* LPM关闭唤醒源 */
         GPIO_ClearPinsInterruptFlags(APP_WAKEUP_BUTTON_GPIO, 1U << APP_WAKEUP_BUTTON_GPIO_PIN);

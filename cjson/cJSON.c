@@ -67,7 +67,7 @@ typedef struct {
     size_t position;
 } error;
 static error global_error = { NULL, 0 };
-static char flag_value;
+
 CJSON_PUBLIC(const char *) cJSON_GetErrorPtr(void)
 {
     return (const char*) (global_error.json + global_error.position);

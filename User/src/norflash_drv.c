@@ -786,7 +786,6 @@ status_t FlexSPI_NorFlash_Buffer_Program(FLEXSPI_Type *base,
     {
       status = FlexSPI_NorFlash_Page_Program(base, dstAddr, src, NumOfSingle); 
       if(status != kStatus_Success) return status;
-
     }
   }
 

@@ -1,4 +1,4 @@
-Component: ARM Compiler 5.06 update 5 (build 528) Tool: armlink [4d35e2]
+Component: ARM Compiler 5.06 update 6 (build 750) Tool: armlink [4d35ed]
 
 ==============================================================================
 
@@ -1549,28 +1549,28 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-      1000        118          0          0          0      61320   board.o
-      1374        138        360         32          0      63587   bsp_norflash.o
-      1100        302         17          0          0      12987   clock_config.o
-         0          0       1072          0          0        527   fire_imxrt1052_sdram_ini_dcd.o
-         0          0        512          0          0       5734   fire_imxrt1052_spiflash_config.o
-        68         44          0          0          0        637   fsl_assert.o
-       752         58         16          8          0    1409844   fsl_clock.o
-       258         94          0          0          0       3334   fsl_debug_console.o
-      2576        314          8          4          0      20395   fsl_flexspi.o
-         0          0         48          0          0       2098   fsl_flexspi_nor_boot.o
-         0          0          0          0          0      10351   fsl_gpio.o
-       252         58          0          8          0       6988   fsl_io.o
-       154         52          0          0          0       3140   fsl_log.o
-      1780        576         72          4         36      29771   fsl_lpuart.o
-      2338          0          0          0          0       5586   fsl_str.o
-        98         28          0         12          0       1982   main.o
-       270         60          0          0          0      71117   pin_mux.o
-       444        210       1024          0          0       3076   startup_mimxrt1052.o
-       462         38          0          4          0    1391003   system_mimxrt1052.o
+      1000        118          0          0          0      61600   board.o
+      1374        138        360         32          0      64027   bsp_norflash.o
+      1100        302         17          0          0      13127   clock_config.o
+         0          0       1072          0          0        567   fire_imxrt1052_sdram_ini_dcd.o
+         0          0        512          0          0       5794   fire_imxrt1052_spiflash_config.o
+        68         44          0          0          0        657   fsl_assert.o
+       752         58         16          8          0    1410124   fsl_clock.o
+       258         94          0          0          0       3414   fsl_debug_console.o
+      2576        314          8          4          0      20795   fsl_flexspi.o
+         0          0         48          0          0       2158   fsl_flexspi_nor_boot.o
+         0          0          0          0          0      10391   fsl_gpio.o
+       252         58          0          8          0       7108   fsl_io.o
+       154         52          0          0          0       3240   fsl_log.o
+      1780        576         72          4         36      30231   fsl_lpuart.o
+      2338          0          0          0          0       5666   fsl_str.o
+        98         28          0         12          0       2074   main.o
+       270         60          0          0          0      71217   pin_mux.o
+       444        210       1024          0          0       3104   startup_mimxrt1052.o
+       462         38          0          4          0    1391143   system_mimxrt1052.o
 
     ----------------------------------------------------------------------
-     12940       2090       3180         72       3108    3103477   Object Totals
+     12940       2090       3180         72       3108    3106437   Object Totals
          0          0         48          0       3072          0   (incl. Generated)
         14          0          3          0          0          0   (incl. Padding)
 
@@ -1631,8 +1631,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     16588       2486       3324         76       3108    3096485   Grand Totals
-     16588       2486       3324         76       3108    3096485   ELF Image Totals
+     16588       2486       3324         76       3108    3099445   Grand Totals
+     16588       2486       3324         76       3108    3099445   ELF Image Totals
      16588       2486       3324         76          0          0   ROM Totals
 
 ==============================================================================

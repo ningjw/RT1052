@@ -8,6 +8,8 @@ extern const TCHAR driverNumberBuffer[];
 extern BYTE g_data_read[FF_MAX_SS];
 snvs_hp_rtc_datetime_t sampTime;
 uint16_t ble_wait_time = 60;
+uint8_t appBuf[8192];
+uint16_t i_appBuf = 0;
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
   * @input
@@ -164,7 +166,7 @@ static char * GetBatCapacity(void)
     cJSON_AddNumberToObject(pJsonRoot, "Id", 4);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
     cJSON_AddNumberToObject(pJsonRoot, "BatC", (int)g_sys_para.batRemainPercent);//电池电量
-    cJSON_AddNumberToObject(pJsonRoot, "PwrV", g_sys_para.batVoltage);      //电池电压值
+    cJSON_AddNumberToObject(pJsonRoot, "PwrV", g_sys_para.batVoltage);//电池电压值
     char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     return p_reply;
@@ -183,8 +185,8 @@ static char * GetVersion(void)
     }
     cJSON_AddNumberToObject(pJsonRoot, "Id", 5);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
-    cJSON_AddNumberToObject(pJsonRoot, "HV", HARD_VERSION);//硬件版本号
-    cJSON_AddNumberToObject(pJsonRoot, "SV", SOFT_VERSION);//软件版本号
+    cJSON_AddStringToObject(pJsonRoot, "HV", HARD_VERSION);//硬件版本号
+    cJSON_AddStringToObject(pJsonRoot, "SV", SOFT_VERSION);//软件版本号
 
     char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
@@ -614,7 +616,7 @@ static char * StartUpgrade(cJSON *pJson, cJSON * pSub)
     g_sys_para.firmUpdate = false;
     g_sys_para.firmPacksCount = 0;
     g_sys_para.firmSizeCurrent = 0;
-    g_sys_para.firmNextAddr = FIRM_DATA_ADDR;
+    g_sys_para.firmNextAddr = APP_START_SECTOR * SECTOR_SIZE;;
 
     /*解析消息内容,*/
     pSub = cJSON_GetObjectItem(pJson, "Packs");
@@ -634,7 +636,7 @@ static char * StartUpgrade(cJSON *pJson, cJSON * pSub)
     g_sys_para.firmUpdate = false;
 	/* 按照文件大小擦除对应大小的空间 */
     for(int i = 0; i<= g_sys_para.firmSizeTotal/SECTOR_SIZE; i++){
-        FlexSPI_NorFlash_Erase_Sector(FLEXSPI, FIRM_DATA_ADDR + i*SECTOR_SIZE);
+        FlexSPI_NorFlash_Erase_Sector(FLEXSPI, (APP_START_SECTOR + i)*SECTOR_SIZE);
     }
 	
     cJSON *pJsonRoot = cJSON_CreateObject();
@@ -1100,32 +1102,64 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
 {
     uint16_t crc = 0;
     uint8_t  err_code = 0;
-
-    crc = CRC16(pMsg+4, FIRM_ONE_PACKE_LEN-6);//自己计算出的CRC16
+	status_t status;
+	
+    crc = CRC16(pMsg+4, FIRM_ONE_LEN);//自己计算出的CRC16
     if(pMsg[FIRM_ONE_PACKE_LEN-2] != (uint8_t)crc || pMsg[FIRM_ONE_PACKE_LEN-1] != (crc>>8)) {
         err_code = 1;
     } else {
         /* 包id */
         g_sys_para.firmPacksCount = pMsg[2] | (pMsg[3]<<8);
-
-        /* 根据包id,计算出该包需要保存的地址*/
-        g_sys_para.firmNextAddr = FIRM_DATA_ADDR + g_sys_para.firmPacksCount * FIRM_ONE_PACKE_LEN;
 		
-        /* 保存固件数据到Nor Flash*/
-        NorFlash_WriteApp(&pMsg[4], FIRM_ONE_PACKE_LEN);
-    }
+		i_appBuf = g_sys_para.firmPacksCount * FIRM_ONE_LEN;
+		//将数据现存入appBuf当中
+		memcpy(appBuf+i_appBuf%sizeof(appBuf), g_lpuart2RxBuf+4 , FIRM_ONE_LEN);
+		//每25个包可以填满一个sector数据, 就可将app_buf中的数据写入spi Flash当中
+		if(g_sys_para.firmPacksCount % 25 == 0 && g_sys_para.firmPacksCount/25 >1){
+			/* 计算出该包需要保存的SECTOR */
+			g_sys_para.firmNextAddr = (APP_START_SECTOR + g_sys_para.firmPacksCount/25 - 1) * SECTOR_SIZE;
+			if((g_sys_para.firmPacksCount/25) % 2 == 1 ){//奇数
+				status = FlexSPI_NorFlash_Buffer_Program(FLEXSPI, g_sys_para.firmNextAddr, appBuf, SECTOR_SIZE);
+			}else{//偶数
+				status = FlexSPI_NorFlash_Buffer_Program(FLEXSPI, g_sys_para.firmNextAddr, appBuf+4096, SECTOR_SIZE);
+			}
+			if (status != kStatus_Success){
+				PRINTF("写入失败 !\r\n");
+			}
+		}
+	}
 
     /* 当前为最后一包,计算整个固件的crc16码 */
-    if(g_sys_para.firmPacksCount == g_sys_para.firmPacksTotal - 1 ) {
+    if(g_sys_para.firmPacksCount == g_sys_para.firmPacksTotal - 1) {
+	
 		g_sys_para.bleLedStatus = BLE_CONNECT;
 		g_puart2RxTimeCnt = 0;
 		g_puart2StartRx = false;
 		
-        crc = CRC16((void *)FIRM_DATA_ADDR, g_sys_para.firmSizeTotal);
-        if(crc != g_sys_para.firmCrc16) {
+		/* 计算出该包需要保存的SECTOR */
+		g_sys_para.firmNextAddr = (APP_START_SECTOR + g_sys_para.firmPacksCount/25) * SECTOR_SIZE;
+		if((g_sys_para.firmPacksCount/25) % 2 == 0 ){//偶数
+			status = FlexSPI_NorFlash_Buffer_Program(FLEXSPI, g_sys_para.firmNextAddr, appBuf, SECTOR_SIZE);
+		}else{//奇数
+			status = FlexSPI_NorFlash_Buffer_Program(FLEXSPI, g_sys_para.firmNextAddr, appBuf+4096, SECTOR_SIZE);
+		}
+		if (status != kStatus_Success){
+			PRINTF("写入失败 !\r\n");
+		}
+		
+		/* 使用软件复位来重置 AHB 缓冲区. */
+//		FLEXSPI_SoftwareReset(FLEXSPI);
+//		for(int i = 0; i<g_sys_para.firmSizeTotal; i++){
+//			PRINTF("%02x ", NORFLASH_AHB_READ_BYTE(APP_START_SECTOR * SECTOR_SIZE + i));
+//		}
+		
+        crc = CRC16((uint8_t *)(FlexSPI_AMBA_BASE + APP_START_SECTOR * SECTOR_SIZE), g_sys_para.firmSizeTotal);
+		PRINTF("\nCRC=%d",crc);
+		if(crc != g_sys_para.firmCrc16) {
             g_sys_para.firmUpdate = false;
             err_code = 2;
-        } else { //整包CRC校验通过,开始重启设备更新.
+        } else {
+			PRINTF("\n整包CRC校验通过,开始重启设备\n");
             g_sys_para.firmUpdate = true;
         }
     }

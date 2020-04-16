@@ -6,6 +6,11 @@
 **************************************************************/
 #include "main.h"
 
+const float LTC2942_CHARGE_lsb = 0.085E-3;
+const float LTC2942_VOLTAGE_lsb = .3662E-3;
+const float LTC2942_TEMPERATURE_lsb = 0.25;
+const float LTC2942_FULLSCALE_VOLTAGE = 6;
+const float LTC2942_FULLSCALE_TEMPERATURE = 600;
 
 /***************************************************************************************
   * @brief   Write new value to LTC2942 register
@@ -214,63 +219,11 @@ void LTC2942_SetAnalog(uint8_t state) {
 }
 
 
-/***************************************************************************************
-  * @brief   Configure charge threshold high level
-  * @input   level - new threshold level (0..65535)
-  * @return  
-***************************************************************************************/
-inline void LTC2942_SetChargeThresholdH(uint16_t level) {
-	LTC2942_WriteReg(LTC2942_REG_CTH_H,(uint8_t)(level >> 8));
-	LTC2942_WriteReg(LTC2942_REG_CTH_L,(uint8_t)level);
+// The function converts the 16-bit RAW adc_code to Coulombs
+float LTC2942_code_to_coulombs(void)
+{
+	float coulomb_charge;
+	coulomb_charge =  1000*(float)(LTC2942_GetAC()*LTC2942_CHARGE_lsb*128*50E-3)/(100*128);
+	coulomb_charge = coulomb_charge*3.6f;
+	return(coulomb_charge);
 }
-
-/***************************************************************************************
-  * @brief   Configure charge threshold low level
-  * @input   level - new threshold level (0..65535)
-  * @return  
-***************************************************************************************/
-inline void LTC2942_SetChargeThresholdL(uint16_t level) {
-	LTC2942_WriteReg(LTC2942_REG_CTL_H,(uint8_t)(level >> 8));
-	LTC2942_WriteReg(LTC2942_REG_CTL_L,(uint8_t)level);
-}
-
-  
-/***************************************************************************************
-  * @brief   Configure voltage threshold high level
-  * @input   level - new threshold level (0..255)
-  * @return  
-***************************************************************************************/
-inline void LTC2942_SetVoltageThresholdH(uint8_t level) {
-	LTC2942_WriteReg(LTC2942_REG_VOLT_H, level);
-}
-
-
-/***************************************************************************************
-  * @brief   Configure voltage threshold low level
-  * @input   level - new threshold level (0..255)
-  * @return  
-***************************************************************************************/
-inline void LTC2942_SetVoltageThresholdL(uint8_t level) {
-	LTC2942_WriteReg(LTC2942_REG_VOLT_L, level);
-}
-
-
-/***************************************************************************************
-  * @brief   Configure temperature threshold high level
-  * @input   level - new threshold level (0..255)
-  * @return  
-***************************************************************************************/
-inline void LTC2942_SetTemperatureThresholdH(uint8_t level) {
-	LTC2942_WriteReg(LTC2942_REG_TEMPT_H, level);
-}
-
-
-/***************************************************************************************
-  * @brief   Configure temperature threshold low level
-  * @input   level - new threshold level (0..255)
-  * @return  
-***************************************************************************************/
-inline void LTC2942_SetTemperatureThresholdL(uint8_t level) {
-	LTC2942_WriteReg(LTC2942_REG_TEMPT_L, level);
-}
-

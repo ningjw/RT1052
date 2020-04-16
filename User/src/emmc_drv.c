@@ -404,6 +404,6 @@ void eMMC_Init(void)
     
     eMMC_CheckFatfs();
     
-    eMMC_ScanFile();
+//    eMMC_ScanFile();
 }
 

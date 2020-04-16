@@ -19,7 +19,7 @@ static void InitSysPara()
     g_sys_para.inactiveTime = 15;    //默认15分钟没有活动后，自动关机。
     g_sys_para.batAlarmValue = 10;   //电池电量报警值
     g_sys_para.inactiveCondition = 1;//蓝牙连接没有通信后,15分钟关机.
-
+	
     g_adc_set.SampleRate = 5120;     //取样频率
     g_sys_para.sampNumber = 6144;    //12288;    //取样点数,
     g_sys_para.inactiveCount = 0;    //
@@ -31,7 +31,7 @@ static void InitSysPara()
     g_sys_para.firmUpdate = false;
     g_sys_para.firmPacksCount = 0;
     g_sys_para.firmSizeCurrent = 0;
-    g_sys_para.firmNextAddr = FIRM_DATA_ADDR;
+    g_sys_para.firmNextAddr = APP_START_SECTOR * SECTOR_SIZE;
 	
 //	g_sys_para.Ltc1063Clk = 2000000;
 //	QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
@@ -101,10 +101,11 @@ int main(void)
     BOARD_InitBootPins();       /* 配置GPIO */
     BOARD_InitPeripherals();    /* 配置外设 */
     BOARD_InitDebugConsole();   /* 配置调试串口 */
+	PRINTF("开机\r\n");
     InitSysPara();              /* 初始化系统变量*/
     RTC_Config();               /* 初始化RTC实时时钟*/
     FlexSPI_NorFlash_Init();    /* 初始化FlexSPI*/
-    NorFlash_ChkSelf();         /* 对FlexSPI自检*/
+//    NorFlash_ChkSelf();         /* 对FlexSPI自检*/
 	LPM_Init();
 //    PWM1_Config();
 //    PWM1_Start();

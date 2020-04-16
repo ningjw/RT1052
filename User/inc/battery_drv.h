@@ -88,11 +88,6 @@ void LTC2942_SetADCMode(uint8_t mode);
 void LTC2942_SetPrescaler(uint8_t psc);
 void LTC2942_SetALCCMode(uint8_t mode);
 void LTC2942_SetAnalog(uint8_t state);
-void LTC2942_SetChargeThresholdH(uint16_t level);
-void LTC2942_SetChargeThresholdL(uint16_t level);
-void LTC2942_SetVoltageThresholdH(uint8_t level);
-void LTC2942_SetVoltageThresholdL(uint8_t level);
-void LTC2942_SetTemperatureThresholdH(uint8_t level);
-void LTC2942_SetTemperatureThresholdL(uint8_t level);
+float LTC2942_code_to_coulombs(void);
 
 #endif
