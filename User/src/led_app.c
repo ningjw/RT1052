@@ -165,6 +165,8 @@ void LED_AppTask(void)
                 GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, ON);
                 break;
             case BLE_UPDATE://ºìÂÌµÆ½»ÌæÉÁË¸
+//				GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
+//                BOARD_LED_BLE_GREEN_GPIO->DR ^= (1 << BOARD_LED_BLE_GREEN_PIN);
                 if(ble_led_cnt++ % 2 == 0) {
                     GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
                     GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, ON);

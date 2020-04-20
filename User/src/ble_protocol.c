@@ -1165,13 +1165,25 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
     }
 
     /* ¹Ì¼þ°ü,µã¼ìÒÇ¹Ì¶¨»Ø¸´7ByteÊý¾Ý */
-    g_puart2TxCnt = 7;
-    memcpy(g_lpuart2TxBuf, pMsg, 4);
-    g_lpuart2TxBuf[4] = err_code;         //´íÎóÂë
-    crc = CRC16(g_lpuart2TxBuf, g_puart2TxCnt);
-    g_lpuart2TxBuf[5] = crc>>8;           //CRC H
-    g_lpuart2TxBuf[6] = (uint8_t)crc;     //CRC L
-    return g_lpuart2TxBuf;
+//    g_puart2TxCnt = 7;
+//    memcpy(g_lpuart2TxBuf, pMsg, 4);
+//    g_lpuart2TxBuf[4] = err_code;         //´íÎóÂë
+//    crc = CRC16(g_lpuart2TxBuf, g_puart2TxCnt-2);
+//    g_lpuart2TxBuf[5] = crc>>8;           //CRC H
+//    g_lpuart2TxBuf[6] = (uint8_t)crc;     //CRC L
+//    return g_lpuart2TxBuf;
+	
+	cJSON *pJsonRoot = cJSON_CreateObject();
+    if(NULL == pJsonRoot) {
+        return NULL;
+    }
+    cJSON_AddNumberToObject(pJsonRoot, "Id", 10);
+    cJSON_AddNumberToObject(pJsonRoot, "Sid",1);
+	cJSON_AddNumberToObject(pJsonRoot, "P", g_sys_para.firmPacksCount);
+    cJSON_AddNumberToObject(pJsonRoot, "E", err_code);
+    char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
+    cJSON_Delete(pJsonRoot);
+    return (uint8_t*)p_reply;
 }
 
 /***************************************************************************************

@@ -61,6 +61,7 @@ static void AppTaskCreate(void)
     
     /* 创建ADC_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xTaskCreate((TaskFunction_t )ADC_AppTask, "ADC_Task",1024,NULL, 4,&ADC_TaskHandle);
+	LPM_LowPowerRun();
 	
     vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
     taskEXIT_CRITICAL();               //退出临界区
@@ -98,6 +99,7 @@ int main(void)
     BaseType_t xReturn = pdPASS;/* 定义一个创建信息返回值，默认为pdPASS */
     BOARD_ConfigMPU();          /* 配置MPU */
     BOARD_BootClockRUN();       /* 配置Clock */
+	
     BOARD_InitBootPins();       /* 配置GPIO */
     BOARD_InitPeripherals();    /* 配置外设 */
     BOARD_InitDebugConsole();   /* 配置调试串口 */
@@ -106,7 +108,7 @@ int main(void)
     RTC_Config();               /* 初始化RTC实时时钟*/
     FlexSPI_NorFlash_Init();    /* 初始化FlexSPI*/
 //    NorFlash_ChkSelf();         /* 对FlexSPI自检*/
-	LPM_Init();
+//	LPM_Init();
 //    PWM1_Config();
 //    PWM1_Start();
 //    PWM1_Stop();

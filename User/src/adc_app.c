@@ -17,7 +17,7 @@ TaskHandle_t ADC_TaskHandle = NULL;  /* ADC任务句柄 */
 
 uint32_t timeCapt = 0;
 char str[12];
-extern volatile uint32_t g_eventTimeMilliseconds;
+
 uint32_t ADC_ShakeValue = 0;
 uint8_t  ADC_InvalidCnt = 0;
 /***************************************************************************************
@@ -35,12 +35,16 @@ void PIT_IRQHandler(void)
 		if (g_sys_para.tempCount < sizeof(Temperature) && g_sys_para.WorkStatus){
 			Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();
 		}
-		g_eventTimeMilliseconds++;
+		
         if(g_sys_para.inactiveCount++ >= (g_sys_para.inactiveTime + 1)*60-5) { //定时时间到
             GPIO_PinWrite(BOARD_SYS_PWR_OFF_GPIO, BOARD_SYS_PWR_OFF_PIN, 1);
-            //        SNVS->LPSR |= SNVS_LPCR_DP_EN(1);
-            //        SNVS->LPSR |= SNVS_LPCR_TOP(1);
+            //SNVS->LPSR |= SNVS_LPCR_DP_EN(1);
+            //SNVS->LPSR |= SNVS_LPCR_TOP(1);
         }
+		
+		if(g_sys_para.enterLPMCount){
+			g_sys_para.enterLPMCount--;
+		}
     }
 
     __DSB();
@@ -95,6 +99,8 @@ void GPIO2_Combined_0_15_IRQHandler(void)
 ***************************************************************************************/
 void ADC_SampleStart(void)
 {
+	LPM_FullSpeedRun();
+	
 	g_sys_para.tempCount = 0;
     g_sys_para.spdCount = 0;
     g_sys_para.shkCount = 0;
@@ -181,6 +187,8 @@ void ADC_SampleStop(void)
 	//结束采集后获取一次温度
 	Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();
 	
+	LPM_LowPowerRun();
+	
     /* 触发ADC采样完成事件  */
     xTaskNotify(ADC_TaskHandle, NOTIFY_FINISH, eSetBits);
 }
@@ -213,7 +221,7 @@ void ADC_AppTask(void)
     if(LPSPI4_ReadData() == 0) {
         g_sys_para.sampLedStatus = WORK_FATAL_ERR;
     }
-	
+	g_sys_para.enterLPMCount = 10;
     PRINTF("ADC Task Create and Running\r\n");
     while(1)
     {

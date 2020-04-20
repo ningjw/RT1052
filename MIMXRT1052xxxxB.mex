@@ -417,7 +417,12 @@
                         <pin_feature name="slew_rate" value="Fast"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="LPUART2" signal="RX" pin_num="M12" pin_signal="GPIO_AD_B1_03"/>
+                  <pin peripheral="GPIO1" signal="gpio_io, 19" pin_num="M12" pin_signal="GPIO_AD_B1_03">
+                     <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
+                        <pin_feature name="gpio_interrupt" value="kGPIO_IntRisingOrFallingEdge"/>
+                     </pin_features>
+                  </pin>
                   <pin peripheral="ADC_ETC" signal="XBAR0_TRIG, 0" pin_num="" pin_signal="PIT_TRIGGER0"/>
                   <pin peripheral="GPIO2" signal="gpio_io, 12" pin_num="C10" pin_signal="GPIO_B0_12">
                      <pin_features>

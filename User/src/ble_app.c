@@ -112,8 +112,8 @@ void BLE_AppTask(void)
         g_sys_para.bleLedStatus = BLE_READY;
     }
 	/*进入低功耗模式*/
-//	LPUART2_SendString("AT+LPM=1\r\n");
-//	vTaskDelay(100);
+	LPUART2_SendString("AT+LPM=1\r\n");
+	vTaskDelay(100);
     /* 进入透传模式 */
     LPUART2_SendString("AT+TPMODE=1\r\n");
     vTaskDelay(100);
@@ -121,7 +121,7 @@ void BLE_AppTask(void)
 
     memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
     g_puart2RxCnt = 0;
-
+//	g_sys_para.bleLedStatus = BLE_UPDATE;
     while(1)
     {
         /*wait task notify*/
@@ -131,21 +131,26 @@ void BLE_AppTask(void)
             /* 处理蓝牙数据协议 */
             sendBuf = ParseProtocol(g_lpuart2RxBuf);
 
-            /* 升级数据包 */
-            if(g_lpuart2RxBuf[0] == 0xE7 && g_lpuart2RxBuf[1] == 0xE7) {
-                /* 串口回复 */
-                LPUART_WriteBlocking(LPUART2, sendBuf, 7);
-
-                /* 是否接受完成整个数据包 */
-                if( g_sys_para.firmUpdate == true) {
-                    //将参数存入Nor Flash
-                    NorFlash_SaveFirmPara();
-                    //关闭所有中断,并复位系统
-                    NVIC_SystemReset();
-                }
-            }
-            /* json数据包 */
-            else if(NULL != sendBuf )
+//            /* 升级数据包 */
+//            if(g_lpuart2RxBuf[0] == 0xE7 && g_lpuart2RxBuf[1] == 0xE7) {
+//                /* 串口回复 */
+//                LPUART_WriteBlocking(LPUART2, sendBuf, 7);
+//				PRINTF("回复:");
+//				for(int i = 0;i<7;i++){
+//					PRINTF("%02x ",sendBuf[i]);
+//				}
+//				PRINTF("\n");
+//                /* 是否接受完成整个数据包 */
+//                if( g_sys_para.firmUpdate == true) {
+//                    //将参数存入Nor Flash
+//                    NorFlash_SaveFirmPara();
+//                    //关闭所有中断,并复位系统
+//                    NVIC_SystemReset();
+//                }
+//            }
+//            /* json数据包 */
+//            else 
+			if( NULL != sendBuf )
             {
                 LPUART2_SendString((char *)sendBuf);
                 PRINTF("%s",sendBuf);
@@ -194,9 +199,12 @@ void LPUART2_IRQHandler(void)
 			g_puart2RxTimeCnt = 0;
 			/* 将接受到的数据保存到数组*/
 			g_lpuart2RxBuf[g_puart2RxCnt++] = ucTemp;
-			/*固件升级时,每一包的长度都是固定的134个数据*/
+			/*固件升级时,每一包的长度都是固定的176个数据*/
 			if(g_puart2RxCnt >= FIRM_ONE_PACKE_LEN) {
-				PRINTF("\r\n包id = %d\r\n",g_lpuart2RxBuf[2] | (g_lpuart2RxBuf[3]<<8));
+				PRINTF("\n包id = %d",g_lpuart2RxBuf[2] | (g_lpuart2RxBuf[3]<<8));
+				if((g_lpuart2RxBuf[2] | (g_lpuart2RxBuf[3]<<8))== g_sys_para.firmPacksTotal - 1){
+					g_sys_para.bleLedStatus = BLE_CONNECT;
+				}
 				xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
 			}
 		}else{
@@ -248,6 +256,9 @@ void LPUART2_IRQHandler(void)
 ***************************************************************************************/
 void LPUART2_TimeTick(void)
 {
+	extern volatile uint32_t g_eventTimeMilliseconds;
+	g_eventTimeMilliseconds++;
+	
     if(g_puart2StartRx)
     {
         g_puart2RxTimeCnt++;
@@ -257,7 +268,7 @@ void LPUART2_TimeTick(void)
 				g_sys_para.bleLedStatus = BLE_CONNECT;//蓝牙升级超时
 				PRINTF("接受数据超时,退出升级模式");
 			}else if(g_puart2RxTimeCnt == 1000){
-				PRINTF("\r\n接受数据超时,当前接受%d个数据", g_puart2RxCnt);
+				PRINTF("\n接受数据超时,当前接受%d个数据", g_puart2RxCnt);
 				xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
 			}
 		}else if(g_puart2RxTimeCnt >= 200) { //接受数据超时

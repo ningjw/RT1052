@@ -110,7 +110,7 @@ typedef struct{
 	
     float    bias;         //震动传感器偏置电压
     float    refV;         //1052的参考电压值
-	
+	uint8_t  enterLPMCount;
     DWORD    emmc_fre_size;//剩余空间
     DWORD    emmc_tot_size;//总空间大小
     char     fileName[20];
