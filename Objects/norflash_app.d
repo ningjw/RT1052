@@ -23,6 +23,7 @@
 .\objects\norflash_app.o: .\board\peripherals.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_edma.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dmamux.h
+.\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_lp.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_pit.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h
@@ -32,12 +33,12 @@
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc_etc.h
+.\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_hp.h
 .\objects\norflash_app.o: .\board\pin_mux.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h
-.\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_hp.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_iomuxc.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_xbara.h
 .\objects\norflash_app.o: .\User\inc\fsl_flexspi.h
@@ -53,6 +54,7 @@
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_src.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_pwm.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpc.h
+.\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpt.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h
 .\objects\norflash_app.o: .\RTE\RTOS\FreeRTOSConfig.h
 .\objects\norflash_app.o: .\RTE\_nor_sdram\RTE_Components.h
@@ -68,7 +70,9 @@
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\event_groups.h
 .\objects\norflash_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
-.\objects\norflash_app.o: .\User\inc\lpm_app.h
+.\objects\norflash_app.o: .\User\inc\power_mode_switch_bm.h
+.\objects\norflash_app.o: .\User\inc\lpm.h
+.\objects\norflash_app.o: .\User\inc\specific.h
 .\objects\norflash_app.o: .\cjson\cJSON.h
 .\objects\norflash_app.o: .\User\inc\interrupt.h
 .\objects\norflash_app.o: .\User\inc\rtc_drv.h

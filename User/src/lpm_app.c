@@ -306,7 +306,7 @@ void LPM_LowPowerRun(void)
 
     /* 断电 USBPHY */
     PowerDownUSBPHY();
-
+	
     /* 将SOC电压调整为0.95V */
     DCDC_AdjustTargetVoltage(DCDC, 0x6, 0x1);
     /* DCM 模式 */

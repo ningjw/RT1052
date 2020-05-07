@@ -51,7 +51,7 @@ void BOARD_InitBootClocks(void)
 name: BOARD_BootClockRUN
 called_from_default_init: true
 outputs:
-- {id: AHB_CLK_ROOT.outFreq, value: 528 MHz, locked: true, accuracy: '0.001'}
+- {id: AHB_CLK_ROOT.outFreq, value: 528 MHz}
 - {id: CAN_CLK_ROOT.outFreq, value: 60 MHz}
 - {id: CKIL_SYNC_CLK_ROOT.outFreq, value: 32.768 kHz}
 - {id: CLK_1M.outFreq, value: 1 MHz}

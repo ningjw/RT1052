@@ -23,6 +23,7 @@
 .\objects\adc_app.o: .\board\peripherals.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_edma.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dmamux.h
+.\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_lp.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_pit.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h
@@ -32,12 +33,12 @@
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc_etc.h
+.\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_hp.h
 .\objects\adc_app.o: .\board\pin_mux.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h
-.\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_hp.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_iomuxc.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_xbara.h
 .\objects\adc_app.o: .\User\inc\fsl_flexspi.h
@@ -53,6 +54,7 @@
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_src.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_pwm.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpc.h
+.\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpt.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h
 .\objects\adc_app.o: .\RTE\RTOS\FreeRTOSConfig.h
 .\objects\adc_app.o: .\RTE\_nor_sdram\RTE_Components.h
@@ -68,7 +70,9 @@
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\event_groups.h
 .\objects\adc_app.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h
-.\objects\adc_app.o: .\User\inc\lpm_app.h
+.\objects\adc_app.o: .\User\inc\power_mode_switch_bm.h
+.\objects\adc_app.o: .\User\inc\lpm.h
+.\objects\adc_app.o: .\User\inc\specific.h
 .\objects\adc_app.o: .\cjson\cJSON.h
 .\objects\adc_app.o: .\User\inc\interrupt.h
 .\objects\adc_app.o: .\User\inc\rtc_drv.h

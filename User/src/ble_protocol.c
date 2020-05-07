@@ -21,20 +21,27 @@ static char* SetTime(cJSON *pJson, cJSON * pSub)
     char isAm = 0;
     char is24Hour = 0;
     pSub = cJSON_GetObjectItem(pJson, "Y");
-    if (NULL != pSub)
+    if (NULL != pSub){
         rtcDate.year = pSub->valueint;
+		SNVS_LP_dateTimeStruct.year = pSub->valueint;
+	}
 
     pSub = cJSON_GetObjectItem(pJson, "Mon");
-    if (NULL != pSub)
+    if (NULL != pSub){
         rtcDate.month = pSub->valueint+1;
+		SNVS_LP_dateTimeStruct.month = pSub->valueint+1;
+	}
 
     pSub = cJSON_GetObjectItem(pJson, "D");
-    if (NULL != pSub)
+    if (NULL != pSub){
         rtcDate.day = pSub->valueint;
+		SNVS_LP_dateTimeStruct.day = pSub->valueint;
+	}
 
     pSub = cJSON_GetObjectItem(pJson, "is24Hour");
-    if (NULL != pSub)
+    if (NULL != pSub){
         is24Hour = pSub->valueint;
+	}
 
     pSub = cJSON_GetObjectItem(pJson, "isAm");
     if (NULL != pSub)
@@ -43,29 +50,34 @@ static char* SetTime(cJSON *pJson, cJSON * pSub)
     pSub = cJSON_GetObjectItem(pJson, "H");
     if (NULL != pSub) {
         rtcDate.hour = pSub->valueint;
-        if(is24Hour ) {
-            rtcDate.hour = pSub->valueint;
-        } else {
-            if(isAm) {
-                rtcDate.hour = pSub->valueint;
-            } else {
-                rtcDate.hour = pSub->valueint + 12;
-            }
+		SNVS_LP_dateTimeStruct.hour = pSub->valueint;
+//        if(is24Hour ) {
+//            rtcDate.hour = pSub->valueint;
+//        } else {
+//            if(isAm) {
+//                rtcDate.hour = pSub->valueint;
+//            } else {
+//                rtcDate.hour = pSub->valueint + 12;
+//            }
 
-        }
+//        }
     }
 
     pSub = cJSON_GetObjectItem(pJson, "Min");
-    if (NULL != pSub)
+    if (NULL != pSub){
         rtcDate.minute = pSub->valueint;
+		SNVS_LP_dateTimeStruct.minute = pSub->valueint;
+	}
 
     pSub = cJSON_GetObjectItem(pJson, "S");
-    if (NULL != pSub)
+    if (NULL != pSub){
         rtcDate.second = pSub->valueint;
+		SNVS_LP_dateTimeStruct.second = pSub->valueint;
+	}
 
     /*设置日期和时间*/
     SNVS_HP_RTC_SetDatetime(SNVS, &rtcDate);
-
+    SNVS_LP_SRTC_SetDatetime(SNVS_LP_PERIPHERAL, &SNVS_LP_dateTimeStruct);
     /*制作cjson格式的回复消息*/
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot) {
@@ -634,6 +646,7 @@ static char * StartUpgrade(cJSON *pJson, cJSON * pSub)
     g_sys_para.firmPacksCount = 0;
     g_sys_para.firmSizeCurrent = 0;
     g_sys_para.firmUpdate = false;
+	
 	/* 按照文件大小擦除对应大小的空间 */
     for(int i = 0; i<= g_sys_para.firmSizeTotal/SECTOR_SIZE; i++){
         FlexSPI_NorFlash_Erase_Sector(FLEXSPI, (APP_START_SECTOR + i)*SECTOR_SIZE);
@@ -1115,10 +1128,10 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
 		//将数据现存入appBuf当中
 		memcpy(appBuf+i_appBuf%sizeof(appBuf), g_lpuart2RxBuf+4 , FIRM_ONE_LEN);
 		//每25个包可以填满一个sector数据, 就可将app_buf中的数据写入spi Flash当中
-		if(g_sys_para.firmPacksCount % 25 == 0 && g_sys_para.firmPacksCount/25 >1){
+		if(g_sys_para.firmPacksCount % 24 == 0 && g_sys_para.firmPacksCount/24 >=1){
 			/* 计算出该包需要保存的SECTOR */
-			g_sys_para.firmNextAddr = (APP_START_SECTOR + g_sys_para.firmPacksCount/25 - 1) * SECTOR_SIZE;
-			if((g_sys_para.firmPacksCount/25) % 2 == 1 ){//奇数
+			g_sys_para.firmNextAddr = (APP_START_SECTOR + g_sys_para.firmPacksCount/24 - 1) * SECTOR_SIZE;
+			if((g_sys_para.firmPacksCount/24) % 2 == 1 ){//奇数
 				status = FlexSPI_NorFlash_Buffer_Program(FLEXSPI, g_sys_para.firmNextAddr, appBuf, SECTOR_SIZE);
 			}else{//偶数
 				status = FlexSPI_NorFlash_Buffer_Program(FLEXSPI, g_sys_para.firmNextAddr, appBuf+4096, SECTOR_SIZE);
@@ -1126,6 +1139,8 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
 			if (status != kStatus_Success){
 				PRINTF("写入失败 !\r\n");
 			}
+			/* 使用软件复位来重置 AHB 缓冲区. */
+			FLEXSPI_SoftwareReset(FLEXSPI);
 		}
 	}
 
@@ -1138,7 +1153,7 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
 		
 		/* 计算出该包需要保存的SECTOR */
 		g_sys_para.firmNextAddr = (APP_START_SECTOR + g_sys_para.firmPacksCount/25) * SECTOR_SIZE;
-		if((g_sys_para.firmPacksCount/25) % 2 == 0 ){//偶数
+		if((g_sys_para.firmPacksCount/24) % 2 == 0 ){//偶数
 			status = FlexSPI_NorFlash_Buffer_Program(FLEXSPI, g_sys_para.firmNextAddr, appBuf, SECTOR_SIZE);
 		}else{//奇数
 			status = FlexSPI_NorFlash_Buffer_Program(FLEXSPI, g_sys_para.firmNextAddr, appBuf+4096, SECTOR_SIZE);
@@ -1148,11 +1163,14 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
 		}
 		
 		/* 使用软件复位来重置 AHB 缓冲区. */
-//		FLEXSPI_SoftwareReset(FLEXSPI);
-//		for(int i = 0; i<g_sys_para.firmSizeTotal; i++){
-//			PRINTF("%02x ", NORFLASH_AHB_READ_BYTE(APP_START_SECTOR * SECTOR_SIZE + i));
-//		}
+		FLEXSPI_SoftwareReset(FLEXSPI);
 		
+//		PRINTF("升级文件:\r\n");
+//		for(uint32_t i = 0;i<g_sys_para.firmSizeTotal; i++){
+//			if(i%16 == 0) PRINTF("\n");
+//			PRINTF("%02X ",*(uint8_t *)(FlexSPI_AMBA_BASE + APP_START_SECTOR * SECTOR_SIZE+i));
+//		}
+	
         crc = CRC16((uint8_t *)(FlexSPI_AMBA_BASE + APP_START_SECTOR * SECTOR_SIZE), g_sys_para.firmSizeTotal);
 		PRINTF("\nCRC=%d",crc);
 		if(crc != g_sys_para.firmCrc16) {
@@ -1183,6 +1201,7 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
     cJSON_AddNumberToObject(pJsonRoot, "E", err_code);
     char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
+	g_sys_para.firmPacksCount++;
     return (uint8_t*)p_reply;
 }
 

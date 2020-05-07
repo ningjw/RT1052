@@ -7,7 +7,6 @@
 ".\objects\adc_app.o"
 ".\objects\battery_app.o"
 ".\objects\led_app.o"
-".\objects\lpm_app.o"
 ".\objects\cjson.o"
 ".\objects\core_delay.o"
 ".\objects\rtc_drv.o"

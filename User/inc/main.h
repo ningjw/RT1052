@@ -35,6 +35,7 @@
 #include "fsl_src.h"
 #include "fsl_pwm.h"
 #include "fsl_gpc.h"
+#include "fsl_gpt.h"
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -43,7 +44,9 @@
 #include "queue.h"
 #include "timers.h"
 
-#include "lpm_app.h"
+#include "power_mode_switch_bm.h"
+#include "specific.h"
+#include "lpm.h"
 #include "cJSON.h"
 #include "interrupt.h"
 #include "rtc_drv.h"
@@ -156,5 +159,5 @@ typedef struct{
 
 extern SysPara g_sys_para;
 extern ADC_Set g_adc_set;
-
+void BOARD_InitDebugConsole(void);
 #endif

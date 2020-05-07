@@ -23,6 +23,14 @@ __asm void MSR_MSP(uint32_t address)
 	BX r14
 }
 
+//该结构体定义了需要保存到EEPROM中的参数
+typedef struct{
+    uint8_t  firmUpdate;    //固件更新
+    uint32_t firmSizeTotal; //固件总大小
+    uint32_t firmCrc16;     //固件校验码
+    uint32_t firmPacksTotal;//固件总包数
+}UpdatePara_t;
+UpdatePara_t UpdatePara;
 /**
   * @brief  跳转至APP运行
   *	
@@ -36,8 +44,28 @@ void jumpToApp(void)
 		
 		PRINTF("Jump to app\n");
 		
-		/*	将APP的代码从FLASH 中拷贝至SDRAM中运行	*/
-//		memcpy((void*)SDRAM_APP_CODE_ADD, (void*)FLASH_APP_CODE_ADD, appSize);
+		//读取升级参数
+		memcpy(&UpdatePara.firmUpdate,(uint8_t *)(FlexSPI_AMBA_BASE + APP_INFO_SECTOR * SECTOR_SIZE), 13);
+		if (UpdatePara.firmUpdate == true){//需要更新系统
+			UpdatePara.firmUpdate = false;
+			FlexSPI_NorFlash_Erase_Sector(FLEXSPI, APP_INFO_SECTOR * SECTOR_SIZE);
+			//将标识位写入flash
+			FlexSPI_NorFlash_Buffer_Program(FLEXSPI, APP_INFO_SECTOR * SECTOR_SIZE, &UpdatePara.firmUpdate, 13);
+			
+//			PRINTF("升级文件:\r\n");
+//			for(uint32_t i = 0;i<UpdatePara.firmSizeTotal; i++){
+//				if(i%16 == 0) PRINTF("\n");
+//				PRINTF("%02X ",*(uint8_t *)(FlexSPI_AMBA_BASE + APP_START_SECTOR * SECTOR_SIZE+i));
+//			}
+		
+			/*最新的app复制到运行处	*/
+			memcpy((void*)FIRM_APP_ADDR, (uint8_t *)(FlexSPI_AMBA_BASE + APP_START_SECTOR * SECTOR_SIZE), UpdatePara.firmSizeTotal);
+		}
+		PRINTF("app文件:\r\n");
+		for(uint32_t i = 0;i<256; i++){
+			if(i%16 == 0) PRINTF("\n");
+			PRINTF("%02X ",*(uint8_t *)(FIRM_APP_ADDR+i));
+		}
 		
 		//设置中断向量表
 		SCB->VTOR = FIRM_APP_ADDR;
@@ -81,6 +109,7 @@ int main(void)
         jumpToApp();
     }
 }
+
 
 
 /****************************END OF FILE**********************/

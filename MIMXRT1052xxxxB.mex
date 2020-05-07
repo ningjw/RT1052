@@ -417,10 +417,9 @@
                         <pin_feature name="slew_rate" value="Fast"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="GPIO1" signal="gpio_io, 19" pin_num="M12" pin_signal="GPIO_AD_B1_03">
+                  <pin peripheral="LPUART2" signal="RX" pin_num="M12" pin_signal="GPIO_AD_B1_03">
                      <pin_features>
                         <pin_feature name="direction" value="INPUT"/>
-                        <pin_feature name="gpio_interrupt" value="kGPIO_IntRisingOrFallingEdge"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="ADC_ETC" signal="XBAR0_TRIG, 0" pin_num="" pin_signal="PIT_TRIGGER0"/>
@@ -571,7 +570,7 @@
                   <clock_source id="XTALOSC24M.RTC_OSC.outFreq" value="32.768 kHz" locked="false" enabled="true"/>
                </clock_sources>
                <clock_outputs>
-                  <clock_output id="AHB_CLK_ROOT.outFreq" value="528 MHz" locked="true" accuracy="0.001"/>
+                  <clock_output id="AHB_CLK_ROOT.outFreq" value="528 MHz" locked="false" accuracy=""/>
                   <clock_output id="CAN_CLK_ROOT.outFreq" value="60 MHz" locked="false" accuracy=""/>
                   <clock_output id="CKIL_SYNC_CLK_ROOT.outFreq" value="32.768 kHz" locked="false" accuracy=""/>
                   <clock_output id="CLK_1M.outFreq" value="1 MHz" locked="false" accuracy=""/>
@@ -767,6 +766,26 @@
                </feature>
             </dependency>
             <dependency resourceType="SWComponent" resourceId="platform.drivers.adc_etc" description="工具链/IDT 工程中，该版本的 ADC_ETC Driver 不被支持。所需的：${required_value},，实际的： ${actual_value}。" problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">2.0.0</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.snvs_lp" description="在工具链/IDT 工程中未找到 SNVS LP Driver。" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.snvs_lp" description="工具链/IDT 工程中，该版本的 SNVS LP Driver 不被支持。所需的：${required_value},，实际的： ${actual_value}。" problem_level="1" source="Peripherals">
+               <feature name="version" evaluation="equivalent">
+                  <data type="Version">2.1.0</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.snvs_hp" description="在工具链/IDT 工程中未找到 SNVS HP Driver。" problem_level="2" source="Peripherals">
+               <feature name="enabled" evaluation="equal">
+                  <data type="Boolean">true</data>
+               </feature>
+            </dependency>
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.snvs_hp" description="工具链/IDT 工程中，该版本的 SNVS HP Driver 不被支持。所需的：${required_value},，实际的： ${actual_value}。" problem_level="1" source="Peripherals">
                <feature name="version" evaluation="equivalent">
                   <data type="Version">2.0.0</data>
                </feature>
@@ -1472,7 +1491,7 @@
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="SNVS_LP" type="snvs_lp" type_id="snvs_lp_3b9e952b0ef37d4c4fffea74821e74e2" mode="general" peripheral="SNVS" enabled="false">
+                  <instance name="SNVS_LP" type="snvs_lp" type_id="snvs_lp_3b9e952b0ef37d4c4fffea74821e74e2" mode="general" peripheral="SNVS" enabled="true">
                      <config_set name="fsl_snvs_lp">
                         <struct name="snvs_lp_config">
                            <setting name="init" value="true"/>
@@ -1480,24 +1499,25 @@
                               <setting name="enable" value="false"/>
                            </struct>
                         </struct>
-                        <setting name="initRTC" value="false"/>
+                        <setting name="initRTC" value="true"/>
                         <struct name="snvs_lp_srtc_config">
                            <setting name="srtcCalEnable" value="false"/>
                            <setting name="srtcCalValueInt" value="0"/>
-                           <setting name="start" value="false"/>
-                           <setting name="setDateTime" value="false"/>
+                           <setting name="start" value="true"/>
+                           <setting name="setDateTime" value="true"/>
+                           <struct name="snvs_lp_srtc_datetime">
+                              <setting name="year" value="2020"/>
+                              <setting name="month" value="1"/>
+                              <setting name="day" value="1"/>
+                              <setting name="hour" value="0"/>
+                              <setting name="minute" value="0"/>
+                              <setting name="second" value="0"/>
+                           </struct>
                         </struct>
                         <struct name="interruptsCfg">
                            <set name="interruptSources">
                               <selected/>
                            </set>
-                           <setting name="isInterruptEnabled" value="true"/>
-                           <struct name="interrupt">
-                              <setting name="IRQn" value="SNVS_HP_WRAPPER_IRQn"/>
-                              <setting name="enable_priority" value="false"/>
-                              <setting name="priority" value="0"/>
-                              <setting name="enable_custom_name" value="false"/>
-                           </struct>
                         </struct>
                         <array name="enableExternalTampers"/>
                      </config_set>
@@ -1530,6 +1550,30 @@
                               <setting name="enable" value="false"/>
                               <setting name="source" value="kLPI2C_HostRequestExternalPin"/>
                               <setting name="polarity" value="kLPI2C_HostRequestPinActiveHigh"/>
+                           </struct>
+                        </struct>
+                     </config_set>
+                  </instance>
+                  <instance name="SNVS_HP" type="snvs_hp" type_id="snvs_hp_8aa1d6897a8f71c776216caab5be8259" mode="general" peripheral="SNVS" enabled="true">
+                     <config_set name="fsl_snvs_hp">
+                        <struct name="snvs_hp_rtc_config">
+                           <setting name="rtcCalEnable" value="true"/>
+                           <setting name="rtcCalValueInt" value="0"/>
+                           <setting name="periodicInterruptFreq" value="0"/>
+                           <setting name="start" value="true"/>
+                           <setting name="callTimeSynchronize" value="false"/>
+                           <setting name="setDateTime" value="false"/>
+                        </struct>
+                        <struct name="interruptsCfg">
+                           <set name="interruptSources">
+                              <selected/>
+                           </set>
+                           <setting name="isInterruptEnabled" value="false"/>
+                           <struct name="interrupt">
+                              <setting name="IRQn" value="SNVS_HP_WRAPPER_IRQn"/>
+                              <setting name="enable_priority" value="false"/>
+                              <setting name="priority" value="0"/>
+                              <setting name="enable_custom_name" value="false"/>
                            </struct>
                         </struct>
                      </config_set>

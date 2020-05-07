@@ -32,6 +32,7 @@ void NorFlash_SaveFirmPara(void)
 
 	/* 使用软件复位来重置 AHB 缓冲区. */
     FLEXSPI_SoftwareReset(FLEXSPI);
+	PRINTF("升级参数:\r\n");
 	for (int i=0;i<16;i++){
 		PRINTF("%02x ", NORFLASH_AHB_READ_BYTE(APP_INFO_SECTOR * SECTOR_SIZE + i));
 	}

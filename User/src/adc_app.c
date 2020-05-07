@@ -36,6 +36,8 @@ void PIT_IRQHandler(void)
 			Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();
 		}
 		
+		SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
+		SNVS_LP_SRTC_GetDatetime(SNVS_LP_PERIPHERAL, &SNVS_LP_dateTimeStruct);
         if(g_sys_para.inactiveCount++ >= (g_sys_para.inactiveTime + 1)*60-5) { //定时时间到
             GPIO_PinWrite(BOARD_SYS_PWR_OFF_GPIO, BOARD_SYS_PWR_OFF_PIN, 1);
             //SNVS->LPSR |= SNVS_LPCR_DP_EN(1);
@@ -99,7 +101,7 @@ void GPIO2_Combined_0_15_IRQHandler(void)
 ***************************************************************************************/
 void ADC_SampleStart(void)
 {
-	LPM_FullSpeedRun();
+//	LPM_FullSpeedRun();
 	
 	g_sys_para.tempCount = 0;
     g_sys_para.spdCount = 0;
@@ -187,7 +189,7 @@ void ADC_SampleStop(void)
 	//结束采集后获取一次温度
 	Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();
 	
-	LPM_LowPowerRun();
+//	LPM_LowPowerRun();
 	
     /* 触发ADC采样完成事件  */
     xTaskNotify(ADC_TaskHandle, NOTIFY_FINISH, eSetBits);

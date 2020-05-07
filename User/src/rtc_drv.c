@@ -28,8 +28,8 @@ void RTC_Config(void)
 	
 	/*------------------------------第二部分----------------------------*/
     /* 将RTC时间设置为默认时间和日期并启动RTC */
-    SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
-    SNVS_HP_RTC_SetDatetime(SNVS, &rtcDate);
+//    SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
+//    SNVS_HP_RTC_SetDatetime(SNVS, &rtcDate);
     SNVS_HP_RTC_StartTimer(SNVS);
 }
 

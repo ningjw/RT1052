@@ -12,6 +12,7 @@
 #include "fsl_edma.h"
 #include "fsl_dmamux.h"
 #include "fsl_common.h"
+#include "fsl_snvs_lp.h"
 #include "fsl_lpuart.h"
 #include "fsl_clock.h"
 #include "fsl_pit.h"
@@ -21,6 +22,7 @@
 #include "fsl_lpspi.h"
 #include "fsl_adc.h"
 #include "fsl_adc_etc.h"
+#include "fsl_snvs_hp.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -34,6 +36,8 @@ extern "C" {
 #define EDMA_DMA_BASEADDR DMA0
 /* Associated DMAMUX device that is used for muxing of requests. */
 #define EDMA_DMAMUX_BASEADDR DMAMUX
+/* Definition of peripheral ID */
+#define SNVS_LP_PERIPHERAL SNVS
 /* Definition of peripheral ID */
 #define LPUART1_PERIPHERAL LPUART1
 /* Definition of the clock source frequency */
@@ -154,11 +158,16 @@ extern "C" {
 #define LPI2C3_PERIPHERAL LPI2C3
 /* Definition of clock source */
 #define LPI2C3_CLOCK_FREQ 20000000UL
+/* Definition of peripheral ID */
+#define SNVS_HP_PERIPHERAL SNVS
 
 /***********************************************************************************************************************
  * Global variables
  **********************************************************************************************************************/
 extern const edma_config_t eDMA_config;
+extern const snvs_lp_srtc_config_t SNVS_LP_config;
+/* SNVS LP date and time structure */
+extern snvs_lp_srtc_datetime_t SNVS_LP_dateTimeStruct;
 extern const lpuart_config_t LPUART1_config;
 extern const pit_config_t PIT1_config;
 extern const lpi2c_master_config_t LPI2C1_masterConfig;
@@ -176,6 +185,7 @@ extern const adc_channel_config_t ADC1_channels_config[1];
 extern const adc_etc_config_t ADC_ETC_config;
 extern const qtmr_config_t QuadTimer2_Channel_0_config;
 extern const lpi2c_master_config_t LPI2C3_masterConfig;
+extern const snvs_hp_rtc_config_t SNVS_HP_config;
 
 /***********************************************************************************************************************
  * Initialization functions

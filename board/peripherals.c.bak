@@ -75,6 +75,47 @@ void eDMA_init(void) {
 }
 
 /***********************************************************************************************************************
+ * SNVS_LP initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'SNVS_LP'
+- type: 'snvs_lp'
+- mode: 'general'
+- type_id: 'snvs_lp_3b9e952b0ef37d4c4fffea74821e74e2'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'SNVS'
+- config_sets:
+  - fsl_snvs_lp:
+    - snvs_lp_config:
+      - init: 'true'
+      - mc:
+        - enable: 'false'
+    - initRTC: 'true'
+    - snvs_lp_srtc_config:
+      - srtcCalEnable: 'false'
+      - srtcCalValueInt: '0'
+      - start: 'true'
+      - setDateTime: 'false'
+    - interruptsCfg:
+      - interruptSources: ''
+    - enableExternalTampers: []
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const snvs_lp_srtc_config_t SNVS_LP_config = {
+  .srtcCalEnable = false,
+  .srtcCalValue = 0
+};
+
+void SNVS_LP_init(void) {
+  /* SNVS LP SRTC initialization */
+  SNVS_LP_SRTC_Init(SNVS_LP_PERIPHERAL, &SNVS_LP_config);
+  /* SNVS LP SRTC start timer */
+  SNVS_LP_SRTC_StartTimer(SNVS_LP_PERIPHERAL);
+}
+
+/***********************************************************************************************************************
  * LPUART1 initialization code
  **********************************************************************************************************************/
 /* clang-format off */
@@ -631,9 +672,9 @@ instance:
   - main:
     - mode: 'kLPSPI_Master'
     - clockSource: 'LpspiClock'
-    - clockSourceFreq: 'BOARD_BootClockRUN'
+    - clockSourceFreq: 'custom:25000000'
     - master:
-      - baudRate: '100000000'
+      - baudRate: '25000000'
       - bitsPerFrame: '24'
       - cpol: 'kLPSPI_ClockPolarityActiveHigh'
       - cpha: 'kLPSPI_ClockPhaseSecondEdge'
@@ -1000,6 +1041,50 @@ void LPI2C3_init(void) {
 }
 
 /***********************************************************************************************************************
+ * SNVS_HP initialization code
+ **********************************************************************************************************************/
+/* clang-format off */
+/* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
+instance:
+- name: 'SNVS_HP'
+- type: 'snvs_hp'
+- mode: 'general'
+- type_id: 'snvs_hp_8aa1d6897a8f71c776216caab5be8259'
+- functional_group: 'BOARD_InitPeripherals'
+- peripheral: 'SNVS'
+- config_sets:
+  - fsl_snvs_hp:
+    - snvs_hp_rtc_config:
+      - rtcCalEnable: 'true'
+      - rtcCalValueInt: '0'
+      - periodicInterruptFreq: '0'
+      - start: 'true'
+      - callTimeSynchronize: 'false'
+      - setDateTime: 'false'
+    - interruptsCfg:
+      - interruptSources: ''
+      - isInterruptEnabled: 'false'
+      - interrupt:
+        - IRQn: 'SNVS_HP_WRAPPER_IRQn'
+        - enable_priority: 'false'
+        - priority: '0'
+        - enable_custom_name: 'false'
+ * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
+/* clang-format on */
+const snvs_hp_rtc_config_t SNVS_HP_config = {
+  .rtcCalEnable = true,
+  .rtcCalValue = 0,
+  .periodicInterruptFreq = 0
+};
+
+void SNVS_HP_init(void) {
+  /* SNVS HP RTC initialization */
+  SNVS_HP_RTC_Init(SNVS_HP_PERIPHERAL, &SNVS_HP_config);
+  /* SNVS HP RTC start timer */
+  SNVS_HP_RTC_StartTimer(SNVS_HP_PERIPHERAL);
+}
+
+/***********************************************************************************************************************
  * Initialization functions
  **********************************************************************************************************************/
 void BOARD_InitPeripherals(void)
@@ -1007,9 +1092,12 @@ void BOARD_InitPeripherals(void)
   /* Global initialization */
   DMAMUX_Init(EDMA_DMAMUX_BASEADDR);
   EDMA_Init(EDMA_DMA_BASEADDR, &eDMA_config);
+  /* SNVS LP initialization */
+  SNVS_LP_Init(SNVS_LP_PERIPHERAL);
 
   /* Initialize components */
   eDMA_init();
+  SNVS_LP_init();
   LPUART1_init();
   PIT1_init();
   LPI2C1_init();
@@ -1024,6 +1112,7 @@ void BOARD_InitPeripherals(void)
   ADC_ETC_init();
   QuadTimer2_init();
   LPI2C3_init();
+  SNVS_HP_init();
 }
 
 /***********************************************************************************************************************

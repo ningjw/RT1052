@@ -61,7 +61,7 @@ static void AppTaskCreate(void)
     
     /* 创建ADC_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xTaskCreate((TaskFunction_t )ADC_AppTask, "ADC_Task",1024,NULL, 4,&ADC_TaskHandle);
-	LPM_LowPowerRun();
+//	LPM_LowPowerRun();
 	
     vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
     taskEXIT_CRITICAL();               //退出临界区
@@ -103,9 +103,8 @@ int main(void)
     BOARD_InitBootPins();       /* 配置GPIO */
     BOARD_InitPeripherals();    /* 配置外设 */
     BOARD_InitDebugConsole();   /* 配置调试串口 */
-	PRINTF("开机\r\n");
+	PRINTF("app:\r\n");
     InitSysPara();              /* 初始化系统变量*/
-    RTC_Config();               /* 初始化RTC实时时钟*/
     FlexSPI_NorFlash_Init();    /* 初始化FlexSPI*/
 //    NorFlash_ChkSelf();         /* 对FlexSPI自检*/
 //	LPM_Init();
@@ -113,8 +112,12 @@ int main(void)
 //    PWM1_Start();
 //    PWM1_Stop();
 //    PrintClock();
+//	LPM_Init();
+//    APP_SetRunMode(LPM_PowerModeFullRun);
+//    LPM_FullSpeedRun();
+	
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);/*1ms中断，FreeRTOS使用*/
-    
+	
     /* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xReturn = xTaskCreate((TaskFunction_t )AppTaskCreate, "AppTaskCreate",512,NULL,1,&AppTaskCreate_Handle);
     /* 启动任务调度 */
