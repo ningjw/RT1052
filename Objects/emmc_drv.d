@@ -82,6 +82,7 @@
 .\objects\emmc_drv.o: .\User\inc\core_delay.h
 .\objects\emmc_drv.o: .\User\inc\norflash_drv.h
 .\objects\emmc_drv.o: .\User\inc\utility.h
+.\objects\emmc_drv.o: .\User\inc\flexspi.h
 .\objects\emmc_drv.o: .\fatfs\ff.h
 .\objects\emmc_drv.o: .\fatfs\integer.h
 .\objects\emmc_drv.o: .\fatfs\ffconf.h

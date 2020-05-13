@@ -16,6 +16,7 @@
 ".\objects\iic_temp_drv.o"
 ".\objects\norflash_drv.o"
 ".\objects\utility.o"
+".\objects\flexspi.o"
 ".\objects\clock_config.o"
 ".\objects\peripherals.o"
 ".\objects\pin_mux.o"

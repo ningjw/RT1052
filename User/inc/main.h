@@ -10,7 +10,7 @@
 
 #define APP_INFO_SECTOR    63 /* 升级信息保存在NorFlash的第63个扇区*/
 #define APP_START_SECTOR   64 /* App数据从第64个扇区开始保存 */
-#define FIRM_ONE_PACKE_LEN 176
+#define FIRM_ONE_PACKE_LEN 166
 #define FIRM_ONE_LEN (FIRM_ONE_PACKE_LEN - 6)
 
 #include "stdint.h"
@@ -56,7 +56,7 @@
 #include "core_delay.h"
 #include "norflash_drv.h"
 #include "utility.h"
-
+#include "flexspi.h"
 #include "ff.h"
 #include "diskio.h"
 
@@ -76,7 +76,8 @@ typedef struct{
     uint32_t firmPacksTotal;//固件总包数
     uint32_t firmPacksCount;//当前接受的固件包数
     uint32_t firmSizeCurrent;//当前接受到的固件大小
-    uint32_t firmNextAddr;  //下一次数据需要保存的地址
+    uint32_t firmCurrentAddr;  //下一次数据需要保存的地址
+	uint32_t firmByteCount; //当前接受到的字节数
 	
 	uint32_t inactiveCount;//用于设置活动时间
     uint8_t  inactiveTime;   //用于设置活动时间

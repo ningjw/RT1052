@@ -82,6 +82,7 @@
 .\objects\utility.o: .\User\inc\core_delay.h
 .\objects\utility.o: .\User\inc\norflash_drv.h
 .\objects\utility.o: .\User\inc\utility.h
+.\objects\utility.o: .\User\inc\flexspi.h
 .\objects\utility.o: .\fatfs\ff.h
 .\objects\utility.o: .\fatfs\integer.h
 .\objects\utility.o: .\fatfs\ffconf.h

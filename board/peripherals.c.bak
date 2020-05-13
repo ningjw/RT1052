@@ -97,7 +97,14 @@ instance:
       - srtcCalEnable: 'false'
       - srtcCalValueInt: '0'
       - start: 'true'
-      - setDateTime: 'false'
+      - setDateTime: 'true'
+      - snvs_lp_srtc_datetime:
+        - year: '2020'
+        - month: '1'
+        - day: '1'
+        - hour: '0'
+        - minute: '0'
+        - second: '0'
     - interruptsCfg:
       - interruptSources: ''
     - enableExternalTampers: []
@@ -107,10 +114,20 @@ const snvs_lp_srtc_config_t SNVS_LP_config = {
   .srtcCalEnable = false,
   .srtcCalValue = 0
 };
+snvs_lp_srtc_datetime_t SNVS_LP_dateTimeStruct = {
+  .year = 2020,
+  .month = 1,
+  .day = 1,
+  .hour = 0,
+  .minute = 0,
+  .second = 0
+};
 
 void SNVS_LP_init(void) {
   /* SNVS LP SRTC initialization */
   SNVS_LP_SRTC_Init(SNVS_LP_PERIPHERAL, &SNVS_LP_config);
+  /* SNVS LP date and time initialization */
+  SNVS_LP_SRTC_SetDatetime(SNVS_LP_PERIPHERAL, &SNVS_LP_dateTimeStruct);
   /* SNVS LP SRTC start timer */
   SNVS_LP_SRTC_StartTimer(SNVS_LP_PERIPHERAL);
 }

@@ -82,6 +82,7 @@
 .\objects\ble_protocol.o: .\User\inc\core_delay.h
 .\objects\ble_protocol.o: .\User\inc\norflash_drv.h
 .\objects\ble_protocol.o: .\User\inc\utility.h
+.\objects\ble_protocol.o: .\User\inc\flexspi.h
 .\objects\ble_protocol.o: .\fatfs\ff.h
 .\objects\ble_protocol.o: .\fatfs\integer.h
 .\objects\ble_protocol.o: .\fatfs\ffconf.h

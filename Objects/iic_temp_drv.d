@@ -82,6 +82,7 @@
 .\objects\iic_temp_drv.o: .\User\inc\core_delay.h
 .\objects\iic_temp_drv.o: .\User\inc\norflash_drv.h
 .\objects\iic_temp_drv.o: .\User\inc\utility.h
+.\objects\iic_temp_drv.o: .\User\inc\flexspi.h
 .\objects\iic_temp_drv.o: .\fatfs\ff.h
 .\objects\iic_temp_drv.o: .\fatfs\integer.h
 .\objects\iic_temp_drv.o: .\fatfs\ffconf.h

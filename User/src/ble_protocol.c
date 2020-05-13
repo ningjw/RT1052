@@ -628,7 +628,7 @@ static char * StartUpgrade(cJSON *pJson, cJSON * pSub)
     g_sys_para.firmUpdate = false;
     g_sys_para.firmPacksCount = 0;
     g_sys_para.firmSizeCurrent = 0;
-    g_sys_para.firmNextAddr = APP_START_SECTOR * SECTOR_SIZE;;
+    g_sys_para.firmCurrentAddr = APP_START_SECTOR * SECTOR_SIZE;;
 
     /*解析消息内容,*/
     pSub = cJSON_GetObjectItem(pJson, "Packs");
@@ -1115,7 +1115,6 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
 {
     uint16_t crc = 0;
     uint8_t  err_code = 0;
-	status_t status;
 	
     crc = CRC16(pMsg+4, FIRM_ONE_LEN);//自己计算出的CRC16
     if(pMsg[FIRM_ONE_PACKE_LEN-2] != (uint8_t)crc || pMsg[FIRM_ONE_PACKE_LEN-1] != (crc>>8)) {
@@ -1124,24 +1123,9 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
         /* 包id */
         g_sys_para.firmPacksCount = pMsg[2] | (pMsg[3]<<8);
 		
-		i_appBuf = g_sys_para.firmPacksCount * FIRM_ONE_LEN;
-		//将数据现存入appBuf当中
-		memcpy(appBuf+i_appBuf%sizeof(appBuf), g_lpuart2RxBuf+4 , FIRM_ONE_LEN);
-		//每25个包可以填满一个sector数据, 就可将app_buf中的数据写入spi Flash当中
-		if(g_sys_para.firmPacksCount % 24 == 0 && g_sys_para.firmPacksCount/24 >=1){
-			/* 计算出该包需要保存的SECTOR */
-			g_sys_para.firmNextAddr = (APP_START_SECTOR + g_sys_para.firmPacksCount/24 - 1) * SECTOR_SIZE;
-			if((g_sys_para.firmPacksCount/24) % 2 == 1 ){//奇数
-				status = FlexSPI_NorFlash_Buffer_Program(FLEXSPI, g_sys_para.firmNextAddr, appBuf, SECTOR_SIZE);
-			}else{//偶数
-				status = FlexSPI_NorFlash_Buffer_Program(FLEXSPI, g_sys_para.firmNextAddr, appBuf+4096, SECTOR_SIZE);
-			}
-			if (status != kStatus_Success){
-				PRINTF("写入失败 !\r\n");
-			}
-			/* 使用软件复位来重置 AHB 缓冲区. */
-			FLEXSPI_SoftwareReset(FLEXSPI);
-		}
+		g_sys_para.firmCurrentAddr = APP_START_SECTOR * SECTOR_SIZE + g_sys_para.firmPacksCount * FIRM_ONE_LEN;//
+		
+		FlexSPI_FlashWrite(pMsg+4, g_sys_para.firmCurrentAddr, FIRM_ONE_LEN);
 	}
 
     /* 当前为最后一包,计算整个固件的crc16码 */
@@ -1151,25 +1135,15 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
 		g_puart2RxTimeCnt = 0;
 		g_puart2StartRx = false;
 		
-		/* 计算出该包需要保存的SECTOR */
-		g_sys_para.firmNextAddr = (APP_START_SECTOR + g_sys_para.firmPacksCount/25) * SECTOR_SIZE;
-		if((g_sys_para.firmPacksCount/24) % 2 == 0 ){//偶数
-			status = FlexSPI_NorFlash_Buffer_Program(FLEXSPI, g_sys_para.firmNextAddr, appBuf, SECTOR_SIZE);
-		}else{//奇数
-			status = FlexSPI_NorFlash_Buffer_Program(FLEXSPI, g_sys_para.firmNextAddr, appBuf+4096, SECTOR_SIZE);
-		}
-		if (status != kStatus_Success){
-			PRINTF("写入失败 !\r\n");
-		}
-		
 		/* 使用软件复位来重置 AHB 缓冲区. */
 		FLEXSPI_SoftwareReset(FLEXSPI);
 		
-//		PRINTF("升级文件:\r\n");
-//		for(uint32_t i = 0;i<g_sys_para.firmSizeTotal; i++){
-//			if(i%16 == 0) PRINTF("\n");
-//			PRINTF("%02X ",*(uint8_t *)(FlexSPI_AMBA_BASE + APP_START_SECTOR * SECTOR_SIZE+i));
-//		}
+		PRINTF("升级文件:\r\n");
+		
+		for(uint32_t i = 0;i<g_sys_para.firmSizeTotal; i++){
+			if(i%16 == 0) PRINTF("\n");
+			PRINTF("%02X ",*(uint8_t *)(FlexSPI_AMBA_BASE + APP_START_SECTOR * SECTOR_SIZE+i));
+		}
 	
         crc = CRC16((uint8_t *)(FlexSPI_AMBA_BASE + APP_START_SECTOR * SECTOR_SIZE), g_sys_para.firmSizeTotal);
 		PRINTF("\nCRC=%d",crc);

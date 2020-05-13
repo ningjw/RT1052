@@ -31,7 +31,6 @@ static void InitSysPara()
     g_sys_para.firmUpdate = false;
     g_sys_para.firmPacksCount = 0;
     g_sys_para.firmSizeCurrent = 0;
-    g_sys_para.firmNextAddr = APP_START_SECTOR * SECTOR_SIZE;
 	
 //	g_sys_para.Ltc1063Clk = 2000000;
 //	QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
@@ -106,7 +105,7 @@ int main(void)
 	PRINTF("app:\r\n");
     InitSysPara();              /* 初始化系统变量*/
     FlexSPI_NorFlash_Init();    /* 初始化FlexSPI*/
-//    NorFlash_ChkSelf();         /* 对FlexSPI自检*/
+    NorFlash_ChkSelf();         /* 对FlexSPI自检*/
 //    PWM1_Config();
 //    PWM1_Start();
 //    PWM1_Stop();

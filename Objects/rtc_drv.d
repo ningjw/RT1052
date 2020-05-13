@@ -82,6 +82,7 @@
 .\objects\rtc_drv.o: .\User\inc\core_delay.h
 .\objects\rtc_drv.o: .\User\inc\norflash_drv.h
 .\objects\rtc_drv.o: .\User\inc\utility.h
+.\objects\rtc_drv.o: .\User\inc\flexspi.h
 .\objects\rtc_drv.o: .\fatfs\ff.h
 .\objects\rtc_drv.o: .\fatfs\integer.h
 .\objects\rtc_drv.o: .\fatfs\ffconf.h

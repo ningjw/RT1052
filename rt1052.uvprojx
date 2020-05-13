@@ -714,6 +714,11 @@
                 </FileArmAds>
               </FileOption>
             </File>
+            <File>
+              <FileName>flexspi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\flexspi.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1535,6 +1540,11 @@
                   </Cads>
                 </FileArmAds>
               </FileOption>
+            </File>
+            <File>
+              <FileName>flexspi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\flexspi.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -9,11 +9,10 @@
 
 
 #define EXAMPLE_SECTOR      64//4096      /* 要进行读写测试的扇区号 */
-#define EXAMPLE_SIZE        170       /* 读写测试的数据量，单位为字节*/
 
 /* 读写测试使用的缓冲区 */
-uint8_t s_nor_program_buffer[EXAMPLE_SIZE];
-uint8_t s_nor_read_buffer[EXAMPLE_SIZE];
+extern uint8_t s_nor_program_buffer[];
+extern uint8_t s_nor_read_buffer[];
 
 extern status_t FlexSPI_NorFlash_Enable_QE(FLEXSPI_Type *base);
 extern uint8_t  FlexSPI_FlashUUID_Get_ISSI(uint8_t *buf);
@@ -62,39 +61,19 @@ int NorFlash_ChkSelf(void)
     }
     
     /***************************一次写入一个扇区数据测试****************************/
-    for (i = 0; i < EXAMPLE_SIZE; i++){
+    for (i = 0; i < FIRM_ONE_LEN; i++){
         s_nor_program_buffer[i] = (uint8_t)i;
     }
-    
-    /* 擦除指定扇区 */
-    status = FlexSPI_NorFlash_Erase_Sector(FLEXSPI, EXAMPLE_SECTOR * SECTOR_SIZE);
-    if (status != kStatus_Success)
-    {
-        PRINTF("擦除flash扇区失败 !\r\n");
-        return -1;
-    }
-	
-    /* 写入一个扇区的数据 */
-    status = FlexSPI_NorFlash_Buffer_Program(FLEXSPI,
-                                             EXAMPLE_SECTOR * SECTOR_SIZE,
-                                             (void *)s_nor_program_buffer,
-                                             EXAMPLE_SIZE);
-    if (status != kStatus_Success)
-    {
-        PRINTF("写入失败 !\r\n");
-        return -1;
-    }
-    
-    /* 使用软件复位来重置 AHB 缓冲区. */
-    FLEXSPI_SoftwareReset(FLEXSPI);
+
+	FlexSPI_FlashWrite(s_nor_program_buffer, EXAMPLE_SECTOR * SECTOR_SIZE + FIRM_ONE_LEN*i, FIRM_ONE_LEN);
 
     /* 读取数据 */
     memcpy(s_nor_read_buffer, 
-           NORFLASH_AHB_POINTER(EXAMPLE_SECTOR * SECTOR_SIZE + EXAMPLE_SIZE),
-           EXAMPLE_SIZE);
+           NORFLASH_AHB_POINTER(EXAMPLE_SECTOR * SECTOR_SIZE + FIRM_ONE_LEN),
+           FIRM_ONE_LEN);
     
     /* 把读出的数据与写入的比较 */
-    if (memcmp(s_nor_program_buffer, s_nor_read_buffer,EXAMPLE_SIZE))
+    if (memcmp(s_nor_program_buffer, s_nor_read_buffer,FIRM_ONE_LEN))
     {
         PRINTF("写入数据，读出数据不正确 !\r\n ");
         return -1;

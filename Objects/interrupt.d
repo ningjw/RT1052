@@ -82,6 +82,7 @@
 .\objects\interrupt.o: .\User\inc\core_delay.h
 .\objects\interrupt.o: .\User\inc\norflash_drv.h
 .\objects\interrupt.o: .\User\inc\utility.h
+.\objects\interrupt.o: .\User\inc\flexspi.h
 .\objects\interrupt.o: .\fatfs\ff.h
 .\objects\interrupt.o: .\fatfs\integer.h
 .\objects\interrupt.o: .\fatfs\ffconf.h

@@ -418,7 +418,7 @@ instance:
       - enableTx: 'true'
       - enableRx: 'true'
   - interruptsCfg:
-    - interrupts: 'kLPUART_RxDataRegFullInterruptEnable'
+    - interrupts: 'kLPUART_RxDataRegFullInterruptEnable kLPUART_RxOverrunInterruptEnable kLPUART_FramingErrorInterruptEnable'
     - interrupt_vectors:
       - enable_rx_tx_irq: 'true'
       - interrupt_rx_tx:
@@ -448,7 +448,7 @@ const lpuart_config_t LPUART2_config = {
 
 void LPUART2_init(void) {
   LPUART_Init(LPUART2_PERIPHERAL, &LPUART2_config, LPUART2_CLOCK_SOURCE);
-  LPUART_EnableInterrupts(LPUART2_PERIPHERAL, kLPUART_RxDataRegFullInterruptEnable);
+  LPUART_EnableInterrupts(LPUART2_PERIPHERAL, kLPUART_RxDataRegFullInterruptEnable | kLPUART_RxOverrunInterruptEnable | kLPUART_FramingErrorInterruptEnable);
   /* Enable interrupt LPUART2_IRQn request in the NVIC */
   EnableIRQ(LPUART2_SERIAL_RX_TX_IRQN);
 }

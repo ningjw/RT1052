@@ -82,6 +82,7 @@
 .\objects\led_app.o: .\User\inc\core_delay.h
 .\objects\led_app.o: .\User\inc\norflash_drv.h
 .\objects\led_app.o: .\User\inc\utility.h
+.\objects\led_app.o: .\User\inc\flexspi.h
 .\objects\led_app.o: .\fatfs\ff.h
 .\objects\led_app.o: .\fatfs\integer.h
 .\objects\led_app.o: .\fatfs\ffconf.h

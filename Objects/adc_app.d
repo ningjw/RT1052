@@ -82,6 +82,7 @@
 .\objects\adc_app.o: .\User\inc\core_delay.h
 .\objects\adc_app.o: .\User\inc\norflash_drv.h
 .\objects\adc_app.o: .\User\inc\utility.h
+.\objects\adc_app.o: .\User\inc\flexspi.h
 .\objects\adc_app.o: .\fatfs\ff.h
 .\objects\adc_app.o: .\fatfs\integer.h
 .\objects\adc_app.o: .\fatfs\ffconf.h
