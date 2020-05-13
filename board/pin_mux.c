@@ -136,6 +136,7 @@ BOARD:
   - {pin_num: J12, peripheral: LPI2C3, signal: SDA, pin_signal: GPIO_AD_B1_06, identifier: '', software_input_on: Enable, pull_keeper_select: Keeper, pull_keeper_enable: Enable,
     open_drain: Enable, slew_rate: Slow}
   - {pin_num: K10, peripheral: LPI2C3, signal: SCL, pin_signal: GPIO_AD_B1_07, identifier: '', software_input_on: Enable, open_drain: Enable, slew_rate: Slow}
+  - {pin_num: D10, peripheral: PWM1, signal: 'TRIG, 0', pin_signal: GPIO_B0_13}
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS ***********
  */
 
@@ -167,14 +168,14 @@ void BOARD(void) {
   /* Initialize GPIO functionality on GPIO_AD_B0_10 (pin G13) */
   GPIO_PinInit(GPIO1, 10U, &BTM_MODE_config);
 
-  /* GPIO configuration of E103_SETDF on GPIO_AD_B0_11 (pin G10) */
-  gpio_pin_config_t E103_SETDF_config = {
+  /* GPIO configuration on GPIO_B0_13 (pin D10) */
+  gpio_pin_config_t gpio1_pinD10_config = {
       .direction = kGPIO_DigitalOutput,
       .outputLogic = 0U,
       .interruptMode = kGPIO_NoIntmode
   };
-  /* Initialize GPIO functionality on GPIO_AD_B0_11 (pin G10) */
-  GPIO_PinInit(GPIO1, 11U, &E103_SETDF_config);
+  /* Initialize GPIO functionality on GPIO_B0_13 (pin D10) */
+  GPIO_PinInit(GPIO1, 11U, &gpio1_pinD10_config);
 
   /* GPIO configuration of BLE_STATUS on GPIO_AD_B0_14 (pin H14) */
   gpio_pin_config_t BLE_STATUS_config = {
@@ -441,6 +442,9 @@ void BOARD(void) {
       IOMUXC_GPIO_B0_12_GPIO2_IO12,           /* GPIO_B0_12 is configured as GPIO2_IO12 */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
+      IOMUXC_GPIO_B0_13_XBAR1_INOUT11,        /* GPIO_B0_13 is configured as XBAR1_INOUT11 */
+      0U);                                    /* Software Input On Field: Input Path is determined by functionality */
+  IOMUXC_SetPinMux(
       IOMUXC_GPIO_B0_14_GPIO2_IO14,           /* GPIO_B0_14 is configured as GPIO2_IO14 */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_SetPinMux(
@@ -528,10 +532,12 @@ void BOARD(void) {
       IOMUXC_GPIO_SD_B1_11_FLEXSPIA_DATA03,   /* GPIO_SD_B1_11 is configured as FLEXSPIA_DATA03 */
       0U);                                    /* Software Input On Field: Input Path is determined by functionality */
   IOMUXC_GPR->GPR6 = ((IOMUXC_GPR->GPR6 &
-    (~(IOMUXC_GPR_GPR6_QTIMER1_TRM0_INPUT_SEL_MASK | IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL_MASK))) /* Mask bits to zero which are setting */
+    (~(IOMUXC_GPR_GPR6_QTIMER1_TRM0_INPUT_SEL_MASK | IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL_MASK | IOMUXC_GPR_GPR6_IOMUXC_XBAR_DIR_SEL_11_MASK))) /* Mask bits to zero which are setting */
       | IOMUXC_GPR_GPR6_QTIMER1_TRM0_INPUT_SEL(0x00U) /* QTIMER1 TMR0 input select: input from IOMUX */
       | IOMUXC_GPR_GPR6_QTIMER3_TRM0_INPUT_SEL(0x00U) /* QTIMER3 TMR0 input select: input from IOMUX */
+      | IOMUXC_GPR_GPR6_IOMUXC_XBAR_DIR_SEL_11(0x01U) /* IOMUXC XBAR_INOUT11 function direction select: XBAR_INOUT as output */
     );
+  XBARA_SetSignalsConnection(XBARA1, kXBARA1_InputFlexpwm1Pwm1OutTrig01, kXBARA1_OutputIomuxXbarInout11); /* FLEXPWM1_PWM1_OUT_TRIG0_1 output assigned to XBARA1_IN40 input is connected to XBARA1_OUT11 output assigned to IOMUX_XBAR_INOUT11 */
   XBARA_SetSignalsConnection(XBARA1, kXBARA1_InputPitTrigger0, kXBARA1_OutputAdcEtcXbar0Trig0); /* PIT_TRIGGER0 output assigned to XBARA1_IN56 input is connected to XBARA1_OUT103 output assigned to ADC_ETC_XBAR0_TRIG0 */
   IOMUXC_SetPinConfig(
       IOMUXC_GPIO_AD_B1_00_LPI2C1_SCL,        /* GPIO_AD_B1_00 PAD functional properties : */

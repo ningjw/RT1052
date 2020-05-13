@@ -31,6 +31,8 @@ void PIT_IRQHandler(void)
         /* 清除中断标志位.*/
         PIT_ClearStatusFlags(PIT, kPIT_Chnl_2, kPIT_TimerFlag);
 		
+//		PRINTF("每1S输出");
+		
 		//在采集数据时,每间隔1S获取一次温度数据
 		if (g_sys_para.tempCount < sizeof(Temperature) && g_sys_para.WorkStatus){
 			Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();

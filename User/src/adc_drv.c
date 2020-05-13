@@ -62,7 +62,46 @@ void PWM1_Config(void)
     IOMUXC_GPR->GPR6 |= IOMUXC_GPR_GPR6_IOMUXC_XBAR_DIR_SEL_12(0x01U); 
 }
 
-
+/***************************************************************************************
+  * @brief   配置PWM1,输出ADC芯片采集时钟
+  * @input
+  * @return
+***************************************************************************************/
+void ADC_PwmClkConfig(void)
+{
+	pwm_config_t pwmConfig;
+    pwm_signal_param_t pwmSignal;
+    
+    CLOCK_SetDiv(kCLOCK_IpgDiv, 0x3);
+    
+    //Route the PWMA output to the PWM_OUT_TRIG0 port
+    PWM1->SM[0].TCTRL |= PWM_TCTRL_PWAOT0_MASK;
+    //禁止错误检测
+    PWM1->SM[0].DISMAP[0]=0;
+    PWM_GetDefaultConfig(&pwmConfig);
+    pwmConfig.reloadLogic = kPWM_ReloadPwmFullCycle; //全周期更新
+    pwmConfig.pairOperation = kPWM_Independent;      //PWMA，PWMB各自独立输出
+    pwmConfig.enableDebugMode = true;                //使能 Debug 模式
+    PWM_Init(PWM1, kPWM_Module_0, &pwmConfig);       //初始化PWM1的通道0
+    
+    pwmSignal.pwmChannel = kPWM_PwmA;             //配置PWMA
+    pwmSignal.level = kPWM_LowTrue;               //有效电平为低
+    pwmSignal.dutyCyclePercent = 50;              //占空比50%        
+    /*配置PWM1 通道0 有符号中心对齐 PWM信号频率为6250000Hz*/
+    PWM_SetupPwm(PWM1, kPWM_Module_0, &pwmSignal, 1, kPWM_SignedCenterAligned, 6250000, CLOCK_GetFreq(kCLOCK_IpgClk));
+    /*设置Set LDOK 位，将初始化参数加载到相应的寄存器*/
+    PWM_SetPwmLdok(PWM1, kPWM_Control_Module_0, true);
+    /* 开启PWM 输出*/
+    PWM_StartTimer(PWM1, kPWM_Control_Module_0);
+	
+	/* GPIO_B0_13 is configured as XBAR1_INOUT11 */
+    IOMUXC_SetPinMux(IOMUXC_GPIO_B0_13_XBAR1_INOUT11,0U); 
+    /*设置IO12为输出模式*/
+    IOMUXC_GPR->GPR6 |= IOMUXC_GPR_GPR6_IOMUXC_XBAR_DIR_SEL_11(0x01U); 
+	//停止时该引脚输出高电平
+//    XBARA_SetSignalsConnection(XBARA1,kXBARA1_InputLogicHigh,kXBARA1_OutputIomuxXbarInout11);
+	XBARA_SetSignalsConnection(XBARA1, kXBARA1_InputFlexpwm1Pwm1OutTrig01, kXBARA1_OutputIomuxXbarInout11);
+}
 
 /***************************************************************************************
   * @brief   开始输出PWM1

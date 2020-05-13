@@ -114,7 +114,7 @@ void SwitchSystemClocks(lpm_power_mode_t power_mode)
 //        CLOCK_SET_MUX(kCLOCK_SemcMux, 0);    // SEMC复用到PERIPH_CLK
         /* CORE CLK至24MHz，AHB，IPG，PERCLK至12MHz */
         CLOCK_SET_DIV(kCLOCK_PerclkDiv, 0);
-        CLOCK_SET_DIV(kCLOCK_IpgDiv, 1);
+        CLOCK_SET_DIV(kCLOCK_IpgDiv, 3);
         CLOCK_SET_DIV(kCLOCK_AhbDiv, 0);
         CLOCK_SET_MUX(kCLOCK_PerclkMux, 0); // PERCLK mux到IPG CLK
         break;

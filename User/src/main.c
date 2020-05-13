@@ -107,7 +107,6 @@ int main(void)
     InitSysPara();              /* 初始化系统变量*/
     FlexSPI_NorFlash_Init();    /* 初始化FlexSPI*/
 //    NorFlash_ChkSelf();         /* 对FlexSPI自检*/
-//	LPM_Init();
 //    PWM1_Config();
 //    PWM1_Start();
 //    PWM1_Stop();
@@ -115,7 +114,7 @@ int main(void)
 //	LPM_Init();
 //    APP_SetRunMode(LPM_PowerModeFullRun);
 //    LPM_FullSpeedRun();
-	
+	ADC_PwmClkConfig();
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);/*1ms中断，FreeRTOS使用*/
 	
     /* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 

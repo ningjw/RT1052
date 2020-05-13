@@ -121,7 +121,7 @@ BOARD:
   - {pin_num: K1, peripheral: USDHC1, signal: 'usdhc_data, 1', pin_signal: GPIO_SD_B0_03, speed: MHZ_100, slew_rate: Fast}
   - {pin_num: H2, peripheral: USDHC1, signal: 'usdhc_data, 2', pin_signal: GPIO_SD_B0_04, speed: MHZ_100, slew_rate: Fast}
   - {pin_num: J2, peripheral: USDHC1, signal: 'usdhc_data, 3', pin_signal: GPIO_SD_B0_05, speed: MHZ_100, slew_rate: Fast}
-  - {pin_num: M12, peripheral: LPUART2, signal: RX, pin_signal: GPIO_AD_B1_03}
+  - {pin_num: M12, peripheral: LPUART2, signal: RX, pin_signal: GPIO_AD_B1_03, direction: INPUT}
   - {peripheral: ADC_ETC, signal: 'XBAR0_TRIG, 0', pin_signal: PIT_TRIGGER0}
   - {pin_num: C10, peripheral: GPIO2, signal: 'gpio_io, 12', pin_signal: GPIO_B0_12, direction: OUTPUT, gpio_init_state: 'true'}
   - {pin_num: P3, peripheral: FLEXSPI, signal: FLEXSPI_A_DATA0, pin_signal: GPIO_SD_B1_08, speed: MHZ_200, slew_rate: Fast}

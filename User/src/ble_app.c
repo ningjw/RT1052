@@ -102,9 +102,8 @@ void BLE_AppTask(void)
 
     SET_COMMOND_MODE();
 
-    //设置波特率为230400
-    xReturn = AT_SendCmd(BT_BAUD, "230400", BT_BAUD, &g_at_cfg);
-    LPUART_SetBaudRate(LPUART2, 230400, LPUART2_CLOCK_SOURCE);
+//    xReturn = AT_SendCmd(BT_BAUD, "115200", BT_BAUD, &g_at_cfg);
+//    LPUART_SetBaudRate(LPUART2, 230400, LPUART2_CLOCK_SOURCE);
 
     /* 设置蓝牙名称 */
     xReturn = AT_SendCmd(BT_NAME, DEVICE_BLE_NAME, RESP_OK, &g_at_cfg);
@@ -238,7 +237,7 @@ void LPUART2_IRQHandler(void)
         g_puart2RxCnt = 0;
         LPUART_Deinit(LPUART2);
         LPUART2_init();
-        LPUART_SetBaudRate(LPUART2, 230400, LPUART2_CLOCK_SOURCE);
+        LPUART_SetBaudRate(LPUART2, 203400, LPUART2_CLOCK_SOURCE);
     }
     __DSB();
 }
@@ -262,7 +261,7 @@ void LPUART2_TimeTick(void)
 //				g_sys_para.bleLedStatus = BLE_CONNECT;//蓝牙升级超时
 //				PRINTF("接受数据超时,退出升级模式");
 //			}else 
-			if(g_puart2RxTimeCnt >= 1500){
+			if(g_puart2RxTimeCnt >= 1000){
 				g_puart2RxTimeCnt = 0;
 				
 				PRINTF("\n包id = %d\n",g_lpuart2RxBuf[2] | (g_lpuart2RxBuf[3]<<8));

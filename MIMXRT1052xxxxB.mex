@@ -155,6 +155,11 @@
                         <data>true</data>
                      </feature>
                   </dependency>
+                  <dependency resourceType="Peripheral" resourceId="PWM1" description="Peripheral PWM1 is not initialized" problem_level="1" source="Pins:BOARD">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
                   <dependency resourceType="SWComponent" resourceId="platform.drivers.common" description="Pins initialization requires the COMMON Driver in the project." problem_level="2" source="Pins:BOARD">
                      <feature name="enabled" evaluation="equal" configuration="core0">
                         <data>true</data>
@@ -496,6 +501,7 @@
                         <pin_feature name="slew_rate" value="Slow"/>
                      </pin_features>
                   </pin>
+                  <pin peripheral="PWM1" signal="TRIG, 0" pin_num="D10" pin_signal="GPIO_B0_13"/>
                </pins>
             </function>
          </functions_list>
