@@ -44,7 +44,6 @@ void NorFlash_SaveFirmPara(void)
 ***************************************************************************************/
 void NorFlash_AddAdcInfo(char *adcJsonData)
 {
-	
 	AdcInfoTotal adcInfoTotal;
 	AdcInfo adcInfo;
 	
@@ -115,7 +114,6 @@ void NorFlash_AddAdcInfo(char *adcJsonData)
 ***************************************************************************************/
 uint32_t NorFlash_ReadAdcData(char *adcDataTime)
 {
-	char *jsonAdcData;
 	uint32_t tempAddr;
 	AdcInfoTotal adcInfoTotal;
 	AdcInfo adcInfo;
@@ -153,7 +151,6 @@ uint32_t NorFlash_ReadAdcData(char *adcDataTime)
 ***************************************************************************************/
 void NorFlash_ReadAdcInfo(int si, int num, char *buf)
 {
-	char *jsonAdcData;
 	uint32_t tempAddr;
 	AdcInfoTotal adcInfoTotal;
 	AdcInfo adcInfo;
