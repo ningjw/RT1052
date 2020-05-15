@@ -7,7 +7,7 @@
 #define READ_STDBY_STA     GPIO_PinRead(BOARD_BAT_STDBY_GPIO,BOARD_BAT_STDBY_PIN)
 
 TaskHandle_t BAT_TaskHandle = NULL;  /* 电池管理任务句柄 */
-static uint8_t set_battery_full = false;
+
 float remain;
 /***********************************************************************
   * @ 函数名  ： BAT_AppTask
@@ -25,45 +25,47 @@ void BAT_AppTask(void)
 
     // Set prescaler M value
     // M=64 for 2000mAh battery,
-    LTC2942_SetPrescaler(LTC2942_PSCM_128);
+    LTC2942_SetPrescaler(LTC2942_PSCM_64);
 
-    //Charge Mode
+    //设置充电模式
     LTC2942_SetALCCMode(LTC2942_ALCC_CHG);
 
     PRINTF("Battery Task Create and Running\r\n");
 
     while(1)
     {
-        // Battery voltage
+        // 获取电池电压
         g_sys_para.batVoltage = LTC2942_GetVoltage() / 1000.0;
 
-        // Chip temperature
+        // 获取温度传感器温度
         g_sys_para.batTemp = LTC2942_GetTemperature() / 100.0;
 
-        // Accumulated charge
-        g_sys_para.batRemainPercent = LTC2942_GetAC() * 100.0 / 65535;
+        // 获取电量百分比
+        g_sys_para.batRemainPercent = LTC2942_GetAC() * 100.0 / 0xFFFF;
         
-        //battery is in charging
         if(READ_CHARGE_STA == 0 && READ_STDBY_STA == 1) {//充电当中
-            set_battery_full = false;
             g_sys_para.batLedStatus = BAT_CHARGING;
             BAT_CHG_UNCOMPLETE;
+			if (g_sys_para.batRemainPercent == 100){//充电当中检测到电量为100%, 改为99%
+				g_sys_para.batRemainPercent = 99;
+			}
         } else if(READ_CHARGE_STA == 1 && READ_STDBY_STA == 0) { //充电完成
             g_sys_para.batLedStatus = BAT_FULL;
-            if(set_battery_full == false) {
-                set_battery_full = true;
-                LTC2942_SetAC(0xFFFF);
-            }
+            LTC2942_SetAC(0xFFFF);
         } else if(g_sys_para.batRemainPercent <= g_sys_para.batAlarmValue) { //电量低于报警值
             g_sys_para.batLedStatus = BAT_ALARM;
-            set_battery_full = false;
+			if(g_sys_para.batRemainPercent == 0){//放电当中,电量为0,手动改为1
+				g_sys_para.batRemainPercent = 1;
+			}
         } else if(g_sys_para.batRemainPercent <= 20) { //电量低于20%
-            set_battery_full = false;
             g_sys_para.batLedStatus = BAT_LOW20;
+			if(g_sys_para.batRemainPercent == 0){//放电当中,电量为0,手动改为1
+				g_sys_para.batRemainPercent = 1;
+			}
         } else {
-            set_battery_full = false;
             g_sys_para.batLedStatus = BAT_NORMAL;
         }
+		
         vTaskDelay(2000);
     }
 }

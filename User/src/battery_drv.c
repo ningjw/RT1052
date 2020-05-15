@@ -29,7 +29,7 @@ static void LTC2942_WriteReg(uint8_t reg, uint8_t value) {
     masterXfer.dataSize = 1;
     masterXfer.flags = kLPI2C_TransferDefaultFlag;
     
-	LPI2C_MasterTransferBlocking(LTC2942_I2C_MASTER, &masterXfer);
+	LPI2C_MasterTransferBlocking(I2C1_MASTER, &masterXfer);
 }
 
 
@@ -50,7 +50,7 @@ static uint8_t LTC2942_ReadReg(uint8_t reg) {
     masterXfer.dataSize = 1;
     masterXfer.flags = kLPI2C_TransferRepeatedStartFlag;
 
-    LPI2C_MasterTransferBlocking(LTC2942_I2C_MASTER, &masterXfer);
+    LPI2C_MasterTransferBlocking(I2C1_MASTER, &masterXfer);
 	return value;
 }
 
@@ -219,11 +219,11 @@ void LTC2942_SetAnalog(uint8_t state) {
 }
 
 
-// The function converts the 16-bit RAW adc_code to Coulombs
-float LTC2942_code_to_coulombs(void)
-{
-	float coulomb_charge;
-	coulomb_charge =  1000*(float)(LTC2942_GetAC()*LTC2942_CHARGE_lsb*128*50E-3)/(100*128);
-	coulomb_charge = coulomb_charge*3.6f;
-	return(coulomb_charge);
-}
+//// The function converts the 16-bit RAW adc_code to Coulombs
+//float LTC2942_code_to_coulombs(void)
+//{
+//	float coulomb_charge;
+//	coulomb_charge =  1000*(float)(LTC2942_GetAC()*LTC2942_CHARGE_lsb*128*50E-3)/(100*128);
+//	coulomb_charge = coulomb_charge*3.6f;
+//	return(coulomb_charge);
+//}

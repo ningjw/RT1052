@@ -100,7 +100,17 @@ void ADC_PwmClkConfig(void)
     IOMUXC_GPR->GPR6 |= IOMUXC_GPR_GPR6_IOMUXC_XBAR_DIR_SEL_11(0x01U); 
 	//停止时该引脚输出高电平
 //    XBARA_SetSignalsConnection(XBARA1,kXBARA1_InputLogicHigh,kXBARA1_OutputIomuxXbarInout11);
+	
+}
+
+void ADC_PwmClkStart(void)
+{
 	XBARA_SetSignalsConnection(XBARA1, kXBARA1_InputFlexpwm1Pwm1OutTrig01, kXBARA1_OutputIomuxXbarInout11);
+}
+
+void ADC_PwmClkStop(void)
+{
+	XBARA_SetSignalsConnection(XBARA1,kXBARA1_InputLogicHigh,kXBARA1_OutputIomuxXbarInout11); 
 }
 
 /***************************************************************************************

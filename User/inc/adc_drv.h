@@ -9,5 +9,8 @@ void PWM1_Config(void);
 void PWM1_Start(void);
 void PWM1_Stop(void);
 void ADC_PwmClkConfig(void);
+void ADC_PwmClkStart(void);
+void ADC_PwmClkStop(void);
+
 
 #endif

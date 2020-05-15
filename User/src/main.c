@@ -18,7 +18,6 @@ static void InitSysPara()
     g_sys_para.inactiveCondition = 1;//默认蓝牙没有通信是开始计时
     g_sys_para.inactiveTime = 15;    //默认15分钟没有活动后，自动关机。
     g_sys_para.batAlarmValue = 10;   //电池电量报警值
-    g_sys_para.inactiveCondition = 1;//蓝牙连接没有通信后,15分钟关机.
 	
     g_adc_set.SampleRate = 5120;     //取样频率
     g_sys_para.sampNumber = 6144;    //12288;    //取样点数,

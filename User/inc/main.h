@@ -8,9 +8,12 @@
 //#define FIRM_INFO_ADDR    (0x6001F000U)
 //#define FIRM_DATA_ADDR    (0x60020000U)
 
-#define APP_INFO_SECTOR    63 /* 升级信息保存在NorFlash的第63个扇区*/
-#define APP_START_SECTOR   64 /* App数据从第64个扇区开始保存 */
-#define FIRM_ONE_PACKE_LEN 166
+#define APP_INFO_SECTOR    128 /* 升级信息保存在NorFlash的第63个扇区*/
+#define APP_START_SECTOR   129 /* App数据从第64个扇区开始保存 */
+#define ADC_INFO_SECTOR    256 //用于管理ADC数据
+#define ADC_DATA_SECTOR    257
+
+#define FIRM_ONE_PACKE_LEN 166 
 #define FIRM_ONE_LEN (FIRM_ONE_PACKE_LEN - 6)
 
 #include "stdint.h"
@@ -59,7 +62,7 @@
 #include "flexspi.h"
 #include "ff.h"
 #include "diskio.h"
-
+#include "si5351_drv.h"
 
 #include "ble_protocol.h"
 #include "ble_app.h"
@@ -68,18 +71,34 @@
 #include "led_app.h"
 #include "norflash_app.h"
 
+
+
+typedef struct{
+	uint32_t totalAdcInfo;
+	uint32_t addrOfNewInfo;
+	uint32_t addrOfNewData;
+}AdcInfoTotal;
+
+typedef struct{
+	uint32_t AdcDataAddr;//ADC数据地址
+	uint32_t AdcDataLen; //ADC数据长度
+	char  AdcDataTime[12];//ADC数据采集时间
+}AdcInfo;
+
 //该结构体定义了需要保存到EEPROM中的参数
 typedef struct{
-    uint8_t  firmUpdate;    //固件更新
-    uint32_t firmSizeTotal; //固件总大小
-    uint32_t firmCrc16;     //固件校验码
-    uint32_t firmPacksTotal;//固件总包数
-    uint32_t firmPacksCount;//当前接受的固件包数
-    uint32_t firmSizeCurrent;//当前接受到的固件大小
-    uint32_t firmCurrentAddr;  //下一次数据需要保存的地址
-	uint32_t firmByteCount; //当前接受到的字节数
+    uint8_t  firmUpdate;     //固件更新
+    uint32_t firmSizeTotal;  //固件总大小
+    uint32_t firmCrc16;      //固件校验码
+    uint32_t firmPacksTotal; //固件总包数
+//	uint32_t batEnergyInFlash;
 	
-	uint32_t inactiveCount;//用于设置活动时间
+    uint32_t firmPacksCount; //当前接受的固件包数
+    uint32_t firmSizeCurrent;//当前接受到的固件大小
+    uint32_t firmCurrentAddr;//下一次数据需要保存的地址
+	uint32_t firmByteCount;  //当前接受到的字节数
+	
+	uint32_t inactiveCount;  //用于设置活动时间
     uint8_t  inactiveTime;   //用于设置活动时间
     uint8_t  batAlarmValue;  //电池电量报警值
     uint8_t  inactiveCondition;//用于设置触发条件
@@ -96,7 +115,7 @@ typedef struct{
     float    batRemainPercent;//充电百分比
 	
     uint32_t sampNumber;  //取样时间
-    uint32_t Ltc1063Clk;      //取样时钟频率
+    uint32_t Ltc1063Clk;  //取样时钟频率
 	uint32_t sampSize;     //将采集到的数据,打包成json格式后的总长度
     char*    sampJson;     //已经打包成json格式的数据的首地址
 	

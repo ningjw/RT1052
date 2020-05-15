@@ -95,7 +95,7 @@ I (.\User\inc\battery_app.h)(0x5E721AB0)
 I (.\User\inc\led_app.h)(0x5E848B83)
 I (.\User\inc\norflash_app.h)(0x5E721AB0)
 F (.\User\inc\main.h)(0x5EBBAF69)()
-F (.\User\src\norflash_app.c)(0x5EBBB212)(--c99 -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip -I .\sdmmc\inc -I .\sdmmc\port\freertos -I .\fatfs -I .\fatfs\fsl_mmc_disk -I .\cjson --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_nor_sdram-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="529" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DSKIP_SYSCLK_INIT="1" -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1"-o .\objects\norflash_app.o --depend .\objects\norflash_app.d)
+F (.\User\src\norflash_app.c)(0x5EBBE88B)(--c99 -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip -I .\sdmmc\inc -I .\sdmmc\port\freertos -I .\fatfs -I .\fatfs\fsl_mmc_disk -I .\cjson --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_nor_sdram-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="529" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DSKIP_SYSCLK_INIT="1" -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1"-o .\objects\norflash_app.o --depend .\objects\norflash_app.d)
 I (.\User\inc\main.h)(0x5EBBAF69)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5D9AD218)
 I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5D9AD218)
@@ -377,7 +377,7 @@ I (.\User\inc\adc_app.h)(0x5EBB48BB)
 I (.\User\inc\battery_app.h)(0x5E721AB0)
 I (.\User\inc\led_app.h)(0x5E848B83)
 I (.\User\inc\norflash_app.h)(0x5E721AB0)
-F (.\User\src\ble_protocol.c)(0x5EBBAF75)(--c99 -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip -I .\sdmmc\inc -I .\sdmmc\port\freertos -I .\fatfs -I .\fatfs\fsl_mmc_disk -I .\cjson --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_nor_sdram-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="529" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DSKIP_SYSCLK_INIT="1" -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1"-o .\objects\ble_protocol.o --depend .\objects\ble_protocol.d)
+F (.\User\src\ble_protocol.c)(0x5EBBE8F4)(--c99 -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip -I .\sdmmc\inc -I .\sdmmc\port\freertos -I .\fatfs -I .\fatfs\fsl_mmc_disk -I .\cjson --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_nor_sdram-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="529" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DSKIP_SYSCLK_INIT="1" -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1"-o .\objects\ble_protocol.o --depend .\objects\ble_protocol.d)
 I (.\User\inc\main.h)(0x5EBBAF69)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5D9AD218)
 I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5D9AD218)
@@ -565,7 +565,7 @@ I (.\User\inc\adc_app.h)(0x5EBB48BB)
 I (.\User\inc\battery_app.h)(0x5E721AB0)
 I (.\User\inc\led_app.h)(0x5E848B83)
 I (.\User\inc\norflash_app.h)(0x5E721AB0)
-F (.\User\src\battery_app.c)(0x5E984E7E)(--c99 -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip -I .\sdmmc\inc -I .\sdmmc\port\freertos -I .\fatfs -I .\fatfs\fsl_mmc_disk -I .\cjson --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_nor_sdram-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="529" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DSKIP_SYSCLK_INIT="1" -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1"-o .\objects\battery_app.o --depend .\objects\battery_app.d)
+F (.\User\src\battery_app.c)(0x5EBBEA97)(--c99 -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip -I .\sdmmc\inc -I .\sdmmc\port\freertos -I .\fatfs -I .\fatfs\fsl_mmc_disk -I .\cjson --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_nor_sdram-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="529" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DSKIP_SYSCLK_INIT="1" -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1"-o .\objects\battery_app.o --depend .\objects\battery_app.d)
 I (.\User\inc\main.h)(0x5EBBAF69)
 I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5D9AD218)
 I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5D9AD218)
@@ -754,7 +754,6 @@ I (.\User\inc\battery_app.h)(0x5E721AB0)
 I (.\User\inc\led_app.h)(0x5E848B83)
 I (.\User\inc\norflash_app.h)(0x5E721AB0)
 F (.\User\inc\led_app.h)(0x5E848B83)()
-F (.\User\src\lpm_app.c)(0x5EB8A9BE)()
 F (.\cjson\cJSON.c)(0x5E8ED1EE)(--c99 -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip -I .\sdmmc\inc -I .\sdmmc\port\freertos -I .\fatfs -I .\fatfs\fsl_mmc_disk -I .\cjson --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_nor_sdram-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="529" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DSKIP_SYSCLK_INIT="1" -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1"-o .\objects\cjson.o --depend .\objects\cjson.d)
 I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5D9AD218)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5D9AD21A)
@@ -1438,143 +1437,6 @@ I (.\fatfs\diskio.h)(0x5E7E0875)
 I (.\User\inc\ble_protocol.h)(0x5E721AB0)
 I (.\User\inc\ble_app.h)(0x5E9853DF)
 I (.\User\inc\adc_app.h)(0x5EBB48BB)
-I (.\User\inc\battery_app.h)(0x5E721AB0)
-I (.\User\inc\led_app.h)(0x5E848B83)
-I (.\User\inc\norflash_app.h)(0x5E721AB0)
-F (.\User\src\lpm.c)(0x5EA45C70)(--c99 -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip -I .\sdmmc\inc -I .\sdmmc\port\freertos -I .\fatfs -I .\fatfs\fsl_mmc_disk -I .\cjson --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_nor_sdram-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="529" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DSKIP_SYSCLK_INIT="1" -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1"-o .\objects\lpm.o --depend .\objects\lpm.d)
-I (.\User\inc\lpm.h)(0x5DDD725E)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5D9AD218)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_clock.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h)(0x5CFC4A9E)
-I (D:\Keil_v5\ARM\ARMCC\include\assert.h)(0x5D9AD212)
-I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5D9AD218)
-I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5D9AD218)
-I (D:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5D9AD21A)
-I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5E7E0873)
-I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5E7E0873)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm7.h)(0x5D2590B6)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_version.h)(0x5D2590B6)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5D2590B6)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5D2590B6)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h)(0x5C8F4DD4)
-I (.\RTE\Device\MIMXRT1052CVL5B\system_MIMXRT1052.h)(0x5E7E0873)
-I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h)(0x5E7E0873)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpc.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dcdc.h)(0x5CFC4A9E)
-I (.\User\inc\specific.h)(0x5DDD725E)
-F (.\User\src\specific.c)(0x5DDD725E)(--c99 -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip -I .\sdmmc\inc -I .\sdmmc\port\freertos -I .\fatfs -I .\fatfs\fsl_mmc_disk -I .\cjson --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_nor_sdram-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="529" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DSKIP_SYSCLK_INIT="1" -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1"-o .\objects\specific.o --depend .\objects\specific.d)
-I (.\User\inc\specific.h)(0x5DDD725E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h)(0x5CFC4A9E)
-I (D:\Keil_v5\ARM\ARMCC\include\assert.h)(0x5D9AD212)
-I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5D9AD218)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5D9AD218)
-I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5D9AD218)
-I (D:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5D9AD21A)
-I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5E7E0873)
-I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5E7E0873)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm7.h)(0x5D2590B6)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_version.h)(0x5D2590B6)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5D2590B6)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5D2590B6)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h)(0x5C8F4DD4)
-I (.\RTE\Device\MIMXRT1052CVL5B\system_MIMXRT1052.h)(0x5E7E0873)
-I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h)(0x5E7E0873)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_clock.h)(0x5CFC4A9E)
-I (.\User\inc\lpm.h)(0x5DDD725E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_iomuxc.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h)(0x5CFC4A9E)
-F (.\User\src\power_mode_switch_bm.c)(0x5EA460FA)(--c99 -c --cpu Cortex-M7.fp.dp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\board -I .\User\inc -I .\xip -I .\sdmmc\inc -I .\sdmmc\port\freertos -I .\fatfs -I .\fatfs\fsl_mmc_disk -I .\cjson --library_interface=armcc --library_type=standardlib --diag_suppress=66,1296,186  -I.\RTE\Device\MIMXRT1052CVL5B-I.\RTE\RTOS-I.\RTE\_nor_sdram-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\RTOS2\Include-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\lists-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\uart-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console-IC:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\str-D__UVISION_VERSION="529" -D_RTE_ -DCPU_MIMXRT1052CVL5B -DSKIP_SYSCLK_INIT="1" -DCPU_MIMXRT1052CVL5B -DXIP_EXTERNAL_FLASH="1" -DXIP_BOOT_HEADER_ENABLE="1" -DXIP_BOOT_HEADER_DCD_ENABLE="1" -DPRINTF_FLOAT_ENABLE="1" -DPRINTF_ADVANCED_ENABLE="1"-o .\objects\power_mode_switch_bm.o --depend .\objects\power_mode_switch_bm.d)
-I (.\User\inc\main.h)(0x5EA46027)
-I (D:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x5D9AD218)
-I (D:\Keil_v5\ARM\ARMCC\include\string.h)(0x5D9AD218)
-I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x5D9AD21A)
-I (D:\Keil_v5\ARM\ARMCC\include\time.h)(0x5D9AD212)
-I (.\board\clock_config.h)(0x5EA44B66)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_common.h)(0x5CFC4A9E)
-I (D:\Keil_v5\ARM\ARMCC\include\assert.h)(0x5D9AD212)
-I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x5D9AD218)
-I (D:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x5D9AD21A)
-I (.\RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h)(0x5E7E0873)
-I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h)(0x5E7E0873)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm7.h)(0x5D2590B6)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_version.h)(0x5D2590B6)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_compiler.h)(0x5D2590B6)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_armcc.h)(0x5D2590B6)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h)(0x5C8F4DD4)
-I (.\RTE\Device\MIMXRT1052CVL5B\system_MIMXRT1052.h)(0x5E7E0873)
-I (.\RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h)(0x5E7E0873)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_clock.h)(0x5CFC4A9E)
-I (.\board\peripherals.h)(0x5EA4F15C)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_edma.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dmamux.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_lp.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_pit.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpi2c.h)(0x5CFC4A9E)
-I (D:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x5D9AD218)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_qtmr.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpuart_edma.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_lpspi.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_adc_etc.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_snvs_hp.h)(0x5CFC4A9E)
-I (.\board\pin_mux.h)(0x5E7E0873)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpio.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\utilities\debug_console\fsl_debug_console.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_manager.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\components\serial_manager\serial_port_uart.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_iomuxc.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_xbara.h)(0x5CFC4A9E)
-I (.\User\inc\fsl_flexspi.h)(0x5E721AB0)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_flexio.h)(0x5CFC4A9E)
-I (.\sdmmc\inc\fsl_mmc.h)(0x5E7E0875)
-I (.\sdmmc\inc\fsl_sdmmc_common.h)(0x5E7E0875)
-I (.\sdmmc\inc\fsl_sdmmc_host.h)(0x5E7E0875)
-I (.\User\inc\emmc_drv.h)(0x5E7E001E)
-I (.\User\inc\pad_config.h)(0x5E721AB1)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_usdhc.h)(0x5CFC4A9E)
-I (.\sdmmc\inc\fsl_sdmmc_spec.h)(0x5E7E0875)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_dcdc.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_src.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_pwm.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpc.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\NXP\MIMXRT1052_DFP\12.0.0\drivers\fsl_gpt.h)(0x5CFC4A9E)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\FreeRTOS.h)(0x5CAFE262)
-I (.\RTE\RTOS\FreeRTOSConfig.h)(0x5E7E0873)
-I (.\RTE\_nor_sdram\RTE_Components.h)(0x5E7E0873)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\Include\freertos_evr.h)(0x5CAFE25C)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\projdefs.h)(0x5CAFE262)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\portable.h)(0x5CAFE262)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\deprecated_definitions.h)(0x5CAFE262)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\portable\RVDS\ARM_CM7\r0p1\portmacro.h)(0x5CAFE264)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\mpu_wrappers.h)(0x5CAFE262)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\task.h)(0x5CAFE262)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\list.h)(0x5CAFE262)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\semphr.h)(0x5CAFE262)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\queue.h)(0x5CAFE262)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\event_groups.h)(0x5CAFE262)
-I (C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\Source\include\timers.h)(0x5CAFE262)
-I (.\User\inc\power_mode_switch_bm.h)(0x5EA460F7)
-I (.\User\inc\lpm.h)(0x5DDD725E)
-I (.\User\inc\specific.h)(0x5DDD725E)
-I (.\cjson\cJSON.h)(0x5E7E0875)
-I (.\User\inc\interrupt.h)(0x5E721AB0)
-I (.\User\inc\rtc_drv.h)(0x5E721AB1)
-I (.\User\inc\adc_drv.h)(0x5E721AE3)
-I (.\User\inc\battery_drv.h)(0x5E95BB9D)
-I (.\User\inc\iic_temp_drv.h)(0x5E721AB0)
-I (.\User\inc\core_delay.h)(0x5E721AB0)
-I (.\User\inc\norflash_drv.h)(0x5E721AB0)
-I (.\User\inc\utility.h)(0x5E721AB1)
-I (.\fatfs\ff.h)(0x5E7E0875)
-I (.\fatfs\integer.h)(0x5E7E0875)
-I (.\fatfs\ffconf.h)(0x5E7E0875)
-I (.\fatfs\diskio.h)(0x5E7E0875)
-I (.\User\inc\ble_protocol.h)(0x5E721AB0)
-I (.\User\inc\ble_app.h)(0x5E9853DF)
-I (.\User\inc\adc_app.h)(0x5E7F154C)
 I (.\User\inc\battery_app.h)(0x5E721AB0)
 I (.\User\inc\led_app.h)(0x5E848B83)
 I (.\User\inc\norflash_app.h)(0x5E721AB0)

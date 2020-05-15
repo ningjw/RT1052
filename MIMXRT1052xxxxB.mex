@@ -1001,7 +1001,23 @@
                            <setting name="enableRoundRobinArbitration" value="false"/>
                            <setting name="enableDebugMode" value="false"/>
                         </struct>
-                        <array name="dma_table"/>
+                        <array name="dma_table">
+                           <struct name="0"/>
+                           <struct name="1"/>
+                           <struct name="2"/>
+                           <struct name="3"/>
+                           <struct name="4"/>
+                           <struct name="5"/>
+                           <struct name="6"/>
+                           <struct name="7"/>
+                           <struct name="8"/>
+                           <struct name="9"/>
+                           <struct name="10"/>
+                           <struct name="11"/>
+                           <struct name="12"/>
+                           <struct name="13"/>
+                           <struct name="14"/>
+                        </array>
                         <array name="edma_channels"/>
                      </config_set>
                   </instance>
@@ -1388,10 +1404,10 @@
                   <instance name="ADC1" type="adc_12b1msps_sar" type_id="adc_12b1msps_sar_6a490e886349a7b2b07bed10ce7b299b" mode="ADC_GENERAL" peripheral="ADC1" enabled="true">
                      <config_set name="fsl_adc">
                         <struct name="clockConfig">
-                           <setting name="clockSource" value="kADC_ClockSourceIPG"/>
+                           <setting name="clockSource" value="kADC_ClockSourceIPGDiv2"/>
                            <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
                            <setting name="clockDriver" value="kADC_ClockDriver1"/>
-                           <setting name="samplePeriodMode" value="kADC_SamplePeriodShort6Clocks"/>
+                           <setting name="samplePeriodMode" value="kADC_SamplePeriodShort2Clocks"/>
                            <setting name="enableAsynchronousClockOutput" value="true"/>
                         </struct>
                         <struct name="conversionConfig">

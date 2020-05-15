@@ -2,8 +2,8 @@
 #define __BATTERY_DRV_H
 
 // LTC2942 HAL
-#define LTC2942_I2C_MASTER_BASE         LPI2C1_BASE // I2C port where the LTC2942 connected
-#define LTC2942_I2C_MASTER              ((LPI2C_Type *)LTC2942_I2C_MASTER_BASE)
+#define I2C1_MASTER_BASE         LPI2C1_BASE // I2C port where the LTC2942 connected
+#define I2C1_MASTER              ((LPI2C_Type *)I2C1_MASTER_BASE)
 // LTC2942 address
 #define LTC2942_ADDR                    (0x64)
 
@@ -88,6 +88,6 @@ void LTC2942_SetADCMode(uint8_t mode);
 void LTC2942_SetPrescaler(uint8_t psc);
 void LTC2942_SetALCCMode(uint8_t mode);
 void LTC2942_SetAnalog(uint8_t state);
-float LTC2942_code_to_coulombs(void);
+
 
 #endif

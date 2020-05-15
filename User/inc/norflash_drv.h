@@ -9,10 +9,10 @@
 
 
 /* FLASH相关特性 */
-#define FLASH_SIZE          (32*1024)  /* 单位为KByte,256Mb = 32768KByte */
+#define FLASH_SIZE          (32*1024)  /* 单位为KByte */
 #define FLASH_PAGE_SIZE      256     /* 页大小 */
 #define SECTOR_SIZE         (4*1024)  /* 扇区大小4K */
-
+#define FLASH_SIZE_BYTE     (32*1024*1024)
 /* 使用的FLASH地址宽度，单位：bit */
 #define FLASH_ADDR_LENGTH    32              
 

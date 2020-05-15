@@ -485,10 +485,10 @@ char *PacketSampleData(void)
 
     /*将打包好的数据保存到文件 */
     if (NULL != g_sys_para.sampJson) {
-        g_sys_para.sampSize = strlen(g_sys_para.sampJson);
-        eMMC_SaveSampleData(g_sys_para.sampJson, g_sys_para.sampSize);
+        
+//        eMMC_SaveSampleData(g_sys_para.sampJson, g_sys_para.sampSize);
 //        //将数据通过串口打印出来
-        PRINTF("%s", g_sys_para.sampJson);
+//        PRINTF("%s", g_sys_para.sampJson);
     }
 
     return g_sys_para.sampJson;
@@ -698,41 +698,29 @@ static char* GetManageFile(cJSON *pJson, cJSON * pSub)
     FRESULT res;
     UINT    br;
     char   *fileStr;
-    extern FIL   g_fileObject ;
-    int sid = 0, num = 0, offset = 0;
-
-	eMMC_GetFree();
+    int sid = 0, num = 0, si = 0, len = 0;
 	
     /*解析消息内容,*/
     pSub = cJSON_GetObjectItem(pJson, "Sid");
     if(pSub != NULL) {
         sid = pSub->valueint;
     }
+	pSub = cJSON_GetObjectItem(pJson, "Sid");
+    if(pSub != NULL) {
+        sid = pSub->valueint;
+    }
+	pSub = cJSON_GetObjectItem(pJson, "Sid");
+    if(pSub != NULL) {
+        sid = pSub->valueint;
+    }
 
     //申请内存用于保存文件内容
-    fileStr = malloc(200);
-    memset(fileStr, 0U, 200);
+	len = num * 13 + 1;
+    fileStr = malloc(len);
+    memset(fileStr, 0U, len);
 
-    /*以可写方式打开文件*/
-    res = f_open(&g_fileObject, _T("manage.txt"), (FA_READ));
-    if(res == FR_OK) {
-        num = g_fileObject.obj.objsize / 13 + (g_fileObject.obj.objsize%13?1:0);//文件名长度12个字符+1个逗号分隔符
-    }
-
-    if(sid <= num && res == FR_OK) {
-        /*定位到指定位置,并读取文件的内容到 fileStr 缓冲区*/
-		if (g_fileObject.obj.objsize > ((sid +1)* 130)){
-			offset = g_fileObject.obj.objsize - ((sid +1)* 130);
-		}else{
-			offset = 0;
-		}
-        f_lseek(&g_fileObject, offset);
-        res = f_read(&g_fileObject, fileStr, 130, &br);//每次读取10个文件名
-    } else {
-        fileStr = NULL;
-    }
-    f_close(&g_fileObject);
-
+    NorFlash_ReadAdcInfo(si, num, fileStr);
+	
     /*制作cjson格式的回复消息*/
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot) {
@@ -761,8 +749,7 @@ static char* GetSampleFile(cJSON *pJson, cJSON * pSub)
 {
     FRESULT res;
     UINT    br;
-    char   *fileStr;
-    extern FIL   g_fileObject ;
+    uint32_t addrOfAdcData;
     char fileName[15] = {0};
 
     /*解析消息内容,*/
@@ -771,21 +758,12 @@ static char* GetSampleFile(cJSON *pJson, cJSON * pSub)
         strcpy(fileName,pSub->valuestring);
     }
 
-    /*以可写方式打开文件*/
-    res = f_open(&g_fileObject, fileName, (FA_READ));
-    if(res == FR_OK) {
-        //申请内存用于保存文件内容
-        fileStr = malloc(g_fileObject.obj.objsize);
-        memset(fileStr, 0U, g_fileObject.obj.objsize);
+    /*从flash读取文件*/
+	addrOfAdcData = NorFlash_ReadAdcData(fileName);
+    if(addrOfAdcData != NULL) {
 
-        /*读取文件的内容到 fileStr 缓冲区*/
-        for (int i=0;; i++) {
-            res = f_read(&g_fileObject, fileStr+i*4096, 4096, &br);
-            if (res || br == 0) break; /* error or eof */
-        }
-
-        /*将读出来的文件数据按照json格式进行解析*/
-        cJSON *pFileJson = cJSON_Parse((char *)fileStr);
+        /*将数据按照json格式进行解析*/
+        cJSON *pFileJson = cJSON_Parse(NORFLASH_AHB_POINTER(addrOfAdcData));
         if(NULL == pFileJson) {
             return NULL;
         }
@@ -947,8 +925,6 @@ static char* GetSampleFile(cJSON *pJson, cJSON * pSub)
 
         cJSON_Delete(pFileJson);
     }
-    f_close(&g_fileObject);
-
 
     /*制作cjson格式的回复消息*/
     cJSON *pJsonRoot = cJSON_CreateObject();
@@ -965,9 +941,6 @@ static char* GetSampleFile(cJSON *pJson, cJSON * pSub)
     cJSON_AddNumberToObject(pJsonRoot, "packs",g_sys_para.sampPacks);
     char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
-
-    free(fileStr);
-    fileStr = NULL;
 
     return p_reply;
 }

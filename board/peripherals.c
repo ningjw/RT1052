@@ -59,7 +59,22 @@ instance:
       - enableHaltOnError: 'true'
       - enableRoundRobinArbitration: 'false'
       - enableDebugMode: 'false'
-    - dma_table: []
+    - dma_table:
+      - 0: []
+      - 1: []
+      - 2: []
+      - 3: []
+      - 4: []
+      - 5: []
+      - 6: []
+      - 7: []
+      - 8: []
+      - 9: []
+      - 10: []
+      - 11: []
+      - 12: []
+      - 13: []
+      - 14: []
     - edma_channels: []
     - quick_selection: 'default'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
@@ -806,10 +821,10 @@ instance:
 - config_sets:
   - fsl_adc:
     - clockConfig:
-      - clockSource: 'kADC_ClockSourceIPG'
+      - clockSource: 'kADC_ClockSourceIPGDiv2'
       - clockSourceFreq: 'BOARD_BootClockRUN'
       - clockDriver: 'kADC_ClockDriver1'
-      - samplePeriodMode: 'kADC_SamplePeriodShort6Clocks'
+      - samplePeriodMode: 'kADC_SamplePeriodShort2Clocks'
       - enableAsynchronousClockOutput: 'true'
     - conversionConfig:
       - resolution: 'kADC_Resolution12Bit'
@@ -851,8 +866,8 @@ const adc_config_t ADC1_config = {
   .enableLongSample = false,
   .enableAsynchronousClockOutput = true,
   .referenceVoltageSource = kADC_ReferenceVoltageSourceAlt0,
-  .samplePeriodMode = kADC_SamplePeriodShort6Clocks,
-  .clockSource = kADC_ClockSourceIPG,
+  .samplePeriodMode = kADC_SamplePeriodShort2Clocks,
+  .clockSource = kADC_ClockSourceIPGDiv2,
   .clockDriver = kADC_ClockDriver1,
   .resolution = kADC_Resolution12Bit
 };
