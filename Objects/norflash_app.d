@@ -87,6 +87,7 @@
 .\objects\norflash_app.o: .\fatfs\integer.h
 .\objects\norflash_app.o: .\fatfs\ffconf.h
 .\objects\norflash_app.o: .\fatfs\diskio.h
+.\objects\norflash_app.o: .\User\inc\si5351_drv.h
 .\objects\norflash_app.o: .\User\inc\ble_protocol.h
 .\objects\norflash_app.o: .\User\inc\ble_app.h
 .\objects\norflash_app.o: .\User\inc\adc_app.h

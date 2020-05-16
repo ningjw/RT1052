@@ -138,6 +138,6 @@ status_t FlexSPI_NorFlash_Buffer_Read(FLEXSPI_Type *base,
                                       uint8_t *dst,
                                       uint16_t dataSize);
                                      
-
+void FlexSPI_FlashWrite(uint8_t* pBuffer,uint32_t WriteAddr,uint16_t NumByteToWrite);
                                       
 #endif /* __BSP_NORFLASH_H */

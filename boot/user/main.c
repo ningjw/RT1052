@@ -6,9 +6,9 @@
 #include "./norflash/bsp_norflash.h"
 
 #define FIRM_APP_ADDR     0x60010000		//	APP代码起始地址
-
-#define APP_INFO_SECTOR    63 /* 升级信息保存在NorFlash的第63个扇区*/
-#define APP_START_SECTOR   64 /* App数据从第64个扇区开始保存 */
+#define FIRM_APP_SECTOR    16
+#define APP_INFO_SECTOR    128 
+#define APP_START_SECTOR   129 
 /*******************************************************************
  * Prototypes
  *******************************************************************/
@@ -22,7 +22,7 @@ __asm void MSR_MSP(uint32_t address)
 	MSR MSP, r0
 	BX r14
 }
-
+__align(64) uint8_t s_nor_read_buffer[SECTOR_SIZE];
 //该结构体定义了需要保存到EEPROM中的参数
 typedef struct{
     uint8_t  firmUpdate;    //固件更新
@@ -42,21 +42,22 @@ void jumpToApp(void)
 	/*	判断地址是否合法	*/
 	if((FIRM_APP_ADDR&0xFF000000) == 0x60000000){
 		//读取升级参数
-		memcpy(&UpdatePara.firmUpdate,(uint8_t *)(FlexSPI_AMBA_BASE + APP_INFO_SECTOR * SECTOR_SIZE), 13);
+		memcpy(&UpdatePara.firmUpdate, NORFLASH_AHB_POINTER(APP_INFO_SECTOR * SECTOR_SIZE), 16);
 		if (UpdatePara.firmUpdate == true){//需要更新系统
-			UpdatePara.firmUpdate = false;
-			FlexSPI_NorFlash_Erase_Sector(FLEXSPI, APP_INFO_SECTOR * SECTOR_SIZE);
-			//将标识位写入flash
-			FlexSPI_NorFlash_Buffer_Program(FLEXSPI, APP_INFO_SECTOR * SECTOR_SIZE, &UpdatePara.firmUpdate, 13);
 			
-			PRINTF("复制升级文件:\r\n");
-			for(uint32_t i = 0;i<UpdatePara.firmSizeTotal; i++){
-				if(i%16 == 0) PRINTF("\n");
-				PRINTF("%02X ",*(uint8_t *)(FlexSPI_AMBA_BASE + APP_START_SECTOR * SECTOR_SIZE+i));
+			for(int i=0; i<=UpdatePara.firmSizeTotal/SECTOR_SIZE; i++){
+				memcpy(s_nor_read_buffer,NORFLASH_AHB_POINTER((APP_START_SECTOR+i) * SECTOR_SIZE), SECTOR_SIZE);
+				
+				FlexSPI_FlashWrite(s_nor_read_buffer,(FIRM_APP_SECTOR+i)*SECTOR_SIZE ,SECTOR_SIZE);
 			}
-		
+			
 			/*最新的app复制到运行处	*/
-			memcpy((void*)FIRM_APP_ADDR, (uint8_t *)(FlexSPI_AMBA_BASE + APP_START_SECTOR * SECTOR_SIZE), UpdatePara.firmSizeTotal);
+//			memcpy((void*)FIRM_APP_ADDR, (uint8_t *)(FlexSPI_AMBA_BASE + APP_START_SECTOR * SECTOR_SIZE), UpdatePara.firmSizeTotal);
+		
+			//将标识位写入flash
+//			UpdatePara.firmUpdate = false;
+//			FlexSPI_NorFlash_Erase_Sector(FLEXSPI, APP_INFO_SECTOR * SECTOR_SIZE);
+//			FlexSPI_NorFlash_Buffer_Program(FLEXSPI, APP_INFO_SECTOR * SECTOR_SIZE, &UpdatePara.firmUpdate, 13);
 		}
 		
 		PRINTF("Jump to app\n");

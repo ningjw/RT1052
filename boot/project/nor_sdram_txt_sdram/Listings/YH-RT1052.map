@@ -262,8 +262,7 @@ Section Cross References
     pin_mux.o(i.BOARD_InitPins) refers to pin_mux.o(i.IOMUXC_SetPinMux) for IOMUXC_SetPinMux
     pin_mux.o(i.CLOCK_EnableClock) refers to fsl_assert.o(i.__aeabi_assert) for __aeabi_assert
     main.o(i.jumpToApp) refers to memmovea.o(.text) for __aeabi_memcpy4
-    main.o(i.jumpToApp) refers to bsp_norflash.o(i.FlexSPI_NorFlash_Erase_Sector) for FlexSPI_NorFlash_Erase_Sector
-    main.o(i.jumpToApp) refers to bsp_norflash.o(i.FlexSPI_NorFlash_Buffer_Program) for FlexSPI_NorFlash_Buffer_Program
+    main.o(i.jumpToApp) refers to bsp_norflash.o(i.FlexSPI_FlashWrite) for FlexSPI_FlashWrite
     main.o(i.jumpToApp) refers to fsl_debug_console.o(i.DbgConsole_Printf) for DbgConsole_Printf
     main.o(i.jumpToApp) refers to main.o(.emb_text) for MSR_MSP
     main.o(i.jumpToApp) refers to main.o(.bss) for UpdatePara
@@ -274,19 +273,18 @@ Section Cross References
     main.o(i.main) refers to board.o(i.BOARD_InitDebugConsole) for BOARD_InitDebugConsole
     main.o(i.main) refers to bsp_norflash.o(i.FlexSPI_NorFlash_Init) for FlexSPI_NorFlash_Init
     main.o(i.main) refers to main.o(i.jumpToApp) for jumpToApp
-    norflash_test.o(i.NorFlash_AHBCommand_Test) refers to fsl_debug_console.o(i.DbgConsole_Printf) for DbgConsole_Printf
-    norflash_test.o(i.NorFlash_AHBCommand_Test) refers to bsp_norflash.o(i.FlexSPI_NorFlash_Get_JedecDevice_ID) for FlexSPI_NorFlash_Get_JedecDevice_ID
-    norflash_test.o(i.NorFlash_AHBCommand_Test) refers to bsp_norflash.o(i.FlexSPI_NorFlash_Erase_Sector) for FlexSPI_NorFlash_Erase_Sector
-    norflash_test.o(i.NorFlash_AHBCommand_Test) refers to memmovea.o(.text) for __aeabi_memcpy
-    norflash_test.o(i.NorFlash_AHBCommand_Test) refers to memseta.o(.text) for __aeabi_memset
-    norflash_test.o(i.NorFlash_AHBCommand_Test) refers to memcmp.o(.text) for memcmp
-    norflash_test.o(i.NorFlash_AHBCommand_Test) refers to bsp_norflash.o(i.FlexSPI_NorFlash_Buffer_Program) for FlexSPI_NorFlash_Buffer_Program
-    norflash_test.o(i.NorFlash_AHBCommand_Test) refers to norflash_test.o(.bss) for s_nor_read_buffer
     bsp_norflash.o(i.CLOCK_SetDiv) refers to fsl_assert.o(i.__aeabi_assert) for __aeabi_assert
     bsp_norflash.o(i.CLOCK_SetDiv) refers to bsp_norflash.o(i.CLOCK_SetMux) for i.CLOCK_SetMux
     bsp_norflash.o(i.CLOCK_SetMux) refers to fsl_assert.o(i.__aeabi_assert) for __aeabi_assert
+    bsp_norflash.o(i.FlexSPI_FlashPage_Write) refers to bsp_norflash.o(i.FlexSPI_NorFlash_Write_Enable) for FlexSPI_NorFlash_Write_Enable
+    bsp_norflash.o(i.FlexSPI_FlashPage_Write) refers to bsp_norflash.o(i.FlexSPI_NorFlash_Wait_Bus_Busy) for FlexSPI_NorFlash_Wait_Bus_Busy
+    bsp_norflash.o(i.FlexSPI_FlashPage_Write) refers to fsl_flexspi.o(i.FLEXSPI_TransferBlocking) for FLEXSPI_TransferBlocking
     bsp_norflash.o(i.FlexSPI_FlashUUID_Get_ISSI) refers to fsl_flexspi.o(i.FLEXSPI_TransferBlocking) for FLEXSPI_TransferBlocking
     bsp_norflash.o(i.FlexSPI_FlashUUID_Get_WB) refers to fsl_flexspi.o(i.FLEXSPI_TransferBlocking) for FLEXSPI_TransferBlocking
+    bsp_norflash.o(i.FlexSPI_FlashWrite) refers to bsp_norflash.o(i.FlexSPI_FlashRead) for FlexSPI_FlashRead
+    bsp_norflash.o(i.FlexSPI_FlashWrite) refers to bsp_norflash.o(i.FlexSPI_NorFlash_Erase_Sector) for FlexSPI_NorFlash_Erase_Sector
+    bsp_norflash.o(i.FlexSPI_FlashWrite) refers to bsp_norflash.o(i.FlexSPI_Write_NoCheck) for FlexSPI_Write_NoCheck
+    bsp_norflash.o(i.FlexSPI_FlashWrite) refers to bsp_norflash.o(.bss) for FLEXSPI_FLASH_BUFFER
     bsp_norflash.o(i.FlexSPI_NorFlash_Buffer_Program) refers to bsp_norflash.o(i.FlexSPI_NorFlash_Page_Program) for FlexSPI_NorFlash_Page_Program
     bsp_norflash.o(i.FlexSPI_NorFlash_Buffer_Read) refers to fsl_flexspi.o(i.FLEXSPI_TransferBlocking) for FLEXSPI_TransferBlocking
     bsp_norflash.o(i.FlexSPI_NorFlash_Enable_Quad_Mode) refers to bsp_norflash.o(i.FlexSPI_NorFlash_Read_Status_Register) for FlexSPI_NorFlash_Read_Status_Register
@@ -312,6 +310,7 @@ Section Cross References
     bsp_norflash.o(i.FlexSPI_NorFlash_Write_Status_Register) refers to bsp_norflash.o(i.FlexSPI_NorFlash_Write_Enable) for FlexSPI_NorFlash_Write_Enable
     bsp_norflash.o(i.FlexSPI_NorFlash_Write_Status_Register) refers to fsl_flexspi.o(i.FLEXSPI_TransferBlocking) for FLEXSPI_TransferBlocking
     bsp_norflash.o(i.FlexSPI_NorFlash_Write_Status_Register) refers to bsp_norflash.o(i.FlexSPI_NorFlash_Wait_Bus_Busy) for FlexSPI_NorFlash_Wait_Bus_Busy
+    bsp_norflash.o(i.FlexSPI_Write_NoCheck) refers to bsp_norflash.o(i.FlexSPI_FlashPage_Write) for FlexSPI_FlashPage_Write
     bsp_norflash.o(i.NorFlash_FlexSPI_ModeInit) refers to fsl_clock.o(i.CLOCK_InitUsb1Pll) for CLOCK_InitUsb1Pll
     bsp_norflash.o(i.NorFlash_FlexSPI_ModeInit) refers to fsl_clock.o(i.CLOCK_InitUsb1Pfd) for CLOCK_InitUsb1Pfd
     bsp_norflash.o(i.NorFlash_FlexSPI_ModeInit) refers to bsp_norflash.o(i.CLOCK_SetMux) for CLOCK_SetMux
@@ -621,18 +620,15 @@ Removing Unused input sections from the image.
     Removing main.o(.rev16_text), (4 bytes).
     Removing main.o(.revsh_text), (4 bytes).
     Removing main.o(.rrx_text), (6 bytes).
-    Removing norflash_test.o(.rev16_text), (4 bytes).
-    Removing norflash_test.o(.revsh_text), (4 bytes).
-    Removing norflash_test.o(.rrx_text), (6 bytes).
-    Removing norflash_test.o(i.NorFlash_AHBCommand_Test), (888 bytes).
-    Removing norflash_test.o(.bss), (8192 bytes).
     Removing bsp_norflash.o(.rev16_text), (4 bytes).
     Removing bsp_norflash.o(.revsh_text), (4 bytes).
     Removing bsp_norflash.o(.rrx_text), (6 bytes).
     Removing bsp_norflash.o(i.FlexSPI_FlashUUID_Get_ISSI), (56 bytes).
     Removing bsp_norflash.o(i.FlexSPI_FlashUUID_Get_WB), (56 bytes).
+    Removing bsp_norflash.o(i.FlexSPI_NorFlash_Buffer_Program), (214 bytes).
     Removing bsp_norflash.o(i.FlexSPI_NorFlash_Buffer_Read), (60 bytes).
     Removing bsp_norflash.o(i.FlexSPI_NorFlash_Get_Device_ID), (62 bytes).
+    Removing bsp_norflash.o(i.FlexSPI_NorFlash_Page_Program), (88 bytes).
     Removing core_delay.o(.rev16_text), (4 bytes).
     Removing core_delay.o(.revsh_text), (4 bytes).
     Removing core_delay.o(.rrx_text), (6 bytes).
@@ -651,7 +647,7 @@ Removing Unused input sections from the image.
     Removing d2f.o(.text), (56 bytes).
     Removing fepilogue.o(.text), (110 bytes).
 
-183 unused section(s) (total 22194 bytes) removed from the image.
+180 unused section(s) (total 13402 bytes) removed from the image.
 
 ==============================================================================
 
@@ -661,32 +657,31 @@ Image Symbol Table
 
     Symbol Name                              Value     Ov Type        Size  Object(Section)
 
-    ../clib/microlib/ctype/ctype.c           0x00000000   Number         0  isspace_c.o ABSOLUTE
     ../clib/microlib/ctype/ctype.c           0x00000000   Number         0  ctype_c.o ABSOLUTE
-    ../clib/microlib/division.c              0x00000000   Number         0  uldiv.o ABSOLUTE
+    ../clib/microlib/ctype/ctype.c           0x00000000   Number         0  isspace_c.o ABSOLUTE
     ../clib/microlib/division.c              0x00000000   Number         0  ldiv.o ABSOLUTE
+    ../clib/microlib/division.c              0x00000000   Number         0  uldiv.o ABSOLUTE
     ../clib/microlib/errno.c                 0x00000000   Number         0  errno.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry4.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE
-    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  malloc2.o ABSOLUTE
-    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  mallocr2.o ABSOLUTE
     ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  malloca2.o ABSOLUTE
     ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  mallocra2.o ABSOLUTE
+    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  mallocr2.o ABSOLUTE
+    ../clib/microlib/malloc/malloc.c         0x00000000   Number         0  malloc2.o ABSOLUTE
     ../clib/microlib/malloc/mvars.c          0x00000000   Number         0  mvars.o ABSOLUTE
-    ../clib/microlib/string/memcmp.c         0x00000000   Number         0  memcmp.o ABSOLUTE
     ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpya.o ABSOLUTE
     ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memmovea.o ABSOLUTE
     ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memmoveb.o ABSOLUTE
@@ -694,13 +689,13 @@ Image Symbol Table
     ../clib/microlib/string/memset.c         0x00000000   Number         0  memseta.o ABSOLUTE
     ../clib/microlib/string/strlen.c         0x00000000   Number         0  strlen.o ABSOLUTE
     ../clib/microlib/stubs.s                 0x00000000   Number         0  iusefp.o ABSOLUTE
-    ../clib/scanf.c                          0x00000000   Number         0  scanf_fp.o ABSOLUTE
     ../clib/scanf.c                          0x00000000   Number         0  _sgetc.o ABSOLUTE
+    ../clib/scanf.c                          0x00000000   Number         0  scanf_fp.o ABSOLUTE
     ../clib/scanf.c                          0x00000000   Number         0  strtod.o ABSOLUTE
     ../fplib/microlib/d2f.c                  0x00000000   Number         0  d2f.o ABSOLUTE
     ../fplib/microlib/fpdiv.c                0x00000000   Number         0  ddiv.o ABSOLUTE
-    ../fplib/microlib/fpepilogue.c           0x00000000   Number         0  depilogue.o ABSOLUTE
     ../fplib/microlib/fpepilogue.c           0x00000000   Number         0  fepilogue.o ABSOLUTE
+    ../fplib/microlib/fpepilogue.c           0x00000000   Number         0  depilogue.o ABSOLUTE
     ../fplib/microlib/fpfix.c                0x00000000   Number         0  dfixl.o ABSOLUTE
     ../fplib/microlib/fpflt.c                0x00000000   Number         0  dfltul.o ABSOLUTE
     ../fplib/microlib/fpflt.c                0x00000000   Number         0  dfltl.o ABSOLUTE
@@ -732,7 +727,6 @@ Image Symbol Table
     ..\\libraries\\utilities\\str\\fsl_str.c 0x00000000   Number         0  fsl_str.o ABSOLUTE
     ..\\user\\board.c                        0x00000000   Number         0  board.o ABSOLUTE
     ..\\user\\bsp\\norflash\\bsp_norflash.c  0x00000000   Number         0  bsp_norflash.o ABSOLUTE
-    ..\\user\\bsp\\norflash\\norflash_test.c 0x00000000   Number         0  norflash_test.o ABSOLUTE
     ..\\user\\clock_config.c                 0x00000000   Number         0  clock_config.o ABSOLUTE
     ..\\user\\delay\\core_delay.c            0x00000000   Number         0  core_delay.o ABSOLUTE
     ..\\user\\main.c                         0x00000000   Number         0  main.o ABSOLUTE
@@ -755,7 +749,6 @@ Image Symbol Table
     ..\libraries\utilities\str\fsl_str.c     0x00000000   Number         0  fsl_str.o ABSOLUTE
     ..\user\board.c                          0x00000000   Number         0  board.o ABSOLUTE
     ..\user\bsp\norflash\bsp_norflash.c      0x00000000   Number         0  bsp_norflash.o ABSOLUTE
-    ..\user\bsp\norflash\norflash_test.c     0x00000000   Number         0  norflash_test.o ABSOLUTE
     ..\user\clock_config.c                   0x00000000   Number         0  clock_config.o ABSOLUTE
     ..\user\delay\core_delay.c               0x00000000   Number         0  core_delay.o ABSOLUTE
     ..\user\main.c                           0x00000000   Number         0  main.o ABSOLUTE
@@ -863,103 +856,106 @@ Image Symbol Table
     i.FLEXSPI_TransferHandleIRQ              0x80001eba   Section        0  fsl_flexspi.o(i.FLEXSPI_TransferHandleIRQ)
     i.FLEXSPI_UpdateLUT                      0x80002024   Section        0  fsl_flexspi.o(i.FLEXSPI_UpdateLUT)
     i.FLEXSPI_WriteBlocking                  0x800020b4   Section        0  fsl_flexspi.o(i.FLEXSPI_WriteBlocking)
-    i.FlexSPI_NorFlash_Buffer_Program        0x8000214a   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Buffer_Program)
-    i.FlexSPI_NorFlash_Enable_Quad_Mode      0x80002220   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Enable_Quad_Mode)
-    i.FlexSPI_NorFlash_Erase_Sector          0x8000224c   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Erase_Sector)
-    i.FlexSPI_NorFlash_Get_JedecDevice_ID    0x80002296   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Get_JedecDevice_ID)
-    i.FlexSPI_NorFlash_IOMUXC_MUX_Config     0x800022e8   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_IOMUXC_MUX_Config)
-    FlexSPI_NorFlash_IOMUXC_MUX_Config       0x800022e9   Thumb Code   154  bsp_norflash.o(i.FlexSPI_NorFlash_IOMUXC_MUX_Config)
-    i.FlexSPI_NorFlash_IOMUXC_PAD_Config     0x8000238c   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_IOMUXC_PAD_Config)
-    FlexSPI_NorFlash_IOMUXC_PAD_Config       0x8000238d   Thumb Code   166  bsp_norflash.o(i.FlexSPI_NorFlash_IOMUXC_PAD_Config)
-    i.FlexSPI_NorFlash_Init                  0x8000243c   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Init)
-    i.FlexSPI_NorFlash_Page_Program          0x8000246c   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Page_Program)
-    i.FlexSPI_NorFlash_Read_Status_Register  0x800024c4   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Read_Status_Register)
-    i.FlexSPI_NorFlash_Wait_Bus_Busy         0x80002502   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Wait_Bus_Busy)
-    i.FlexSPI_NorFlash_Write_Enable          0x80002554   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Write_Enable)
-    i.FlexSPI_NorFlash_Write_Status_Register 0x80002580   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Write_Status_Register)
-    i.IOMUXC_SetPinConfig                    0x800025d2   Section        0  bsp_norflash.o(i.IOMUXC_SetPinConfig)
-    IOMUXC_SetPinConfig                      0x800025d3   Thumb Code    12  bsp_norflash.o(i.IOMUXC_SetPinConfig)
-    i.IOMUXC_SetPinMux                       0x800025de   Section        0  pin_mux.o(i.IOMUXC_SetPinMux)
-    IOMUXC_SetPinMux                         0x800025df   Thumb Code    26  pin_mux.o(i.IOMUXC_SetPinMux)
-    i.IOMUXC_SetPinMux                       0x800025f8   Section        0  bsp_norflash.o(i.IOMUXC_SetPinMux)
-    IOMUXC_SetPinMux                         0x800025f9   Thumb Code    26  bsp_norflash.o(i.IOMUXC_SetPinMux)
-    i.IO_Init                                0x80002614   Section        0  fsl_io.o(i.IO_Init)
-    i.IO_Transfer                            0x800026cc   Section        0  fsl_io.o(i.IO_Transfer)
-    i.LOG_Init                               0x80002710   Section        0  fsl_log.o(i.LOG_Init)
-    i.LOG_Pop                                0x80002734   Section        0  fsl_log.o(i.LOG_Pop)
-    i.LOG_Push                               0x80002758   Section        0  fsl_log.o(i.LOG_Push)
-    i.LPUART1_DriverIRQHandler               0x800027ac   Section        0  fsl_lpuart.o(i.LPUART1_DriverIRQHandler)
-    i.LPUART2_DriverIRQHandler               0x800027c8   Section        0  fsl_lpuart.o(i.LPUART2_DriverIRQHandler)
-    i.LPUART3_DriverIRQHandler               0x800027e4   Section        0  fsl_lpuart.o(i.LPUART3_DriverIRQHandler)
-    i.LPUART4_DriverIRQHandler               0x80002800   Section        0  fsl_lpuart.o(i.LPUART4_DriverIRQHandler)
-    i.LPUART5_DriverIRQHandler               0x8000281c   Section        0  fsl_lpuart.o(i.LPUART5_DriverIRQHandler)
-    i.LPUART6_DriverIRQHandler               0x80002838   Section        0  fsl_lpuart.o(i.LPUART6_DriverIRQHandler)
-    i.LPUART7_DriverIRQHandler               0x80002854   Section        0  fsl_lpuart.o(i.LPUART7_DriverIRQHandler)
-    i.LPUART8_DriverIRQHandler               0x80002870   Section        0  fsl_lpuart.o(i.LPUART8_DriverIRQHandler)
-    i.LPUART_ClearStatusFlags                0x8000288c   Section        0  fsl_lpuart.o(i.LPUART_ClearStatusFlags)
-    i.LPUART_GetDefaultConfig                0x800028e4   Section        0  fsl_lpuart.o(i.LPUART_GetDefaultConfig)
-    i.LPUART_GetInstance                     0x8000294c   Section        0  fsl_lpuart.o(i.LPUART_GetInstance)
-    i.LPUART_GetStatusFlags                  0x800029cc   Section        0  fsl_lpuart.o(i.LPUART_GetStatusFlags)
-    i.LPUART_Init                            0x800029dc   Section        0  fsl_lpuart.o(i.LPUART_Init)
-    i.LPUART_ReadBlocking                    0x80002ccc   Section        0  fsl_lpuart.o(i.LPUART_ReadBlocking)
-    i.LPUART_WriteBlocking                   0x80002dcc   Section        0  fsl_lpuart.o(i.LPUART_WriteBlocking)
-    i.NorFlash_FlexSPI_ModeInit              0x80002e30   Section        0  bsp_norflash.o(i.NorFlash_FlexSPI_ModeInit)
-    NorFlash_FlexSPI_ModeInit                0x80002e31   Thumb Code    88  bsp_norflash.o(i.NorFlash_FlexSPI_ModeInit)
-    i.SCB_DisableDCache                      0x80002e9c   Section        0  board.o(i.SCB_DisableDCache)
-    SCB_DisableDCache                        0x80002e9d   Thumb Code   150  board.o(i.SCB_DisableDCache)
-    i.SCB_DisableDCache                      0x80002f3c   Section        0  bsp_norflash.o(i.SCB_DisableDCache)
-    SCB_DisableDCache                        0x80002f3d   Thumb Code   150  bsp_norflash.o(i.SCB_DisableDCache)
-    i.SCB_EnableICache                       0x80002fdc   Section        0  board.o(i.SCB_EnableICache)
-    SCB_EnableICache                         0x80002fdd   Thumb Code   116  board.o(i.SCB_EnableICache)
-    i.StrFormatPrintf                        0x80003058   Section        0  fsl_str.o(i.StrFormatPrintf)
-    i.__ARM_fpclassify                       0x80003680   Section        0  fpclassify.o(i.__ARM_fpclassify)
-    i.__aeabi_assert                         0x800036b0   Section        0  fsl_assert.o(i.__aeabi_assert)
-    i.__hardfp_modf                          0x800036f4   Section        0  modf.o(i.__hardfp_modf)
-    i.__hardfp_pow                           0x800037b8   Section        0  pow.o(i.__hardfp_pow)
-    i.__kernel_poly                          0x800040b0   Section        0  poly.o(i.__kernel_poly)
-    i.__mathlib_dbl_divzero                  0x80004120   Section        0  dunder.o(i.__mathlib_dbl_divzero)
-    i.__mathlib_dbl_infnan2                  0x80004140   Section        0  dunder.o(i.__mathlib_dbl_infnan2)
-    i.__mathlib_dbl_invalid                  0x80004148   Section        0  dunder.o(i.__mathlib_dbl_invalid)
-    i.__mathlib_dbl_overflow                 0x80004160   Section        0  dunder.o(i.__mathlib_dbl_overflow)
-    i.__mathlib_dbl_underflow                0x80004178   Section        0  dunder.o(i.__mathlib_dbl_underflow)
-    i.__set_errno                            0x80004190   Section        0  errno.o(i.__set_errno)
-    i.fabs                                   0x8000419c   Section        0  fabs.o(i.fabs)
-    i.jumpToApp                              0x800041b4   Section        0  main.o(i.jumpToApp)
-    i.main                                   0x80004288   Section        0  main.o(i.main)
-    i.sqrt                                   0x800042a4   Section        0  sqrt.o(i.sqrt)
-    .constdata                               0x80004310   Section       16  fsl_clock.o(.constdata)
-    .constdata                               0x80004320   Section       72  fsl_lpuart.o(.constdata)
-    s_lpuartBases                            0x80004320   Data          36  fsl_lpuart.o(.constdata)
-    s_lpuartIRQ                              0x80004344   Data          18  fsl_lpuart.o(.constdata)
-    s_lpuartClock                            0x80004356   Data          18  fsl_lpuart.o(.constdata)
-    .constdata                               0x80004368   Section        8  fsl_flexspi.o(.constdata)
-    s_flexspiBases                           0x80004368   Data           4  fsl_flexspi.o(.constdata)
-    s_flexspiIrqs                            0x8000436c   Data           2  fsl_flexspi.o(.constdata)
-    s_flexspiClock                           0x8000436e   Data           2  fsl_flexspi.o(.constdata)
-    .constdata                               0x80004370   Section       17  clock_config.o(.constdata)
-    .constdata                               0x80004384   Section      360  bsp_norflash.o(.constdata)
-    .constdata                               0x800044f0   Section      136  pow.o(.constdata)
-    bp                                       0x800044f0   Data          16  pow.o(.constdata)
-    dp_h                                     0x80004500   Data          16  pow.o(.constdata)
-    dp_l                                     0x80004510   Data          16  pow.o(.constdata)
-    L                                        0x80004520   Data          48  pow.o(.constdata)
-    P                                        0x80004550   Data          40  pow.o(.constdata)
-    .constdata                               0x80004578   Section        8  qnan.o(.constdata)
-    .data                                    0x8000cc00   Section        4  system_mimxrt1052.o(.data)
-    .data                                    0x8000cc04   Section        8  fsl_clock.o(.data)
-    .data                                    0x8000cc0c   Section        4  fsl_lpuart.o(.data)
-    s_lpuartIsr                              0x8000cc0c   Data           4  fsl_lpuart.o(.data)
-    .data                                    0x8000cc10   Section        4  fsl_flexspi.o(.data)
-    s_flexspiHandle                          0x8000cc10   Data           4  fsl_flexspi.o(.data)
-    .data                                    0x8000cc14   Section        8  fsl_io.o(.data)
-    s_debugConsoleIO                         0x8000cc14   Data           8  fsl_io.o(.data)
-    .data                                    0x8000cc1c   Section       12  main.o(.data)
-    .data                                    0x8000cc28   Section       32  bsp_norflash.o(.data)
-    .data                                    0x8000cc48   Section        4  errno.o(.data)
-    _errno                                   0x8000cc48   Data           4  errno.o(.data)
-    .bss                                     0x8000cc4c   Section       36  fsl_lpuart.o(.bss)
-    s_lpuartHandle                           0x8000cc4c   Data          36  fsl_lpuart.o(.bss)
-    .bss                                     0x8000cc70   Section       16  main.o(.bss)
+    i.FlexSPI_FlashPage_Write                0x8000214c   Section        0  bsp_norflash.o(i.FlexSPI_FlashPage_Write)
+    i.FlexSPI_FlashRead                      0x800021a8   Section        0  bsp_norflash.o(i.FlexSPI_FlashRead)
+    i.FlexSPI_FlashWrite                     0x800021e8   Section        0  bsp_norflash.o(i.FlexSPI_FlashWrite)
+    i.FlexSPI_NorFlash_Enable_Quad_Mode      0x80002284   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Enable_Quad_Mode)
+    i.FlexSPI_NorFlash_Erase_Sector          0x800022b0   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Erase_Sector)
+    i.FlexSPI_NorFlash_Get_JedecDevice_ID    0x800022fa   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Get_JedecDevice_ID)
+    i.FlexSPI_NorFlash_IOMUXC_MUX_Config     0x8000234c   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_IOMUXC_MUX_Config)
+    FlexSPI_NorFlash_IOMUXC_MUX_Config       0x8000234d   Thumb Code   154  bsp_norflash.o(i.FlexSPI_NorFlash_IOMUXC_MUX_Config)
+    i.FlexSPI_NorFlash_IOMUXC_PAD_Config     0x800023f0   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_IOMUXC_PAD_Config)
+    FlexSPI_NorFlash_IOMUXC_PAD_Config       0x800023f1   Thumb Code   166  bsp_norflash.o(i.FlexSPI_NorFlash_IOMUXC_PAD_Config)
+    i.FlexSPI_NorFlash_Init                  0x800024a0   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Init)
+    i.FlexSPI_NorFlash_Read_Status_Register  0x800024d0   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Read_Status_Register)
+    i.FlexSPI_NorFlash_Wait_Bus_Busy         0x8000250e   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Wait_Bus_Busy)
+    i.FlexSPI_NorFlash_Write_Enable          0x80002560   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Write_Enable)
+    i.FlexSPI_NorFlash_Write_Status_Register 0x8000258c   Section        0  bsp_norflash.o(i.FlexSPI_NorFlash_Write_Status_Register)
+    i.FlexSPI_Write_NoCheck                  0x800025de   Section        0  bsp_norflash.o(i.FlexSPI_Write_NoCheck)
+    i.IOMUXC_SetPinConfig                    0x80002624   Section        0  bsp_norflash.o(i.IOMUXC_SetPinConfig)
+    IOMUXC_SetPinConfig                      0x80002625   Thumb Code    12  bsp_norflash.o(i.IOMUXC_SetPinConfig)
+    i.IOMUXC_SetPinMux                       0x80002630   Section        0  pin_mux.o(i.IOMUXC_SetPinMux)
+    IOMUXC_SetPinMux                         0x80002631   Thumb Code    26  pin_mux.o(i.IOMUXC_SetPinMux)
+    i.IOMUXC_SetPinMux                       0x8000264a   Section        0  bsp_norflash.o(i.IOMUXC_SetPinMux)
+    IOMUXC_SetPinMux                         0x8000264b   Thumb Code    26  bsp_norflash.o(i.IOMUXC_SetPinMux)
+    i.IO_Init                                0x80002664   Section        0  fsl_io.o(i.IO_Init)
+    i.IO_Transfer                            0x8000271c   Section        0  fsl_io.o(i.IO_Transfer)
+    i.LOG_Init                               0x80002760   Section        0  fsl_log.o(i.LOG_Init)
+    i.LOG_Pop                                0x80002784   Section        0  fsl_log.o(i.LOG_Pop)
+    i.LOG_Push                               0x800027a8   Section        0  fsl_log.o(i.LOG_Push)
+    i.LPUART1_DriverIRQHandler               0x800027fc   Section        0  fsl_lpuart.o(i.LPUART1_DriverIRQHandler)
+    i.LPUART2_DriverIRQHandler               0x80002818   Section        0  fsl_lpuart.o(i.LPUART2_DriverIRQHandler)
+    i.LPUART3_DriverIRQHandler               0x80002834   Section        0  fsl_lpuart.o(i.LPUART3_DriverIRQHandler)
+    i.LPUART4_DriverIRQHandler               0x80002850   Section        0  fsl_lpuart.o(i.LPUART4_DriverIRQHandler)
+    i.LPUART5_DriverIRQHandler               0x8000286c   Section        0  fsl_lpuart.o(i.LPUART5_DriverIRQHandler)
+    i.LPUART6_DriverIRQHandler               0x80002888   Section        0  fsl_lpuart.o(i.LPUART6_DriverIRQHandler)
+    i.LPUART7_DriverIRQHandler               0x800028a4   Section        0  fsl_lpuart.o(i.LPUART7_DriverIRQHandler)
+    i.LPUART8_DriverIRQHandler               0x800028c0   Section        0  fsl_lpuart.o(i.LPUART8_DriverIRQHandler)
+    i.LPUART_ClearStatusFlags                0x800028dc   Section        0  fsl_lpuart.o(i.LPUART_ClearStatusFlags)
+    i.LPUART_GetDefaultConfig                0x80002934   Section        0  fsl_lpuart.o(i.LPUART_GetDefaultConfig)
+    i.LPUART_GetInstance                     0x8000299c   Section        0  fsl_lpuart.o(i.LPUART_GetInstance)
+    i.LPUART_GetStatusFlags                  0x80002a1c   Section        0  fsl_lpuart.o(i.LPUART_GetStatusFlags)
+    i.LPUART_Init                            0x80002a2c   Section        0  fsl_lpuart.o(i.LPUART_Init)
+    i.LPUART_ReadBlocking                    0x80002d1c   Section        0  fsl_lpuart.o(i.LPUART_ReadBlocking)
+    i.LPUART_WriteBlocking                   0x80002e1c   Section        0  fsl_lpuart.o(i.LPUART_WriteBlocking)
+    i.NorFlash_FlexSPI_ModeInit              0x80002e80   Section        0  bsp_norflash.o(i.NorFlash_FlexSPI_ModeInit)
+    NorFlash_FlexSPI_ModeInit                0x80002e81   Thumb Code    88  bsp_norflash.o(i.NorFlash_FlexSPI_ModeInit)
+    i.SCB_DisableDCache                      0x80002eec   Section        0  board.o(i.SCB_DisableDCache)
+    SCB_DisableDCache                        0x80002eed   Thumb Code   150  board.o(i.SCB_DisableDCache)
+    i.SCB_DisableDCache                      0x80002f8c   Section        0  bsp_norflash.o(i.SCB_DisableDCache)
+    SCB_DisableDCache                        0x80002f8d   Thumb Code   150  bsp_norflash.o(i.SCB_DisableDCache)
+    i.SCB_EnableICache                       0x8000302c   Section        0  board.o(i.SCB_EnableICache)
+    SCB_EnableICache                         0x8000302d   Thumb Code   116  board.o(i.SCB_EnableICache)
+    i.StrFormatPrintf                        0x800030a8   Section        0  fsl_str.o(i.StrFormatPrintf)
+    i.__ARM_fpclassify                       0x800036d0   Section        0  fpclassify.o(i.__ARM_fpclassify)
+    i.__aeabi_assert                         0x80003700   Section        0  fsl_assert.o(i.__aeabi_assert)
+    i.__hardfp_modf                          0x80003744   Section        0  modf.o(i.__hardfp_modf)
+    i.__hardfp_pow                           0x80003808   Section        0  pow.o(i.__hardfp_pow)
+    i.__kernel_poly                          0x80004100   Section        0  poly.o(i.__kernel_poly)
+    i.__mathlib_dbl_divzero                  0x80004170   Section        0  dunder.o(i.__mathlib_dbl_divzero)
+    i.__mathlib_dbl_infnan2                  0x80004190   Section        0  dunder.o(i.__mathlib_dbl_infnan2)
+    i.__mathlib_dbl_invalid                  0x80004198   Section        0  dunder.o(i.__mathlib_dbl_invalid)
+    i.__mathlib_dbl_overflow                 0x800041b0   Section        0  dunder.o(i.__mathlib_dbl_overflow)
+    i.__mathlib_dbl_underflow                0x800041c8   Section        0  dunder.o(i.__mathlib_dbl_underflow)
+    i.__set_errno                            0x800041e0   Section        0  errno.o(i.__set_errno)
+    i.fabs                                   0x800041ec   Section        0  fabs.o(i.fabs)
+    i.jumpToApp                              0x80004204   Section        0  main.o(i.jumpToApp)
+    i.main                                   0x80004298   Section        0  main.o(i.main)
+    i.sqrt                                   0x800042b4   Section        0  sqrt.o(i.sqrt)
+    .constdata                               0x80004320   Section       16  fsl_clock.o(.constdata)
+    .constdata                               0x80004330   Section       72  fsl_lpuart.o(.constdata)
+    s_lpuartBases                            0x80004330   Data          36  fsl_lpuart.o(.constdata)
+    s_lpuartIRQ                              0x80004354   Data          18  fsl_lpuart.o(.constdata)
+    s_lpuartClock                            0x80004366   Data          18  fsl_lpuart.o(.constdata)
+    .constdata                               0x80004378   Section        8  fsl_flexspi.o(.constdata)
+    s_flexspiBases                           0x80004378   Data           4  fsl_flexspi.o(.constdata)
+    s_flexspiIrqs                            0x8000437c   Data           2  fsl_flexspi.o(.constdata)
+    s_flexspiClock                           0x8000437e   Data           2  fsl_flexspi.o(.constdata)
+    .constdata                               0x80004380   Section       17  clock_config.o(.constdata)
+    .constdata                               0x80004394   Section      360  bsp_norflash.o(.constdata)
+    .constdata                               0x80004500   Section      136  pow.o(.constdata)
+    bp                                       0x80004500   Data          16  pow.o(.constdata)
+    dp_h                                     0x80004510   Data          16  pow.o(.constdata)
+    dp_l                                     0x80004520   Data          16  pow.o(.constdata)
+    L                                        0x80004530   Data          48  pow.o(.constdata)
+    P                                        0x80004560   Data          40  pow.o(.constdata)
+    .constdata                               0x80004588   Section        8  qnan.o(.constdata)
+    .data                                    0x8000f000   Section        4  system_mimxrt1052.o(.data)
+    .data                                    0x8000f004   Section        8  fsl_clock.o(.data)
+    .data                                    0x8000f00c   Section        4  fsl_lpuart.o(.data)
+    s_lpuartIsr                              0x8000f00c   Data           4  fsl_lpuart.o(.data)
+    .data                                    0x8000f010   Section        4  fsl_flexspi.o(.data)
+    s_flexspiHandle                          0x8000f010   Data           4  fsl_flexspi.o(.data)
+    .data                                    0x8000f014   Section        8  fsl_io.o(.data)
+    s_debugConsoleIO                         0x8000f014   Data           8  fsl_io.o(.data)
+    .data                                    0x8000f01c   Section       12  main.o(.data)
+    .data                                    0x8000f028   Section       32  bsp_norflash.o(.data)
+    .data                                    0x8000f048   Section        4  errno.o(.data)
+    _errno                                   0x8000f048   Data           4  errno.o(.data)
+    .bss                                     0x8000f04c   Section       36  fsl_lpuart.o(.bss)
+    s_lpuartHandle                           0x8000f04c   Data          36  fsl_lpuart.o(.bss)
+    .bss                                     0x8000f080   Section     4112  main.o(.bss)
+    .bss                                     0x800100c0   Section     4096  bsp_norflash.o(.bss)
 
     Global Symbols
 
@@ -1263,68 +1259,72 @@ Image Symbol Table
     FLEXSPI_TransferHandleIRQ                0x80001ebb   Thumb Code   362  fsl_flexspi.o(i.FLEXSPI_TransferHandleIRQ)
     FLEXSPI_UpdateLUT                        0x80002025   Thumb Code    90  fsl_flexspi.o(i.FLEXSPI_UpdateLUT)
     FLEXSPI_WriteBlocking                    0x800020b5   Thumb Code   150  fsl_flexspi.o(i.FLEXSPI_WriteBlocking)
-    FlexSPI_NorFlash_Buffer_Program          0x8000214b   Thumb Code   214  bsp_norflash.o(i.FlexSPI_NorFlash_Buffer_Program)
-    FlexSPI_NorFlash_Enable_Quad_Mode        0x80002221   Thumb Code    44  bsp_norflash.o(i.FlexSPI_NorFlash_Enable_Quad_Mode)
-    FlexSPI_NorFlash_Erase_Sector            0x8000224d   Thumb Code    74  bsp_norflash.o(i.FlexSPI_NorFlash_Erase_Sector)
-    FlexSPI_NorFlash_Get_JedecDevice_ID      0x80002297   Thumb Code    82  bsp_norflash.o(i.FlexSPI_NorFlash_Get_JedecDevice_ID)
-    FlexSPI_NorFlash_Init                    0x8000243d   Thumb Code    42  bsp_norflash.o(i.FlexSPI_NorFlash_Init)
-    FlexSPI_NorFlash_Page_Program            0x8000246d   Thumb Code    88  bsp_norflash.o(i.FlexSPI_NorFlash_Page_Program)
-    FlexSPI_NorFlash_Read_Status_Register    0x800024c5   Thumb Code    62  bsp_norflash.o(i.FlexSPI_NorFlash_Read_Status_Register)
-    FlexSPI_NorFlash_Wait_Bus_Busy           0x80002503   Thumb Code    82  bsp_norflash.o(i.FlexSPI_NorFlash_Wait_Bus_Busy)
-    FlexSPI_NorFlash_Write_Enable            0x80002555   Thumb Code    44  bsp_norflash.o(i.FlexSPI_NorFlash_Write_Enable)
-    FlexSPI_NorFlash_Write_Status_Register   0x80002581   Thumb Code    82  bsp_norflash.o(i.FlexSPI_NorFlash_Write_Status_Register)
-    IO_Init                                  0x80002615   Thumb Code   130  fsl_io.o(i.IO_Init)
-    IO_Transfer                              0x800026cd   Thumb Code    64  fsl_io.o(i.IO_Transfer)
-    LOG_Init                                 0x80002711   Thumb Code    36  fsl_log.o(i.LOG_Init)
-    LOG_Pop                                  0x80002735   Thumb Code    34  fsl_log.o(i.LOG_Pop)
-    LOG_Push                                 0x80002759   Thumb Code    32  fsl_log.o(i.LOG_Push)
-    LPUART1_DriverIRQHandler                 0x800027ad   Thumb Code    16  fsl_lpuart.o(i.LPUART1_DriverIRQHandler)
-    LPUART2_DriverIRQHandler                 0x800027c9   Thumb Code    16  fsl_lpuart.o(i.LPUART2_DriverIRQHandler)
-    LPUART3_DriverIRQHandler                 0x800027e5   Thumb Code    16  fsl_lpuart.o(i.LPUART3_DriverIRQHandler)
-    LPUART4_DriverIRQHandler                 0x80002801   Thumb Code    16  fsl_lpuart.o(i.LPUART4_DriverIRQHandler)
-    LPUART5_DriverIRQHandler                 0x8000281d   Thumb Code    16  fsl_lpuart.o(i.LPUART5_DriverIRQHandler)
-    LPUART6_DriverIRQHandler                 0x80002839   Thumb Code    16  fsl_lpuart.o(i.LPUART6_DriverIRQHandler)
-    LPUART7_DriverIRQHandler                 0x80002855   Thumb Code    16  fsl_lpuart.o(i.LPUART7_DriverIRQHandler)
-    LPUART8_DriverIRQHandler                 0x80002871   Thumb Code    16  fsl_lpuart.o(i.LPUART8_DriverIRQHandler)
-    LPUART_ClearStatusFlags                  0x8000288d   Thumb Code    82  fsl_lpuart.o(i.LPUART_ClearStatusFlags)
-    LPUART_GetDefaultConfig                  0x800028e5   Thumb Code    58  fsl_lpuart.o(i.LPUART_GetDefaultConfig)
-    LPUART_GetInstance                       0x8000294d   Thumb Code    48  fsl_lpuart.o(i.LPUART_GetInstance)
-    LPUART_GetStatusFlags                    0x800029cd   Thumb Code    16  fsl_lpuart.o(i.LPUART_GetStatusFlags)
-    LPUART_Init                              0x800029dd   Thumb Code   548  fsl_lpuart.o(i.LPUART_Init)
-    LPUART_ReadBlocking                      0x80002ccd   Thumb Code   210  fsl_lpuart.o(i.LPUART_ReadBlocking)
-    LPUART_WriteBlocking                     0x80002dcd   Thumb Code    54  fsl_lpuart.o(i.LPUART_WriteBlocking)
-    StrFormatPrintf                          0x80003059   Thumb Code  1576  fsl_str.o(i.StrFormatPrintf)
-    __ARM_fpclassify                         0x80003681   Thumb Code    48  fpclassify.o(i.__ARM_fpclassify)
-    __aeabi_assert                           0x800036b1   Thumb Code    24  fsl_assert.o(i.__aeabi_assert)
-    __hardfp_modf                            0x800036f5   Thumb Code   186  modf.o(i.__hardfp_modf)
-    __hardfp_pow                             0x800037b9   Thumb Code  2140  pow.o(i.__hardfp_pow)
-    __kernel_poly                            0x800040b1   Thumb Code   112  poly.o(i.__kernel_poly)
-    __mathlib_dbl_divzero                    0x80004121   Thumb Code    14  dunder.o(i.__mathlib_dbl_divzero)
-    __mathlib_dbl_infnan2                    0x80004141   Thumb Code     6  dunder.o(i.__mathlib_dbl_infnan2)
-    __mathlib_dbl_invalid                    0x80004149   Thumb Code    10  dunder.o(i.__mathlib_dbl_invalid)
-    __mathlib_dbl_overflow                   0x80004161   Thumb Code    10  dunder.o(i.__mathlib_dbl_overflow)
-    __mathlib_dbl_underflow                  0x80004179   Thumb Code    10  dunder.o(i.__mathlib_dbl_underflow)
-    __set_errno                              0x80004191   Thumb Code     6  errno.o(i.__set_errno)
-    fabs                                     0x8000419d   Thumb Code    24  fabs.o(i.fabs)
-    jumpToApp                                0x800041b5   Thumb Code   138  main.o(i.jumpToApp)
-    main                                     0x80004289   Thumb Code    28  main.o(i.main)
-    sqrt                                     0x800042a5   Thumb Code   106  sqrt.o(i.sqrt)
-    armPllConfig_BOARD_BootClockRUN          0x80004370   Data           4  clock_config.o(.constdata)
-    sysPllConfig_BOARD_BootClockRUN          0x80004374   Data          12  clock_config.o(.constdata)
-    usb1PllConfig_BOARD_BootClockRUN         0x80004380   Data           1  clock_config.o(.constdata)
-    customLUT                                0x80004384   Data         360  bsp_norflash.o(.constdata)
-    __mathlib_zero                           0x80004578   Data           8  qnan.o(.constdata)
-    SystemCoreClock                          0x8000cc00   Data           4  system_mimxrt1052.o(.data)
-    g_xtalFreq                               0x8000cc04   Data           4  fsl_clock.o(.data)
-    g_rtcXtalFreq                            0x8000cc08   Data           4  fsl_clock.o(.data)
-    test                                     0x8000cc1c   Data           1  main.o(.data)
-    appSize                                  0x8000cc20   Data           4  main.o(.data)
-    appMain                                  0x8000cc24   Data           4  main.o(.data)
-    deviceconfig                             0x8000cc28   Data          32  bsp_norflash.o(.data)
-    UpdatePara                               0x8000cc70   Data          16  main.o(.bss)
-    Image$$ARM_LIB_HEAP$$ZI$$Base            0x8000cc80   Number         0  anon$$obj.o ABSOLUTE
-    Image$$ARM_LIB_HEAP$$ZI$$Limit           0x8000d080   Number         0  anon$$obj.o ABSOLUTE
-    Image$$ARM_LIB_STACK$$ZI$$Limit          0x8000e000   Number         0  anon$$obj.o ABSOLUTE
+    FlexSPI_FlashPage_Write                  0x8000214d   Thumb Code    86  bsp_norflash.o(i.FlexSPI_FlashPage_Write)
+    FlexSPI_FlashRead                        0x800021a9   Thumb Code    60  bsp_norflash.o(i.FlexSPI_FlashRead)
+    FlexSPI_FlashWrite                       0x800021e9   Thumb Code   148  bsp_norflash.o(i.FlexSPI_FlashWrite)
+    FlexSPI_NorFlash_Enable_Quad_Mode        0x80002285   Thumb Code    44  bsp_norflash.o(i.FlexSPI_NorFlash_Enable_Quad_Mode)
+    FlexSPI_NorFlash_Erase_Sector            0x800022b1   Thumb Code    74  bsp_norflash.o(i.FlexSPI_NorFlash_Erase_Sector)
+    FlexSPI_NorFlash_Get_JedecDevice_ID      0x800022fb   Thumb Code    82  bsp_norflash.o(i.FlexSPI_NorFlash_Get_JedecDevice_ID)
+    FlexSPI_NorFlash_Init                    0x800024a1   Thumb Code    42  bsp_norflash.o(i.FlexSPI_NorFlash_Init)
+    FlexSPI_NorFlash_Read_Status_Register    0x800024d1   Thumb Code    62  bsp_norflash.o(i.FlexSPI_NorFlash_Read_Status_Register)
+    FlexSPI_NorFlash_Wait_Bus_Busy           0x8000250f   Thumb Code    82  bsp_norflash.o(i.FlexSPI_NorFlash_Wait_Bus_Busy)
+    FlexSPI_NorFlash_Write_Enable            0x80002561   Thumb Code    44  bsp_norflash.o(i.FlexSPI_NorFlash_Write_Enable)
+    FlexSPI_NorFlash_Write_Status_Register   0x8000258d   Thumb Code    82  bsp_norflash.o(i.FlexSPI_NorFlash_Write_Status_Register)
+    FlexSPI_Write_NoCheck                    0x800025df   Thumb Code    70  bsp_norflash.o(i.FlexSPI_Write_NoCheck)
+    IO_Init                                  0x80002665   Thumb Code   130  fsl_io.o(i.IO_Init)
+    IO_Transfer                              0x8000271d   Thumb Code    64  fsl_io.o(i.IO_Transfer)
+    LOG_Init                                 0x80002761   Thumb Code    36  fsl_log.o(i.LOG_Init)
+    LOG_Pop                                  0x80002785   Thumb Code    34  fsl_log.o(i.LOG_Pop)
+    LOG_Push                                 0x800027a9   Thumb Code    32  fsl_log.o(i.LOG_Push)
+    LPUART1_DriverIRQHandler                 0x800027fd   Thumb Code    16  fsl_lpuart.o(i.LPUART1_DriverIRQHandler)
+    LPUART2_DriverIRQHandler                 0x80002819   Thumb Code    16  fsl_lpuart.o(i.LPUART2_DriverIRQHandler)
+    LPUART3_DriverIRQHandler                 0x80002835   Thumb Code    16  fsl_lpuart.o(i.LPUART3_DriverIRQHandler)
+    LPUART4_DriverIRQHandler                 0x80002851   Thumb Code    16  fsl_lpuart.o(i.LPUART4_DriverIRQHandler)
+    LPUART5_DriverIRQHandler                 0x8000286d   Thumb Code    16  fsl_lpuart.o(i.LPUART5_DriverIRQHandler)
+    LPUART6_DriverIRQHandler                 0x80002889   Thumb Code    16  fsl_lpuart.o(i.LPUART6_DriverIRQHandler)
+    LPUART7_DriverIRQHandler                 0x800028a5   Thumb Code    16  fsl_lpuart.o(i.LPUART7_DriverIRQHandler)
+    LPUART8_DriverIRQHandler                 0x800028c1   Thumb Code    16  fsl_lpuart.o(i.LPUART8_DriverIRQHandler)
+    LPUART_ClearStatusFlags                  0x800028dd   Thumb Code    82  fsl_lpuart.o(i.LPUART_ClearStatusFlags)
+    LPUART_GetDefaultConfig                  0x80002935   Thumb Code    58  fsl_lpuart.o(i.LPUART_GetDefaultConfig)
+    LPUART_GetInstance                       0x8000299d   Thumb Code    48  fsl_lpuart.o(i.LPUART_GetInstance)
+    LPUART_GetStatusFlags                    0x80002a1d   Thumb Code    16  fsl_lpuart.o(i.LPUART_GetStatusFlags)
+    LPUART_Init                              0x80002a2d   Thumb Code   548  fsl_lpuart.o(i.LPUART_Init)
+    LPUART_ReadBlocking                      0x80002d1d   Thumb Code   210  fsl_lpuart.o(i.LPUART_ReadBlocking)
+    LPUART_WriteBlocking                     0x80002e1d   Thumb Code    54  fsl_lpuart.o(i.LPUART_WriteBlocking)
+    StrFormatPrintf                          0x800030a9   Thumb Code  1576  fsl_str.o(i.StrFormatPrintf)
+    __ARM_fpclassify                         0x800036d1   Thumb Code    48  fpclassify.o(i.__ARM_fpclassify)
+    __aeabi_assert                           0x80003701   Thumb Code    24  fsl_assert.o(i.__aeabi_assert)
+    __hardfp_modf                            0x80003745   Thumb Code   186  modf.o(i.__hardfp_modf)
+    __hardfp_pow                             0x80003809   Thumb Code  2140  pow.o(i.__hardfp_pow)
+    __kernel_poly                            0x80004101   Thumb Code   112  poly.o(i.__kernel_poly)
+    __mathlib_dbl_divzero                    0x80004171   Thumb Code    14  dunder.o(i.__mathlib_dbl_divzero)
+    __mathlib_dbl_infnan2                    0x80004191   Thumb Code     6  dunder.o(i.__mathlib_dbl_infnan2)
+    __mathlib_dbl_invalid                    0x80004199   Thumb Code    10  dunder.o(i.__mathlib_dbl_invalid)
+    __mathlib_dbl_overflow                   0x800041b1   Thumb Code    10  dunder.o(i.__mathlib_dbl_overflow)
+    __mathlib_dbl_underflow                  0x800041c9   Thumb Code    10  dunder.o(i.__mathlib_dbl_underflow)
+    __set_errno                              0x800041e1   Thumb Code     6  errno.o(i.__set_errno)
+    fabs                                     0x800041ed   Thumb Code    24  fabs.o(i.fabs)
+    jumpToApp                                0x80004205   Thumb Code   106  main.o(i.jumpToApp)
+    main                                     0x80004299   Thumb Code    28  main.o(i.main)
+    sqrt                                     0x800042b5   Thumb Code   106  sqrt.o(i.sqrt)
+    armPllConfig_BOARD_BootClockRUN          0x80004380   Data           4  clock_config.o(.constdata)
+    sysPllConfig_BOARD_BootClockRUN          0x80004384   Data          12  clock_config.o(.constdata)
+    usb1PllConfig_BOARD_BootClockRUN         0x80004390   Data           1  clock_config.o(.constdata)
+    customLUT                                0x80004394   Data         360  bsp_norflash.o(.constdata)
+    __mathlib_zero                           0x80004588   Data           8  qnan.o(.constdata)
+    SystemCoreClock                          0x8000f000   Data           4  system_mimxrt1052.o(.data)
+    g_xtalFreq                               0x8000f004   Data           4  fsl_clock.o(.data)
+    g_rtcXtalFreq                            0x8000f008   Data           4  fsl_clock.o(.data)
+    test                                     0x8000f01c   Data           1  main.o(.data)
+    appSize                                  0x8000f020   Data           4  main.o(.data)
+    appMain                                  0x8000f024   Data           4  main.o(.data)
+    deviceconfig                             0x8000f028   Data          32  bsp_norflash.o(.data)
+    s_nor_read_buffer                        0x8000f080   Data        4096  main.o(.bss)
+    UpdatePara                               0x80010080   Data          16  main.o(.bss)
+    FLEXSPI_FLASH_BUFFER                     0x800100c0   Data        4096  bsp_norflash.o(.bss)
+    Image$$ARM_LIB_HEAP$$ZI$$Base            0x800110c0   Number         0  anon$$obj.o ABSOLUTE
+    Image$$ARM_LIB_HEAP$$ZI$$Limit           0x800114c0   Number         0  anon$$obj.o ABSOLUTE
+    Image$$ARM_LIB_STACK$$ZI$$Limit          0x8002f000   Number         0  anon$$obj.o ABSOLUTE
 
 
 
@@ -1340,7 +1340,7 @@ Memory Map of the image
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x60000000   0x60000000   0x00000200   Data   RO         1762    .boot_hdr.conf      fire_imxrt1052_spiflash_config.o
+    0x60000000   0x60000000   0x00000200   Data   RO         1758    .boot_hdr.conf      fire_imxrt1052_spiflash_config.o
 
 
 
@@ -1350,13 +1350,13 @@ Memory Map of the image
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x60001000   0x60001000   0x00000020   Data   RO         1787    .boot_hdr.ivt       fsl_flexspi_nor_boot.o
-    0x60001020   0x60001020   0x00000010   Data   RO         1786    .boot_hdr.boot_data  fsl_flexspi_nor_boot.o
-    0x60001030   0x60001030   0x00000430   Data   RO         1747    .boot_hdr.dcd_data  fire_imxrt1052_sdram_ini_dcd.o
+    0x60001000   0x60001000   0x00000020   Data   RO         1783    .boot_hdr.ivt       fsl_flexspi_nor_boot.o
+    0x60001020   0x60001020   0x00000010   Data   RO         1782    .boot_hdr.boot_data  fsl_flexspi_nor_boot.o
+    0x60001030   0x60001030   0x00000430   Data   RO         1743    .boot_hdr.dcd_data  fire_imxrt1052_sdram_ini_dcd.o
 
 
 
-  Load Region LR_m_text (Base: 0x60002000, Size: 0x000049dc, Max: 0x6000fc00, ABSOLUTE)
+  Load Region LR_m_text (Base: 0x60002000, Size: 0x000049ec, Max: 0x6000fc00, ABSOLUTE)
 
     Execution Region VECTOR_ROM (Exec base: 0x60002000, Load base: 0x60002000, Size: 0x00000400, Max: 0x00000400, ABSOLUTE)
 
@@ -1369,25 +1369,25 @@ Memory Map of the image
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x60002400   0x60002400   0x00000000   Code   RO         1835  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
-    0x60002400   0x60002400   0x00000004   Code   RO         1925    .ARM.Collect$$$$00000003  mc_w.l(entry4.o)
-    0x60002404   0x60002404   0x00000004   Code   RO         1928    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
-    0x60002408   0x60002408   0x00000000   Code   RO         1930    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
-    0x60002408   0x60002408   0x00000000   Code   RO         1932    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
-    0x60002408   0x60002408   0x00000008   Code   RO         1933    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
-    0x60002410   0x60002410   0x00000000   Code   RO         1935    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
-    0x60002410   0x60002410   0x00000000   Code   RO         1937    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
-    0x60002410   0x60002410   0x00000004   Code   RO         1926    .ARM.Collect$$$$00002714  mc_w.l(entry4.o)
+    0x60002400   0x60002400   0x00000000   Code   RO         1831  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
+    0x60002400   0x60002400   0x00000004   Code   RO         1919    .ARM.Collect$$$$00000003  mc_w.l(entry4.o)
+    0x60002404   0x60002404   0x00000004   Code   RO         1922    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
+    0x60002408   0x60002408   0x00000000   Code   RO         1924    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
+    0x60002408   0x60002408   0x00000000   Code   RO         1926    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
+    0x60002408   0x60002408   0x00000008   Code   RO         1927    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
+    0x60002410   0x60002410   0x00000000   Code   RO         1929    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
+    0x60002410   0x60002410   0x00000000   Code   RO         1931    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
+    0x60002410   0x60002410   0x00000004   Code   RO         1920    .ARM.Collect$$$$00002714  mc_w.l(entry4.o)
     0x60002414   0x60002414   0x000001bc   Code   RO           88    .text               startup_mimxrt1052.o
-    0x600025d0   0x600025d0   0x00000024   Code   RO         1959    .text               mc_w.l(init.o)
+    0x600025d0   0x600025d0   0x00000024   Code   RO         1953    .text               mc_w.l(init.o)
     0x600025f4   0x600025f4   0x0000009c   Code   RO            7    i.SCB_EnableDCache  system_mimxrt1052.o
     0x60002690   0x60002690   0x0000007c   Code   RO            8    i.SCB_EnableICache  system_mimxrt1052.o
     0x6000270c   0x6000270c   0x000000b4   Code   RO           10    i.SystemInit        system_mimxrt1052.o
     0x600027c0   0x600027c0   0x00000002   Code   RO           11    i.SystemInitHook    system_mimxrt1052.o
-    0x600027c2   0x600027c2   0x0000000e   Code   RO         1984    i.__scatterload_copy  mc_w.l(handlers.o)
-    0x600027d0   0x600027d0   0x00000002   Code   RO         1985    i.__scatterload_null  mc_w.l(handlers.o)
-    0x600027d2   0x600027d2   0x0000000e   Code   RO         1986    i.__scatterload_zeroinit  mc_w.l(handlers.o)
-    0x600027e0   0x600027e0   0x00000030   Data   RO         1982    Region$$Table       anon$$obj.o
+    0x600027c2   0x600027c2   0x0000000e   Code   RO         1978    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x600027d0   0x600027d0   0x00000002   Code   RO         1979    i.__scatterload_null  mc_w.l(handlers.o)
+    0x600027d2   0x600027d2   0x0000000e   Code   RO         1980    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x600027e0   0x600027e0   0x00000030   Data   RO         1976    Region$$Table       anon$$obj.o
 
 
     Execution Region VECTOR_RAM (Exec base: 0x80000000, Load base: 0x60002810, Size: 0x00000400, Max: 0x00000400, ABSOLUTE)
@@ -1397,23 +1397,23 @@ Memory Map of the image
     0x80000000        -       0x00000400   Zero   RW            1    VECTOR_RAM.bss      anon$$obj.o
 
 
-    Execution Region ER_m_ram_text (Exec base: 0x80000400, Load base: 0x60002810, Size: 0x00004180, Max: 0x0000c800, ABSOLUTE)
+    Execution Region ER_m_ram_text (Exec base: 0x80000400, Load base: 0x60002810, Size: 0x00004190, Max: 0x0000dc00, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x80000400   0x60002810   0x00000006   Code   RO         1473    .emb_text           main.o
-    0x80000406   0x60002816   0x00000062   Code   RO         1838    .text               mc_w.l(uldiv.o)
-    0x80000468   0x60002878   0x00000062   Code   RO         1840    .text               mc_w.l(ldiv.o)
-    0x800004ca   0x600028da   0x00000040   Code   RO         1844    .text               mc_w.l(memmovea.o)
-    0x8000050a   0x6000291a   0x00000024   Code   RO         1846    .text               mc_w.l(memseta.o)
-    0x8000052e   0x6000293e   0x0000000e   Code   RO         1848    .text               mc_w.l(strlen.o)
-    0x8000053c   0x6000294c   0x00000028   Code   RO         1884    .text               mf_w.l(dfltl.o)
-    0x80000564   0x60002974   0x0000004a   Code   RO         1886    .text               mf_w.l(dfixl.o)
-    0x800005ae   0x600029be   0x0000001e   Code   RO         1939    .text               mc_w.l(llshl.o)
-    0x800005cc   0x600029dc   0x00000020   Code   RO         1941    .text               mc_w.l(llushr.o)
-    0x800005ec   0x600029fc   0x00000000   Code   RO         1954    .text               mc_w.l(iusefp.o)
-    0x800005ec   0x600029fc   0x000000ba   Code   RO         1955    .text               mf_w.l(depilogue.o)
-    0x800006a6   0x60002ab6   0x0000002e   Code   RO         1957    .text               mf_w.l(dscalb.o)
+    0x80000406   0x60002816   0x00000062   Code   RO         1834    .text               mc_w.l(uldiv.o)
+    0x80000468   0x60002878   0x00000062   Code   RO         1836    .text               mc_w.l(ldiv.o)
+    0x800004ca   0x600028da   0x00000040   Code   RO         1840    .text               mc_w.l(memmovea.o)
+    0x8000050a   0x6000291a   0x00000024   Code   RO         1842    .text               mc_w.l(memseta.o)
+    0x8000052e   0x6000293e   0x0000000e   Code   RO         1844    .text               mc_w.l(strlen.o)
+    0x8000053c   0x6000294c   0x00000028   Code   RO         1878    .text               mf_w.l(dfltl.o)
+    0x80000564   0x60002974   0x0000004a   Code   RO         1880    .text               mf_w.l(dfixl.o)
+    0x800005ae   0x600029be   0x0000001e   Code   RO         1933    .text               mc_w.l(llshl.o)
+    0x800005cc   0x600029dc   0x00000020   Code   RO         1935    .text               mc_w.l(llushr.o)
+    0x800005ec   0x600029fc   0x00000000   Code   RO         1948    .text               mc_w.l(iusefp.o)
+    0x800005ec   0x600029fc   0x000000ba   Code   RO         1949    .text               mf_w.l(depilogue.o)
+    0x800006a6   0x60002ab6   0x0000002e   Code   RO         1951    .text               mf_w.l(dscalb.o)
     0x800006d4   0x60002ae4   0x000002f4   Code   RO         1376    i.BOARD_BootClockRUN  clock_config.o
     0x800009c8   0x60002dd8   0x000001b8   Code   RO         1291    i.BOARD_ConfigMPU   board.o
     0x80000b80   0x60002f90   0x00000078   Code   RO         1292    i.BOARD_DebugConsoleSrcFreq  board.o
@@ -1430,9 +1430,9 @@ Memory Map of the image
     0x8000107c   0x6000348c   0x00000038   Code   RO          125    i.CLOCK_InitUsb1Pfd  fsl_clock.o
     0x800010b4   0x600034c4   0x00000024   Code   RO          126    i.CLOCK_InitUsb1Pll  fsl_clock.o
     0x800010d8   0x600034e8   0x000000ac   Code   RO         1378    i.CLOCK_SetDiv      clock_config.o
-    0x80001184   0x60003594   0x00000070   Code   RO         1550    i.CLOCK_SetDiv      bsp_norflash.o
+    0x80001184   0x60003594   0x00000070   Code   RO         1518    i.CLOCK_SetDiv      bsp_norflash.o
     0x800011f4   0x60003604   0x000000ac   Code   RO         1379    i.CLOCK_SetMux      clock_config.o
-    0x800012a0   0x600036b0   0x000000ac   Code   RO         1551    i.CLOCK_SetMux      bsp_norflash.o
+    0x800012a0   0x600036b0   0x000000ac   Code   RO         1519    i.CLOCK_SetMux      bsp_norflash.o
     0x8000134c   0x6000375c   0x000001ae   Code   RO         1119    i.ConvertFloatRadixNumToString  fsl_str.o
     0x800014fa   0x6000390a   0x0000014c   Code   RO         1120    i.ConvertRadixNumToString  fsl_str.o
     0x80001646   0x60003a56   0x00000002   PAD
@@ -1459,105 +1459,110 @@ Memory Map of the image
     0x80001eba   0x600042ca   0x0000016a   Code   RO          714    i.FLEXSPI_TransferHandleIRQ  fsl_flexspi.o
     0x80002024   0x60004434   0x00000090   Code   RO          716    i.FLEXSPI_UpdateLUT  fsl_flexspi.o
     0x800020b4   0x600044c4   0x00000096   Code   RO          717    i.FLEXSPI_WriteBlocking  fsl_flexspi.o
-    0x8000214a   0x6000455a   0x000000d6   Code   RO         1554    i.FlexSPI_NorFlash_Buffer_Program  bsp_norflash.o
-    0x80002220   0x60004630   0x0000002c   Code   RO         1556    i.FlexSPI_NorFlash_Enable_Quad_Mode  bsp_norflash.o
-    0x8000224c   0x6000465c   0x0000004a   Code   RO         1557    i.FlexSPI_NorFlash_Erase_Sector  bsp_norflash.o
-    0x80002296   0x600046a6   0x00000052   Code   RO         1559    i.FlexSPI_NorFlash_Get_JedecDevice_ID  bsp_norflash.o
-    0x800022e8   0x600046f8   0x000000a4   Code   RO         1560    i.FlexSPI_NorFlash_IOMUXC_MUX_Config  bsp_norflash.o
-    0x8000238c   0x6000479c   0x000000b0   Code   RO         1561    i.FlexSPI_NorFlash_IOMUXC_PAD_Config  bsp_norflash.o
-    0x8000243c   0x6000484c   0x00000030   Code   RO         1562    i.FlexSPI_NorFlash_Init  bsp_norflash.o
-    0x8000246c   0x6000487c   0x00000058   Code   RO         1563    i.FlexSPI_NorFlash_Page_Program  bsp_norflash.o
-    0x800024c4   0x600048d4   0x0000003e   Code   RO         1564    i.FlexSPI_NorFlash_Read_Status_Register  bsp_norflash.o
-    0x80002502   0x60004912   0x00000052   Code   RO         1565    i.FlexSPI_NorFlash_Wait_Bus_Busy  bsp_norflash.o
-    0x80002554   0x60004964   0x0000002c   Code   RO         1566    i.FlexSPI_NorFlash_Write_Enable  bsp_norflash.o
-    0x80002580   0x60004990   0x00000052   Code   RO         1567    i.FlexSPI_NorFlash_Write_Status_Register  bsp_norflash.o
-    0x800025d2   0x600049e2   0x0000000c   Code   RO         1568    i.IOMUXC_SetPinConfig  bsp_norflash.o
-    0x800025de   0x600049ee   0x0000001a   Code   RO         1430    i.IOMUXC_SetPinMux  pin_mux.o
-    0x800025f8   0x60004a08   0x0000001a   Code   RO         1569    i.IOMUXC_SetPinMux  bsp_norflash.o
-    0x80002612   0x60004a22   0x00000002   PAD
-    0x80002614   0x60004a24   0x000000b8   Code   RO         1242    i.IO_Init           fsl_io.o
-    0x800026cc   0x60004adc   0x00000044   Code   RO         1243    i.IO_Transfer       fsl_io.o
-    0x80002710   0x60004b20   0x00000024   Code   RO         1174    i.LOG_Init          fsl_log.o
-    0x80002734   0x60004b44   0x00000022   Code   RO         1175    i.LOG_Pop           fsl_log.o
-    0x80002756   0x60004b66   0x00000002   PAD
-    0x80002758   0x60004b68   0x00000054   Code   RO         1176    i.LOG_Push          fsl_log.o
-    0x800027ac   0x60004bbc   0x0000001c   Code   RO          416    i.LPUART1_DriverIRQHandler  fsl_lpuart.o
-    0x800027c8   0x60004bd8   0x0000001c   Code   RO          417    i.LPUART2_DriverIRQHandler  fsl_lpuart.o
-    0x800027e4   0x60004bf4   0x0000001c   Code   RO          418    i.LPUART3_DriverIRQHandler  fsl_lpuart.o
-    0x80002800   0x60004c10   0x0000001c   Code   RO          419    i.LPUART4_DriverIRQHandler  fsl_lpuart.o
-    0x8000281c   0x60004c2c   0x0000001c   Code   RO          420    i.LPUART5_DriverIRQHandler  fsl_lpuart.o
-    0x80002838   0x60004c48   0x0000001c   Code   RO          421    i.LPUART6_DriverIRQHandler  fsl_lpuart.o
-    0x80002854   0x60004c64   0x0000001c   Code   RO          422    i.LPUART7_DriverIRQHandler  fsl_lpuart.o
-    0x80002870   0x60004c80   0x0000001c   Code   RO          423    i.LPUART8_DriverIRQHandler  fsl_lpuart.o
-    0x8000288c   0x60004c9c   0x00000058   Code   RO          424    i.LPUART_ClearStatusFlags  fsl_lpuart.o
-    0x800028e4   0x60004cf4   0x00000068   Code   RO          428    i.LPUART_GetDefaultConfig  fsl_lpuart.o
-    0x8000294c   0x60004d5c   0x00000080   Code   RO          430    i.LPUART_GetInstance  fsl_lpuart.o
-    0x800029cc   0x60004ddc   0x00000010   Code   RO          431    i.LPUART_GetStatusFlags  fsl_lpuart.o
-    0x800029dc   0x60004dec   0x000002f0   Code   RO          432    i.LPUART_Init       fsl_lpuart.o
-    0x80002ccc   0x600050dc   0x00000100   Code   RO          433    i.LPUART_ReadBlocking  fsl_lpuart.o
-    0x80002dcc   0x600051dc   0x00000064   Code   RO          449    i.LPUART_WriteBlocking  fsl_lpuart.o
-    0x80002e30   0x60005240   0x0000006c   Code   RO         1570    i.NorFlash_FlexSPI_ModeInit  bsp_norflash.o
-    0x80002e9c   0x600052ac   0x000000a0   Code   RO         1296    i.SCB_DisableDCache  board.o
-    0x80002f3c   0x6000534c   0x000000a0   Code   RO         1571    i.SCB_DisableDCache  bsp_norflash.o
-    0x80002fdc   0x600053ec   0x0000007c   Code   RO         1297    i.SCB_EnableICache  board.o
-    0x80003058   0x60005468   0x00000628   Code   RO         1122    i.StrFormatPrintf   fsl_str.o
-    0x80003680   0x60005a90   0x00000030   Code   RO         1908    i.__ARM_fpclassify  m_wv.l(fpclassify.o)
-    0x800036b0   0x60005ac0   0x00000044   Code   RO          851    i.__aeabi_assert    fsl_assert.o
-    0x800036f4   0x60005b04   0x000000c0   Code   RO         1809    i.__hardfp_modf     m_wv.l(modf.o)
-    0x800037b4   0x60005bc4   0x00000004   PAD
-    0x800037b8   0x60005bc8   0x000008f8   Code   RO         1815    i.__hardfp_pow      m_wv.l(pow.o)
-    0x800040b0   0x600064c0   0x00000070   Code   RO         1910    i.__kernel_poly     m_wv.l(poly.o)
-    0x80004120   0x60006530   0x00000020   Code   RO         1888    i.__mathlib_dbl_divzero  m_wv.l(dunder.o)
-    0x80004140   0x60006550   0x00000006   Code   RO         1890    i.__mathlib_dbl_infnan2  m_wv.l(dunder.o)
-    0x80004146   0x60006556   0x00000002   PAD
-    0x80004148   0x60006558   0x00000018   Code   RO         1891    i.__mathlib_dbl_invalid  m_wv.l(dunder.o)
-    0x80004160   0x60006570   0x00000018   Code   RO         1892    i.__mathlib_dbl_overflow  m_wv.l(dunder.o)
-    0x80004178   0x60006588   0x00000018   Code   RO         1894    i.__mathlib_dbl_underflow  m_wv.l(dunder.o)
-    0x80004190   0x600065a0   0x0000000c   Code   RO         1947    i.__set_errno       mc_w.l(errno.o)
-    0x8000419c   0x600065ac   0x00000018   Code   RO         1904    i.fabs              m_wv.l(fabs.o)
-    0x800041b4   0x600065c4   0x000000d4   Code   RO         1474    i.jumpToApp         main.o
-    0x80004288   0x60006698   0x0000001c   Code   RO         1475    i.main              main.o
-    0x800042a4   0x600066b4   0x0000006a   Code   RO         1915    i.sqrt              m_wv.l(sqrt.o)
-    0x8000430e   0x6000671e   0x00000002   PAD
-    0x80004310   0x60006720   0x00000010   Data   RO          130    .constdata          fsl_clock.o
-    0x80004320   0x60006730   0x00000048   Data   RO          452    .constdata          fsl_lpuart.o
-    0x80004368   0x60006778   0x00000008   Data   RO          718    .constdata          fsl_flexspi.o
-    0x80004370   0x60006780   0x00000011   Data   RO         1380    .constdata          clock_config.o
-    0x80004381   0x60006791   0x00000003   PAD
-    0x80004384   0x60006794   0x00000168   Data   RO         1572    .constdata          bsp_norflash.o
-    0x800044ec   0x600068fc   0x00000004   PAD
-    0x800044f0   0x60006900   0x00000088   Data   RO         1818    .constdata          m_wv.l(pow.o)
-    0x80004578   0x60006988   0x00000008   Data   RO         1912    .constdata          m_wv.l(qnan.o)
+    0x8000214a   0x6000455a   0x00000002   PAD
+    0x8000214c   0x6000455c   0x0000005c   Code   RO         1520    i.FlexSPI_FlashPage_Write  bsp_norflash.o
+    0x800021a8   0x600045b8   0x00000040   Code   RO         1521    i.FlexSPI_FlashRead  bsp_norflash.o
+    0x800021e8   0x600045f8   0x0000009c   Code   RO         1524    i.FlexSPI_FlashWrite  bsp_norflash.o
+    0x80002284   0x60004694   0x0000002c   Code   RO         1527    i.FlexSPI_NorFlash_Enable_Quad_Mode  bsp_norflash.o
+    0x800022b0   0x600046c0   0x0000004a   Code   RO         1528    i.FlexSPI_NorFlash_Erase_Sector  bsp_norflash.o
+    0x800022fa   0x6000470a   0x00000052   Code   RO         1530    i.FlexSPI_NorFlash_Get_JedecDevice_ID  bsp_norflash.o
+    0x8000234c   0x6000475c   0x000000a4   Code   RO         1531    i.FlexSPI_NorFlash_IOMUXC_MUX_Config  bsp_norflash.o
+    0x800023f0   0x60004800   0x000000b0   Code   RO         1532    i.FlexSPI_NorFlash_IOMUXC_PAD_Config  bsp_norflash.o
+    0x800024a0   0x600048b0   0x00000030   Code   RO         1533    i.FlexSPI_NorFlash_Init  bsp_norflash.o
+    0x800024d0   0x600048e0   0x0000003e   Code   RO         1535    i.FlexSPI_NorFlash_Read_Status_Register  bsp_norflash.o
+    0x8000250e   0x6000491e   0x00000052   Code   RO         1536    i.FlexSPI_NorFlash_Wait_Bus_Busy  bsp_norflash.o
+    0x80002560   0x60004970   0x0000002c   Code   RO         1537    i.FlexSPI_NorFlash_Write_Enable  bsp_norflash.o
+    0x8000258c   0x6000499c   0x00000052   Code   RO         1538    i.FlexSPI_NorFlash_Write_Status_Register  bsp_norflash.o
+    0x800025de   0x600049ee   0x00000046   Code   RO         1539    i.FlexSPI_Write_NoCheck  bsp_norflash.o
+    0x80002624   0x60004a34   0x0000000c   Code   RO         1540    i.IOMUXC_SetPinConfig  bsp_norflash.o
+    0x80002630   0x60004a40   0x0000001a   Code   RO         1430    i.IOMUXC_SetPinMux  pin_mux.o
+    0x8000264a   0x60004a5a   0x0000001a   Code   RO         1541    i.IOMUXC_SetPinMux  bsp_norflash.o
+    0x80002664   0x60004a74   0x000000b8   Code   RO         1242    i.IO_Init           fsl_io.o
+    0x8000271c   0x60004b2c   0x00000044   Code   RO         1243    i.IO_Transfer       fsl_io.o
+    0x80002760   0x60004b70   0x00000024   Code   RO         1174    i.LOG_Init          fsl_log.o
+    0x80002784   0x60004b94   0x00000022   Code   RO         1175    i.LOG_Pop           fsl_log.o
+    0x800027a6   0x60004bb6   0x00000002   PAD
+    0x800027a8   0x60004bb8   0x00000054   Code   RO         1176    i.LOG_Push          fsl_log.o
+    0x800027fc   0x60004c0c   0x0000001c   Code   RO          416    i.LPUART1_DriverIRQHandler  fsl_lpuart.o
+    0x80002818   0x60004c28   0x0000001c   Code   RO          417    i.LPUART2_DriverIRQHandler  fsl_lpuart.o
+    0x80002834   0x60004c44   0x0000001c   Code   RO          418    i.LPUART3_DriverIRQHandler  fsl_lpuart.o
+    0x80002850   0x60004c60   0x0000001c   Code   RO          419    i.LPUART4_DriverIRQHandler  fsl_lpuart.o
+    0x8000286c   0x60004c7c   0x0000001c   Code   RO          420    i.LPUART5_DriverIRQHandler  fsl_lpuart.o
+    0x80002888   0x60004c98   0x0000001c   Code   RO          421    i.LPUART6_DriverIRQHandler  fsl_lpuart.o
+    0x800028a4   0x60004cb4   0x0000001c   Code   RO          422    i.LPUART7_DriverIRQHandler  fsl_lpuart.o
+    0x800028c0   0x60004cd0   0x0000001c   Code   RO          423    i.LPUART8_DriverIRQHandler  fsl_lpuart.o
+    0x800028dc   0x60004cec   0x00000058   Code   RO          424    i.LPUART_ClearStatusFlags  fsl_lpuart.o
+    0x80002934   0x60004d44   0x00000068   Code   RO          428    i.LPUART_GetDefaultConfig  fsl_lpuart.o
+    0x8000299c   0x60004dac   0x00000080   Code   RO          430    i.LPUART_GetInstance  fsl_lpuart.o
+    0x80002a1c   0x60004e2c   0x00000010   Code   RO          431    i.LPUART_GetStatusFlags  fsl_lpuart.o
+    0x80002a2c   0x60004e3c   0x000002f0   Code   RO          432    i.LPUART_Init       fsl_lpuart.o
+    0x80002d1c   0x6000512c   0x00000100   Code   RO          433    i.LPUART_ReadBlocking  fsl_lpuart.o
+    0x80002e1c   0x6000522c   0x00000064   Code   RO          449    i.LPUART_WriteBlocking  fsl_lpuart.o
+    0x80002e80   0x60005290   0x0000006c   Code   RO         1542    i.NorFlash_FlexSPI_ModeInit  bsp_norflash.o
+    0x80002eec   0x600052fc   0x000000a0   Code   RO         1296    i.SCB_DisableDCache  board.o
+    0x80002f8c   0x6000539c   0x000000a0   Code   RO         1543    i.SCB_DisableDCache  bsp_norflash.o
+    0x8000302c   0x6000543c   0x0000007c   Code   RO         1297    i.SCB_EnableICache  board.o
+    0x800030a8   0x600054b8   0x00000628   Code   RO         1122    i.StrFormatPrintf   fsl_str.o
+    0x800036d0   0x60005ae0   0x00000030   Code   RO         1902    i.__ARM_fpclassify  m_wv.l(fpclassify.o)
+    0x80003700   0x60005b10   0x00000044   Code   RO          851    i.__aeabi_assert    fsl_assert.o
+    0x80003744   0x60005b54   0x000000c0   Code   RO         1805    i.__hardfp_modf     m_wv.l(modf.o)
+    0x80003804   0x60005c14   0x00000004   PAD
+    0x80003808   0x60005c18   0x000008f8   Code   RO         1811    i.__hardfp_pow      m_wv.l(pow.o)
+    0x80004100   0x60006510   0x00000070   Code   RO         1904    i.__kernel_poly     m_wv.l(poly.o)
+    0x80004170   0x60006580   0x00000020   Code   RO         1882    i.__mathlib_dbl_divzero  m_wv.l(dunder.o)
+    0x80004190   0x600065a0   0x00000006   Code   RO         1884    i.__mathlib_dbl_infnan2  m_wv.l(dunder.o)
+    0x80004196   0x600065a6   0x00000002   PAD
+    0x80004198   0x600065a8   0x00000018   Code   RO         1885    i.__mathlib_dbl_invalid  m_wv.l(dunder.o)
+    0x800041b0   0x600065c0   0x00000018   Code   RO         1886    i.__mathlib_dbl_overflow  m_wv.l(dunder.o)
+    0x800041c8   0x600065d8   0x00000018   Code   RO         1888    i.__mathlib_dbl_underflow  m_wv.l(dunder.o)
+    0x800041e0   0x600065f0   0x0000000c   Code   RO         1941    i.__set_errno       mc_w.l(errno.o)
+    0x800041ec   0x600065fc   0x00000018   Code   RO         1898    i.fabs              m_wv.l(fabs.o)
+    0x80004204   0x60006614   0x00000094   Code   RO         1474    i.jumpToApp         main.o
+    0x80004298   0x600066a8   0x0000001c   Code   RO         1475    i.main              main.o
+    0x800042b4   0x600066c4   0x0000006a   Code   RO         1909    i.sqrt              m_wv.l(sqrt.o)
+    0x8000431e   0x6000672e   0x00000002   PAD
+    0x80004320   0x60006730   0x00000010   Data   RO          130    .constdata          fsl_clock.o
+    0x80004330   0x60006740   0x00000048   Data   RO          452    .constdata          fsl_lpuart.o
+    0x80004378   0x60006788   0x00000008   Data   RO          718    .constdata          fsl_flexspi.o
+    0x80004380   0x60006790   0x00000011   Data   RO         1380    .constdata          clock_config.o
+    0x80004391   0x600067a1   0x00000003   PAD
+    0x80004394   0x600067a4   0x00000168   Data   RO         1545    .constdata          bsp_norflash.o
+    0x800044fc   0x6000690c   0x00000004   PAD
+    0x80004500   0x60006910   0x00000088   Data   RO         1814    .constdata          m_wv.l(pow.o)
+    0x80004588   0x60006998   0x00000008   Data   RO         1906    .constdata          m_wv.l(qnan.o)
 
 
-    Execution Region RW_m_data (Exec base: 0x8000cc00, Load base: 0x60006990, Size: 0x00000080, Max: 0x00000c00, ABSOLUTE)
-
-    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
-
-    0x8000cc00   0x60006990   0x00000004   Data   RW           12    .data               system_mimxrt1052.o
-    0x8000cc04   0x60006994   0x00000008   Data   RW          131    .data               fsl_clock.o
-    0x8000cc0c   0x6000699c   0x00000004   Data   RW          453    .data               fsl_lpuart.o
-    0x8000cc10   0x600069a0   0x00000004   Data   RW          719    .data               fsl_flexspi.o
-    0x8000cc14   0x600069a4   0x00000008   Data   RW         1245    .data               fsl_io.o
-    0x8000cc1c   0x600069ac   0x0000000c   Data   RW         1477    .data               main.o
-    0x8000cc28   0x600069b8   0x00000020   Data   RW         1573    .data               bsp_norflash.o
-    0x8000cc48   0x600069d8   0x00000004   Data   RW         1948    .data               mc_w.l(errno.o)
-    0x8000cc4c        -       0x00000024   Zero   RW          451    .bss                fsl_lpuart.o
-    0x8000cc70        -       0x00000010   Zero   RW         1476    .bss                main.o
-
-
-    Execution Region ARM_LIB_HEAP (Exec base: 0x8000cc80, Load base: 0x600069dc, Size: 0x00000400, Max: 0x00000400, ABSOLUTE)
+    Execution Region RW_m_data (Exec base: 0x8000f000, Load base: 0x600069a0, Size: 0x000020c0, Max: 0x0001f800, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x8000cc80        -       0x00000400   Zero   RW            2    ARM_LIB_HEAP.bss    anon$$obj.o
+    0x8000f000   0x600069a0   0x00000004   Data   RW           12    .data               system_mimxrt1052.o
+    0x8000f004   0x600069a4   0x00000008   Data   RW          131    .data               fsl_clock.o
+    0x8000f00c   0x600069ac   0x00000004   Data   RW          453    .data               fsl_lpuart.o
+    0x8000f010   0x600069b0   0x00000004   Data   RW          719    .data               fsl_flexspi.o
+    0x8000f014   0x600069b4   0x00000008   Data   RW         1245    .data               fsl_io.o
+    0x8000f01c   0x600069bc   0x0000000c   Data   RW         1477    .data               main.o
+    0x8000f028   0x600069c8   0x00000020   Data   RW         1546    .data               bsp_norflash.o
+    0x8000f048   0x600069e8   0x00000004   Data   RW         1942    .data               mc_w.l(errno.o)
+    0x8000f04c        -       0x00000024   Zero   RW          451    .bss                fsl_lpuart.o
+    0x8000f070   0x600069ec   0x00000010   PAD
+    0x8000f080        -       0x00001010   Zero   RW         1476    .bss                main.o
+    0x80010090   0x600069ec   0x00000030   PAD
+    0x800100c0        -       0x00001000   Zero   RW         1544    .bss                bsp_norflash.o
 
 
-    Execution Region ARM_LIB_STACK (Exec base: 0x8000dc00, Load base: 0x600069dc, Size: 0x00000400, Max: 0x00000400, ABSOLUTE)
+    Execution Region ARM_LIB_HEAP (Exec base: 0x800110c0, Load base: 0x600069ec, Size: 0x00000400, Max: 0x00000400, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x8000dc00        -       0x00000400   Zero   RW            3    ARM_LIB_STACK.bss   anon$$obj.o
+    0x800110c0        -       0x00000400   Zero   RW            2    ARM_LIB_HEAP.bss    anon$$obj.o
+
+
+    Execution Region ARM_LIB_STACK (Exec base: 0x8002ec00, Load base: 0x600069ec, Size: 0x00000400, Max: 0x00000400, ABSOLUTE)
+
+    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x8002ec00        -       0x00000400   Zero   RW            3    ARM_LIB_STACK.bss   anon$$obj.o
 
 
 ==============================================================================
@@ -1568,7 +1573,7 @@ Image component sizes
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
       1000        118          0          0          0      61600   board.o
-      1750        138        360         32          0      66993   bsp_norflash.o
+      1830        156        360         32       4096      68211   bsp_norflash.o
       1100        302         17          0          0      13127   clock_config.o
          0          0       1072          0          0        567   fire_imxrt1052_sdram_ini_dcd.o
          0          0        512          0          0       5794   fire_imxrt1052_spiflash_config.o
@@ -1582,15 +1587,15 @@ Image component sizes
        154         52          0          0          0       3240   fsl_log.o
       1780        576         72          4         36      30231   fsl_lpuart.o
       2338          0          0          0          0       5666   fsl_str.o
-       246         74          0         12         16       2337   main.o
+       182         42          0         12       4112       2399   main.o
        230         66          0          0          0      70753   pin_mux.o
        444        210       1024          0          0       3104   startup_mimxrt1052.o
        462         38          0          4          0    1391143   system_mimxrt1052.o
 
     ----------------------------------------------------------------------
-     13424       2142       3184         72       3124    3109202   Object Totals
+     13440       2128       3184         72      11380    3110482   Object Totals
          0          0         48          0       3072          0   (incl. Generated)
-        14          0          7          0          0          0   (incl. Padding)
+        14          0          7          0         64          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
@@ -1650,15 +1655,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     17136       2538       3328         76       3124    3102034   Grand Totals
-     17136       2538       3328         76       3124    3102034   ELF Image Totals
-     17136       2538       3328         76          0          0   ROM Totals
+     17152       2524       3328         76      11380    3103114   Grand Totals
+     17152       2524       3328         76      11380    3103114   ELF Image Totals
+     17152       2524       3328         76          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                20464 (  19.98kB)
-    Total RW  Size (RW Data + ZI Data)              3200 (   3.13kB)
-    Total ROM Size (Code + RO Data + RW Data)      20540 (  20.06kB)
+    Total RO  Size (Code + RO Data)                20480 (  20.00kB)
+    Total RW  Size (RW Data + ZI Data)             11456 (  11.19kB)
+    Total ROM Size (Code + RO Data + RW Data)      20556 (  20.07kB)
 
 ==============================================================================
 

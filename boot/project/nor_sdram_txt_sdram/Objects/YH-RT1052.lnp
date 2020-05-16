@@ -18,7 +18,6 @@
 ".\nor_sdram_txt_sdram\objects\clock_config.o"
 ".\nor_sdram_txt_sdram\objects\pin_mux.o"
 ".\nor_sdram_txt_sdram\objects\main.o"
-".\nor_sdram_txt_sdram\objects\norflash_test.o"
 ".\nor_sdram_txt_sdram\objects\bsp_norflash.o"
 ".\nor_sdram_txt_sdram\objects\core_delay.o"
 ".\nor_sdram_txt_sdram\objects\fire_imxrt1052_sdram_ini_dcd.o"

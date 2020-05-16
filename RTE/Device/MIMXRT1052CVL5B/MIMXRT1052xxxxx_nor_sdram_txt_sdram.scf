@@ -62,7 +62,8 @@
 #define m_interrupts_size              0x00000400
 
 #define m_text_start                   0x60002400
-#define m_text_size                    0x03FFDC00
+#define m_text_size                    0x0006FC00
+;0x03FFDC00
 
 ;在SDRAM中存放代码的空间
 ;中断向量表

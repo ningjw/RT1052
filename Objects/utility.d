@@ -87,6 +87,7 @@
 .\objects\utility.o: .\fatfs\integer.h
 .\objects\utility.o: .\fatfs\ffconf.h
 .\objects\utility.o: .\fatfs\diskio.h
+.\objects\utility.o: .\User\inc\si5351_drv.h
 .\objects\utility.o: .\User\inc\ble_protocol.h
 .\objects\utility.o: .\User\inc\ble_app.h
 .\objects\utility.o: .\User\inc\adc_app.h

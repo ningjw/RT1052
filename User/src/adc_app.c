@@ -79,10 +79,10 @@ void ADC_ETC_IRQ0_IRQHandler(void)
     /*清除转换完成中断标志位*/
     ADC_ETC_ClearInterruptStatusFlags(ADC_ETC, (adc_etc_external_trigger_source_t)0U, kADC_ETC_Done0StatusFlagMask);
     /*读取转换结果*/
-    if(g_sys_para.shkCount < ADC_LEN) {
-//        ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
-		ShakeADC[g_sys_para.shkCount++] = ADC_ShakeValue;
-	}
+//    if(g_sys_para.shkCount < ADC_LEN) {
+////        ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
+//		ShakeADC[g_sys_para.shkCount++] = ADC_ShakeValue;
+//	}
 }
 
 /***************************************************************************************
@@ -103,15 +103,13 @@ void GPIO2_Combined_0_15_IRQHandler(void)
 ***************************************************************************************/
 void ADC_SampleStart(void)
 {
-//	LPM_FullSpeedRun();
-	
 	g_sys_para.tempCount = 0;
     g_sys_para.spdCount = 0;
     g_sys_para.shkCount = 0;
 	memset(ShakeADC,0,ADC_LEN);
 	memset(SpeedADC,0,ADC_LEN);
     g_sys_para.Ltc1063Clk = 1000 * g_adc_set.SampleRate / 25;
-
+	CLOCK_SetDiv(kCLOCK_IpgDiv, 0x3);//设置分频系数
 	//判断自动关机条件
     if(g_sys_para.inactiveCondition != 1) {
         g_sys_para.inactiveCount = 0;
@@ -120,8 +118,13 @@ void ADC_SampleStart(void)
 	if(g_sys_para.sampNumber > ADC_LEN){
 		g_sys_para.sampNumber = ADC_LEN;
 	}
+	
     vTaskSuspend(BAT_TaskHandle);
     vTaskSuspend(LED_TaskHandle);
+	
+	//使用PWM作为ADS1271的时钟, 其范围为37ns - 10000ns (10us)
+	ADC_PwmClkConfig(g_adc_set.SampleRate * 256);
+	
     /* Setup the PWM mode of the timer channel 用于LTC1063FA的时钟输入,控制采样带宽*/
     QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
     QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
@@ -147,15 +150,15 @@ void ADC_SampleStart(void)
 	/* 输入捕获，计算转速信号周期 */
     QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 	/* Set channel 0 period (66000000 ticks). 用于触发内部ADC采样，采集转速信号*/
-    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ / g_adc_set.SampleRate);
-    /* Start channel 0. 开启通道0,正式开始采样*/
-    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
+//    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ / g_adc_set.SampleRate);
+//    /* Start channel 0. 开启通道0,正式开始采样*/
+//    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
 	
 	while(1) { //wait ads1271 ready
         while(ADC_READY == 1){};//等待ADC_READY为低电平
 		__disable_irq();//关闭中断
-		ADC_ShakeValue = LPSPI4_ReadData();
-//		ShakeADC[g_sys_para.shkCount++] = LPSPI4_ReadData();//读取数据
+//		ADC_ShakeValue = LPSPI4_ReadData();
+		ShakeADC[g_sys_para.shkCount++] = LPSPI4_ReadData();//读取数据
 		__enable_irq();//开启中断
 		if(g_sys_para.shkCount >= g_sys_para.sampNumber){
 			g_sys_para.shkCount = g_sys_para.sampNumber;
@@ -178,9 +181,10 @@ void ADC_SampleStart(void)
 void ADC_SampleStop(void)
 {
 	/* Stop channel 0. */
-    PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
+//    PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
 	/* Stop get temperature*/
 	g_sys_para.WorkStatus = false;
+	ADC_PwmClkStop();
     /* Stop the timer */
     QTMR_StopTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL);
     QTMR_StopTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL);

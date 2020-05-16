@@ -6,6 +6,7 @@ extern char  SpeedStrADC[];
 extern char  VibrateStrADC[];
 extern const TCHAR driverNumberBuffer[];
 extern BYTE g_data_read[FF_MAX_SS];
+extern uint8_t s_nor_program_buffer[];
 snvs_hp_rtc_datetime_t sampTime;
 uint16_t ble_wait_time = 60;
 uint8_t appBuf[8192];
@@ -695,8 +696,6 @@ static char * GetObjTemp(void)
 ***************************************************************************************/
 static char* GetManageFile(cJSON *pJson, cJSON * pSub)
 {
-    FRESULT res;
-    UINT    br;
     char   *fileStr;
     int sid = 0, num = 0, si = 0, len = 0;
 	
@@ -747,8 +746,6 @@ static char* GetManageFile(cJSON *pJson, cJSON * pSub)
 ***************************************************************************************/
 static char* GetSampleFile(cJSON *pJson, cJSON * pSub)
 {
-    FRESULT res;
-    UINT    br;
     uint32_t addrOfAdcData;
     char fileName[15] = {0};
 
@@ -1097,7 +1094,7 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
         g_sys_para.firmPacksCount = pMsg[2] | (pMsg[3]<<8);
 		
 		g_sys_para.firmCurrentAddr = APP_START_SECTOR * SECTOR_SIZE + g_sys_para.firmPacksCount * FIRM_ONE_LEN;//
-		
+		PRINTF("\nADDR = 0x%x\n",g_sys_para.firmCurrentAddr);
 		FlexSPI_FlashWrite(pMsg+4, g_sys_para.firmCurrentAddr, FIRM_ONE_LEN);
 	}
 
@@ -1111,12 +1108,12 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
 		/* 使用软件复位来重置 AHB 缓冲区. */
 		FLEXSPI_SoftwareReset(FLEXSPI);
 		
-		PRINTF("升级文件:\r\n");
-		
-		for(uint32_t i = 0;i<g_sys_para.firmSizeTotal; i++){
-			if(i%16 == 0) PRINTF("\n");
-			PRINTF("%02X ",*(uint8_t *)(FlexSPI_AMBA_BASE + APP_START_SECTOR * SECTOR_SIZE+i));
-		}
+//		PRINTF("升级文件:\r\n");
+//		
+//		for(uint32_t i = 0;i<g_sys_para.firmSizeTotal; i++){
+//			if(i%16 == 0) PRINTF("\n");
+//			PRINTF("%02X ",*(uint8_t *)(FlexSPI_AMBA_BASE + APP_START_SECTOR * SECTOR_SIZE+i));
+//		}
 	
         crc = CRC16((uint8_t *)(FlexSPI_AMBA_BASE + APP_START_SECTOR * SECTOR_SIZE), g_sys_para.firmSizeTotal);
 		PRINTF("\nCRC=%d",crc);
@@ -1128,15 +1125,6 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
             g_sys_para.firmUpdate = true;
         }
     }
-
-    /* 固件包,点检仪固定回复7Byte数据 */
-//    g_puart2TxCnt = 7;
-//    memcpy(g_lpuart2TxBuf, pMsg, 4);
-//    g_lpuart2TxBuf[4] = err_code;         //错误码
-//    crc = CRC16(g_lpuart2TxBuf, g_puart2TxCnt-2);
-//    g_lpuart2TxBuf[5] = crc>>8;           //CRC H
-//    g_lpuart2TxBuf[6] = (uint8_t)crc;     //CRC L
-//    return g_lpuart2TxBuf;
 	
 	cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot) {

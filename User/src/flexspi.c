@@ -105,6 +105,7 @@ void FlexSPI_FlashWrite(uint8_t* pBuffer,uint32_t WriteAddr,uint16_t NumByteToWr
 	secremain=4096-secoff;//扇区剩余空间大小
 
  	if(NumByteToWrite<=secremain)secremain=NumByteToWrite;//不大于4096个字节
+	__disable_irq();//关闭中断
     while(1) 
 	{	
 		FlexSPI_FlashRead(FLEXSPI_BUF,secpos*4096,4096);//读出整个扇区的内容
@@ -126,7 +127,8 @@ void FlexSPI_FlashWrite(uint8_t* pBuffer,uint32_t WriteAddr,uint16_t NumByteToWr
 			if(NumByteToWrite>4096)secremain=4096;	//下一个扇区还是写不完
 			else secremain=NumByteToWrite;			//下一个扇区可以写完了
 		}	 
-	};	 
+	};
+	__enable_irq();
 }
 
 

@@ -67,12 +67,10 @@ void PWM1_Config(void)
   * @input
   * @return
 ***************************************************************************************/
-void ADC_PwmClkConfig(void)
+void ADC_PwmClkConfig(uint32_t freq)
 {
 	pwm_config_t pwmConfig;
     pwm_signal_param_t pwmSignal;
-    
-    CLOCK_SetDiv(kCLOCK_IpgDiv, 0x3);
     
     //Route the PWMA output to the PWM_OUT_TRIG0 port
     PWM1->SM[0].TCTRL |= PWM_TCTRL_PWAOT0_MASK;
@@ -88,7 +86,7 @@ void ADC_PwmClkConfig(void)
     pwmSignal.level = kPWM_LowTrue;               //有效电平为低
     pwmSignal.dutyCyclePercent = 50;              //占空比50%        
     /*配置PWM1 通道0 有符号中心对齐 PWM信号频率为6250000Hz*/
-    PWM_SetupPwm(PWM1, kPWM_Module_0, &pwmSignal, 1, kPWM_SignedCenterAligned, 6250000, CLOCK_GetFreq(kCLOCK_IpgClk));
+    PWM_SetupPwm(PWM1, kPWM_Module_0, &pwmSignal, 1, kPWM_SignedCenterAligned, freq, CLOCK_GetFreq(kCLOCK_IpgClk));
     /*设置Set LDOK 位，将初始化参数加载到相应的寄存器*/
     PWM_SetPwmLdok(PWM1, kPWM_Control_Module_0, true);
     /* 开启PWM 输出*/
@@ -98,9 +96,8 @@ void ADC_PwmClkConfig(void)
     IOMUXC_SetPinMux(IOMUXC_GPIO_B0_13_XBAR1_INOUT11,0U); 
     /*设置IO12为输出模式*/
     IOMUXC_GPR->GPR6 |= IOMUXC_GPR_GPR6_IOMUXC_XBAR_DIR_SEL_11(0x01U); 
-	//停止时该引脚输出高电平
-//    XBARA_SetSignalsConnection(XBARA1,kXBARA1_InputLogicHigh,kXBARA1_OutputIomuxXbarInout11);
 	
+	XBARA_SetSignalsConnection(XBARA1, kXBARA1_InputFlexpwm1Pwm1OutTrig01, kXBARA1_OutputIomuxXbarInout11);
 }
 
 void ADC_PwmClkStart(void)

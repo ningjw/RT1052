@@ -87,6 +87,7 @@
 .\objects\interrupt.o: .\fatfs\integer.h
 .\objects\interrupt.o: .\fatfs\ffconf.h
 .\objects\interrupt.o: .\fatfs\diskio.h
+.\objects\interrupt.o: .\User\inc\si5351_drv.h
 .\objects\interrupt.o: .\User\inc\ble_protocol.h
 .\objects\interrupt.o: .\User\inc\ble_app.h
 .\objects\interrupt.o: .\User\inc\adc_app.h

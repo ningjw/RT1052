@@ -533,11 +533,6 @@
               <FilePath>..\user\main.c</FilePath>
             </File>
             <File>
-              <FileName>norflash_test.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\user\bsp\norflash\norflash_test.c</FilePath>
-            </File>
-            <File>
               <FileName>bsp_norflash.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\user\bsp\norflash\bsp_norflash.c</FilePath>

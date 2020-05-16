@@ -8,7 +8,7 @@
 #include "main.h"
 
 #define MAX_ADC_INFO 200
-#define EXAMPLE_SECTOR      64//4096      /* 要进行读写测试的扇区号 */
+
 
 /* 读写测试使用的缓冲区 */
 extern uint8_t s_nor_program_buffer[];
@@ -207,12 +207,12 @@ int NorFlash_ChkSelf(void)
     for (i = 0; i < FIRM_ONE_LEN; i++){
         s_nor_program_buffer[i] = (uint8_t)i;
     }
-
-	FlexSPI_FlashWrite(s_nor_program_buffer, EXAMPLE_SECTOR * SECTOR_SIZE + FIRM_ONE_LEN, FIRM_ONE_LEN);
-
+//	for(i = 0; i<100;i++){
+		FlexSPI_FlashWrite(s_nor_program_buffer, APP_START_SECTOR * SECTOR_SIZE + (FIRM_ONE_LEN), FIRM_ONE_LEN);
+//	}
     /* 读取数据 */
     memcpy(s_nor_read_buffer, 
-           NORFLASH_AHB_POINTER(EXAMPLE_SECTOR * SECTOR_SIZE + FIRM_ONE_LEN),
+           NORFLASH_AHB_POINTER(APP_START_SECTOR * SECTOR_SIZE + FIRM_ONE_LEN),
            FIRM_ONE_LEN);
     
     /* 把读出的数据与写入的比较 */

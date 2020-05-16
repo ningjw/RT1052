@@ -8,8 +8,7 @@ uint32_t LPSPI4_ReadData(void);
 void PWM1_Config(void);
 void PWM1_Start(void);
 void PWM1_Stop(void);
-void ADC_PwmClkConfig(void);
-void ADC_PwmClkStart(void);
+void ADC_PwmClkConfig(uint32_t freq);
 void ADC_PwmClkStop(void);
 
 

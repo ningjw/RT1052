@@ -17,6 +17,7 @@
 ".\objects\norflash_drv.o"
 ".\objects\utility.o"
 ".\objects\flexspi.o"
+".\objects\si5351_drv.o"
 ".\objects\clock_config.o"
 ".\objects\peripherals.o"
 ".\objects\pin_mux.o"

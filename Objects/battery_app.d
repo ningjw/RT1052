@@ -87,6 +87,7 @@
 .\objects\battery_app.o: .\fatfs\integer.h
 .\objects\battery_app.o: .\fatfs\ffconf.h
 .\objects\battery_app.o: .\fatfs\diskio.h
+.\objects\battery_app.o: .\User\inc\si5351_drv.h
 .\objects\battery_app.o: .\User\inc\ble_protocol.h
 .\objects\battery_app.o: .\User\inc\ble_app.h
 .\objects\battery_app.o: .\User\inc\adc_app.h

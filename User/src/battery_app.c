@@ -27,9 +27,6 @@ void BAT_AppTask(void)
     // M=64 for 2000mAh battery,
     LTC2942_SetPrescaler(LTC2942_PSCM_64);
 
-    //设置充电模式
-    LTC2942_SetALCCMode(LTC2942_ALCC_CHG);
-
     PRINTF("Battery Task Create and Running\r\n");
 
     while(1)
@@ -42,7 +39,12 @@ void BAT_AppTask(void)
 
         // 获取电量百分比
         g_sys_para.batRemainPercent = LTC2942_GetAC() * 100.0 / 0xFFFF;
-        
+        if(READ_CHARGE_STA == 0 && READ_STDBY_STA == 1) {//充电当中
+			LTC2942_SetALCCMode(LTC2942_ALCC_CHG);
+		}else{
+			LTC2942_SetALCCMode(LTC2942_ALCC_ALERT);
+		}
+		
         if(READ_CHARGE_STA == 0 && READ_STDBY_STA == 1) {//充电当中
             g_sys_para.batLedStatus = BAT_CHARGING;
             BAT_CHG_UNCOMPLETE;

@@ -184,6 +184,7 @@ void LPUART2_IRQHandler(void)
         /*读取数据*/
         ucTemp = LPUART_ReadByte(LPUART2);
 		g_puart2StartRx = true;
+		g_puart2RxTimeCnt = 0;
 		if(g_puart2RxCnt < LPUART2_BUFF_LEN) {
 			/* 将接受到的数据保存到数组*/
 			g_lpuart2RxBuf[g_puart2RxCnt++] = ucTemp;
