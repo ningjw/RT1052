@@ -1,7 +1,7 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#define SOFT_VERSION       "0.09"
+#define SOFT_VERSION       "0.10"
 #define HARD_VERSION       "1.0"
 #define POWER_ON_TIMER_ID  1
 #define ULONG_MAX          0xFFFFFFFF

@@ -20,6 +20,8 @@ char str[12];
 
 uint32_t ADC_ShakeValue = 0;
 uint8_t  ADC_InvalidCnt = 0;
+
+extern void QuadTimer1_init(void);
 /***************************************************************************************
   * @brief   kPIT_Chnl_0用于触发ADC采样 ；kPIT_Chnl_1 用于定时采样; kPIT_Chnl_2用于定时关机1分钟中断
   * @input
@@ -108,34 +110,58 @@ void ADC_SampleStart(void)
     g_sys_para.shkCount = 0;
 	memset(ShakeADC,0,ADC_LEN);
 	memset(SpeedADC,0,ADC_LEN);
-    g_sys_para.Ltc1063Clk = 1000 * g_adc_set.SampleRate / 25;
-	CLOCK_SetDiv(kCLOCK_IpgDiv, 0x3);//设置分频系数
+
+	//根据采样率重新设置IPG_CLK的分频系数
+	if(g_adc_set.SampleRate >= 256 && g_adc_set.SampleRate < 1000){
+		CLOCK_SetDiv(kCLOCK_IpgDiv, 0x7);//设置分频系数
+	}
+	else if(g_adc_set.SampleRate >= 1000 && g_adc_set.SampleRate < 5000){
+		CLOCK_SetDiv(kCLOCK_IpgDiv, 0x6);//设置分频系数
+	}
+	else if(g_adc_set.SampleRate >= 5000 && g_adc_set.SampleRate < 10000){
+		CLOCK_SetDiv(kCLOCK_IpgDiv, 0x5);//设置分频系数
+	}
+	else if(g_adc_set.SampleRate >= 10000 && g_adc_set.SampleRate < 25000){
+		CLOCK_SetDiv(kCLOCK_IpgDiv, 0x4);//设置分频系数
+	}else{
+		CLOCK_SetDiv(kCLOCK_IpgDiv, 0x3);//设置分频系数
+	}
+	
+	
 	//判断自动关机条件
     if(g_sys_para.inactiveCondition != 1) {
         g_sys_para.inactiveCount = 0;
     }
+	
 	//判断点数是否超出数组界限
 	if(g_sys_para.sampNumber > ADC_LEN){
 		g_sys_para.sampNumber = ADC_LEN;
 	}
 	
+	//挂起电池与LED灯的任务,并停止PendSV与SysTick中断
     vTaskSuspend(BAT_TaskHandle);
-    vTaskSuspend(LED_TaskHandle);
+//    vTaskSuspend(LED_TaskHandle);
+	NVIC_DisableIRQ(PendSV_IRQn);   
+    NVIC_DisableIRQ(SysTick_IRQn);
+	
+	//配置采样时钟,重新配置SPI波特率
+	uint32_t *baud = (uint32_t *)&LPSPI4_config.baudRate;
+	*baud = g_adc_set.SampleRate * 512;
+	LPSPI_MasterInit(LPSPI4_PERIPHERAL, &LPSPI4_config, LPSPI4_CLOCK_FREQ);
+	
+	//配置ADS1271的时钟
+	ADC_PwmClkConfig(g_adc_set.SampleRate * 512);
 	
 	//使用PWM作为ADS1271的时钟, 其范围为37ns - 10000ns (10us)
 	ADC_PwmClkConfig(g_adc_set.SampleRate * 256);
 	
-    /* Setup the PWM mode of the timer channel 用于LTC1063FA的时钟输入,控制采样带宽*/
-    QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
+    /* 输出PWM 用于LTC1063FA的时钟输入,控制采样带宽*/
+	g_sys_para.Ltc1063Clk = 1000 * g_adc_set.SampleRate / 25;
+    QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, CLOCK_GetFreq(kCLOCK_IpgClk));
     QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
-
-	NVIC_DisableIRQ(PendSV_IRQn);   
-    NVIC_DisableIRQ(SysTick_IRQn);
 	
+	//丢弃前100个数据
 	ADC_InvalidCnt = 0;
-	//开始采集数据前获取一次温度
-	Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();
-	
 	while (1) { //wait ads1271 ready
         while(ADC_READY == 1){};//等待ADC_READY为低电平
 		ADC_ShakeValue = LPSPI4_ReadData();
@@ -143,12 +169,19 @@ void ADC_SampleStart(void)
 		if(ADC_InvalidCnt > 100) break;//根据调试时的数据观察,丢弃前面20个数据
     }
 	
-	g_sys_para.WorkStatus = true;//设置为true后,会在PIT中断中采集温度数据
+	//设置为true后,会在PIT中断中采集温度数据
+	g_sys_para.WorkStatus = true;
 	PIT_StopTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
 	PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_2);
 	
+	
+	//开始采集数据前获取一次温度
+	Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();
+	
 	/* 输入捕获，计算转速信号周期 */
+	QuadTimer1_init();
     QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
+	
 	/* Set channel 0 period (66000000 ticks). 用于触发内部ADC采样，采集转速信号*/
 //    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ / g_adc_set.SampleRate);
 //    /* Start channel 0. 开启通道0,正式开始采样*/
@@ -190,12 +223,10 @@ void ADC_SampleStop(void)
     QTMR_StopTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL);
 	
     vTaskResume(BAT_TaskHandle);
-    vTaskResume(LED_TaskHandle);
+//    vTaskResume(LED_TaskHandle);
 	
 	//结束采集后获取一次温度
 	Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();
-	
-//	LPM_LowPowerRun();
 	
     /* 触发ADC采样完成事件  */
     xTaskNotify(ADC_TaskHandle, NOTIFY_FINISH, eSetBits);
@@ -248,7 +279,7 @@ void ADC_AppTask(void)
 				int tempValue = 0;
                 for(uint32_t i = 0; i < g_sys_para.shkCount; i++) {
                     ShakeADC[i] = ShakeADC[i] * g_sys_para.bias * 1.0f / 0x800000;
-//					PRINTF("%01.5f,",ShakeADC[i]);
+					PRINTF("%01.5f,",ShakeADC[i]);
 					tempValue = ShakeADC[i] * 10000;//将浮点数转换为整数,并扩大10000倍
                     memset(str, 0, sizeof(str));
                     sprintf(str, "%04x", tempValue);
@@ -292,7 +323,7 @@ void ADC_AppTask(void)
 				g_adc_set.ProcessMin = Temperature[min_i];
 				
                 /* -----------将采用数据打包成json格式,并保存到文件中-----*/
-                PacketSampleData();
+//                PacketSampleData();
 
                 /* 发送任务通知，并解锁阻塞在该任务通知下的任务 */
                 xTaskNotifyGive( BLE_TaskHandle);

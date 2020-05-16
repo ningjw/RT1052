@@ -51,13 +51,10 @@ void jumpToApp(void)
 				FlexSPI_FlashWrite(s_nor_read_buffer,(FIRM_APP_SECTOR+i)*SECTOR_SIZE ,SECTOR_SIZE);
 			}
 			
-			/*最新的app复制到运行处	*/
-//			memcpy((void*)FIRM_APP_ADDR, (uint8_t *)(FlexSPI_AMBA_BASE + APP_START_SECTOR * SECTOR_SIZE), UpdatePara.firmSizeTotal);
-		
 			//将标识位写入flash
-//			UpdatePara.firmUpdate = false;
-//			FlexSPI_NorFlash_Erase_Sector(FLEXSPI, APP_INFO_SECTOR * SECTOR_SIZE);
-//			FlexSPI_NorFlash_Buffer_Program(FLEXSPI, APP_INFO_SECTOR * SECTOR_SIZE, &UpdatePara.firmUpdate, 13);
+			UpdatePara.firmUpdate = false;
+			FlexSPI_NorFlash_Erase_Sector(FLEXSPI, APP_INFO_SECTOR * SECTOR_SIZE);
+			FlexSPI_NorFlash_Buffer_Program(FLEXSPI, APP_INFO_SECTOR * SECTOR_SIZE, &UpdatePara.firmUpdate, 13);
 		}
 		
 		PRINTF("Jump to app\n");

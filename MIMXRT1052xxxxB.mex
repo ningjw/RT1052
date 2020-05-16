@@ -626,6 +626,7 @@
                   <setting id="CCM.FLEXIO2_CLK_PODF.scale" value="2" locked="true"/>
                   <setting id="CCM.FLEXSPI_PODF.scale" value="3" locked="true"/>
                   <setting id="CCM.FLEXSPI_SEL.sel" value="CCM_ANALOG.PLL2_PFD2_CLK" locked="false"/>
+                  <setting id="CCM.IPG_PODF.scale" value="4" locked="true"/>
                   <setting id="CCM.LPI2C_CLK_PODF.scale" value="3" locked="true"/>
                   <setting id="CCM.LPSPI_CLK_SEL.sel" value="CCM_ANALOG.PLL3_PFD1_CLK" locked="false"/>
                   <setting id="CCM.LPSPI_PODF.scale" value="4" locked="true"/>
@@ -1001,23 +1002,7 @@
                            <setting name="enableRoundRobinArbitration" value="false"/>
                            <setting name="enableDebugMode" value="false"/>
                         </struct>
-                        <array name="dma_table">
-                           <struct name="0"/>
-                           <struct name="1"/>
-                           <struct name="2"/>
-                           <struct name="3"/>
-                           <struct name="4"/>
-                           <struct name="5"/>
-                           <struct name="6"/>
-                           <struct name="7"/>
-                           <struct name="8"/>
-                           <struct name="9"/>
-                           <struct name="10"/>
-                           <struct name="11"/>
-                           <struct name="12"/>
-                           <struct name="13"/>
-                           <struct name="14"/>
-                        </array>
+                        <array name="dma_table"/>
                         <array name="edma_channels"/>
                      </config_set>
                   </instance>
