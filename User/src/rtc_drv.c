@@ -1,15 +1,7 @@
 #include "main.h"
 
 
-snvs_hp_rtc_datetime_t rtcDate = {
-        /* 设置日期 */
-    .year = 2020,
-    .month = 1,
-    .day = 1,
-    .hour = 0,
-    .minute = 0,
-    .second = 0,
-};/* 定义 rtc 日期配置结构体 */
+
 
 /**
   * @brief  初始化RTC相关配置

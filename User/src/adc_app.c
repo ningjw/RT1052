@@ -1,6 +1,5 @@
 #include "main.h"
 
-
 float SpeedADC[ADC_LEN];
 float ShakeADC[ADC_LEN];
 float Temperature[64];
@@ -13,7 +12,6 @@ char  VibrateStrADC[ADC_LEN * 4 + 1];
 #define ADC_SYNC_HIGH            GPIO_PinWrite(BOARD_ADC_SYNC_GPIO, BOARD_ADC_SYNC_PIN, 1)
 #define ADC_SYNC_LOW             GPIO_PinWrite(BOARD_ADC_SYNC_GPIO, BOARD_ADC_SYNC_PIN, 0)
 TaskHandle_t ADC_TaskHandle = NULL;  /* ADC任务句柄 */
-
 
 uint32_t timeCapt = 0;
 char str[12];
@@ -33,8 +31,6 @@ void PIT_IRQHandler(void)
         /* 清除中断标志位.*/
         PIT_ClearStatusFlags(PIT, kPIT_Chnl_2, kPIT_TimerFlag);
 		
-//		PRINTF("每1S输出");
-		
 		//在采集数据时,每间隔1S获取一次温度数据
 		if (g_sys_para.tempCount < sizeof(Temperature) && g_sys_para.WorkStatus){
 			Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();
@@ -47,10 +43,6 @@ void PIT_IRQHandler(void)
             //SNVS->LPSR |= SNVS_LPCR_DP_EN(1);
             //SNVS->LPSR |= SNVS_LPCR_TOP(1);
         }
-		
-		if(g_sys_para.enterLPMCount){
-			g_sys_para.enterLPMCount--;
-		}
     }
 
     __DSB();
@@ -121,9 +113,10 @@ void ADC_SampleStart(void)
 	else if(g_adc_set.SampleRate >= 5000 && g_adc_set.SampleRate < 10000){
 		CLOCK_SetDiv(kCLOCK_IpgDiv, 0x5);//设置分频系数
 	}
-	else if(g_adc_set.SampleRate >= 10000 && g_adc_set.SampleRate < 25000){
-		CLOCK_SetDiv(kCLOCK_IpgDiv, 0x4);//设置分频系数
-	}else{
+//	else if(g_adc_set.SampleRate >= 10000 && g_adc_set.SampleRate < 25000){
+//		CLOCK_SetDiv(kCLOCK_IpgDiv, 0x4);//设置分频系数
+//	}
+	else{
 		CLOCK_SetDiv(kCLOCK_IpgDiv, 0x3);//设置分频系数
 	}
 	
@@ -149,11 +142,8 @@ void ADC_SampleStart(void)
 	*baud = g_adc_set.SampleRate * 512;
 	LPSPI_MasterInit(LPSPI4_PERIPHERAL, &LPSPI4_config, LPSPI4_CLOCK_FREQ);
 	
-	//配置ADS1271的时钟
-	ADC_PwmClkConfig(g_adc_set.SampleRate * 512);
-	
 	//使用PWM作为ADS1271的时钟, 其范围为37ns - 10000ns (10us)
-	ADC_PwmClkConfig(g_adc_set.SampleRate * 256);
+	ADC_PwmClkConfig(g_adc_set.SampleRate * 512);
 	
     /* 输出PWM 用于LTC1063FA的时钟输入,控制采样带宽*/
 	g_sys_para.Ltc1063Clk = 1000 * g_adc_set.SampleRate / 25;
@@ -260,7 +250,6 @@ void ADC_AppTask(void)
     if(LPSPI4_ReadData() == 0) {
         g_sys_para.sampLedStatus = WORK_FATAL_ERR;
     }
-	g_sys_para.enterLPMCount = 10;
     PRINTF("ADC Task Create and Running\r\n");
     while(1)
     {
@@ -279,7 +268,7 @@ void ADC_AppTask(void)
 				int tempValue = 0;
                 for(uint32_t i = 0; i < g_sys_para.shkCount; i++) {
                     ShakeADC[i] = ShakeADC[i] * g_sys_para.bias * 1.0f / 0x800000;
-					PRINTF("%01.5f,",ShakeADC[i]);
+//					PRINTF("%01.5f,",ShakeADC[i]);
 					tempValue = ShakeADC[i] * 10000;//将浮点数转换为整数,并扩大10000倍
                     memset(str, 0, sizeof(str));
                     sprintf(str, "%04x", tempValue);
@@ -323,7 +312,7 @@ void ADC_AppTask(void)
 				g_adc_set.ProcessMin = Temperature[min_i];
 				
                 /* -----------将采用数据打包成json格式,并保存到文件中-----*/
-//                PacketSampleData();
+                SaveSampleData();
 
                 /* 发送任务通知，并解锁阻塞在该任务通知下的任务 */
                 xTaskNotifyGive( BLE_TaskHandle);

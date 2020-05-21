@@ -11,7 +11,8 @@
 #define APP_INFO_SECTOR    128 /* 升级信息保存在NorFlash的第63个扇区*/
 #define APP_START_SECTOR   129 /* App数据从第64个扇区开始保存 */
 #define ADC_INFO_SECTOR    256 //用于管理ADC数据
-#define ADC_DATA_SECTOR    257
+#define ADC_DATA_SECTOR    266
+#define MAX_SECTOR         8192
 
 #define FIRM_ONE_PACKE_LEN 166 
 #define FIRM_ONE_LEN (FIRM_ONE_PACKE_LEN - 6)
@@ -77,6 +78,8 @@ typedef struct{
 	uint32_t totalAdcInfo;
 	uint32_t addrOfNewInfo;
 	uint32_t addrOfNewData;
+	uint32_t freeOfKb;
+	uint32_t bakup;//让
 }AdcInfoTotal;
 
 typedef struct{
@@ -116,7 +119,6 @@ typedef struct{
 	
     uint32_t sampNumber;  //取样时间
     uint32_t Ltc1063Clk;  //取样时钟频率
-	uint32_t sampSize;     //将采集到的数据,打包成json格式后的总长度
     char*    sampJson;     //已经打包成json格式的数据的首地址
 	
 	uint32_t sampPacksCnt; //计数器
@@ -133,7 +135,6 @@ typedef struct{
 	
     float    bias;         //震动传感器偏置电压
     float    refV;         //1052的参考电压值
-	uint8_t  enterLPMCount;
     DWORD    emmc_fre_size;//剩余空间
     DWORD    emmc_tot_size;//总空间大小
     char     fileName[20];
@@ -179,5 +180,6 @@ typedef struct{
 
 extern SysPara g_sys_para;
 extern ADC_Set g_adc_set;
+extern snvs_hp_rtc_datetime_t rtcDate;
 void BOARD_InitDebugConsole(void);
 #endif

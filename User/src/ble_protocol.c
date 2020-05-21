@@ -1,16 +1,13 @@
 #include "main.h"
 
-extern float ShakeADC[];
-extern float SpeedADC[];
-extern char  SpeedStrADC[];
-extern char  VibrateStrADC[];
 extern const TCHAR driverNumberBuffer[];
 extern BYTE g_data_read[FF_MAX_SS];
 extern uint8_t s_nor_program_buffer[];
+extern AdcInfoTotal adcInfoTotal;
+
 snvs_hp_rtc_datetime_t sampTime;
 uint16_t ble_wait_time = 60;
-uint8_t appBuf[8192];
-uint16_t i_appBuf = 0;
+
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
   * @input
@@ -400,7 +397,7 @@ static char * StartSample(cJSON *pJson, cJSON * pSub)
     LPUART2_SendString((char *)sendBuf);
     free(sendBuf);
     sendBuf = NULL;
-    sampTime = rtcDate;
+	SNVS_HP_RTC_GetDatetime(SNVS, &sampTime);
     /*start sample*/
     ADC_SampleStart();
 
@@ -416,7 +413,7 @@ static char * StartSample(cJSON *pJson, cJSON * pSub)
         cJSON_AddNumberToObject(pJsonRoot, "Id",  8);
         cJSON_AddNumberToObject(pJsonRoot, "Sid", 1);
         cJSON_AddStringToObject(pJsonRoot, "F", g_sys_para.fileName);
-        cJSON_AddNumberToObject(pJsonRoot, "Si", g_sys_para.sampSize);
+		cJSON_AddNumberToObject(pJsonRoot, "Kb", adcInfoTotal.freeOfKb);
         cJSON_AddNumberToObject(pJsonRoot,"PK",  g_sys_para.sampPacks);
         cJSON_AddNumberToObject(pJsonRoot, "V", g_sys_para.shkCount);
         cJSON_AddNumberToObject(pJsonRoot, "S", g_sys_para.spdCount);
@@ -429,71 +426,7 @@ static char * StartSample(cJSON *pJson, cJSON * pSub)
 
 
 
-/***************************************************************************************
-  * @brief   处理消息id为9的消息, 该消息为获取采样数据
-  * @input
-  * @return
-***************************************************************************************/
-char *PacketSampleData(void)
-{
-    free(g_sys_para.sampJson);
-    g_sys_para.sampJson = NULL;
-    g_sys_para.sampSize = 0;
-    cJSON *pJsonRoot = cJSON_CreateObject();
-    if(NULL == pJsonRoot) {
-        return NULL;
-    }
-    cJSON_AddStringToObject(pJsonRoot, "DP", g_adc_set.IDPath);//硬件版本号
-    cJSON_AddStringToObject(pJsonRoot, "NP", g_adc_set.NamePath);//硬件版本号
-    cJSON_AddStringToObject(pJsonRoot, "SU", g_adc_set.SpeedUnits);
-    cJSON_AddStringToObject(pJsonRoot, "PU", g_adc_set.ProcessUnits);
-    cJSON_AddNumberToObject(pJsonRoot, "DT", g_adc_set.DetectionType);
-    cJSON_AddNumberToObject(pJsonRoot, "SEN", g_adc_set.Senstivity);
-    cJSON_AddNumberToObject(pJsonRoot, "ZD", g_adc_set.Zerodrift);
-    cJSON_AddNumberToObject(pJsonRoot, "ET", g_adc_set.EUType);
-    cJSON_AddStringToObject(pJsonRoot, "EU", g_adc_set.EU);
-    cJSON_AddNumberToObject(pJsonRoot, "W", g_adc_set.WindowsType);
-    cJSON_AddNumberToObject(pJsonRoot, "SF", g_adc_set.StartFrequency);
-    cJSON_AddNumberToObject(pJsonRoot, "EF", g_adc_set.EndFrequency);
-    cJSON_AddNumberToObject(pJsonRoot, "SR", g_adc_set.SampleRate);
-    cJSON_AddNumberToObject(pJsonRoot, "L", g_adc_set.Lines);
-    cJSON_AddNumberToObject(pJsonRoot, "B", g_sys_para.bias);
-    cJSON_AddNumberToObject(pJsonRoot, "RV", g_sys_para.refV);
-    cJSON_AddNumberToObject(pJsonRoot, "A", g_adc_set.Averages);
-    cJSON_AddNumberToObject(pJsonRoot, "OL", g_adc_set.AverageOverlap);
-    cJSON_AddNumberToObject(pJsonRoot, "AT", g_adc_set.AverageType);
-    cJSON_AddNumberToObject(pJsonRoot, "EFL", g_adc_set.EnvFilterLow);
-    cJSON_AddNumberToObject(pJsonRoot, "EFH", g_adc_set.EnvFilterHigh);
-    cJSON_AddNumberToObject(pJsonRoot, "IM", g_adc_set.IncludeMeasurements);
-    cJSON_AddNumberToObject(pJsonRoot, "SP", g_adc_set.Speed);
-    cJSON_AddNumberToObject(pJsonRoot, "P", g_adc_set.Process);
-    cJSON_AddNumberToObject(pJsonRoot, "PL", g_adc_set.ProcessMin);
-    cJSON_AddNumberToObject(pJsonRoot, "PH", g_adc_set.ProcessMax);
-    cJSON_AddNumberToObject(pJsonRoot, "PK", g_sys_para.sampPacks);
-    cJSON_AddNumberToObject(pJsonRoot, "Y", sampTime.year);
-    cJSON_AddNumberToObject(pJsonRoot, "M", sampTime.month);
-    cJSON_AddNumberToObject(pJsonRoot, "D", sampTime.day);
-    cJSON_AddNumberToObject(pJsonRoot, "H", sampTime.hour);
-    cJSON_AddNumberToObject(pJsonRoot, "Min", sampTime.minute);
-    cJSON_AddNumberToObject(pJsonRoot, "S", sampTime.second);
-	cJSON_AddNumberToObject(pJsonRoot, "spdCnt", g_sys_para.spdCount);
-	cJSON_AddNumberToObject(pJsonRoot, "vibCnt", g_sys_para.shkCount);
-    cJSON_AddStringToObject(pJsonRoot, "Vibrate", VibrateStrADC);
-    cJSON_AddStringToObject(pJsonRoot, "Speed", SpeedStrADC);
 
-    g_sys_para.sampJson = cJSON_PrintUnformatted(pJsonRoot);
-    cJSON_Delete(pJsonRoot);
-
-    /*将打包好的数据保存到文件 */
-    if (NULL != g_sys_para.sampJson) {
-        
-//        eMMC_SaveSampleData(g_sys_para.sampJson, g_sys_para.sampSize);
-//        //将数据通过串口打印出来
-//        PRINTF("%s", g_sys_para.sampJson);
-    }
-
-    return g_sys_para.sampJson;
-}
 
 
 /***************************************************************************************
@@ -694,30 +627,33 @@ static char * GetObjTemp(void)
   * @input
   * @return
 ***************************************************************************************/
-static char* GetManageFile(cJSON *pJson, cJSON * pSub)
+static char* GetManageInfo(cJSON *pJson, cJSON * pSub)
 {
     char   *fileStr;
     int sid = 0, num = 0, si = 0, len = 0;
 	
     /*解析消息内容,*/
-    pSub = cJSON_GetObjectItem(pJson, "Sid");
+	pSub = cJSON_GetObjectItem(pJson, "S");
     if(pSub != NULL) {
-        sid = pSub->valueint;
-    }
-	pSub = cJSON_GetObjectItem(pJson, "Sid");
+        si = pSub->valueint;
+    }else{
+		si = 0;
+	}
+	
+	pSub = cJSON_GetObjectItem(pJson, "N");
     if(pSub != NULL) {
-        sid = pSub->valueint;
-    }
-	pSub = cJSON_GetObjectItem(pJson, "Sid");
-    if(pSub != NULL) {
-        sid = pSub->valueint;
-    }
+        num = pSub->valueint;
+    }else{
+		num = 1;
+	}
+	if(num > 10) num = 10;
+	if(num < 1) num = 1;
 
     //申请内存用于保存文件内容
 	len = num * 13 + 1;
     fileStr = malloc(len);
     memset(fileStr, 0U, len);
-
+	
     NorFlash_ReadAdcInfo(si, num, fileStr);
 	
     /*制作cjson格式的回复消息*/
@@ -727,10 +663,9 @@ static char* GetManageFile(cJSON *pJson, cJSON * pSub)
     }
     cJSON_AddNumberToObject(pJsonRoot, "Id", 13);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",sid);
-    cJSON_AddNumberToObject(pJsonRoot, "num",num);
-    cJSON_AddStringToObject(pJsonRoot, "content", fileStr);
-	cJSON_AddNumberToObject(pJsonRoot, "total",g_sys_para.emmc_tot_size);
-	cJSON_AddNumberToObject(pJsonRoot, "free",g_sys_para.emmc_fre_size);
+    cJSON_AddStringToObject(pJsonRoot, "Name", fileStr);
+	cJSON_AddNumberToObject(pJsonRoot, "T",adcInfoTotal.totalAdcInfo);
+	cJSON_AddNumberToObject(pJsonRoot, "Kb",adcInfoTotal.freeOfKb);
     char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     free(fileStr);
@@ -744,8 +679,9 @@ static char* GetManageFile(cJSON *pJson, cJSON * pSub)
   * @input
   * @return
 ***************************************************************************************/
-static char* GetSampleFile(cJSON *pJson, cJSON * pSub)
+static char* GetSampleDataInFlash(cJSON *pJson, cJSON * pSub)
 {
+	extern AdcInfo adcInfo;
     uint32_t addrOfAdcData;
     char fileName[15] = {0};
 
@@ -757,10 +693,13 @@ static char* GetSampleFile(cJSON *pJson, cJSON * pSub)
 
     /*从flash读取文件*/
 	addrOfAdcData = NorFlash_ReadAdcData(fileName);
+	
     if(addrOfAdcData != NULL) {
-
-        /*将数据按照json格式进行解析*/
-        cJSON *pFileJson = cJSON_Parse(NORFLASH_AHB_POINTER(addrOfAdcData));
+		g_sys_para.sampJson = malloc(adcInfo.AdcDataLen);
+		memcpy(g_sys_para.sampJson, NORFLASH_AHB_POINTER(addrOfAdcData), adcInfo.AdcDataLen);
+        
+		/*将数据按照json格式进行解析*/
+        cJSON *pFileJson = cJSON_Parse(g_sys_para.sampJson);
         if(NULL == pFileJson) {
             return NULL;
         }
@@ -919,7 +858,8 @@ static char* GetSampleFile(cJSON *pJson, cJSON * pSub)
         if (NULL != pSub) {
             strcpy(SpeedStrADC, pSub->valuestring);
         }
-
+		free(g_sys_para.sampJson);
+		g_sys_para.sampJson = NULL;
         cJSON_Delete(pFileJson);
     }
 
@@ -944,24 +884,14 @@ static char* GetSampleFile(cJSON *pJson, cJSON * pSub)
 
 
 /***************************************************************************************
-  * @brief   处理消息id为15的消息, 该消息为格式化eMMC文件系统
+  * @brief   处理消息id为15的消息, 该消息为擦除flash中保存的所有采样数据
   * @input
   * @return
 ***************************************************************************************/
-static char *FormatEmmc(void)
+static char *EraseAdcDataInFlash(void)
 {
-	FRESULT ret = FR_OK;
-
-	ret = f_mkfs(driverNumberBuffer, FM_FAT32, 0U, g_data_read, sizeof g_data_read);//制作文件系统
-	if (ret) {//格式化失败
-		ret = f_mkfs(driverNumberBuffer, FM_FAT32, 0U, g_data_read, sizeof g_data_read);//重试
-		if(ret){//再次格式化失败
-			g_sys_para.emmcIsOk = false;
-		}else{//格式化成功,挂载文件系统
-			eMMC_Init();
-		}
-	}else{
-		eMMC_Init();
+	for(int i = ADC_INFO_SECTOR; i<ADC_DATA_SECTOR; i++){
+		FlexSPI_NorFlash_Erase_Sector(FLEXSPI, i*SECTOR_SIZE);
 	}
 	
 	cJSON *pJsonRoot = cJSON_CreateObject();
@@ -970,35 +900,14 @@ static char *FormatEmmc(void)
     }
 	cJSON_AddNumberToObject(pJsonRoot, "Id", 15);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
-	cJSON_AddBoolToObject(pJsonRoot, "status",g_sys_para.emmcIsOk);
-	cJSON_AddNumberToObject(pJsonRoot, "total",g_sys_para.emmc_tot_size);
-	cJSON_AddNumberToObject(pJsonRoot, "free",g_sys_para.emmc_fre_size);
+	cJSON_AddBoolToObject(pJsonRoot, "Status",g_sys_para.emmcIsOk);
+	uint32_t free = (FLASH_SIZE_BYTE - ADC_DATA_SECTOR*SECTOR_SIZE)/1024;
+	cJSON_AddNumberToObject(pJsonRoot, "Kb", free);
 	char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
     return p_reply;
 }
 
-/***************************************************************************************
-  * @brief   处理消息id为16的消息, 该消息为删除最早创建的文件
-  * @input
-  * @return
-***************************************************************************************/
-static char *DelEarliestFile(void)
-{
-	cJSON *pJsonRoot = cJSON_CreateObject();
-    if(NULL == pJsonRoot) {
-        return NULL;
-    }
-	cJSON_AddNumberToObject(pJsonRoot, "Id", 16);
-    cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
-
-	eMMC_DelEarliestFile();
-
-	cJSON_AddStringToObject(pJsonRoot, "fileName", g_sys_para.earliestFile);
-	char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
-    cJSON_Delete(pJsonRoot);
-    return p_reply;
-}
 
 /***************************************************************************************
   * @brief   解析json数据包
@@ -1056,16 +965,13 @@ uint8_t* ParseJson(char *pMsg)
         p_reply = GetObjTemp();
         break;
     case 13:
-        p_reply = GetManageFile(pJson, pSub);
+        p_reply = GetManageInfo(pJson, pSub);
         break;
     case 14:
-        p_reply = GetSampleFile(pJson, pSub);
+        p_reply = GetSampleDataInFlash(pJson, pSub);
         break;
 	case 15:
-		p_reply = FormatEmmc();
-		break;
-	case 16:
-		p_reply = DelEarliestFile();
+		p_reply = EraseAdcDataInFlash();
 		break;
     }
 

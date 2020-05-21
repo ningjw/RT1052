@@ -11,7 +11,7 @@ __align(64) uint8_t s_nor_read_buffer[256];
 //WriteAddr:开始写入的地址(最大32bit)
 //NumByteToWrite:要写入的字节数(最大256),该数不应该超过该页的剩余字节数!!!
 //返回值：0 成功，其他值 失败 
-uint8_t FlexSPI_FlashPage_Write(uint8_t* pBuffer,uint32_t WriteAddr,uint16_t NumByteToWrite)
+uint8_t FlexSPI_FlashPage_Write(uint8_t* pBuffer,uint32_t WriteAddr,uint32_t NumByteToWrite)
 {
     uint8_t ret=0;
     flexspi_transfer_t FlashTransfer;
@@ -39,7 +39,7 @@ uint8_t FlexSPI_FlashPage_Write(uint8_t* pBuffer,uint32_t WriteAddr,uint16_t Num
 //pBuffer:数据存储区
 //ReadAddr:开始读取的地址(最大32bit)
 //NumByteToRead:要读取的字节数(最大65535)
-void FlexSPI_FlashRead(uint8_t* pBuffer,uint32_t ReadAddr,uint16_t NumByteToRead)  
+void FlexSPI_FlashRead(uint8_t* pBuffer,uint32_t ReadAddr,uint32_t NumByteToRead)  
 {
     uint32_t index=0;
     uint32_t startaddr=0;
@@ -63,7 +63,7 @@ void FlexSPI_FlashRead(uint8_t* pBuffer,uint32_t ReadAddr,uint16_t NumByteToRead
 //WriteAddr:开始写入的地址(最大32bit)
 //NumByteToWrite:要写入的字节数(最大65535)
 //CHECK OK
-void FlexSPI_Write_NoCheck(uint8_t* pBuffer,uint32_t WriteAddr,uint16_t NumByteToWrite)   
+void FlexSPI_Write_NoCheck(uint8_t* pBuffer,uint32_t WriteAddr,uint32_t NumByteToWrite)   
 { 			 		 
 	uint16_t pageremain;	   
 	pageremain=256-WriteAddr%256; //单页剩余的字节数	
@@ -91,7 +91,7 @@ void FlexSPI_Write_NoCheck(uint8_t* pBuffer,uint32_t WriteAddr,uint16_t NumByteT
 //WriteAddr:开始写入的地址(最大32bit)						
 //NumByteToWrite:要写入的字节数(最大65535)   
 __align(64) uint8_t FLEXSPI_FLASH_BUFFER[4096];	
-void FlexSPI_FlashWrite(uint8_t* pBuffer,uint32_t WriteAddr,uint16_t NumByteToWrite)   
+void FlexSPI_FlashWrite(uint8_t* pBuffer,uint32_t WriteAddr,uint32_t NumByteToWrite)   
 { 
 	uint32_t secpos=0;
 	uint16_t secoff=0;
@@ -114,7 +114,7 @@ void FlexSPI_FlashWrite(uint8_t* pBuffer,uint32_t WriteAddr,uint16_t NumByteToWr
         {
             FLEXSPI_BUF[i+secoff]=pBuffer[i];	  
         }
-        FlexSPI_Write_NoCheck(FLEXSPI_BUF,secpos*4096,4096);//写入整个扇区  
+        FlexSPI_Write_NoCheck(FLEXSPI_BUF, secpos*4096, 4096);//写入整个扇区  
 		if(NumByteToWrite==secremain)break;//写入结束了
 		else//写入未结束
 		{

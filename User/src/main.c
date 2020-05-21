@@ -7,7 +7,15 @@ void BOARD_InitDebugConsole(void);
 
 SysPara  g_sys_para;
 ADC_Set  g_adc_set;
-
+snvs_hp_rtc_datetime_t rtcDate = {
+        /* 设置日期 */
+    .year = 2020,
+    .month = 1,
+    .day = 1,
+    .hour = 0,
+    .minute = 0,
+    .second = 0,
+};/* 定义 rtc 日期配置结构体 */
 /***************************************************************************************
   * @brief   初始化系统变量
   * @input   
@@ -96,10 +104,10 @@ int main(void)
     BaseType_t xReturn = pdPASS;/* 定义一个创建信息返回值，默认为pdPASS */
     BOARD_ConfigMPU();          /* 配置MPU */
     BOARD_BootClockRUN();       /* 配置Clock */
-	
     BOARD_InitBootPins();       /* 配置GPIO */
     BOARD_InitPeripherals();    /* 配置外设 */
     BOARD_InitDebugConsole();   /* 配置调试串口 */
+
 	PRINTF("app:\r\n");
     InitSysPara();              /* 初始化系统变量*/
     FlexSPI_NorFlash_Init();    /* 初始化FlexSPI*/

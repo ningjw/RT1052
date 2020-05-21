@@ -6,8 +6,8 @@
   * @date    2018-xx-xx
   */
 #include "main.h"
-
-#define MAX_ADC_INFO 200
+//有10个sector用于管理ADC采样数据, 每个采样数据占用20byte, 共可以保存40960/20=2048个
+#define MAX_ADC_INFO 2047
 
 
 /* 读写测试使用的缓冲区 */
@@ -17,14 +17,15 @@ extern uint8_t s_nor_read_buffer[];
 extern status_t FlexSPI_NorFlash_Enable_QE(FLEXSPI_Type *base);
 extern uint8_t  FlexSPI_FlashUUID_Get_ISSI(uint8_t *buf);
 
-
+AdcInfoTotal adcInfoTotal;
+AdcInfo adcInfo;
 
 /***************************************************************************************
   * @brief   保存固件升级参数,在接受到完整的固件包后,调用该函数
   * @input   
   * @return  
 ***************************************************************************************/
-void NorFlash_SaveFirmPara(void)
+void NorFlash_SaveUpgradePara(void)
 {
     FlexSPI_NorFlash_Erase_Sector(FLEXSPI, APP_INFO_SECTOR * SECTOR_SIZE);
     FlexSPI_NorFlash_Buffer_Program(FLEXSPI, APP_INFO_SECTOR * SECTOR_SIZE, &g_sys_para.firmUpdate, 20);
@@ -42,11 +43,8 @@ void NorFlash_SaveFirmPara(void)
   * @input   
   * @return  
 ***************************************************************************************/
-void NorFlash_AddAdcInfo(char *adcJsonData)
+void NorFlash_AddAdcData(char *adcJsonData)
 {
-	AdcInfoTotal adcInfoTotal;
-	AdcInfo adcInfo;
-	
 	//前12字节保存的是 adcInfoTotal 结构体
 	memcpy(&adcInfoTotal.totalAdcInfo, NORFLASH_AHB_POINTER(ADC_INFO_SECTOR * SECTOR_SIZE) ,sizeof(adcInfoTotal));
 	
@@ -61,10 +59,9 @@ void NorFlash_AddAdcInfo(char *adcJsonData)
 	}
 	
 	//初始化 adcInfo 结构体 数据时间
-    SNVS_HP_RTC_GetDatetime(SNVS, &rtcDate);
 	sprintf(adcInfo.AdcDataTime, "%d%02d%02d%02d%02d%02d", 
-		                       rtcDate.year%100, rtcDate.month, rtcDate.day, 
-	                           rtcDate.hour, rtcDate.minute, rtcDate.second);
+		                       sampTime.year%100, sampTime.month, sampTime.day, 
+	                           sampTime.hour, sampTime.minute, sampTime.second);
 	//初始化 adcInfo 结构体 数据长度
 	adcInfo.AdcDataLen = strlen(adcJsonData) + 1;//将'\0'结束符也要保存到flash当中
 	//初始化 adcInfo 结构体 数据地址
@@ -89,8 +86,8 @@ void NorFlash_AddAdcInfo(char *adcJsonData)
 	}
 	//初始化 adcInfoTotal 结构体中的下次采样信息保存地址
 	adcInfoTotal.addrOfNewInfo = adcInfoTotal.addrOfNewInfo + sizeof(adcInfoTotal);
-	if(adcInfoTotal.addrOfNewInfo >= ((ADC_INFO_SECTOR+1) * SECTOR_SIZE)){
-		adcInfoTotal.addrOfNewInfo = ADC_INFO_SECTOR * SECTOR_SIZE + sizeof(adcInfo);
+	if(adcInfoTotal.addrOfNewInfo >= ((ADC_INFO_SECTOR+10) * SECTOR_SIZE)){
+		adcInfoTotal.addrOfNewInfo = ADC_INFO_SECTOR * SECTOR_SIZE + sizeof(AdcInfoTotal);
 	}
 	//初始化 adcInfoTotal 结构体中的下次采样数据保存地址
 	adcInfoTotal.addrOfNewData = adcInfoTotal.addrOfNewData + adcInfo.AdcDataLen;
@@ -99,10 +96,13 @@ void NorFlash_AddAdcInfo(char *adcJsonData)
 	}
 	if (adcInfoTotal.addrOfNewData > FLASH_SIZE_BYTE){//判断出新地址超出flash范围,则从头开始记录
 		adcInfoTotal.addrOfNewData = ADC_DATA_SECTOR * SECTOR_SIZE;
+		adcInfoTotal.freeOfKb = 0;
+	}else{
+		adcInfoTotal.freeOfKb = (FLASH_SIZE_BYTE - adcInfoTotal.addrOfNewInfo)/1024;
 	}
-	
+
 	//保存 adcInfoTotal 结构体
-	FlexSPI_FlashWrite((uint8_t *)adcInfoTotal.totalAdcInfo, ADC_INFO_SECTOR * SECTOR_SIZE, sizeof(AdcInfoTotal));
+	FlexSPI_FlashWrite((uint8_t *)&adcInfoTotal.totalAdcInfo, ADC_INFO_SECTOR * SECTOR_SIZE, sizeof(AdcInfoTotal));
 }
 
 
@@ -115,8 +115,6 @@ void NorFlash_AddAdcInfo(char *adcJsonData)
 uint32_t NorFlash_ReadAdcData(char *adcDataTime)
 {
 	uint32_t tempAddr;
-	AdcInfoTotal adcInfoTotal;
-	AdcInfo adcInfo;
 	
 	//读取数据到 adcInfoTotal 结构体
 	memcpy(&adcInfoTotal.totalAdcInfo, NORFLASH_AHB_POINTER(ADC_INFO_SECTOR * SECTOR_SIZE) ,sizeof(adcInfoTotal));
@@ -130,7 +128,7 @@ uint32_t NorFlash_ReadAdcData(char *adcDataTime)
 		//往前查找文件
 		tempAddr = adcInfoTotal.addrOfNewInfo - (i+1)*sizeof(AdcInfo);
 		if(tempAddr < (ADC_INFO_SECTOR * SECTOR_SIZE + sizeof(AdcInfoTotal))){
-			tempAddr = (ADC_INFO_SECTOR + 1) * SECTOR_SIZE - sizeof(adcInfo);
+			tempAddr = (ADC_INFO_SECTOR + 10) * SECTOR_SIZE - sizeof(adcInfo);
 		}
 		//读取数据到 adcInfo 结构体
 		memcpy(&adcInfo.AdcDataAddr, NORFLASH_AHB_POINTER(tempAddr), sizeof(adcInfo));
@@ -151,32 +149,38 @@ uint32_t NorFlash_ReadAdcData(char *adcDataTime)
 ***************************************************************************************/
 void NorFlash_ReadAdcInfo(int si, int num, char *buf)
 {
-	uint32_t tempAddr;
-	AdcInfoTotal adcInfoTotal;
-	AdcInfo adcInfo;
+	uint32_t tempAddr,ei;
 	
 	//读取数据到 adcInfoTotal 结构体
 	memcpy(&adcInfoTotal.totalAdcInfo, NORFLASH_AHB_POINTER(ADC_INFO_SECTOR * SECTOR_SIZE) ,sizeof(adcInfoTotal));
 	
 	//flash中还未保存有数据,直接返回
 	if(adcInfoTotal.totalAdcInfo == 0xFFFFFFFF || adcInfoTotal.totalAdcInfo > MAX_ADC_INFO){
+		adcInfoTotal.totalAdcInfo = 0;
+		adcInfoTotal.freeOfKb = (FLASH_SIZE_BYTE - ADC_DATA_SECTOR*SECTOR_SIZE)/1024;
 		return;
 	}
 	
 	if(si > MAX_ADC_INFO)si= MAX_ADC_INFO;
 	if(si <= 0 ) si = 1;
 	
-	for(uint32_t i = si; i<num+si; i++){
+	ei = num+si;
+	if(ei > adcInfoTotal.totalAdcInfo+1) ei=adcInfoTotal.totalAdcInfo+1;
+	
+	for(uint32_t i = si; i<ei; i++){
 		//往前查找文件
 		tempAddr = adcInfoTotal.addrOfNewInfo - i*sizeof(AdcInfo);
 		if(tempAddr < (ADC_INFO_SECTOR * SECTOR_SIZE + sizeof(AdcInfoTotal))){
-			tempAddr = (ADC_INFO_SECTOR + 1) * SECTOR_SIZE - sizeof(adcInfo);
+			tempAddr = (ADC_INFO_SECTOR + 10) * SECTOR_SIZE - sizeof(adcInfo);
 		}
 		//读取数据到 adcInfo 结构体
 		memcpy(&adcInfo.AdcDataAddr, NORFLASH_AHB_POINTER(tempAddr), sizeof(adcInfo));
 		
 		strcat(buf, adcInfo.AdcDataTime);
-		strcat(buf,";");//使用逗号分隔开
+		strcat(buf,",");//添加分隔符
+	}
+	if(strlen(buf) > 0){//去掉最后一个分隔符
+		buf[strlen(buf)-1] = 0x00;
 	}
 }
 
@@ -225,6 +229,69 @@ int NorFlash_ChkSelf(void)
     }
 
     return 0;  
+}
+
+
+/***************************************************************************************
+  * @brief   将数据打包成json格式后,保存到flash当中
+  * @input
+  * @return
+***************************************************************************************/
+void SaveSampleData(void)
+{
+    free(g_sys_para.sampJson);
+    g_sys_para.sampJson = NULL;
+    cJSON *pJsonRoot = cJSON_CreateObject();
+    if(NULL == pJsonRoot) {
+        return;
+    }
+    cJSON_AddStringToObject(pJsonRoot, "DP", g_adc_set.IDPath);//硬件版本号
+    cJSON_AddStringToObject(pJsonRoot, "NP", g_adc_set.NamePath);//硬件版本号
+    cJSON_AddStringToObject(pJsonRoot, "SU", g_adc_set.SpeedUnits);
+    cJSON_AddStringToObject(pJsonRoot, "PU", g_adc_set.ProcessUnits);
+    cJSON_AddNumberToObject(pJsonRoot, "DT", g_adc_set.DetectionType);
+    cJSON_AddNumberToObject(pJsonRoot, "SEN", g_adc_set.Senstivity);
+    cJSON_AddNumberToObject(pJsonRoot, "ZD", g_adc_set.Zerodrift);
+    cJSON_AddNumberToObject(pJsonRoot, "ET", g_adc_set.EUType);
+    cJSON_AddStringToObject(pJsonRoot, "EU", g_adc_set.EU);
+    cJSON_AddNumberToObject(pJsonRoot, "W", g_adc_set.WindowsType);
+    cJSON_AddNumberToObject(pJsonRoot, "SF", g_adc_set.StartFrequency);
+    cJSON_AddNumberToObject(pJsonRoot, "EF", g_adc_set.EndFrequency);
+    cJSON_AddNumberToObject(pJsonRoot, "SR", g_adc_set.SampleRate);
+    cJSON_AddNumberToObject(pJsonRoot, "L", g_adc_set.Lines);
+    cJSON_AddNumberToObject(pJsonRoot, "B", g_sys_para.bias);
+    cJSON_AddNumberToObject(pJsonRoot, "RV", g_sys_para.refV);
+    cJSON_AddNumberToObject(pJsonRoot, "A", g_adc_set.Averages);
+    cJSON_AddNumberToObject(pJsonRoot, "OL", g_adc_set.AverageOverlap);
+    cJSON_AddNumberToObject(pJsonRoot, "AT", g_adc_set.AverageType);
+    cJSON_AddNumberToObject(pJsonRoot, "EFL", g_adc_set.EnvFilterLow);
+    cJSON_AddNumberToObject(pJsonRoot, "EFH", g_adc_set.EnvFilterHigh);
+    cJSON_AddNumberToObject(pJsonRoot, "IM", g_adc_set.IncludeMeasurements);
+    cJSON_AddNumberToObject(pJsonRoot, "SP", g_adc_set.Speed);
+    cJSON_AddNumberToObject(pJsonRoot, "P", g_adc_set.Process);
+    cJSON_AddNumberToObject(pJsonRoot, "PL", g_adc_set.ProcessMin);
+    cJSON_AddNumberToObject(pJsonRoot, "PH", g_adc_set.ProcessMax);
+    cJSON_AddNumberToObject(pJsonRoot, "PK", g_sys_para.sampPacks);
+    cJSON_AddNumberToObject(pJsonRoot, "Y", sampTime.year);
+    cJSON_AddNumberToObject(pJsonRoot, "M", sampTime.month);
+    cJSON_AddNumberToObject(pJsonRoot, "D", sampTime.day);
+    cJSON_AddNumberToObject(pJsonRoot, "H", sampTime.hour);
+    cJSON_AddNumberToObject(pJsonRoot, "Min", sampTime.minute);
+    cJSON_AddNumberToObject(pJsonRoot, "S", sampTime.second);
+	cJSON_AddNumberToObject(pJsonRoot, "spdCnt", g_sys_para.spdCount);
+	cJSON_AddNumberToObject(pJsonRoot, "vibCnt", g_sys_para.shkCount);
+    cJSON_AddStringToObject(pJsonRoot, "Vibrate", VibrateStrADC);
+    cJSON_AddStringToObject(pJsonRoot, "Speed", SpeedStrADC);
+
+    g_sys_para.sampJson = cJSON_PrintUnformatted(pJsonRoot);
+    cJSON_Delete(pJsonRoot);
+	
+    /*将打包好的数据保存到文件 */
+    if (NULL != g_sys_para.sampJson) {
+        NorFlash_AddAdcData(g_sys_para.sampJson);
+//        //将数据通过串口打印出来
+//        PRINTF("%s", g_sys_para.sampJson);
+    }
 }
 
 /****************************END OF FILE**********************/

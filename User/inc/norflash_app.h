@@ -1,7 +1,10 @@
 #ifndef __NORFLASH_APP_H
 #define __NORFLASH_APP_H
 
-void NorFlash_SaveFirmPara(void);
+
+
+void SaveSampleData(void);
+void NorFlash_SaveUpgradePara(void);
 int NorFlash_ChkSelf(void);
 int NorFlash_WriteApp(uint8_t* buff, uint8_t len);
 uint32_t NorFlash_ReadAdcData(char *adcDataTime);

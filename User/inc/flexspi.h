@@ -33,10 +33,10 @@ void FlexSPI_FlashWait_Busy(void);
 void FlexSPI_QPI_Enable(void);
 uint8_t FlexSPI_FlashID_Get(void);
 uint8_t FlexSPI_FlashErase_Sector(uint32_t sectorno);
-uint8_t FlexSPI_FlashPage_Write(uint8_t* pBuffer,uint32_t WriteAddr,uint16_t NumByteToWrite);
-void FlexSPI_FlashRead(uint8_t* pBuffer,uint32_t ReadAddr,uint16_t NumByteToRead);
-void FlexSPI_Write_NoCheck(uint8_t* pBuffer,uint32_t WriteAddr,uint16_t NumByteToWrite);
-void FlexSPI_FlashWrite(uint8_t* pBuffer,uint32_t WriteAddr,uint16_t NumByteToWrite);
+uint8_t FlexSPI_FlashPage_Write(uint8_t* pBuffer,uint32_t WriteAddr,uint32_t NumByteToWrite);
+void FlexSPI_FlashRead(uint8_t* pBuffer,uint32_t ReadAddr,uint32_t NumByteToRead);
+void FlexSPI_Write_NoCheck(uint8_t* pBuffer,uint32_t WriteAddr,uint32_t NumByteToWrite);
+void FlexSPI_FlashWrite(uint8_t* pBuffer,uint32_t WriteAddr,uint32_t NumByteToWrite);
 void FlexSPI_Sector_Write(uint8_t* pBuffer,uint32_t setcorno);
 
 #endif

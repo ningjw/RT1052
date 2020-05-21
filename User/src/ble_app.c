@@ -101,21 +101,24 @@ void BLE_AppTask(void)
     uint8_t* sendBuf = NULL;
 
     SET_COMMOND_MODE();
-
-//    xReturn = AT_SendCmd(BT_BAUD, "115200", BT_BAUD, &g_at_cfg);
-//    LPUART_SetBaudRate(LPUART2, 230400, LPUART2_CLOCK_SOURCE);
-
+	
+	for(uint8_t i = 0;i<5; i++){
+		LPUART2_SendString("AT+BAUD=230400\r\n");
+		vTaskDelay(100);
+	}
+    LPUART_SetBaudRate(LPUART2, 230400, LPUART2_CLOCK_SOURCE);
+	
     /* 设置蓝牙名称 */
-    xReturn = AT_SendCmd(BT_NAME, DEVICE_BLE_NAME, RESP_OK, &g_at_cfg);
-    if( xReturn == true ) {
-        g_sys_para.bleLedStatus = BLE_READY;
-    }
+	LPUART2_SendString("AT+NAME=BLE Communication\r\n");
+    g_sys_para.bleLedStatus = BLE_READY;
+	vTaskDelay(200);
+	
 	/*进入低功耗模式*/
 	LPUART2_SendString("AT+LPM=1\r\n");
-	vTaskDelay(100);
+	vTaskDelay(10);
     /* 进入透传模式 */
     LPUART2_SendString("AT+TPMODE=1\r\n");
-    vTaskDelay(100);
+    
     SET_THROUGHPUT_MODE();
 
     memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
@@ -133,7 +136,7 @@ void BLE_AppTask(void)
 			/* 是否接受完成整个数据包 */
 			if( g_sys_para.firmUpdate == true) {
 				//将参数存入Nor Flash
-				NorFlash_SaveFirmPara();
+				NorFlash_SaveUpgradePara();
 				//关闭所有中断,并复位系统
 				NVIC_SystemReset();
 			}

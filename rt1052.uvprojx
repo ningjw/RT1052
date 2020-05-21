@@ -456,11 +456,6 @@
               <FilePath>.\User\src\core_delay.c</FilePath>
             </File>
             <File>
-              <FileName>rtc_drv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\rtc_drv.c</FilePath>
-            </File>
-            <File>
               <FileName>emmc_drv.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\emmc_drv.c</FilePath>
@@ -1062,11 +1057,6 @@
               <FileName>core_delay.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\core_delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>rtc_drv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\rtc_drv.c</FilePath>
             </File>
             <File>
               <FileName>emmc_drv.c</FileName>

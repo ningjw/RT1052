@@ -16,6 +16,10 @@ void ADC_SampleStart(void);
 void ADC_AppTask(void);
 void ADC_SampleStop(void);
 
+extern float ShakeADC[];
+extern float SpeedADC[];
+extern char  SpeedStrADC[];
+extern char  VibrateStrADC[];
 
 
 #endif
