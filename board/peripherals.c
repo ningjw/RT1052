@@ -59,22 +59,7 @@ instance:
       - enableHaltOnError: 'true'
       - enableRoundRobinArbitration: 'false'
       - enableDebugMode: 'false'
-    - dma_table:
-      - 0: []
-      - 1: []
-      - 2: []
-      - 3: []
-      - 4: []
-      - 5: []
-      - 6: []
-      - 7: []
-      - 8: []
-      - 9: []
-      - 10: []
-      - 11: []
-      - 12: []
-      - 13: []
-      - 14: []
+    - dma_table: []
     - edma_channels: []
     - quick_selection: 'default'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
@@ -112,16 +97,15 @@ instance:
       - srtcCalEnable: 'false'
       - srtcCalValueInt: '0'
       - start: 'true'
-      - setDateTime: 'true'
-      - snvs_lp_srtc_datetime:
-        - year: '2020'
-        - month: '1'
-        - day: '1'
-        - hour: '0'
-        - minute: '0'
-        - second: '0'
+      - setDateTime: 'false'
     - interruptsCfg:
       - interruptSources: ''
+      - isInterruptEnabled: 'false'
+      - interrupt:
+        - IRQn: 'SNVS_HP_WRAPPER_IRQn'
+        - enable_priority: 'false'
+        - priority: '0'
+        - enable_custom_name: 'false'
     - enableExternalTampers: []
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
@@ -129,20 +113,10 @@ const snvs_lp_srtc_config_t SNVS_LP_config = {
   .srtcCalEnable = false,
   .srtcCalValue = 0
 };
-snvs_lp_srtc_datetime_t SNVS_LP_dateTimeStruct = {
-  .year = 2020,
-  .month = 1,
-  .day = 1,
-  .hour = 0,
-  .minute = 0,
-  .second = 0
-};
 
 void SNVS_LP_init(void) {
   /* SNVS LP SRTC initialization */
   SNVS_LP_SRTC_Init(SNVS_LP_PERIPHERAL, &SNVS_LP_config);
-  /* SNVS LP date and time initialization */
-  SNVS_LP_SRTC_SetDatetime(SNVS_LP_PERIPHERAL, &SNVS_LP_dateTimeStruct);
   /* SNVS LP SRTC start timer */
   SNVS_LP_SRTC_StartTimer(SNVS_LP_PERIPHERAL);
 }
@@ -704,7 +678,7 @@ instance:
   - main:
     - mode: 'kLPSPI_Master'
     - clockSource: 'LpspiClock'
-    - clockSourceFreq: 'custom:25000000'
+    - clockSourceFreq: 'BOARD_BootClockRUN'
     - master:
       - baudRate: '25000000'
       - bitsPerFrame: '24'
@@ -1073,47 +1047,38 @@ void LPI2C3_init(void) {
 }
 
 /***********************************************************************************************************************
- * SNVS_HP initialization code
+ * GPIO initialization code
  **********************************************************************************************************************/
 /* clang-format off */
 /* TEXT BELOW IS USED AS SETTING FOR TOOLS *************************************
 instance:
-- name: 'SNVS_HP'
-- type: 'snvs_hp'
-- mode: 'general'
-- type_id: 'snvs_hp_8aa1d6897a8f71c776216caab5be8259'
+- name: 'GPIO'
+- type: 'igpio'
+- mode: 'GPIO'
+- type_id: 'igpio_b1c1fa279aa7069dca167502b8589cb7'
 - functional_group: 'BOARD_InitPeripherals'
-- peripheral: 'SNVS'
+- peripheral: 'GPIO2'
 - config_sets:
-  - fsl_snvs_hp:
-    - snvs_hp_rtc_config:
-      - rtcCalEnable: 'true'
-      - rtcCalValueInt: '0'
-      - periodicInterruptFreq: '0'
-      - start: 'true'
-      - callTimeSynchronize: 'false'
-      - setDateTime: 'false'
-    - interruptsCfg:
-      - interruptSources: ''
-      - isInterruptEnabled: 'false'
-      - interrupt:
-        - IRQn: 'SNVS_HP_WRAPPER_IRQn'
-        - enable_priority: 'false'
-        - priority: '0'
-        - enable_custom_name: 'false'
+  - fsl_gpio:
+    - enable_irq_comb_0_15: 'false'
+    - gpio_interrupt_comb_0_15:
+      - IRQn: 'GPIO1_Combined_0_15_IRQn'
+      - enable_priority: 'false'
+      - priority: '0'
+      - enable_custom_name: 'false'
+    - enable_irq_comb_16_31: 'true'
+    - gpio_interrupt_comb_16_31:
+      - IRQn: 'GPIO2_Combined_16_31_IRQn'
+      - enable_priority: 'false'
+      - priority: '0'
+      - enable_custom_name: 'false'
  * BE CAREFUL MODIFYING THIS COMMENT - IT IS YAML SETTINGS FOR TOOLS **********/
 /* clang-format on */
-const snvs_hp_rtc_config_t SNVS_HP_config = {
-  .rtcCalEnable = true,
-  .rtcCalValue = 0,
-  .periodicInterruptFreq = 0
-};
 
-void SNVS_HP_init(void) {
-  /* SNVS HP RTC initialization */
-  SNVS_HP_RTC_Init(SNVS_HP_PERIPHERAL, &SNVS_HP_config);
-  /* SNVS HP RTC start timer */
-  SNVS_HP_RTC_StartTimer(SNVS_HP_PERIPHERAL);
+void GPIO_init(void) {
+  /* Make sure, the clock gate for GPIO2 is enabled (e. g. in pin_mux.c) */
+  /* Enable interrupt GPIO2_Combined_16_31_IRQn request in the NVIC */
+  EnableIRQ(GPIO2_Combined_16_31_IRQn);
 }
 
 /***********************************************************************************************************************
@@ -1144,7 +1109,7 @@ void BOARD_InitPeripherals(void)
   ADC_ETC_init();
   QuadTimer2_init();
   LPI2C3_init();
-  SNVS_HP_init();
+  GPIO_init();
 }
 
 /***********************************************************************************************************************

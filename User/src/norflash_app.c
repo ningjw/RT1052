@@ -211,9 +211,9 @@ int NorFlash_ChkSelf(void)
     for (i = 0; i < FIRM_ONE_LEN; i++){
         s_nor_program_buffer[i] = (uint8_t)i;
     }
-//	for(i = 0; i<100;i++){
-		FlexSPI_FlashWrite(s_nor_program_buffer, APP_START_SECTOR * SECTOR_SIZE + (FIRM_ONE_LEN), FIRM_ONE_LEN);
-//	}
+
+	FlexSPI_FlashWrite(s_nor_program_buffer, APP_START_SECTOR * SECTOR_SIZE + (FIRM_ONE_LEN), FIRM_ONE_LEN);
+
     /* 读取数据 */
     memcpy(s_nor_read_buffer, 
            NORFLASH_AHB_POINTER(APP_START_SECTOR * SECTOR_SIZE + FIRM_ONE_LEN),
@@ -239,8 +239,6 @@ int NorFlash_ChkSelf(void)
 ***************************************************************************************/
 void SaveSampleData(void)
 {
-    free(g_sys_para.sampJson);
-    g_sys_para.sampJson = NULL;
     cJSON *pJsonRoot = cJSON_CreateObject();
     if(NULL == pJsonRoot) {
         return;
@@ -283,14 +281,16 @@ void SaveSampleData(void)
     cJSON_AddStringToObject(pJsonRoot, "Vibrate", VibrateStrADC);
     cJSON_AddStringToObject(pJsonRoot, "Speed", SpeedStrADC);
 
-    g_sys_para.sampJson = cJSON_PrintUnformatted(pJsonRoot);
+    char* sampJson = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
 	
     /*将打包好的数据保存到文件 */
-    if (NULL != g_sys_para.sampJson) {
-        NorFlash_AddAdcData(g_sys_para.sampJson);
+    if (NULL != sampJson) {
+        NorFlash_AddAdcData(sampJson);
+		free(sampJson);
+		sampJson = NULL;
 //        //将数据通过串口打印出来
-//        PRINTF("%s", g_sys_para.sampJson);
+//        PRINTF("%s", sampJson);
     }
 }
 

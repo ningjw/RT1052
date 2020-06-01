@@ -416,9 +416,14 @@
               <FilePath>.\User\src\ble_app.c</FilePath>
             </File>
             <File>
-              <FileName>ble_protocol.c</FileName>
+              <FileName>wifi_app.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\User\src\ble_protocol.c</FilePath>
+              <FilePath>.\User\src\wifi_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>protocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\protocol.c</FilePath>
             </File>
             <File>
               <FileName>adc_app.c</FileName>
@@ -449,16 +454,6 @@
               <FileName>cJSON.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\cjson\cJSON.c</FilePath>
-            </File>
-            <File>
-              <FileName>core_delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\core_delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>emmc_drv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\emmc_drv.c</FilePath>
             </File>
             <File>
               <FileName>adc_drv.c</FileName>
@@ -1019,9 +1014,14 @@
               <FilePath>.\User\src\ble_app.c</FilePath>
             </File>
             <File>
-              <FileName>ble_protocol.c</FileName>
+              <FileName>wifi_app.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\User\src\ble_protocol.c</FilePath>
+              <FilePath>.\User\src\wifi_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>protocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\protocol.c</FilePath>
             </File>
             <File>
               <FileName>adc_app.c</FileName>
@@ -1052,16 +1052,6 @@
               <FileName>cJSON.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\cjson\cJSON.c</FilePath>
-            </File>
-            <File>
-              <FileName>core_delay.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\core_delay.c</FilePath>
-            </File>
-            <File>
-              <FileName>emmc_drv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\emmc_drv.c</FilePath>
             </File>
             <File>
               <FileName>adc_drv.c</FileName>

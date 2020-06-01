@@ -1,6 +1,14 @@
 #ifndef __SI5351_H
 #define __SI5351_H
 
+#define SI5351_DEVICE_STATUS            0
+#define SI5351_INTERRUPT_STATUS         1
+#define SI5351_INTERRUPT_MASK           2
+#define SI5351_STATUS_SYS_INIT          (1<<7)
+#define SI5351_STATUS_LOL_B             (1<<6)
+#define SI5351_STATUS_LOL_A             (1<<5)
+#define SI5351_STATUS_LOS               (1<<4)
+#define SI5351_OUTPUT_ENABLE_CTRL       3
 #define SI_CLK0_CONTROL	16			// Register definitions
 #define SI_CLK1_CONTROL	17
 #define SI_CLK2_CONTROL	18
@@ -25,6 +33,6 @@
 
 #define XTAL_FREQ	25000000	// Crystal frequency   
 
-
+void si5351aSetFrequency(unsigned long int frequency);
 
 #endif

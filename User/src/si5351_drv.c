@@ -1,6 +1,6 @@
 #include "main.h"
 
-#define SI5351_ADDR 0xC0
+#define SI5351_ADDR 0x60
 
 /***************************************************************************************
   * @brief   Write new value to LTC2942 register
@@ -8,7 +8,8 @@
   * @input   value - new register value
   * @return  
 ***************************************************************************************/
-static void SI5351_WriteReg(uint8_t reg, uint8_t value) {
+void SI5351_WriteReg(uint8_t reg, uint8_t value) {
+	status_t sta = kStatus_Fail;
     lpi2c_master_transfer_t masterXfer = {0};
     uint8_t data = value;
     masterXfer.slaveAddress = SI5351_ADDR;
@@ -19,7 +20,7 @@ static void SI5351_WriteReg(uint8_t reg, uint8_t value) {
     masterXfer.dataSize = 1;
     masterXfer.flags = kLPI2C_TransferDefaultFlag;
     
-	LPI2C_MasterTransferBlocking(I2C1_MASTER, &masterXfer);
+	sta = LPI2C_MasterTransferBlocking(I2C1_MASTER, &masterXfer);
 }
 
 
@@ -28,21 +29,21 @@ static void SI5351_WriteReg(uint8_t reg, uint8_t value) {
   * @input   reg - register number
   * @return  register value
 ***************************************************************************************/
-//static uint8_t SI5351_ReadReg(uint8_t reg) {
-//	lpi2c_master_transfer_t masterXfer = {0};
-//    uint8_t value;
-//    
-//    masterXfer.slaveAddress = SI5351_ADDR;
-//    masterXfer.direction = kLPI2C_Read;
-//    masterXfer.subaddress = (uint32_t)reg;
-//    masterXfer.subaddressSize = 1;
-//    masterXfer.data = &value;
-//    masterXfer.dataSize = 1;
-//    masterXfer.flags = kLPI2C_TransferDefaultFlag;
+uint8_t SI5351_ReadReg(uint8_t reg) {
+	lpi2c_master_transfer_t masterXfer = {0};
+    uint8_t value;
+    
+    masterXfer.slaveAddress = SI5351_ADDR;
+    masterXfer.direction = kLPI2C_Read;
+    masterXfer.subaddress = (uint32_t)reg;
+    masterXfer.subaddressSize = 1;
+    masterXfer.data = &value;
+    masterXfer.dataSize = 1;
+    masterXfer.flags = kLPI2C_TransferDefaultFlag;
 
-//    LPI2C_MasterTransferBlocking(I2C1_MASTER, &masterXfer);
-//	return value;
-//}
+    LPI2C_MasterTransferBlocking(I2C1_MASTER, &masterXfer);
+	return value;
+}
 
 // Set up specified PLL with mult, num and denom
 // mult is 15..90

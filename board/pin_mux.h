@@ -50,10 +50,10 @@ void BOARD_InitBootPins(void);
 #define BOARD_ADC_SCK_PERIPHERAL                                          LPSPI4   /*!< Device name: LPSPI4 */
 #define BOARD_ADC_SCK_SIGNAL                                                 SCK   /*!< LPSPI4 signal: SCK */
 
-/* GPIO_B1_03 (coord D11), RST_4G */
-#define BOARD_RST_4G_GPIO                                                  GPIO2   /*!< GPIO device name: GPIO2 */
-#define BOARD_RST_4G_PORT                                                  GPIO2   /*!< PORT device name: GPIO2 */
-#define BOARD_RST_4G_PIN                                                     19U   /*!< GPIO2 pin index: 19 */
+/* GPIO_B1_03 (coord D11), KEY_OFF */
+#define BOARD_KEY_OFF_GPIO                                                 GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_KEY_OFF_PORT                                                 GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_KEY_OFF_PIN                                                    19U   /*!< GPIO2 pin index: 19 */
 
 /* GPIO_B1_02 (coord C11), PWR_4G */
 #define BOARD_PWR_4G_GPIO                                                  GPIO2   /*!< GPIO device name: GPIO2 */
@@ -100,10 +100,10 @@ void BOARD_InitBootPins(void);
 #define BOARD_BLE_STATUS_PORT                                              GPIO1   /*!< PORT device name: GPIO1 */
 #define BOARD_BLE_STATUS_PIN                                                 14U   /*!< GPIO1 pin index: 14 */
 
-/* GPIO_AD_B1_05 (coord K12), E103_PWR_EN */
-#define BOARD_E103_PWR_EN_GPIO                                             GPIO1   /*!< GPIO device name: GPIO1 */
-#define BOARD_E103_PWR_EN_PORT                                             GPIO1   /*!< PORT device name: GPIO1 */
-#define BOARD_E103_PWR_EN_PIN                                                21U   /*!< GPIO1 pin index: 21 */
+/* GPIO_AD_B1_05 (coord K12), PWR_EN */
+#define BOARD_PWR_EN_GPIO                                                  GPIO1   /*!< GPIO device name: GPIO1 */
+#define BOARD_PWR_EN_PORT                                                  GPIO1   /*!< PORT device name: GPIO1 */
+#define BOARD_PWR_EN_PIN                                                     21U   /*!< GPIO1 pin index: 21 */
 
 /* GPIO_AD_B0_11 (coord G10), E103_SETDF */
 #define BOARD_E103_SETDF_GPIO                                              GPIO1   /*!< GPIO device name: GPIO1 */

@@ -100,6 +100,7 @@ settings:
 - {id: CCM.FLEXIO2_CLK_PODF.scale, value: '2', locked: true}
 - {id: CCM.FLEXSPI_PODF.scale, value: '3', locked: true}
 - {id: CCM.FLEXSPI_SEL.sel, value: CCM_ANALOG.PLL2_PFD2_CLK}
+- {id: CCM.IPG_PODF.scale, value: '4', locked: true}
 - {id: CCM.LPI2C_CLK_PODF.scale, value: '3', locked: true}
 - {id: CCM.LPSPI_CLK_SEL.sel, value: CCM_ANALOG.PLL3_PFD1_CLK}
 - {id: CCM.LPSPI_PODF.scale, value: '4', locked: true}

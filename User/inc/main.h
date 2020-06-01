@@ -1,12 +1,17 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#define SOFT_VERSION       "0.10"
-#define HARD_VERSION       "1.0"
-#define POWER_ON_TIMER_ID  1
+#define SOFT_VERSION       "0.12"
+#define HARD_VERSION       "1.1"
+
+#define BLE_VERSION
+//#define WIFI_VERSION 
+
+
 #define ULONG_MAX          0xFFFFFFFF
-//#define FIRM_INFO_ADDR    (0x6001F000U)
-//#define FIRM_DATA_ADDR    (0x60020000U)
+#define EVT_OK       (1 << 0)
+#define EVT_TIMTOUT  (1 << 1)
+
 
 #define APP_INFO_SECTOR    128 /* 升级信息保存在NorFlash的第63个扇区*/
 #define APP_START_SECTOR   129 /* App数据从第64个扇区开始保存 */
@@ -14,8 +19,13 @@
 #define ADC_DATA_SECTOR    266
 #define MAX_SECTOR         8192
 
-#define FIRM_ONE_PACKE_LEN 166 
-#define FIRM_ONE_LEN (FIRM_ONE_PACKE_LEN - 6)
+#ifdef BLE_VERSION
+	#define FIRM_ONE_PACKE_LEN 166 
+	#define FIRM_ONE_LEN (FIRM_ONE_PACKE_LEN - 6)
+#elif defined WIFI_VERSION
+	#define FIRM_ONE_PACKE_LEN 1006
+	#define FIRM_ONE_LEN (FIRM_ONE_PACKE_LEN - 6)
+#endif
 
 #include "stdint.h"
 #include "string.h"
@@ -34,7 +44,6 @@
 #include "fsl_xbara.h"
 #include "fsl_flexspi.h"
 #include "fsl_flexio.h"
-#include "fsl_mmc.h"
 #include "fsl_dcdc.h"
 #include "fsl_src.h"
 #include "fsl_pwm.h"
@@ -48,30 +57,23 @@
 #include "queue.h"
 #include "timers.h"
 
-#include "power_mode_switch_bm.h"
-#include "specific.h"
-#include "lpm.h"
 #include "cJSON.h"
 #include "interrupt.h"
-#include "rtc_drv.h"
 #include "adc_drv.h"
 #include "battery_drv.h"
 #include "iic_temp_drv.h"
-#include "core_delay.h"
 #include "norflash_drv.h"
 #include "utility.h"
 #include "flexspi.h"
-#include "ff.h"
-#include "diskio.h"
 #include "si5351_drv.h"
+#include "wifi_app.h"
 
-#include "ble_protocol.h"
+#include "protocol.h"
 #include "ble_app.h"
 #include "adc_app.h"
 #include "battery_app.h"
 #include "led_app.h"
 #include "norflash_app.h"
-
 
 
 typedef struct{
@@ -135,8 +137,6 @@ typedef struct{
 	
     float    bias;         //震动传感器偏置电压
     float    refV;         //1052的参考电压值
-    DWORD    emmc_fre_size;//剩余空间
-    DWORD    emmc_tot_size;//总空间大小
     char     fileName[20];
     char     earliestFile[20];
 }SysPara;
@@ -180,6 +180,6 @@ typedef struct{
 
 extern SysPara g_sys_para;
 extern ADC_Set g_adc_set;
-extern snvs_hp_rtc_datetime_t rtcDate;
+extern snvs_lp_srtc_datetime_t SNVS_LP_dateTimeStruct;
 void BOARD_InitDebugConsole(void);
 #endif

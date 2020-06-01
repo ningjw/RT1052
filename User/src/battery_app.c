@@ -24,9 +24,11 @@ void BAT_AppTask(void)
     LTC2942_SetAnalog(LTC2942_AN_ENABLED);
 
     // Set prescaler M value
-    // M=64 for 2000mAh battery,
+    // M=128 for 2000mAh battery,
     LTC2942_SetPrescaler(LTC2942_PSCM_64);
 
+	LTC2942_SetALCCMode(LTC2942_ALCC_DISABLED);
+	
     PRINTF("Battery Task Create and Running\r\n");
 
     while(1)
@@ -35,15 +37,10 @@ void BAT_AppTask(void)
         g_sys_para.batVoltage = LTC2942_GetVoltage() / 1000.0;
 
         // 获取温度传感器温度
-        g_sys_para.batTemp = LTC2942_GetTemperature() / 100.0;
+//        g_sys_para.batTemp = LTC2942_GetTemperature() / 100.0;
 
         // 获取电量百分比
         g_sys_para.batRemainPercent = LTC2942_GetAC() * 100.0 / 0xFFFF;
-        if(READ_CHARGE_STA == 0 && READ_STDBY_STA == 1) {//充电当中
-			LTC2942_SetALCCMode(LTC2942_ALCC_CHG);
-		}else{
-			LTC2942_SetALCCMode(LTC2942_ALCC_ALERT);
-		}
 		
         if(READ_CHARGE_STA == 0 && READ_STDBY_STA == 1) {//充电当中
             g_sys_para.batLedStatus = BAT_CHARGING;

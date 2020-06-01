@@ -72,7 +72,7 @@ enum {
 // State of analog section enumeration
 enum {
 	LTC2942_AN_DISABLED = 0x00,
-	LTC2942_AN_ENABLED  = !LTC2942_AN_DISABLED
+	LTC2942_AN_ENABLED  = 1,
 };
 
 

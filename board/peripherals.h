@@ -22,7 +22,7 @@
 #include "fsl_lpspi.h"
 #include "fsl_adc.h"
 #include "fsl_adc_etc.h"
-#include "fsl_snvs_hp.h"
+#include "fsl_gpio.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -112,7 +112,7 @@ extern "C" {
 /* Definition of peripheral ID */
 #define LPSPI4_PERIPHERAL LPSPI4
 /* Definition of clock source */
-#define LPSPI4_CLOCK_FREQ 25000000UL
+#define LPSPI4_CLOCK_FREQ 120000000UL
 /* Definition of peripheral ID */
 #define QUADTIMER1_PERIPHERAL TMR1
 /* Definition of the timer channel Channel_0. */
@@ -158,16 +158,16 @@ extern "C" {
 #define LPI2C3_PERIPHERAL LPI2C3
 /* Definition of clock source */
 #define LPI2C3_CLOCK_FREQ 20000000UL
-/* Definition of peripheral ID */
-#define SNVS_HP_PERIPHERAL SNVS
+/* GPIO interrupt vector ID (number). */
+#define GPIO_GPIO_COMB_16_31_IRQN GPIO2_Combined_16_31_IRQn
+/* GPIO interrupt handler identifier. */
+#define GPIO_GPIO_COMB_16_31_IRQHANDLER GPIO2_Combined_16_31_IRQHandler
 
 /***********************************************************************************************************************
  * Global variables
  **********************************************************************************************************************/
 extern const edma_config_t eDMA_config;
 extern const snvs_lp_srtc_config_t SNVS_LP_config;
-/* SNVS LP date and time structure */
-extern snvs_lp_srtc_datetime_t SNVS_LP_dateTimeStruct;
 extern const lpuart_config_t LPUART1_config;
 extern const pit_config_t PIT1_config;
 extern const lpi2c_master_config_t LPI2C1_masterConfig;
@@ -185,7 +185,6 @@ extern const adc_channel_config_t ADC1_channels_config[1];
 extern const adc_etc_config_t ADC_ETC_config;
 extern const qtmr_config_t QuadTimer2_Channel_0_config;
 extern const lpi2c_master_config_t LPI2C3_masterConfig;
-extern const snvs_hp_rtc_config_t SNVS_HP_config;
 
 /***********************************************************************************************************************
  * Initialization functions

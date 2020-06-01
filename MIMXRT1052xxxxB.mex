@@ -31,7 +31,7 @@
                <pin_label pin_num="H13" pin_signal="GPIO_AD_B1_08" label="BAT_CHRG" identifier="CHARGING;BAT_CHARGING;BAT_STDBY;BAT_CHRG"/>
                <pin_label pin_num="L6" pin_signal="WAKEUP" label="CORE_BOARD_WAUP_KEY" identifier="CORE_BOARD_WAUP_KEY"/>
                <pin_label pin_num="G14" pin_signal="GPIO_AD_B0_05" label="BOOT_MODE1" identifier="BOOT_MODE1"/>
-               <pin_label pin_num="D11" pin_signal="GPIO_B1_03" label="RST_4G" identifier="RST_4G"/>
+               <pin_label pin_num="D11" pin_signal="GPIO_B1_03" label="KEY_OFF" identifier="KEY_OFF"/>
                <pin_label pin_num="C11" pin_signal="GPIO_B1_02" label="PWR_4G" identifier="PWR_4G"/>
                <pin_label pin_num="A10" pin_signal="GPIO_B0_11" label="ADC_MODE" identifier="ADC_MODE"/>
                <pin_label pin_num="E11" pin_signal="GPIO_B0_15" label="ADC_FORMAT" identifier="ADC_FORMAT"/>
@@ -42,7 +42,7 @@
                <pin_label pin_num="C14" pin_signal="GPIO_B1_14" label="eMMC_EN" identifier="eMMC_EN"/>
                <pin_label pin_num="F11" pin_signal="GPIO_AD_B0_04" label="BOOT_MODE0" identifier="BOOT_MODE0"/>
                <pin_label pin_num="H14" pin_signal="GPIO_AD_B0_14" label="BLE_STATUS" identifier="E103_RST;BLE_STATUS"/>
-               <pin_label pin_num="K12" pin_signal="GPIO_AD_B1_05" label="E103_PWR_EN" identifier="E103_PWR_EN"/>
+               <pin_label pin_num="K12" pin_signal="GPIO_AD_B1_05" label="PWR_EN" identifier="E103_PWR_EN;PWR_EN"/>
                <pin_label pin_num="G10" pin_signal="GPIO_AD_B0_11" label="E103_SETDF" identifier="E103_SETDF"/>
                <pin_label pin_num="L12" pin_signal="GPIO_AD_B1_04" label="BTM_EN" identifier="BTM_EN"/>
                <pin_label pin_num="L10" pin_signal="GPIO_AD_B0_15" label="PWR_CHG_COMPLETE" identifier="PWR_AL;PWR_COMPELETE;PWR_COMPLETE;PWR_CHG_COMPLETE"/>
@@ -90,6 +90,11 @@
                         <data>true</data>
                      </feature>
                   </dependency>
+                  <dependency resourceType="Peripheral" resourceId="GPIO2" description="Peripheral GPIO2 is not initialized" problem_level="1" source="Pins:BOARD">
+                     <feature name="initialized" evaluation="equal">
+                        <data>true</data>
+                     </feature>
+                  </dependency>
                   <dependency resourceType="Peripheral" resourceId="LPUART4" description="Peripheral LPUART4 is not initialized" problem_level="1" source="Pins:BOARD">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
@@ -101,11 +106,6 @@
                      </feature>
                   </dependency>
                   <dependency resourceType="Peripheral" resourceId="LPUART2" description="Peripheral LPUART2 is not initialized" problem_level="1" source="Pins:BOARD">
-                     <feature name="initialized" evaluation="equal">
-                        <data>true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="Peripheral" resourceId="GPIO2" description="Peripheral GPIO2 is not initialized" problem_level="1" source="Pins:BOARD">
                      <feature name="initialized" evaluation="equal">
                         <data>true</data>
                      </feature>
@@ -217,19 +217,28 @@
                   <pin peripheral="LPSPI4" signal="SDI" pin_num="E7" pin_signal="GPIO_B0_01">
                      <pin_features>
                         <pin_feature name="direction" value="INPUT"/>
-                        <pin_feature name="speed" value="MHZ_100"/>
+                        <pin_feature name="pull_up_down_config" value="Pull_Up_100K_Ohm"/>
+                        <pin_feature name="speed" value="MHZ_200"/>
                         <pin_feature name="drive_strength" value="R0_6"/>
-                        <pin_feature name="slew_rate" value="Fast"/>
                      </pin_features>
                   </pin>
                   <pin peripheral="LPSPI4" signal="SCK" pin_num="D8" pin_signal="GPIO_B0_03">
                      <pin_features>
                         <pin_feature name="direction" value="OUTPUT"/>
-                        <pin_feature name="speed" value="MHZ_100"/>
-                        <pin_feature name="slew_rate" value="Fast"/>
+                        <pin_feature name="pull_up_down_config" value="Pull_Up_100K_Ohm"/>
+                        <pin_feature name="speed" value="MHZ_200"/>
                      </pin_features>
                   </pin>
-                  <pin peripheral="GPIO2" signal="gpio_io, 19" pin_num="D11" pin_signal="GPIO_B1_03"/>
+                  <pin peripheral="GPIO2" signal="gpio_io, 19" pin_num="D11" pin_signal="GPIO_B1_03">
+                     <pin_features>
+                        <pin_feature name="direction" value="INPUT"/>
+                        <pin_feature name="gpio_interrupt" value="kGPIO_IntFallingEdge"/>
+                        <pin_feature name="pull_up_down_config" value="Pull_Up_100K_Ohm"/>
+                        <pin_feature name="pull_keeper_select" value="Pull"/>
+                        <pin_feature name="pull_keeper_enable" value="Enable"/>
+                        <pin_feature name="open_drain" value="Disable"/>
+                     </pin_features>
+                  </pin>
                   <pin peripheral="GPIO2" signal="gpio_io, 18" pin_num="C11" pin_signal="GPIO_B1_02"/>
                   <pin peripheral="LPUART4" signal="RX" pin_num="B11" pin_signal="GPIO_B1_01"/>
                   <pin peripheral="LPUART4" signal="TX" pin_num="A11" pin_signal="GPIO_B1_00"/>
@@ -284,6 +293,7 @@
                   </pin>
                   <pin peripheral="GPIO1" signal="gpio_io, 21" pin_num="K12" pin_signal="GPIO_AD_B1_05">
                      <pin_features>
+                        <pin_feature name="identifier" value="PWR_EN"/>
                         <pin_feature name="direction" value="OUTPUT"/>
                      </pin_features>
                   </pin>
@@ -787,14 +797,14 @@
                   <data type="Version">2.1.0</data>
                </feature>
             </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.snvs_hp" description="在工具链/IDT 工程中未找到 SNVS HP Driver。" problem_level="2" source="Peripherals">
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.igpio" description="在工具链/IDT 工程中未找到 igpio。" problem_level="2" source="Peripherals">
                <feature name="enabled" evaluation="equal">
                   <data type="Boolean">true</data>
                </feature>
             </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.snvs_hp" description="工具链/IDT 工程中，该版本的 SNVS HP Driver 不被支持。所需的：${required_value},，实际的： ${actual_value}。" problem_level="1" source="Peripherals">
+            <dependency resourceType="SWComponent" resourceId="platform.drivers.igpio" description="工具链/IDT 工程中，该版本的 igpio 不被支持。所需的：${required_value},，实际的： ${actual_value}。" problem_level="1" source="Peripherals">
                <feature name="version" evaluation="equivalent">
-                  <data type="Version">2.0.0</data>
+                  <data type="Version">2.0.1</data>
                </feature>
             </dependency>
          </dependencies>
@@ -928,6 +938,11 @@
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPSPI4.lpspi_sout" description="Signal serial data output of the peripheral LPSPI4 is not routed." problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="">
                         <data type="Boolean">true</data>
+                     </feature>
+                  </dependency>
+                  <dependency resourceType="ClockOutput" resourceId="LPSPI_CLK_ROOT" description="LPSPI_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
                      </feature>
                   </dependency>
                   <dependency resourceType="ClockOutput" resourceId="IPG_CLK_ROOT" description="IPG_CLK_ROOT is inactive." problem_level="2" source="Peripherals:BOARD_InitPeripherals">
@@ -1317,7 +1332,7 @@
                      <config_set name="main">
                         <setting name="mode" value="kLPSPI_Master"/>
                         <setting name="clockSource" value="LpspiClock"/>
-                        <setting name="clockSourceFreq" value="custom:25000000"/>
+                        <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
                         <struct name="master">
                            <setting name="baudRate" value="25000000"/>
                            <setting name="bitsPerFrame" value="24"/>
@@ -1513,20 +1528,19 @@
                            <setting name="srtcCalEnable" value="false"/>
                            <setting name="srtcCalValueInt" value="0"/>
                            <setting name="start" value="true"/>
-                           <setting name="setDateTime" value="true"/>
-                           <struct name="snvs_lp_srtc_datetime">
-                              <setting name="year" value="2020"/>
-                              <setting name="month" value="1"/>
-                              <setting name="day" value="1"/>
-                              <setting name="hour" value="0"/>
-                              <setting name="minute" value="0"/>
-                              <setting name="second" value="0"/>
-                           </struct>
+                           <setting name="setDateTime" value="false"/>
                         </struct>
                         <struct name="interruptsCfg">
                            <set name="interruptSources">
                               <selected/>
                            </set>
+                           <setting name="isInterruptEnabled" value="false"/>
+                           <struct name="interrupt">
+                              <setting name="IRQn" value="SNVS_HP_WRAPPER_IRQn"/>
+                              <setting name="enable_priority" value="false"/>
+                              <setting name="priority" value="0"/>
+                              <setting name="enable_custom_name" value="false"/>
+                           </struct>
                         </struct>
                         <array name="enableExternalTampers"/>
                      </config_set>
@@ -1563,27 +1577,21 @@
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="SNVS_HP" type="snvs_hp" type_id="snvs_hp_8aa1d6897a8f71c776216caab5be8259" mode="general" peripheral="SNVS" enabled="true">
-                     <config_set name="fsl_snvs_hp">
-                        <struct name="snvs_hp_rtc_config">
-                           <setting name="rtcCalEnable" value="true"/>
-                           <setting name="rtcCalValueInt" value="0"/>
-                           <setting name="periodicInterruptFreq" value="0"/>
-                           <setting name="start" value="true"/>
-                           <setting name="callTimeSynchronize" value="false"/>
-                           <setting name="setDateTime" value="false"/>
+                  <instance name="GPIO" type="igpio" type_id="igpio_b1c1fa279aa7069dca167502b8589cb7" mode="GPIO" peripheral="GPIO2" enabled="true">
+                     <config_set name="fsl_gpio">
+                        <setting name="enable_irq_comb_0_15" value="false"/>
+                        <struct name="gpio_interrupt_comb_0_15">
+                           <setting name="IRQn" value="GPIO1_Combined_0_15_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
                         </struct>
-                        <struct name="interruptsCfg">
-                           <set name="interruptSources">
-                              <selected/>
-                           </set>
-                           <setting name="isInterruptEnabled" value="false"/>
-                           <struct name="interrupt">
-                              <setting name="IRQn" value="SNVS_HP_WRAPPER_IRQn"/>
-                              <setting name="enable_priority" value="false"/>
-                              <setting name="priority" value="0"/>
-                              <setting name="enable_custom_name" value="false"/>
-                           </struct>
+                        <setting name="enable_irq_comb_16_31" value="true"/>
+                        <struct name="gpio_interrupt_comb_16_31">
+                           <setting name="IRQn" value="GPIO2_Combined_16_31_IRQn"/>
+                           <setting name="enable_priority" value="false"/>
+                           <setting name="priority" value="0"/>
+                           <setting name="enable_custom_name" value="false"/>
                         </struct>
                      </config_set>
                   </instance>

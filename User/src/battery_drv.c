@@ -218,12 +218,3 @@ void LTC2942_SetAnalog(uint8_t state) {
 	LTC2942_WriteReg(LTC2942_REG_CONTROL,reg);
 }
 
-
-//// The function converts the 16-bit RAW adc_code to Coulombs
-//float LTC2942_code_to_coulombs(void)
-//{
-//	float coulomb_charge;
-//	coulomb_charge =  1000*(float)(LTC2942_GetAC()*LTC2942_CHARGE_lsb*128*50E-3)/(100*128);
-//	coulomb_charge = coulomb_charge*3.6f;
-//	return(coulomb_charge);
-//}

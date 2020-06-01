@@ -9,71 +9,7 @@ static uint32_t ble_led_cnt = 0;
 
 TaskHandle_t LED_TaskHandle = NULL;  /* 电池管理任务句柄 */
 static bool flag_led_chk;
-/***************************************************************************************
-  * @brief   指示灯自检,先熄灭所有的灯200ms,然后将所有led灯设置为红色200ms,
-             再将所有的led灯设置为绿色200ms,最后熄灭.
-  * @input
-  * @return
-***************************************************************************************/
-void LED_CheckSelf(void)
-{
-    flag_led_chk = true;
-    GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, OFF);
-    GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, OFF);
 
-    GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
-    GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
-
-    GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
-    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, OFF);
-
-    vTaskDelay(100);
-
-    GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, ON);
-    GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, OFF);
-
-    GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, ON);
-    GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
-
-    GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, ON);
-    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, OFF);
-
-    vTaskDelay(200);
-
-    GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, OFF);
-    GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, OFF);
-
-    GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
-    GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
-
-    GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
-    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, OFF);
-
-    vTaskDelay(200);
-
-    GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, OFF);
-    GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, ON);
-
-    GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
-    GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, ON);
-
-    GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
-    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, ON);
-
-    vTaskDelay(200);
-
-    GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, OFF);
-    GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, OFF);
-
-    GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
-    GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
-
-    GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
-    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, OFF);
-
-    vTaskDelay(100);
-    flag_led_chk = false;
-}
 
 /***************************************************************************************
   * @brief
@@ -184,4 +120,68 @@ void LED_AppTask(void)
     }
 }
 
+/***************************************************************************************
+  * @brief   指示灯自检,先熄灭所有的灯200ms,然后将所有led灯设置为红色200ms,
+             再将所有的led灯设置为绿色200ms,最后熄灭.
+  * @input
+  * @return
+***************************************************************************************/
+void LED_CheckSelf(void)
+{
+    flag_led_chk = true;
+    GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, OFF);
 
+    GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
+
+    GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, OFF);
+
+    vTaskDelay(100);
+
+    GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, ON);
+    GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, OFF);
+
+    GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, ON);
+    GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
+
+    GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, ON);
+    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, OFF);
+
+    vTaskDelay(200);
+
+    GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, OFF);
+
+    GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
+
+    GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, OFF);
+
+    vTaskDelay(200);
+
+    GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, ON);
+
+    GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, ON);
+
+    GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, ON);
+
+    vTaskDelay(200);
+
+    GPIO_PinWrite(BOARD_LED_SYS_RED_GPIO,  BOARD_LED_SYS_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_SYS_GREEN_GPIO, BOARD_LED_SYS_GREEN_PIN, OFF);
+
+    GPIO_PinWrite(BOARD_LED_BAT_RED_GPIO,  BOARD_LED_BAT_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BAT_GREEN_GPIO, BOARD_LED_BAT_GREEN_PIN, OFF);
+
+    GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);
+    GPIO_PinWrite(BOARD_LED_BLE_GREEN_GPIO, BOARD_LED_BLE_GREEN_PIN, OFF);
+
+    vTaskDelay(100);
+    flag_led_chk = false;
+}

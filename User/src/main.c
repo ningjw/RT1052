@@ -7,15 +7,16 @@ void BOARD_InitDebugConsole(void);
 
 SysPara  g_sys_para;
 ADC_Set  g_adc_set;
-snvs_hp_rtc_datetime_t rtcDate = {
-        /* 设置日期 */
-    .year = 2020,
-    .month = 1,
-    .day = 1,
-    .hour = 0,
-    .minute = 0,
-    .second = 0,
-};/* 定义 rtc 日期配置结构体 */
+
+snvs_lp_srtc_datetime_t SNVS_LP_dateTimeStruct = {
+  .year = 2020,
+  .month = 1,
+  .day = 1,
+  .hour = 0,
+  .minute = 0,
+  .second = 0
+};
+
 /***************************************************************************************
   * @brief   初始化系统变量
   * @input   
@@ -52,7 +53,7 @@ static void InitSysPara()
   **********************************************************************/
 static void AppTaskCreate(void)
 {
-    eMMC_Init();                /* 初始化eMMC模块,FatFS文件系统, 并对文件系统自检*/
+//    eMMC_Init();                /* 初始化eMMC模块,FatFS文件系统, 并对文件系统自检*/
     taskENTER_CRITICAL();           //进入临界区
     
     /* 创建LED_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
@@ -61,9 +62,13 @@ static void AppTaskCreate(void)
     /* 创建Battery_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xTaskCreate((TaskFunction_t )BAT_AppTask,"BAT_Task",1024,NULL, 2,&BAT_TaskHandle);
 
+#ifdef BLE_VERSION
     /* 创建BLE_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xTaskCreate((TaskFunction_t )BLE_AppTask,"BLE_Task",1024,NULL, 3,&BLE_TaskHandle);
-    
+#elif defined WIFI_VERSION
+	/* 创建WIFI_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
+    xTaskCreate((TaskFunction_t )WIFI_AppTask,"WIFI_Task",1024,NULL, 3,&WIFI_TaskHandle);
+#endif
     /* 创建ADC_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xTaskCreate((TaskFunction_t )ADC_AppTask, "ADC_Task",1024,NULL, 4,&ADC_TaskHandle);
 //	LPM_LowPowerRun();
@@ -73,27 +78,7 @@ static void AppTaskCreate(void)
 }
 
 
-/***************************************************************************************
-  * @brief   打印系统时钟
-  * @input   
-  * @return  
-***************************************************************************************/
-void PrintClock(void)
-{
-  /* 打印系统时钟 */
-  PRINTF("\r\n");
-  PRINTF("CPU:             %d Hz\r\n", CLOCK_GetFreq(kCLOCK_CpuClk));
-  PRINTF("AHB:             %d Hz\r\n", CLOCK_GetFreq(kCLOCK_AhbClk));
-  PRINTF("SEMC:            %d Hz\r\n", CLOCK_GetFreq(kCLOCK_SemcClk));
-  PRINTF("SYSPLL:          %d Hz\r\n", CLOCK_GetFreq(kCLOCK_SysPllClk));
-  PRINTF("SYSPLLPFD0:      %d Hz\r\n", CLOCK_GetFreq(kCLOCK_SysPllPfd0Clk));
-  PRINTF("SYSPLLPFD1:      %d Hz\r\n", CLOCK_GetFreq(kCLOCK_SysPllPfd1Clk));
-  PRINTF("SYSPLLPFD2:      %d Hz\r\n", CLOCK_GetFreq(kCLOCK_SysPllPfd2Clk));
-  PRINTF("SYSPLLPFD3:      %d Hz\r\n", CLOCK_GetFreq(kCLOCK_SysPllPfd3Clk));  
-  PRINTF("\r\n");
-}
-
-
+uint8_t status_reg = 0;
 /***************************************************************************************
   * @brief   入口函数
   * @input   
@@ -111,13 +96,11 @@ int main(void)
 	PRINTF("app:\r\n");
     InitSysPara();              /* 初始化系统变量*/
     FlexSPI_NorFlash_Init();    /* 初始化FlexSPI*/
-    NorFlash_ChkSelf();         /* 对FlexSPI自检*/
-//    PWM1_Config();
-//    PWM1_Start();
-//    PWM1_Stop();
-	ADC_PwmClkConfig(1000000);
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);/*1ms中断，FreeRTOS使用*/
-    /* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
+    
+	si5351aSetFrequency(1000000);
+	
+	/* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xReturn = xTaskCreate((TaskFunction_t )AppTaskCreate, "AppTaskCreate",512,NULL,1,&AppTaskCreate_Handle);
     /* 启动任务调度 */
     if(pdPASS == xReturn) {
@@ -155,9 +138,12 @@ uint32_t BOARD_DebugConsoleSrcFreq(void)
 void BOARD_InitDebugConsole(void)
 {
     uint32_t uartClkSrcFreq = BOARD_DebugConsoleSrcFreq();
-
+#ifdef BLE_VERSION
     DbgConsole_Init(3, 115200, kSerialPort_Uart, uartClkSrcFreq);
-    
+#elif defined WIFI_VERSION
+	DbgConsole_Init(1, 115200, kSerialPort_Uart, uartClkSrcFreq);
+#endif
+	
     /*使能空闲中断*/
 	LPUART_EnableInterrupts(LPUART3, kLPUART_IdleLineInterruptEnable);
 	/*使能串口中断**/
@@ -254,7 +240,7 @@ void BOARD_ConfigMPU(void)
     ARM_MPU_Enable(MPU_CTRL_PRIVDEFENA_Msk);
     
     /* Enable I cache and D cache */
-    SCB_DisableDCache();
+    SCB_EnableDCache();
     SCB_EnableICache();
 }
 
