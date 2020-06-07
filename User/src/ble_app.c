@@ -53,21 +53,21 @@ void BLE_AppTask(void)
 
 	for(uint8_t i = 0;i<5; i++){
 		LPUART2_SendString("AT+BAUD=230400\r\n");
-		vTaskDelay(200);
+		xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);
 	}
     LPUART_SetBaudRate(LPUART2, 230400, LPUART2_CLOCK_SOURCE);
 	
     /* 设置蓝牙名称 */
 	LPUART2_SendString("AT+NAME=BLE Communication\r\n");
     g_sys_para.bleLedStatus = BLE_READY;
-	vTaskDelay(200);
+	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);
 	/*关闭低功耗模式*/
 	LPUART2_SendString("AT+LPM=0\r\n");
-	vTaskDelay(200);
+	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);
     /* 开启透传模式 */
     LPUART2_SendString("AT+TPMODE=1\r\n");
+	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);
 	SET_THROUGHPUT_MODE();
-	vTaskDelay(200);
 
 	BleStartFlag = true;
     memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);

@@ -98,7 +98,8 @@ int main(void)
     FlexSPI_NorFlash_Init();    /* 初始化FlexSPI*/
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);/*1ms中断，FreeRTOS使用*/
     
-	si5351aSetFrequency(1000000);
+//	si5351aSetClk0Frequency(25000000);
+//	si5351aSetClk1Frequency(5120000);
 	
 	/* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xReturn = xTaskCreate((TaskFunction_t )AppTaskCreate, "AppTaskCreate",512,NULL,1,&AppTaskCreate_Handle);

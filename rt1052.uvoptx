@@ -388,7 +388,27 @@
         <Ww>
           <count>2</count>
           <WinNumber>1</WinNumber>
-          <ItemText>result,0x0A</ItemText>
+          <ItemText>ShakeADC,0x10</ItemText>
+        </Ww>
+        <Ww>
+          <count>3</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>BOARD_ADC_SCK_GPIO</ItemText>
+        </Ww>
+        <Ww>
+          <count>4</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>g_adc_set.SampleRate,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>5</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>g_sys_para.sampNumber,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>6</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>g_sys_para.sampPacks,0x0A</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>

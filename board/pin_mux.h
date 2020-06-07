@@ -43,12 +43,14 @@ void BOARD_InitBootPins(void);
 #define BOARD_LED_PIN                                                         9U   /*!< GPIO1 pin index: 9 */
 
 /* GPIO_B0_01 (coord E7), ADC_SDI */
-#define BOARD_ADC_SDI_PERIPHERAL                                          LPSPI4   /*!< Device name: LPSPI4 */
-#define BOARD_ADC_SDI_SIGNAL                                                 SDI   /*!< LPSPI4 signal: SDI */
+#define BOARD_ADC_SDI_GPIO                                                 GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_ADC_SDI_PORT                                                 GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_ADC_SDI_PIN                                                     1U   /*!< GPIO2 pin index: 1 */
 
 /* GPIO_B0_03 (coord D8), ADC_SCK */
-#define BOARD_ADC_SCK_PERIPHERAL                                          LPSPI4   /*!< Device name: LPSPI4 */
-#define BOARD_ADC_SCK_SIGNAL                                                 SCK   /*!< LPSPI4 signal: SCK */
+#define BOARD_ADC_SCK_GPIO                                                 GPIO2   /*!< GPIO device name: GPIO2 */
+#define BOARD_ADC_SCK_PORT                                                 GPIO2   /*!< PORT device name: GPIO2 */
+#define BOARD_ADC_SCK_PIN                                                     3U   /*!< GPIO2 pin index: 3 */
 
 /* GPIO_B1_03 (coord D11), KEY_OFF */
 #define BOARD_KEY_OFF_GPIO                                                 GPIO2   /*!< GPIO device name: GPIO2 */

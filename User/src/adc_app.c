@@ -24,7 +24,7 @@ char str[12];
 uint32_t ADC_ShakeValue = 0;
 uint32_t  ADC_InvalidCnt = 0;
 
-extern lpspi_transfer_t spi_tranxfer;
+//extern lpspi_transfer_t spi_tranxfer;
 extern void QuadTimer1_init(void);
 /***************************************************************************************
   * @brief   kPIT_Chnl_0用于触发ADC采样 ；kPIT_Chnl_1 用于定时采样; kPIT_Chnl_2用于定时关机1分钟中断
@@ -138,36 +138,27 @@ void ADC_SampleStart(void)
 		CLOCK_SetDiv(kCLOCK_IpgDiv, 0x3);//设置分频系数
 	}
 	
+	SI5351a_SetPDN(SI_CLK0_CONTROL,true);
+	SI5351a_SetPDN(SI_CLK1_CONTROL,true);
+	
 	//配置采样时钟,重新配置SPI波特率
-	uint32_t *baud = (uint32_t *)&LPSPI4_config.baudRate;
 	if(g_adc_set.SampleRate > 45000){
 		ADC_MODE_HIGH_SPEED;//使用高速模式
 		//使用PWM作为ADS1271的时钟, 其范围为37ns - 10000ns (10us)
 		ADC_PwmClkConfig(g_adc_set.SampleRate * 256);
-		*baud = 100000000;
+		si5351aSetClk0Frequency(g_adc_set.SampleRate * 256);
 	}else{
 		ADC_MODE_LOW_POWER;//使用低速模式
 		//使用PWM作为ADS1271的时钟, 其范围为37ns - 10000ns (10us)
 		ADC_PwmClkConfig(g_adc_set.SampleRate * 512);
-		*baud = 25000000;
+		si5351aSetClk0Frequency(g_adc_set.SampleRate * 512);
 	}
-	LPSPI_Enable(LPSPI4, false);
-//	LPSPI_Deinit(LPSPI4_PERIPHERAL);
-	LPSPI_MasterInit(LPSPI4_PERIPHERAL, &LPSPI4_config, LPSPI4_CLOCK_FREQ);
-	
+
     /* 输出PWM 用于LTC1063FA的时钟输入,控制采样带宽*/
 	g_sys_para.Ltc1063Clk = 1000 * g_adc_set.SampleRate / 25;
     QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, CLOCK_GetFreq(kCLOCK_IpgClk));
     QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
-	
-	//丢弃前500个数据
-	ADC_InvalidCnt = 0;
-	while (1) { //wait ads1271 ready
-        while(ADC_READY == 1){};//等待ADC_READY为低电平
-		ADC_ShakeValue = LPSPI4_ReadData();
-		ADC_InvalidCnt++;
-		if(ADC_InvalidCnt > 500) break;
-    }
+	si5351aSetClk1Frequency(g_sys_para.Ltc1063Clk);
 	
 	//设置为true后,会在PIT中断中采集温度数据
 	g_sys_para.WorkStatus = true;
@@ -181,17 +172,24 @@ void ADC_SampleStart(void)
 	QuadTimer1_init();
     QTMR_StartTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 	
+	//丢弃前500个数据
+	ADC_InvalidCnt = 0;
+	while (1) { //wait ads1271 ready
+        while(ADC_READY == 1){};//等待ADC_READY为低电平
+		ADC_ShakeValue = LPSPI4_ReadData();
+		ADC_InvalidCnt++;
+		if(ADC_InvalidCnt > 100) break;
+    }
+	
 	/* Set channel 0 period (66000000 ticks). 用于触发内部ADC采样，采集转速信号*/
 //    PIT_SetTimerPeriod(PIT1_PERIPHERAL, kPIT_Chnl_0, PIT1_CLK_FREQ / g_adc_set.SampleRate);
 //    /* Start channel 0. 开启通道0,正式开始采样*/
 //    PIT_StartTimer(PIT1_PERIPHERAL, kPIT_Chnl_0);
-	
+	while(ADC_READY == 0){};//等待ADC_READY为高电平
 	while(1) { //wait ads1271 ready
         while(ADC_READY == 1){};//等待ADC_READY为低电平
 		__disable_irq();//关闭中断
-//		ADC_ShakeValue = LPSPI4_ReadData();
-		LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI阻塞发送
-		ShakeADC[g_sys_para.shkCount++] = spi_tranxfer.rxData[2]<<16 | spi_tranxfer.rxData[1]<<8 | spi_tranxfer.rxData[0];
+		ShakeADC[g_sys_para.shkCount++] = LPSPI4_ReadData();
 		__enable_irq();//开启中断
 		if(g_sys_para.shkCount >= g_sys_para.sampNumber){
 			g_sys_para.shkCount = g_sys_para.sampNumber;
@@ -228,6 +226,10 @@ void ADC_SampleStop(void)
 	//结束采集后获取一次温度
 	Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();
 	
+	//关闭时钟输出
+	SI5351a_SetPDN(SI_CLK0_CONTROL,false);
+	SI5351a_SetPDN(SI_CLK1_CONTROL,false);
+	
     /* 触发ADC采样完成事件  */
     xTaskNotify(ADC_TaskHandle, NOTIFY_FINISH, eSetBits);
 }
@@ -249,13 +251,14 @@ void ADC_AppTask(void)
 
 	ADC_MODE_LOW_POWER;
 	ADC_PwmClkConfig(1000000);
-
-	
+	si5351aSetClk0Frequency(1000000);
     /* 等待ADS1271 ready,并读取电压值,如果没有成功获取电压值, 则闪灯提示 */
     while (ADC_READY == 1){};  //wait ads1271 ready
     if(LPSPI4_ReadData() == 0) {
         g_sys_para.sampLedStatus = WORK_FATAL_ERR;
     }
+	SI5351a_SetPDN(SI_CLK0_CONTROL,false);
+	
     PRINTF("ADC Task Create and Running\r\n");
     while(1)
     {
@@ -278,7 +281,7 @@ void ADC_AppTask(void)
 					}else{
 						ShakeADC[i] = (0x1000000-ShakeADC[i]) * g_sys_para.bias * (-1.0f) / 0x800000;
 					}
-//					if(i < 2000)PRINTF("%01.5f,",ShakeADC[i]);
+					if(i < 2000)PRINTF("%01.5f,",ShakeADC[i]);
 					tempValue = (ShakeADC[i]+2.5f) * 10000;//将浮点数转换为整数,并扩大10000倍
                     memset(str, 0, sizeof(str));
                     sprintf(str, "%04x", tempValue);

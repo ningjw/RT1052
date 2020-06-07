@@ -23,6 +23,32 @@ void LPUART3_SendString(const char *str)
     LPUART_WriteBlocking(LPUART3, (uint8_t *)str, strlen(str));
 }
 
+/***************************************************************************************
+  * @brief   设置模块为Ap工作模式
+  * @input   
+  * @return
+***************************************************************************************/
+void WIFI_SetApMode(void)
+{
+	LPUART3_SendString("AT+WMODE=AP\n\r");
+    xTaskNotifyWait(pdFALSE, ULONG_MAX, &wifi_event, 200);/*wait task notify*/
+	
+	LPUART3_SendString("AT+WAP=USR-C322,123456\n\r");
+	xTaskNotifyWait(pdFALSE, ULONG_MAX, &wifi_event, 200);/*wait task notify*/
+	
+	LPUART3_SendString("AT+CHANNEL=num\n\r");
+	xTaskNotifyWait(pdFALSE, ULONG_MAX, &wifi_event, 200);/*wait task notify*/
+	
+	LPUART3_SendString("AT+LANN=192.168.1.1,255.255.255.0\n\r");
+	xTaskNotifyWait(pdFALSE, ULONG_MAX, &wifi_event, 200);/*wait task notify*/
+	
+	LPUART3_SendString("AT+SOCKA=TCPS,192.168.1.1,8899\n\r");
+	xTaskNotifyWait(pdFALSE, ULONG_MAX, &wifi_event, 200);/*wait task notify*/
+	
+	LPUART3_SendString("AT+WKMOD=TRANS\n\r");
+	xTaskNotifyWait(pdFALSE, ULONG_MAX, &wifi_event, 200);/*wait task notify*/
+}
+
 /***********************************************************************
   * @ 函数名  ： WIFI_AppTask
   * @ 功能说明：
@@ -33,6 +59,8 @@ void WIFI_AppTask(void)
 {
 	uint8_t xReturn = pdFALSE;
 	uint8_t* sendBuf = NULL;
+	
+	WIFI_SetApMode();
 	
 	while(1)
 	{
@@ -105,9 +133,8 @@ void LPUART3_IRQHandler(void)
 		LPUART_TransferAbortReceiveEDMA(LPUART3, &LPUART3_eDMA_Handle);   //eDMA终止接收数据
 		LPUART_ReceiveEDMA(LPUART3, &LPUART3_eDMA_Handle, &uart3RevXfer);  //使用eDMA接收
         
+		xTaskNotify(WIFI_TaskHandle, EVT_OK, eSetBits);
         PRINTF("%s:\r\n",uart3RevXfer.data);
-        
-        
     }
     __DSB();
 }

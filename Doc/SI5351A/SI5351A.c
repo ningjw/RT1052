@@ -113,6 +113,7 @@ void SetFrequency(uint32_t frequency)//设置时钟频率
 		//并设置MultiSynth0是锁相环的输入
   IICsendreg(SI_CLK0_CONTROL, 0x4F|SI_CLK_SRC_PLL_A);
 }
+
 void SetPLLClk(uint8_t pll, uint8_t mult, uint32_t num, uint32_t denom)//设置PPL时钟
 {
   uint32_t P1;					// PLL config register P1

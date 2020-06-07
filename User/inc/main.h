@@ -1,7 +1,7 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#define SOFT_VERSION       "0.12"
+#define SOFT_VERSION       "0.13"
 #define HARD_VERSION       "1.1"
 
 #define BLE_VERSION
@@ -74,7 +74,6 @@
 #include "battery_app.h"
 #include "led_app.h"
 #include "norflash_app.h"
-
 
 typedef struct{
 	uint32_t totalAdcInfo;

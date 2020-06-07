@@ -34,9 +34,9 @@ void PWM1_Config(void)
 {
     pwm_config_t pwmConfig;
     pwm_signal_param_t pwmSignal;
-    
+
     CLOCK_SetDiv(kCLOCK_IpgDiv, 0x3);
-    
+
     //Route the PWMA output to the PWM_OUT_TRIG0 port
     PWM1->SM[3].TCTRL |= PWM_TCTRL_PWAOT0_MASK;
     //禁止错误检测
@@ -46,10 +46,10 @@ void PWM1_Config(void)
     pwmConfig.pairOperation = kPWM_Independent;      //PWMA，PWMB各自独立输出
     pwmConfig.enableDebugMode = true;                //使能 Debug 模式
     PWM_Init(PWM1, kPWM_Module_3, &pwmConfig);       //初始化PWM1的通道3
-    
+
     pwmSignal.pwmChannel = kPWM_PwmA;             //配置PWMA
     pwmSignal.level = kPWM_LowTrue;              //有效电平为低
-    pwmSignal.dutyCyclePercent = 1;              //占空比1%        
+    pwmSignal.dutyCyclePercent = 1;              //占空比1%
     /*配置PWM1 通道3 有符号中心对齐 PWM信号频率为5000Hz*/
     PWM_SetupPwm(PWM1, kPWM_Module_3, &pwmSignal, 1, kPWM_SignedCenterAligned, 5000, CLOCK_GetFreq(kCLOCK_IpgClk));
     /*设置Set LDOK 位，将初始化参数加载到相应的寄存器*/
@@ -57,9 +57,9 @@ void PWM1_Config(void)
     /* 开启PWM 输出*/
     PWM_StartTimer(PWM1, kPWM_Control_Module_3);
     /* GPIO_B0_14 is configured as XBAR1_INOUT12 */
-    IOMUXC_SetPinMux(IOMUXC_GPIO_B0_14_XBAR1_INOUT12,0U); 
+    IOMUXC_SetPinMux(IOMUXC_GPIO_B0_14_XBAR1_INOUT12,0U);
     /*设置IO12为输出模式*/
-    IOMUXC_GPR->GPR6 |= IOMUXC_GPR_GPR6_IOMUXC_XBAR_DIR_SEL_12(0x01U); 
+    IOMUXC_GPR->GPR6 |= IOMUXC_GPR_GPR6_IOMUXC_XBAR_DIR_SEL_12(0x01U);
 }
 
 /***************************************************************************************
@@ -69,9 +69,9 @@ void PWM1_Config(void)
 ***************************************************************************************/
 void ADC_PwmClkConfig(uint32_t freq)
 {
-	pwm_config_t pwmConfig;
+    pwm_config_t pwmConfig;
     pwm_signal_param_t pwmSignal;
-    
+
     //Route the PWMA output to the PWM_OUT_TRIG0 port
     PWM1->SM[0].TCTRL |= PWM_TCTRL_PWAOT0_MASK;
     //禁止错误检测
@@ -81,33 +81,33 @@ void ADC_PwmClkConfig(uint32_t freq)
     pwmConfig.pairOperation = kPWM_Independent;      //PWMA，PWMB各自独立输出
     pwmConfig.enableDebugMode = true;                //使能 Debug 模式
     PWM_Init(PWM1, kPWM_Module_0, &pwmConfig);       //初始化PWM1的通道0
-    
+
     pwmSignal.pwmChannel = kPWM_PwmA;             //配置PWMA
     pwmSignal.level = kPWM_LowTrue;               //有效电平为低
-    pwmSignal.dutyCyclePercent = 50;              //占空比50%        
+    pwmSignal.dutyCyclePercent = 50;              //占空比50%
     /*配置PWM1 通道0 有符号中心对齐 PWM信号频率为6250000Hz*/
     PWM_SetupPwm(PWM1, kPWM_Module_0, &pwmSignal, 1, kPWM_SignedCenterAligned, freq, CLOCK_GetFreq(kCLOCK_IpgClk));
     /*设置Set LDOK 位，将初始化参数加载到相应的寄存器*/
     PWM_SetPwmLdok(PWM1, kPWM_Control_Module_0, true);
     /* 开启PWM 输出*/
     PWM_StartTimer(PWM1, kPWM_Control_Module_0);
-	
-	/* GPIO_B0_13 is configured as XBAR1_INOUT11 */
-    IOMUXC_SetPinMux(IOMUXC_GPIO_B0_13_XBAR1_INOUT11,0U); 
+
+    /* GPIO_B0_13 is configured as XBAR1_INOUT11 */
+    IOMUXC_SetPinMux(IOMUXC_GPIO_B0_13_XBAR1_INOUT11,0U);
     /*设置IO12为输出模式*/
-    IOMUXC_GPR->GPR6 |= IOMUXC_GPR_GPR6_IOMUXC_XBAR_DIR_SEL_11(0x01U); 
-	
-	XBARA_SetSignalsConnection(XBARA1, kXBARA1_InputFlexpwm1Pwm1OutTrig01, kXBARA1_OutputIomuxXbarInout11);
+    IOMUXC_GPR->GPR6 |= IOMUXC_GPR_GPR6_IOMUXC_XBAR_DIR_SEL_11(0x01U);
+
+    XBARA_SetSignalsConnection(XBARA1, kXBARA1_InputFlexpwm1Pwm1OutTrig01, kXBARA1_OutputIomuxXbarInout11);
 }
 
 void ADC_PwmClkStart(void)
 {
-	XBARA_SetSignalsConnection(XBARA1, kXBARA1_InputFlexpwm1Pwm1OutTrig01, kXBARA1_OutputIomuxXbarInout11);
+    XBARA_SetSignalsConnection(XBARA1, kXBARA1_InputFlexpwm1Pwm1OutTrig01, kXBARA1_OutputIomuxXbarInout11);
 }
 
 void ADC_PwmClkStop(void)
 {
-	XBARA_SetSignalsConnection(XBARA1,kXBARA1_InputLogicHigh,kXBARA1_OutputIomuxXbarInout11); 
+    XBARA_SetSignalsConnection(XBARA1,kXBARA1_InputLogicHigh,kXBARA1_OutputIomuxXbarInout11);
 }
 
 /***************************************************************************************
@@ -129,7 +129,7 @@ void PWM1_Start(void)
 void PWM1_Stop(void)
 {
     //停止时该引脚输出高电平
-    XBARA_SetSignalsConnection(XBARA1,kXBARA1_InputLogicHigh,kXBARA1_OutputIomuxXbarInout12); 
+    XBARA_SetSignalsConnection(XBARA1,kXBARA1_InputLogicHigh,kXBARA1_OutputIomuxXbarInout12);
 }
 
 
@@ -182,12 +182,12 @@ void ADC_ETC_Config(void)
 uint8_t spiTxData[3] = {0xFF};
 uint8_t spiRxData[3] = {0x00};
 
-lpspi_transfer_t spi_tranxfer = {
-    .configFlags = kLPSPI_MasterPcs1 | kLPSPI_MasterPcsContinuous,
-    .txData = spiTxData,                //要发送的数据
-    .rxData = spiRxData,                //接收到的数据
-    .dataSize = 3,                      //数据长度
-};
+//lpspi_transfer_t spi_tranxfer = {
+//    .configFlags = kLPSPI_MasterPcs1 | kLPSPI_MasterPcsContinuous,
+//    .txData = spiTxData,                //要发送的数据
+//    .rxData = spiRxData,                //接收到的数据
+//    .dataSize = 3,                      //数据长度
+//};
 
 
 
@@ -199,9 +199,28 @@ lpspi_transfer_t spi_tranxfer = {
 uint32_t LPSPI4_ReadData(void)
 {
     uint32_t spiData = 0;
-    LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI阻塞发送
-    spiData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];
+//    LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI阻塞发送
+//    spiData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];
 
+    for(uint8_t i=0; i<24; i++)
+    {
+        spiData <<= 1;
+		BOARD_ADC_SCK_GPIO->DR &= 0xFFFFFFF7; /* Set pin output to low level.*/
+		BOARD_ADC_SCK_GPIO->DR |= 0x08; /* Set pin output to high level.*/
+		if(((BOARD_ADC_SDI_GPIO->DR) >> BOARD_ADC_SDI_PIN) & 0x1U)
+		{  //取反 ，信号反相了
+            spiData |= 0x01;
+		}
+    }
+//	uint8_t bit[24] = {0};
+//	for(int8_t i=23; i>=0; i--)
+//    {
+//		BOARD_ADC_SCK_GPIO->DR &= 0xFFFFFFF7; /* Set pin output to low level.*/
+//		BOARD_ADC_SCK_GPIO->DR |= 0x08; /* Set pin output to high level.*/
+//		bit[i] = BOARD_ADC_SDI_GPIO->DR;
+//    }
+	
+	GPIO_PinWrite(BOARD_ADC_SCK_GPIO, BOARD_ADC_SCK_PIN, 0);
     return spiData;
 }
 

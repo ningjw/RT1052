@@ -1,6 +1,7 @@
 #ifndef __SI5351_H
 #define __SI5351_H
 
+#define SI5351_CLKOUT_MIN_FREQ          4000
 #define SI5351_DEVICE_STATUS            0
 #define SI5351_INTERRUPT_STATUS         1
 #define SI5351_INTERRUPT_MASK           2
@@ -33,6 +34,9 @@
 
 #define XTAL_FREQ	25000000	// Crystal frequency   
 
-void si5351aSetFrequency(unsigned long int frequency);
 
+void SI5351a_SetPDN(unsigned char clkCtrlReg, unsigned char flag);
+void SI5351_WriteReg(unsigned char reg, unsigned char value);
+void si5351aSetClk0Frequency(unsigned long int frequency);
+void si5351aSetClk1Frequency(unsigned long int frequency);
 #endif
