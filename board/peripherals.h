@@ -18,6 +18,7 @@
 #include "fsl_gpio.h"
 #include "fsl_clock.h"
 #include "fsl_lpi2c.h"
+#include "fsl_lpspi.h"
 #include "fsl_lpuart.h"
 #include "fsl_lpuart_edma.h"
 #include "fsl_pit.h"
@@ -71,6 +72,11 @@ extern "C" {
 #define LPI2C3_PERIPHERAL LPI2C3
 /* Definition of clock source */
 #define LPI2C3_CLOCK_FREQ 20000000UL
+/* BOARD_InitPeripherals defines for LPSPI4 */
+/* Definition of peripheral ID */
+#define LPSPI4_PERIPHERAL LPSPI4
+/* Definition of clock source */
+#define LPSPI4_CLOCK_FREQ 120000000UL
 /* Definition of peripheral ID */
 #define LPUART1_PERIPHERAL LPUART1
 /* Definition of the clock source frequency */
@@ -171,6 +177,7 @@ extern const adc_channel_config_t ADC1_channels_config[1];
 extern const adc_etc_config_t ADC_ETC_config;
 extern const lpi2c_master_config_t LPI2C1_masterConfig;
 extern const lpi2c_master_config_t LPI2C3_masterConfig;
+extern const lpspi_master_config_t LPSPI4_config;
 extern const lpuart_config_t LPUART1_config;
 extern const lpuart_config_t LPUART2_config;
 extern const lpuart_config_t LPUART3_config;

@@ -7,8 +7,6 @@
 #define SET_THROUGHPUT_MODE()    GPIO_PinWrite(BOARD_BTM_MODE_GPIO, BOARD_BTM_MODE_PIN, 0);
 #define BLE_POWER_ON()           GPIO_PinWrite(BOARD_PWR_WIFI_BLE_GPIO, BOARD_PWR_WIFI_BLE_PIN, 1);
 #define BLE_RESET()              GPIO_PinWrite(BOARD_PWR_WIFI_BLE_GPIO, BOARD_PWR_WIFI_BLE_PIN, 0);
-#define BLE_STATUS()             GPIO_PinRead(BOARD_BLE_STATUS_GPIO, BOARD_BLE_STATUS_PIN)
-
 
 
 extern void LPUART2_init(void);
@@ -37,19 +35,55 @@ void LPUART2_SendString(const char *str)
     LPUART_WriteBlocking(LPUART2, (uint8_t *)str, strlen(str));
 }
 
-/***********************************************************************
-  * @ 函数名  ： BLE_AppTask
-  * @ 功能说明：
-  * @ 参数    ： 无
-  * @ 返回值  ： 无
-  **********************************************************************/
-void BLE_AppTask(void)
+/***************************************************************************************
+  * @brief   设置WIFI模块为Ap工作模式
+  * @input   
+  * @return
+***************************************************************************************/
+void WIFI_Init(void)
 {
-    uint8_t xReturn = pdFALSE;
-    PRINTF("BLE Task Create and Running\r\n");
-    uint8_t* sendBuf = NULL;
+	LPUART2_SendString("+++");
+    xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 300);/*wait task notify*/
+	
+	LPUART2_SendString("a");
+	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 300);/*wait task notify*/
+	
+//	LPUART2_SendString("AT+RELD\r\n");
+//	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 1000);/*wait task notify*/
+	
+	LPUART2_SendString("AT+E=off\r\n");
+	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);
+	
+	LPUART2_SendString("AT+WMODE=AP\r\n");
+    xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);/*wait task notify*/
+	
+	LPUART2_SendString("AT+WAP=USR-C322-,88888888\r\n");
+	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);/*wait task notify*/
+	
+	LPUART2_SendString("AT+CHANNEL=1\r\n");
+	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);/*wait task notify*/
+	
+	LPUART2_SendString("AT+LANN=192.168.1.1,255.255.255.0\r\n");
+	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);/*wait task notify*/
+	
+	LPUART2_SendString("AT+SOCKA=TCPS,192.168.1.1,8899\r\n");
+	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);/*wait task notify*/
+	
+//	LPUART2_SendString("AT+WKMOD=TRANS\r\n");
+//	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);/*wait task notify*/
 
-    SET_COMMOND_MODE();
+	LPUART2_SendString("AT+ENTM\r\n");
+	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);/*wait task notify*/
+}
+
+/***************************************************************************************
+  * @brief   设置蓝牙模块
+  * @input   
+  * @return
+***************************************************************************************/
+void BLE_Init(void)
+{
+	SET_COMMOND_MODE();
 
 	for(uint8_t i = 0;i<5; i++){
 		LPUART2_SendString("AT+BAUD=230400\r\n");
@@ -59,7 +93,7 @@ void BLE_AppTask(void)
 	
     /* 设置蓝牙名称 */
 	LPUART2_SendString("AT+NAME=BLE Communication\r\n");
-    g_sys_para.bleLedStatus = BLE_READY;
+    g_sys_para.BleWifiLedStatus = BLE_READY;
 	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);
 	/*关闭低功耗模式*/
 	LPUART2_SendString("AT+LPM=0\r\n");
@@ -69,10 +103,30 @@ void BLE_AppTask(void)
 	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);
 	SET_THROUGHPUT_MODE();
 
+}
+
+/***********************************************************************
+  * @ 函数名  ： BLE_AppTask
+  * @ 功能说明：
+  * @ 参数    ： 无
+  * @ 返回值  ： 无
+  **********************************************************************/
+void BLE_AppTask(void)
+{
+    uint8_t xReturn = pdFALSE;
+    PRINTF("BLE/WIFI Task Create and Running\r\n");
+    uint8_t* sendBuf = NULL;
+
+	#ifdef BLE_VERSION
+	BLE_Init();
+	#elif defined WIFI_VERSION
+	WIFI_Init();
+	#endif
+    
 	BleStartFlag = true;
     memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
     g_puart2RxCnt = 0;
-//	g_sys_para.bleLedStatus = BLE_UPDATE;
+
     while(1)
     {
         /*wait task notify*/
@@ -98,6 +152,7 @@ void BLE_AppTask(void)
                 sendBuf = NULL;
             }
         }
+#ifdef BLE_VERSION
         else if(pdTRUE == xReturn && ble_event == EVT_TIMTOUT) { //接受蓝牙数据超时
 			g_puart2StartRx = false;
 			
@@ -119,7 +174,7 @@ void BLE_AppTask(void)
 			free(p_reply);
 			p_reply = NULL;
         }
-		
+#endif
         //清空接受到的数据
         memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
         g_puart2RxCnt = 0;
@@ -130,11 +185,11 @@ void BLE_AppTask(void)
         }
 
         /* 判断蓝牙连接状态*/
-		if(g_sys_para.bleLedStatus != BLE_UPDATE){
-			if(!BLE_STATUS()) { //Disconnected
-				g_sys_para.bleLedStatus = BLE_READY;
+		if(g_sys_para.BleWifiLedStatus != BLE_UPDATE){
+			if(!BLE_WIFI_STATUS()) { //Disconnected
+				g_sys_para.BleWifiLedStatus = BLE_READY;
 			} else { 
-				g_sys_para.bleLedStatus = BLE_CONNECT;//Connected
+				g_sys_para.BleWifiLedStatus = BLE_CONNECT;//Connected
 			}
 		}
     }
@@ -154,7 +209,7 @@ void LPUART2_TimeTick(void)
     if(g_puart2StartRx)
     {
         g_puart2RxTimeCnt++;
-		if(g_sys_para.bleLedStatus == BLE_UPDATE){
+		if(g_sys_para.BleWifiLedStatus == BLE_UPDATE){
 			if(g_puart2RxTimeCnt >= 1000 ){
 				g_puart2RxTimeCnt = 0;
 				PRINTF("\n接受数据超时,当前接受%d个数据\n", g_puart2RxCnt);
@@ -195,11 +250,11 @@ void LPUART2_IRQHandler(void)
 			g_lpuart2RxBuf[g_puart2RxCnt++] = ucTemp;
 		}
 		
-		if(g_sys_para.bleLedStatus != BLE_UPDATE && g_lpuart2RxBuf[g_puart2RxCnt-1] == '}'){
+		if(g_sys_para.BleWifiLedStatus != BLE_UPDATE && g_lpuart2RxBuf[g_puart2RxCnt-1] == '}'){
 			/* 接受完成,该标志清0*/
 			g_puart2StartRx = false;
 			xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
-		}else if (g_sys_para.bleLedStatus==BLE_UPDATE && g_puart2RxCnt >= FIRM_ONE_PACKE_LEN){
+		}else if (g_sys_para.BleWifiLedStatus==BLE_UPDATE && g_puart2RxCnt >= FIRM_ONE_PACKE_LEN){
 			/* 接受完成,该标志清0*/
 			g_puart2StartRx = false;
 			xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);

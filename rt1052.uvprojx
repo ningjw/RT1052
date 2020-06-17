@@ -416,11 +416,6 @@
               <FilePath>.\User\src\ble_app.c</FilePath>
             </File>
             <File>
-              <FileName>wifi_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\wifi_app.c</FilePath>
-            </File>
-            <File>
               <FileName>protocol.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\protocol.c</FilePath>
@@ -444,6 +439,11 @@
               <FileName>led_app.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\User\inc\led_app.h</FilePath>
+            </File>
+            <File>
+              <FileName>lpm_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\lpm_app.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1014,11 +1014,6 @@
               <FilePath>.\User\src\ble_app.c</FilePath>
             </File>
             <File>
-              <FileName>wifi_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\wifi_app.c</FilePath>
-            </File>
-            <File>
               <FileName>protocol.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\User\src\protocol.c</FilePath>
@@ -1042,6 +1037,11 @@
               <FileName>led_app.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\User\inc\led_app.h</FilePath>
+            </File>
+            <File>
+              <FileName>lpm_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\lpm_app.c</FilePath>
             </File>
           </Files>
         </Group>

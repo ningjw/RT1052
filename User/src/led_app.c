@@ -84,7 +84,7 @@ void LED_AppTask(void)
             }
 
             //À¶ÑÀ×´Ì¬Ö¸Ê¾µÆ
-            switch(g_sys_para.bleLedStatus)
+            switch(g_sys_para.BleWifiLedStatus)
             {
             case BLE_CLOSE://ºìµÆÃð,ÂÌµÆÃð
                 GPIO_PinWrite(BOARD_LED_BLE_RED_GPIO,  BOARD_LED_BLE_RED_PIN, OFF);

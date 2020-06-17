@@ -41,7 +41,7 @@ void BOARD_InitBootClocks(void);
 #define BOARD_BOOTCLOCKRUN_CKIL_SYNC_CLK_ROOT         32768UL
 #define BOARD_BOOTCLOCKRUN_CLKO1_CLK                  0UL
 #define BOARD_BOOTCLOCKRUN_CLKO2_CLK                  0UL
-#define BOARD_BOOTCLOCKRUN_CLK_1M                     0UL
+#define BOARD_BOOTCLOCKRUN_CLK_1M                     1000000UL
 #define BOARD_BOOTCLOCKRUN_CLK_24M                    24000000UL
 #define BOARD_BOOTCLOCKRUN_CSI_CLK_ROOT               24000000UL
 #define BOARD_BOOTCLOCKRUN_ENET1_TX_CLK               6000000UL

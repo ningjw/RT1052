@@ -33,16 +33,12 @@ static void InitSysPara()
     g_sys_para.inactiveCount = 0;    //
     g_sys_para.sampLedStatus = WORK_FINE;
     g_sys_para.batLedStatus = BAT_NORMAL;
-    g_sys_para.bleLedStatus = BLE_CLOSE;
+    g_sys_para.BleWifiLedStatus = BLE_CLOSE;
     g_sys_para.bias = 2.5f;//震动传感器的偏置电压默认为2.43V
     g_sys_para.refV = 3.3f;//参考电压
     g_sys_para.firmUpdate = false;
     g_sys_para.firmPacksCount = 0;
     g_sys_para.firmSizeCurrent = 0;
-	
-//	g_sys_para.Ltc1063Clk = 2000000;
-//	QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
-//    QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
 }
 
 /***********************************************************************
@@ -53,7 +49,6 @@ static void InitSysPara()
   **********************************************************************/
 static void AppTaskCreate(void)
 {
-//    eMMC_Init();                /* 初始化eMMC模块,FatFS文件系统, 并对文件系统自检*/
     taskENTER_CRITICAL();           //进入临界区
     
     /* 创建LED_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
@@ -62,13 +57,9 @@ static void AppTaskCreate(void)
     /* 创建Battery_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xTaskCreate((TaskFunction_t )BAT_AppTask,"BAT_Task",1024,NULL, 2,&BAT_TaskHandle);
 
-#ifdef BLE_VERSION
     /* 创建BLE_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xTaskCreate((TaskFunction_t )BLE_AppTask,"BLE_Task",1024,NULL, 3,&BLE_TaskHandle);
-#elif defined WIFI_VERSION
-	/* 创建WIFI_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
-    xTaskCreate((TaskFunction_t )WIFI_AppTask,"WIFI_Task",1024,NULL, 3,&WIFI_TaskHandle);
-#endif
+
     /* 创建ADC_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xTaskCreate((TaskFunction_t )ADC_AppTask, "ADC_Task",1024,NULL, 4,&ADC_TaskHandle);
 //	LPM_LowPowerRun();
@@ -97,10 +88,8 @@ int main(void)
     InitSysPara();              /* 初始化系统变量*/
     FlexSPI_NorFlash_Init();    /* 初始化FlexSPI*/
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);/*1ms中断，FreeRTOS使用*/
-    
-//	si5351aSetClk0Frequency(25000000);
-//	si5351aSetClk1Frequency(5120000);
-	
+//	LPM_LowSpeedRun();
+//	LPM_FullSpeedRun();
 	/* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xReturn = xTaskCreate((TaskFunction_t )AppTaskCreate, "AppTaskCreate",512,NULL,1,&AppTaskCreate_Handle);
     /* 启动任务调度 */
@@ -139,11 +128,8 @@ uint32_t BOARD_DebugConsoleSrcFreq(void)
 void BOARD_InitDebugConsole(void)
 {
     uint32_t uartClkSrcFreq = BOARD_DebugConsoleSrcFreq();
-#ifdef BLE_VERSION
+
     DbgConsole_Init(3, 115200, kSerialPort_Uart, uartClkSrcFreq);
-#elif defined WIFI_VERSION
-	DbgConsole_Init(1, 115200, kSerialPort_Uart, uartClkSrcFreq);
-#endif
 	
     /*使能空闲中断*/
 	LPUART_EnableInterrupts(LPUART3, kLPUART_IdleLineInterruptEnable);

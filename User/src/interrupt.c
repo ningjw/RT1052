@@ -1,6 +1,12 @@
 #include "main.h"
 
+#define LPUART3_BUFF_LEN 10
+uint8_t g_lpuart3RxBuf[LPUART3_BUFF_LEN] = {0};            //串口接收缓冲区
 
+lpuart_transfer_t uart3RevXfer = {
+    .data     = g_lpuart3RxBuf,
+    .dataSize = LPUART3_BUFF_LEN,
+};
 
 /***************************************************************************************
   * @brief
@@ -16,6 +22,29 @@ void LPUART1_IRQHandler(void)
         /*读取数据*/
         ucCh = LPUART_ReadByte( LPUART1 );
     }
+}
+
+/***************************************************************************************
+  * @brief
+  * @input
+  * @return
+***************************************************************************************/
+void LPUART3_IRQHandler(void)
+{
+    /*	接收到数据满了触发中断	*/
+    if ((kLPUART_IdleLineFlag) & LPUART_GetStatusFlags(LPUART3))
+    {
+		/*清除空闲中断*/
+		LPUART3->STAT |= LPUART_STAT_IDLE_MASK; 
+        
+		/*接收eDMA的数据量*/
+		LPUART_TransferGetReceiveCountEDMA(LPUART3, &LPUART3_eDMA_Handle, &uart3RevXfer.dataSize); 
+		LPUART_TransferAbortReceiveEDMA(LPUART3, &LPUART3_eDMA_Handle);   //eDMA终止接收数据
+		LPUART_ReceiveEDMA(LPUART3, &LPUART3_eDMA_Handle, &uart3RevXfer);  //使用eDMA接收
+        
+//        PRINTF("%s:\r\n",uart3RevXfer.data);
+    }
+    __DSB();
 }
 
 /***************************************************************************************

@@ -51,10 +51,9 @@ void BOARD_InitBootClocks(void)
 name: BOARD_BootClockRUN
 called_from_default_init: true
 outputs:
-- {id: AHB_CLK_ROOT.outFreq, value: 528 MHz}
+- {id: AHB_CLK_ROOT.outFreq, value: 528 MHz, locked: true, accuracy: '0.001'}
 - {id: CAN_CLK_ROOT.outFreq, value: 60 MHz}
 - {id: CKIL_SYNC_CLK_ROOT.outFreq, value: 32.768 kHz}
-- {id: CLK_1M.outFreq, value: 1 MHz}
 - {id: CLK_24M.outFreq, value: 24 MHz}
 - {id: CSI_CLK_ROOT.outFreq, value: 24 MHz}
 - {id: ENET1_TX_CLK.outFreq, value: 6 MHz}
@@ -136,6 +135,8 @@ settings:
 - {id: CCM_ANALOG_PLL_USB1_EN_USB_CLKS_CFG, value: Enabled}
 - {id: CCM_ANALOG_PLL_USB1_EN_USB_CLKS_OUT_CFG, value: Enabled}
 - {id: CCM_ANALOG_PLL_USB1_POWER_CFG, value: 'Yes'}
+- {id: XTALOSC24M_LOWPWR_CTRL_RC_OSC_EN_CFG, value: Disabled}
+- {id: XTALOSC24M_OSC_CONFIG2_ENABLE_1M_CFG, value: Disabled}
 sources:
 - {id: CCM_ANALOG.CLK1.outFreq, value: 24 MHz, enabled: true}
 - {id: XTALOSC24M.RTC_OSC.outFreq, value: 32.768 kHz, enabled: true}
@@ -175,16 +176,14 @@ void BOARD_BootClockRUN(void)
 {
     /* Init RTC OSC clock frequency. */
     CLOCK_SetRtcXtalFreq(32768U);
-    /* Enable 1MHz clock output. */
-    XTALOSC24M->OSC_CONFIG2 |= XTALOSC24M_OSC_CONFIG2_ENABLE_1M_MASK;
-    /* Use free 1MHz clock output. */
-    XTALOSC24M->OSC_CONFIG2 &= ~XTALOSC24M_OSC_CONFIG2_MUX_1M_MASK;
+    /* Disable 1MHz clock output. */
+    XTALOSC24M->OSC_CONFIG2 &= ~XTALOSC24M_OSC_CONFIG2_ENABLE_1M_MASK;
     /* Set XTAL 24MHz clock frequency. */
     CLOCK_SetXtalFreq(24000000U);
     /* Enable XTAL 24MHz clock source. */
     CLOCK_InitExternalClk(0);
-    /* Enable internal RC. */
-    CLOCK_InitRcOsc24M();
+    /* Disable internal RC. */
+    CLOCK_DeinitRcOsc24M();
     /* Switch clock source to external OSC. */
     CLOCK_SwitchOsc(kCLOCK_XtalOsc);
     /* Set Oscillator ready counter value. */

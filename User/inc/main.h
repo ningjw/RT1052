@@ -1,12 +1,12 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#define SOFT_VERSION       "0.13"
+#define SOFT_VERSION       "0.15"
 #define HARD_VERSION       "1.1"
 
 #define BLE_VERSION
 //#define WIFI_VERSION 
-
+#define HDV_1_0
 
 #define ULONG_MAX          0xFFFFFFFF
 #define EVT_OK       (1 << 0)
@@ -74,6 +74,7 @@
 #include "battery_app.h"
 #include "led_app.h"
 #include "norflash_app.h"
+#include "lpm_app.h"
 
 typedef struct{
 	uint32_t totalAdcInfo;
@@ -108,7 +109,7 @@ typedef struct{
     uint8_t  inactiveCondition;//用于设置触发条件
 
     uint8_t  batLedStatus; //电池状态
-    uint8_t  bleLedStatus; //蓝牙状态
+    uint8_t  BleWifiLedStatus; //蓝牙状态
     uint8_t  sampLedStatus;//采样状态
     bool     ads1271IsOk;  //ADC芯片是否完好
     bool     emmcIsOk;     //eMMC文件系统是否完好

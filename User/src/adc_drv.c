@@ -146,7 +146,6 @@ void ADC_ETC_Config(void)
     adc_etc_trigger_config_t adcEtcTriggerConfig; //配置外部触发转换通道组。主要包括优先级、触发方式、触发通道数量
     adc_etc_trigger_chain_config_t adcEtcTriggerChainConfig; // 配置外部触发转换通道组具体的ADC转换通道
 
-
     /*配置外部触发控制器*/
     ADC_ETC_GetDefaultConfig(&adcEtcConfig);
 
@@ -182,12 +181,12 @@ void ADC_ETC_Config(void)
 uint8_t spiTxData[3] = {0xFF};
 uint8_t spiRxData[3] = {0x00};
 
-//lpspi_transfer_t spi_tranxfer = {
-//    .configFlags = kLPSPI_MasterPcs1 | kLPSPI_MasterPcsContinuous,
-//    .txData = spiTxData,                //要发送的数据
-//    .rxData = spiRxData,                //接收到的数据
-//    .dataSize = 3,                      //数据长度
-//};
+lpspi_transfer_t spi_tranxfer = {
+    .configFlags = kLPSPI_MasterPcs1 | kLPSPI_MasterPcsContinuous,
+    .txData = spiTxData,                //要发送的数据
+    .rxData = spiRxData,                //接收到的数据
+    .dataSize = 3,                      //数据长度
+};
 
 
 
@@ -199,29 +198,25 @@ uint8_t spiRxData[3] = {0x00};
 uint32_t LPSPI4_ReadData(void)
 {
     uint32_t spiData = 0;
-//    LPSPI_MasterTransferBlocking(LPSPI4, &spi_tranxfer);	   //SPI阻塞发送
-//    spiData = spiRxData[2]<<16 | spiRxData[1]<<8 | spiRxData[0];
 
-    for(uint8_t i=0; i<24; i++)
-    {
-        spiData <<= 1;
-		BOARD_ADC_SCK_GPIO->DR &= 0xFFFFFFF7; /* Set pin output to low level.*/
-		BOARD_ADC_SCK_GPIO->DR |= 0x08; /* Set pin output to high level.*/
-		if(((BOARD_ADC_SDI_GPIO->DR) >> BOARD_ADC_SDI_PIN) & 0x1U)
-		{  //取反 ，信号反相了
-            spiData |= 0x01;
-		}
-    }
-//	uint8_t bit[24] = {0};
-//	for(int8_t i=23; i>=0; i--)
+	while((LPSPI4->SR & 1<<0)==0);	//等待TDF=1,从而可以发送数据	
+	LPSPI4->TDR = 0xFFFFFFFF;		//发送数据
+	while((LPSPI4->SR & 1<<1)==0);	//等待RDF=1,从而可以读取数据
+	spiData = LPSPI4->RDR;			//读取数据
+	return spiData;					//返回接收到的数据 		    
+	
+//    for(uint8_t i=0; i<24; i++)
 //    {
+//        spiData <<= 1;
 //		BOARD_ADC_SCK_GPIO->DR &= 0xFFFFFFF7; /* Set pin output to low level.*/
 //		BOARD_ADC_SCK_GPIO->DR |= 0x08; /* Set pin output to high level.*/
-//		bit[i] = BOARD_ADC_SDI_GPIO->DR;
+//		if(((BOARD_ADC_SDI_GPIO->DR) >> BOARD_ADC_SDI_PIN) & 0x1U)
+//		{  //取反 ，信号反相了
+//            spiData |= 0x01;
+//		}
 //    }
-	
-	GPIO_PinWrite(BOARD_ADC_SCK_GPIO, BOARD_ADC_SCK_PIN, 0);
-    return spiData;
+//	GPIO_PinWrite(BOARD_ADC_SCK_GPIO, BOARD_ADC_SCK_PIN, 0);
+//    return spiData;
 }
 
 

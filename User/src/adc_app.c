@@ -12,8 +12,8 @@ char  VibrateStrADC[ADC_LEN * 4 + 1];
 #define ADC_SYNC_HIGH            GPIO_PinWrite(BOARD_ADC_SYNC_GPIO, BOARD_ADC_SYNC_PIN, 1)
 #define ADC_SYNC_LOW             GPIO_PinWrite(BOARD_ADC_SYNC_GPIO, BOARD_ADC_SYNC_PIN, 0)
 
-#define PWR_EN_LOW    GPIO_PinWrite(BOARD_PWR_EN_GPIO, BOARD_PWR_EN_PIN, 0)
-#define PWR_EN_HIGH   GPIO_PinWrite(BOARD_PWR_EN_GPIO, BOARD_PWR_EN_PIN, 1)
+#define PWR_ON    GPIO_PinWrite(BOARD_PWR_EN_GPIO, BOARD_PWR_EN_PIN, 0)
+#define PWR_OFF   GPIO_PinWrite(BOARD_PWR_EN_GPIO, BOARD_PWR_EN_PIN, 1)
 
 
 TaskHandle_t ADC_TaskHandle = NULL;  /* ADC任务句柄 */
@@ -121,43 +121,43 @@ void ADC_SampleStart(void)
 		g_sys_para.sampNumber = ADC_LEN;
 	}
 	
+	PWR_ON;//开启ADC相关的电源
+	vTaskDelay(500);//等待500ms
+	
 	//挂起电池与LED灯的任务,并停止PendSV与SysTick中断
     vTaskSuspend(BAT_TaskHandle);
-//    vTaskSuspend(LED_TaskHandle);
+    vTaskSuspend(LED_TaskHandle);
 	NVIC_DisableIRQ(PendSV_IRQn);   
     NVIC_DisableIRQ(SysTick_IRQn);
 	
-	//根据采样率重新设置IPG_CLK的分频系数
-	if(g_adc_set.SampleRate >= 256 && g_adc_set.SampleRate < 1000){
-		CLOCK_SetDiv(kCLOCK_IpgDiv, 0x7);//设置分频系数
-	}else if(g_adc_set.SampleRate >= 1000 && g_adc_set.SampleRate < 5000){
-		CLOCK_SetDiv(kCLOCK_IpgDiv, 0x6);//设置分频系数
-	}else if(g_adc_set.SampleRate >= 5000 && g_adc_set.SampleRate < 10000){
-		CLOCK_SetDiv(kCLOCK_IpgDiv, 0x5);//设置分频系数
-	}else{
-		CLOCK_SetDiv(kCLOCK_IpgDiv, 0x3);//设置分频系数
-	}
-	
-	SI5351a_SetPDN(SI_CLK0_CONTROL,true);
+	//配置ADC芯片时钟
+#ifndef HDV_1_0
 	SI5351a_SetPDN(SI_CLK1_CONTROL,true);
-	
-	//配置采样时钟,重新配置SPI波特率
+#endif
 	if(g_adc_set.SampleRate > 45000){
 		ADC_MODE_HIGH_SPEED;//使用高速模式
 		//使用PWM作为ADS1271的时钟, 其范围为37ns - 10000ns (10us)
 		ADC_PwmClkConfig(g_adc_set.SampleRate * 256);
+#ifndef HDV_1_0
 		si5351aSetClk0Frequency(g_adc_set.SampleRate * 256);
+#endif
 	}else{
 		ADC_MODE_LOW_POWER;//使用低速模式
 		//使用PWM作为ADS1271的时钟, 其范围为37ns - 10000ns (10us)
 		ADC_PwmClkConfig(g_adc_set.SampleRate * 512);
+#ifndef HDV_1_0
 		si5351aSetClk0Frequency(g_adc_set.SampleRate * 512);
+#endif
 	}
 
     /* 输出PWM 用于LTC1063FA的时钟输入,控制采样带宽*/
 	g_sys_para.Ltc1063Clk = 1000 * g_adc_set.SampleRate / 25;
+#ifndef HDV_1_0
+	g_sys_para.Ltc1063Clk = 1000000;
+#endif
     QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, CLOCK_GetFreq(kCLOCK_IpgClk));
     QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
+	SI5351a_SetPDN(SI_CLK0_CONTROL,true);
 	si5351aSetClk1Frequency(g_sys_para.Ltc1063Clk);
 	
 	//设置为true后,会在PIT中断中采集温度数据
@@ -221,7 +221,7 @@ void ADC_SampleStop(void)
     QTMR_StopTimer(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL);
 	
     vTaskResume(BAT_TaskHandle);
-//    vTaskResume(LED_TaskHandle);
+    vTaskResume(LED_TaskHandle);
 	
 	//结束采集后获取一次温度
 	Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();
@@ -229,6 +229,9 @@ void ADC_SampleStop(void)
 	//关闭时钟输出
 	SI5351a_SetPDN(SI_CLK0_CONTROL,false);
 	SI5351a_SetPDN(SI_CLK1_CONTROL,false);
+	
+	//关闭电源
+	PWR_OFF;
 	
     /* 触发ADC采样完成事件  */
     xTaskNotify(ADC_TaskHandle, NOTIFY_FINISH, eSetBits);
@@ -249,16 +252,30 @@ void ADC_AppTask(void)
     ADC_ETC_Config();
     XBARA_Configuration();
 
+	/*以下为开机自检代码*/
 	ADC_MODE_LOW_POWER;
 	ADC_PwmClkConfig(1000000);
+#ifndef HDV_1_0
 	si5351aSetClk0Frequency(1000000);
+#endif
+	g_sys_para.Ltc1063Clk = 1000 * g_adc_set.SampleRate / 25;
+    QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, CLOCK_GetFreq(kCLOCK_IpgClk));
+    QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
     /* 等待ADS1271 ready,并读取电压值,如果没有成功获取电压值, 则闪灯提示 */
     while (ADC_READY == 1){};  //wait ads1271 ready
     if(LPSPI4_ReadData() == 0) {
         g_sys_para.sampLedStatus = WORK_FATAL_ERR;
     }
+#ifndef HDV_1_0
 	SI5351a_SetPDN(SI_CLK0_CONTROL,false);
-	
+#endif
+	QTMR_StopTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL);
+//	while (1) { //wait ads1271 ready
+//        while(ADC_READY == 1){};//等待ADC_READY为低电平
+//		ADC_ShakeValue = LPSPI4_ReadData();
+//    }
+	PWR_OFF;//关闭ADC采集相关的电源
+//	LPM_LowSpeedRun();
     PRINTF("ADC Task Create and Running\r\n");
     while(1)
     {

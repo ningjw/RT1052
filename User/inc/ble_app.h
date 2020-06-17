@@ -20,7 +20,9 @@
 
 
 
-#define LPUART2_BUFF_LEN 250
+#define LPUART2_BUFF_LEN 1024
+
+#define BLE_WIFI_STATUS()             GPIO_PinRead(BOARD_BLE_STATUS_GPIO, BOARD_BLE_STATUS_PIN)
 
 typedef void (*SendMsgFunc_t)(uint8_t * buf, uint32_t len);
 

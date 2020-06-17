@@ -17,7 +17,7 @@ static char* SetTime(cJSON *pJson, cJSON * pSub)
     pSub = cJSON_GetObjectItem(pJson, "Y");
     if (NULL != pSub) {
         SNVS_LP_dateTimeStruct.year = pSub->valueint;
-    }
+    }else return NULL;
 
     pSub = cJSON_GetObjectItem(pJson, "Mon");
     if (NULL != pSub) {
@@ -544,7 +544,7 @@ static char * StartUpgrade(cJSON *pJson, cJSON * pSub)
     cJSON_AddNumberToObject(pJsonRoot, "Sid", 0);
     char *p_reply = cJSON_PrintUnformatted(pJsonRoot);
     cJSON_Delete(pJsonRoot);
-    g_sys_para.bleLedStatus = BLE_UPDATE;
+    g_sys_para.BleWifiLedStatus = BLE_UPDATE;
     g_puart2StartRx = true;//开始超市检测,5s中未接受到数据则超时
     return p_reply;
 }
@@ -1162,7 +1162,7 @@ SEND_DATA:
     cJSON_Delete(pJsonRoot);
 
     if(flag_get_all_data ) {
-        LPUART3_SendString((char *)p_reply);
+        LPUART2_SendString((char *)p_reply);
         vTaskDelay(6);
         free(p_reply);
         p_reply = NULL;
@@ -1288,7 +1288,7 @@ uint8_t*  ParseFirmPacket(uint8_t *pMsg)
     /* 当前为最后一包,计算整个固件的crc16码 */
     if(g_sys_para.firmPacksCount == g_sys_para.firmPacksTotal - 1) {
 
-        g_sys_para.bleLedStatus = BLE_CONNECT;
+        g_sys_para.BleWifiLedStatus = BLE_CONNECT;
         g_puart2RxTimeCnt = 0;
         g_puart2StartRx = false;
 
