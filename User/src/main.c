@@ -5,8 +5,6 @@ static void AppTaskCreate(void);                      /* 用于创建任务 */
 void BOARD_ConfigMPU(void);
 void BOARD_InitDebugConsole(void);
 
-extern lpm_power_mode_t s_targetPowerMode;
-extern lpm_power_mode_t s_curRunMode;
 
 SysPara  g_sys_para;
 ADC_Set  g_adc_set;
@@ -65,36 +63,13 @@ static void AppTaskCreate(void)
 
     /* 创建ADC_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xTaskCreate((TaskFunction_t )ADC_AppTask, "ADC_Task",1024,NULL, 4,&ADC_TaskHandle);
-//	LPM_LowPowerRun();
 	
     vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
     taskEXIT_CRITICAL();               //退出临界区
 }
 
-/*设置电源模式*/
-void APP_PowerModeChange(char  powerMode)
-{
-	/* 将字母与枚举类型对应，算出当前电源模式 */
-	s_targetPowerMode = (lpm_power_mode_t)powerMode;
-	/****************************第五部分**********************/
-	/* 判断当前模式在枚举类型内 */
-	if (s_targetPowerMode <= LPM_PowerModeEnd)
-	{
-		/*如果无法设置目标电源模式，则循环继续。 */
-		if (!APP_CheckPowerMode(s_curRunMode, s_targetPowerMode))
-		{
-			return;
-		}
-		/****************************第七部分**********************/
-		APP_PowerPreSwitchHook(s_targetPowerMode);
-		/* 电源模式选择 */
-		APP_PowerModeSwitch(s_targetPowerMode);
-		APP_PowerPostSwitchHook(s_targetPowerMode);
-	}
-}
 
 
-uint8_t status_reg = 0;
 /***************************************************************************************
   * @brief   入口函数
   * @input   
@@ -111,8 +86,6 @@ int main(void)
 	PRINTF("app:\r\n");
     InitSysPara();              /* 初始化系统变量*/
 	LPM_Init();
-	APP_PowerModeChange(LPM_PowerModeLowPowerRun);
-	APP_PowerModeChange(LPM_PowerModeFullRun);
     FlexSPI_NorFlash_Init();    /* 初始化FlexSPI*/
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);/*1ms中断，FreeRTOS使用*/
 	/* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
@@ -155,12 +128,6 @@ void BOARD_InitDebugConsole(void)
     uint32_t uartClkSrcFreq = BOARD_DebugConsoleSrcFreq();
 
     DbgConsole_Init(3, 115200, kSerialPort_Uart, uartClkSrcFreq);
-	
-    /*使能空闲中断*/
-	LPUART_EnableInterrupts(LPUART3, kLPUART_IdleLineInterruptEnable);
-	/*使能串口中断**/
-	EnableIRQ(LPUART3_IRQn);
-    LPUART_ReceiveEDMA(LPUART3, &LPUART3_eDMA_Handle, &uart3RevXfer);  //使用eDMA接收
 }
 
 

@@ -11,6 +11,10 @@
 
 #include "fsl_common.h"
 
+#define APP_WAKEUP_BUTTON_GPIO     BOARD_KEY_OFF_GPIO
+#define APP_WAKEUP_BUTTON_GPIO_PIN BOARD_KEY_OFF_PIN
+#define APP_WAKEUP_BUTTON_IRQ      GPIO2_Combined_16_31_IRQn
+
 /*******************************************************************************
  * Definitions
  ******************************************************************************/

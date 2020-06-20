@@ -12,13 +12,6 @@
  ******************************************************************************/
 #define CPU_NAME "iMXRT1052"
 
-
-#define APP_WAKEUP_BUTTON_GPIO BOARD_USER_BUTTON_GPIO
-#define APP_WAKEUP_BUTTON_GPIO_PIN BOARD_USER_BUTTON_GPIO_PIN
-#define APP_WAKEUP_BUTTON_IRQ  BOARD_USER_BUTTON_IRQ
-#define APP_WAKEUP_BUTTON_IRQ_ HANDLER BOARD_USER_BUTTON_IRQ_HANDLER
-#define APP_WAKEUP_BUTTON_NAME BOARD_USER_BUTTON_NAME
-
 #define APP_WAKEUP_GPT_BASE GPT2
 #define APP_WAKEUP_GPT_IRQn GPT2_IRQn
 #define APP_WAKEUP_GPT_IRQn_HANDLER GPT2_IRQHandler
@@ -40,6 +33,19 @@ static const char *s_modeNames[]     = {"Over RUN",    "Full Run",       "Low Sp
                                     "SNVS"
 #endif
 };
+
+
+void APP_SetWakeupConfig(lpm_power_mode_t targetMode)
+{
+	GPIO_ClearPinsInterruptFlags(APP_WAKEUP_BUTTON_GPIO, 1U << APP_WAKEUP_BUTTON_GPIO_PIN);
+	/* Enable GPIO pin interrupt */
+	GPIO_EnableInterrupts(APP_WAKEUP_BUTTON_GPIO, 1U << APP_WAKEUP_BUTTON_GPIO_PIN);
+	NVIC_EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
+	/* Enable the Interrupt */
+	EnableIRQ(APP_WAKEUP_BUTTON_IRQ);
+	/* Enable GPC interrupt */
+	LPM_EnableWakeupSource(APP_WAKEUP_BUTTON_IRQ);
+}
 
 
 lpm_power_mode_t APP_GetRunMode(void)
@@ -193,4 +199,39 @@ void APP_PowerModeSwitch(lpm_power_mode_t targetPowerMode)
             assert(false);
             break;
     }
+}
+
+/*设置电源模式*/
+void APP_PowerModeChange(char  powerMode)
+{
+	bool needSetWakeup; /* Need to set wakeup. */
+	s_targetPowerMode = (lpm_power_mode_t)powerMode;
+
+	if (s_targetPowerMode <= LPM_PowerModeEnd)
+	{
+		/* If could not set the target power mode, loop continue. */
+		if (!APP_CheckPowerMode(s_curRunMode, s_targetPowerMode))
+		{
+			return;
+		}
+
+		/* If target mode is run mode, don't need to set wakeup source. */
+		if (s_targetPowerMode <= LPM_PowerModeLowPowerRun)
+		{
+			needSetWakeup = false;
+		}
+		else
+		{
+			needSetWakeup = true;
+		}
+
+		if (needSetWakeup)
+		{
+			APP_SetWakeupConfig(s_targetPowerMode);
+		}
+
+		APP_PowerPreSwitchHook(s_targetPowerMode);
+		APP_PowerModeSwitch(s_targetPowerMode);
+		APP_PowerPostSwitchHook(s_targetPowerMode);
+	}
 }

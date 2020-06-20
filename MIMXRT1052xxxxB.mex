@@ -713,26 +713,6 @@
       </dcdx>
       <periphs name="Peripherals" version="7.0" enabled="true" update_project_code="true">
          <dependencies>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.adc_12b1msps_sar" description="在工具链/IDE 工程中未找到ADC Driver。该工程不会被编译！" problem_level="2" source="Peripherals">
-               <feature name="enabled" evaluation="equal">
-                  <data type="Boolean">true</data>
-               </feature>
-            </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.adc_12b1msps_sar" description="该工具链/IDE 工程不支持ADC Driver版本。所需：${required_value}, 实际：${actual_value}. 工程编译可能不正确。" problem_level="1" source="Peripherals">
-               <feature name="version" evaluation="equivalent">
-                  <data type="Version">2.0.0</data>
-               </feature>
-            </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.adc_etc" description="在工具链/IDE 工程中未找到ADC_ETC Driver。该工程不会被编译！" problem_level="2" source="Peripherals">
-               <feature name="enabled" evaluation="equal">
-                  <data type="Boolean">true</data>
-               </feature>
-            </dependency>
-            <dependency resourceType="SWComponent" resourceId="platform.drivers.adc_etc" description="该工具链/IDE 工程不支持ADC_ETC Driver版本。所需：${required_value}, 实际：${actual_value}. 工程编译可能不正确。" problem_level="1" source="Peripherals">
-               <feature name="version" evaluation="equivalent">
-                  <data type="Version">2.0.0</data>
-               </feature>
-            </dependency>
             <dependency resourceType="SWComponent" resourceId="platform.drivers.igpio" description="在工具链/IDE 工程中未找到igpio。该工程不会被编译！" problem_level="2" source="Peripherals">
                <feature name="enabled" evaluation="equal">
                   <data type="Boolean">true</data>
@@ -826,28 +806,6 @@
                <description></description>
                <options/>
                <dependencies>
-                  <dependency resourceType="ClockOutput" resourceId="IPG_CLK_ROOT" description="IPG_CLK_ROOT is inactive.问题必须在其它工具中被解决。" problem_level="2" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="frequency" evaluation="greaterThan">
-                        <data type="Frequency" unit="Hz">0</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="Peripheral" resourceId="ADC_ETC" description="At least one of ADC_ETC hardware triggers needs to be routed.问题必须在其它工具中被解决。" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routedUnifiedSignals" evaluation="includesAny">
-                        <data type="String">ADC_ETC.adc_etc_xbar0_trig.0</data>
-                        <data type="String">ADC_ETC.adc_etc_xbar0_trig.1</data>
-                        <data type="String">ADC_ETC.adc_etc_xbar0_trig.2</data>
-                        <data type="String">ADC_ETC.adc_etc_xbar0_trig.3</data>
-                        <data type="String">ADC_ETC.adc_etc_xbar1_trig.0</data>
-                        <data type="String">ADC_ETC.adc_etc_xbar1_trig.1</data>
-                        <data type="String">ADC_ETC.adc_etc_xbar1_trig.2</data>
-                        <data type="String">ADC_ETC.adc_etc_xbar1_trig.3</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="ClockOutput" resourceId="IPG_CLK_ROOT" description="IPG_CLK_ROOT is inactive.问题必须在其它工具中被解决。" problem_level="2" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="frequency" evaluation="greaterThan">
-                        <data type="Frequency" unit="Hz">0</data>
-                     </feature>
-                  </dependency>
                   <dependency resourceType="ClockOutput" resourceId="LPI2C_CLK_ROOT" description="LPI2C_CLK_ROOT is inactive.问题必须在其它工具中被解决。" problem_level="2" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="frequency" evaluation="greaterThan">
                         <data type="Frequency" unit="Hz">0</data>
@@ -898,62 +856,12 @@
                         <data type="Frequency" unit="Hz">0</data>
                      </feature>
                   </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART1.uart_tx" description="Signal TX of the peripheral LPUART1 is not routed.问题必须在其它工具中被解决。" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART1.uart_rx" description="Signal RX of the peripheral LPUART1 is not routed.问题必须在其它工具中被解决。" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART2.uart_tx" description="Signal TX of the peripheral LPUART2 is not routed.问题必须在其它工具中被解决。" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="equal">
                         <data type="Boolean">true</data>
                      </feature>
                   </dependency>
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART2.uart_rx" description="Signal RX of the peripheral LPUART2 is not routed.问题必须在其它工具中被解决。" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART3.uart_tx" description="Signal TX of the peripheral LPUART3 is not routed.问题必须在其它工具中被解决。" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART3.uart_rx" description="Signal RX of the peripheral LPUART3 is not routed.问题必须在其它工具中被解决。" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="SWComponent" resourceId="platform.drivers.lpuart_edma" description="The fsl_uart_edma driver is missing in the project (required for the eDMA mode).问题必须在其它工具中被解决。" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="enabled" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="SWComponent" resourceId="platform.drivers.lpuart_edma" description="The compatible version of the fsl_uart_edma driver is not available in the project (required for the eDMA mode).问题必须在其它工具中被解决。" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="version" evaluation="compatible">
-                        <data type="Version">2.2.4</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART4.uart_tx" description="Signal TX of the peripheral LPUART4 is not routed.问题必须在其它工具中被解决。" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART4.uart_rx" description="Signal RX of the peripheral LPUART4 is not routed.问题必须在其它工具中被解决。" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART5.uart_tx" description="Signal TX of the peripheral LPUART5 is not routed.问题必须在其它工具中被解决。" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
-                     <feature name="routed" evaluation="equal">
-                        <data type="Boolean">true</data>
-                     </feature>
-                  </dependency>
-                  <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART5.uart_rx" description="Signal RX of the peripheral LPUART5 is not routed.问题必须在其它工具中被解决。" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="equal">
                         <data type="Boolean">true</data>
                      </feature>
@@ -1010,81 +918,6 @@
                   </dependency>
                </dependencies>
                <instances>
-                  <instance name="ADC1" uuid="4b411fc5-0a4a-44fa-aeb4-5d202f2a5a3b" type="adc_12b1msps_sar" type_id="adc_12b1msps_sar_6a490e886349a7b2b07bed10ce7b299b" mode="ADC_GENERAL" peripheral="ADC1" enabled="true" comment="" custom_name_enabled="true">
-                     <config_set name="fsl_adc">
-                        <struct name="clockConfig">
-                           <setting name="clockSource" value="kADC_ClockSourceIPGDiv2"/>
-                           <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
-                           <setting name="clockDriver" value="kADC_ClockDriver1"/>
-                           <setting name="samplePeriodMode" value="kADC_SamplePeriodShort2Clocks"/>
-                           <setting name="enableAsynchronousClockOutput" value="true"/>
-                        </struct>
-                        <struct name="conversionConfig">
-                           <setting name="resolution" value="kADC_Resolution12Bit"/>
-                           <setting name="hardwareAverageMode" value="kADC_HardwareAverageCount4"/>
-                           <setting name="enableHardwareTrigger" value="hardware"/>
-                           <setting name="enableHighSpeed" value="true"/>
-                           <setting name="enableLowPower" value="false"/>
-                           <setting name="enableContinuousConversion" value="false"/>
-                           <setting name="enableOverWrite" value="true"/>
-                           <setting name="enableDma" value="false"/>
-                        </struct>
-                        <struct name="resultingTime"/>
-                        <struct name="resultCorrection">
-                           <setting name="doAutoCalibration" value="true"/>
-                           <setting name="offset" value="0"/>
-                        </struct>
-                        <struct name="hardwareCompareConfiguration">
-                           <setting name="hardwareCompareMode" value="disabled"/>
-                           <setting name="value1" value="0"/>
-                           <setting name="value2" value="0"/>
-                        </struct>
-                        <setting name="enableInterrupt" value="false"/>
-                        <struct name="adc_interrupt">
-                           <setting name="IRQn" value="ADC1_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="false"/>
-                        </struct>
-                        <array name="adc_channels_config">
-                           <struct name="0">
-                              <setting name="channelNumber" value="CHANNEL_DRIVEN_BY_ADC_ETC"/>
-                              <setting name="channelName" value=""/>
-                              <setting name="channelGroup" value="0"/>
-                              <setting name="initializeChannel" value="true"/>
-                              <setting name="enableInterruptOnConversionCompleted" value="false"/>
-                           </struct>
-                        </array>
-                     </config_set>
-                  </instance>
-                  <instance name="ADC_ETC" uuid="0f72fd7f-06f5-45f3-9303-d14dd49e949f" type="adc_etc" type_id="adc_etc_f54f0f22e1814a87101dbc3d3da0f030" mode="ADC_ETC_SW" peripheral="ADC_ETC" enabled="true" comment="" custom_name_enabled="true">
-                     <config_set name="fsl_adc_etc">
-                        <struct name="config">
-                           <struct name="clockConfig_t">
-                              <setting name="clockSource" value="BusInterfaceClock"/>
-                              <setting name="clockSourceFreq" value="BOARD_BootClockRUN"/>
-                              <setting name="clockPreDivider" value="1"/>
-                           </struct>
-                           <setting name="dmaMode" value="kADC_ETC_TrigDMAWithPulsedSignal"/>
-                        </struct>
-                        <struct name="tscConfig">
-                           <setting name="enableTSCBypass" value="false"/>
-                           <setting name="enableTSC0Trigger" value="false"/>
-                           <setting name="TSC0triggerPriority" value="0"/>
-                           <setting name="enableTSC1Trigger" value="false"/>
-                           <setting name="TSC1triggerPriority" value="0"/>
-                        </struct>
-                        <array name="triggers_config"/>
-                        <setting name="enableInterrupt" value="true"/>
-                        <struct name="adc_etc_interrupt_err">
-                           <setting name="IRQn" value="ADC_ETC_ERROR_IRQ_IRQn"/>
-                           <setting name="enable_priority" value="false"/>
-                           <setting name="priority" value="0"/>
-                           <setting name="enable_custom_name" value="true"/>
-                           <setting name="handler_custom_name" value="ADC_ETC_ERROR_IRQHANDLER"/>
-                        </struct>
-                     </config_set>
-                  </instance>
                   <instance name="GPIO" uuid="c22b94f8-030b-4e97-a53f-c012f6be57a8" type="igpio" type_id="igpio_b1c1fa279aa7069dca167502b8589cb7" mode="GPIO" peripheral="GPIO2" enabled="true" comment="" custom_name_enabled="true">
                      <config_set name="fsl_gpio">
                         <setting name="enable_irq_comb_0_15" value="false"/>
@@ -1188,46 +1021,6 @@
                         </struct>
                      </config_set>
                   </instance>
-                  <instance name="LPUART1" uuid="5242c82d-f3e9-4a05-8d7f-bfab56927c3f" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="interrupts" peripheral="LPUART1" enabled="true" comment="" custom_name_enabled="true">
-                     <config_set name="lpuartConfig_t">
-                        <struct name="lpuartConfig">
-                           <setting name="clockSource" value="LpuartClock"/>
-                           <setting name="lpuartSrcClkFreq" value="custom:80000000"/>
-                           <setting name="baudRate_Bps" value="115200"/>
-                           <setting name="parityMode" value="kLPUART_ParityDisabled"/>
-                           <setting name="dataBitsCount" value="kLPUART_EightDataBits"/>
-                           <setting name="isMsb" value="false"/>
-                           <setting name="stopBitCount" value="kLPUART_OneStopBit"/>
-                           <setting name="txFifoWatermark" value="0"/>
-                           <setting name="rxFifoWatermark" value="0"/>
-                           <setting name="enableRxRTS" value="false"/>
-                           <setting name="enableTxCTS" value="false"/>
-                           <setting name="txCtsSource" value="kLPUART_CtsSourcePin"/>
-                           <setting name="txCtsConfig" value="kLPUART_CtsSampleAtStart"/>
-                           <setting name="rxIdleType" value="kLPUART_IdleTypeStartBit"/>
-                           <setting name="rxIdleConfig" value="kLPUART_IdleCharacter1"/>
-                           <setting name="enableTx" value="true"/>
-                           <setting name="enableRx" value="true"/>
-                        </struct>
-                     </config_set>
-                     <config_set name="interruptsCfg">
-                        <set name="interrupts">
-                           <selected>
-                              <id>kLPUART_RxDataRegFullInterruptEnable</id>
-                              <id>kLPUART_RxOverrunInterruptEnable</id>
-                           </selected>
-                        </set>
-                        <struct name="interrupt_vectors">
-                           <setting name="enable_rx_tx_irq" value="true"/>
-                           <struct name="interrupt_rx_tx">
-                              <setting name="IRQn" value="LPUART1_IRQn"/>
-                              <setting name="enable_priority" value="false"/>
-                              <setting name="priority" value="0"/>
-                              <setting name="enable_custom_name" value="false"/>
-                           </struct>
-                        </struct>
-                     </config_set>
-                  </instance>
                   <instance name="LPUART2" uuid="775e6fb3-a6d4-490c-84fd-136186bececb" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="interrupts" peripheral="LPUART2" enabled="true" comment="" custom_name_enabled="true">
                      <config_set name="lpuartConfig_t">
                         <struct name="lpuartConfig">
@@ -1262,146 +1055,6 @@
                            <setting name="enable_rx_tx_irq" value="true"/>
                            <struct name="interrupt_rx_tx">
                               <setting name="IRQn" value="LPUART2_IRQn"/>
-                              <setting name="enable_priority" value="false"/>
-                              <setting name="priority" value="0"/>
-                              <setting name="enable_custom_name" value="false"/>
-                           </struct>
-                        </struct>
-                     </config_set>
-                  </instance>
-                  <instance name="LPUART3" uuid="9ca1a20a-86fd-450f-947c-488ebaff1034" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="edma" peripheral="LPUART3" enabled="true" comment="" custom_name_enabled="true">
-                     <config_set name="lpuartConfig_t">
-                        <struct name="lpuartConfig">
-                           <setting name="clockSource" value="LpuartClock"/>
-                           <setting name="lpuartSrcClkFreq" value="custom:80000000"/>
-                           <setting name="baudRate_Bps" value="115200"/>
-                           <setting name="parityMode" value="kLPUART_ParityDisabled"/>
-                           <setting name="dataBitsCount" value="kLPUART_EightDataBits"/>
-                           <setting name="isMsb" value="false"/>
-                           <setting name="stopBitCount" value="kLPUART_OneStopBit"/>
-                           <setting name="txFifoWatermark" value="0"/>
-                           <setting name="rxFifoWatermark" value="0"/>
-                           <setting name="enableRxRTS" value="false"/>
-                           <setting name="enableTxCTS" value="false"/>
-                           <setting name="txCtsSource" value="kLPUART_CtsSourcePin"/>
-                           <setting name="txCtsConfig" value="kLPUART_CtsSampleAtStart"/>
-                           <setting name="rxIdleType" value="kLPUART_IdleTypeStartBit"/>
-                           <setting name="rxIdleConfig" value="kLPUART_IdleCharacter1"/>
-                           <setting name="enableTx" value="true"/>
-                           <setting name="enableRx" value="true"/>
-                        </struct>
-                     </config_set>
-                     <config_set name="edmaCfg">
-                        <struct name="edma_channels">
-                           <setting name="enable_rx_edma_channel" value="true"/>
-                           <struct name="edma_rx_channel">
-                              <setting name="eDMAn" value="0"/>
-                              <setting name="eDMA_source" value="kDmaRequestMuxLPUART3Rx"/>
-                              <setting name="enableTriggerPIT" value="false"/>
-                              <setting name="init_channel_priority" value="false"/>
-                              <struct name="edma_channel_Preemption">
-                                 <setting name="enableChannelPreemption" value="false"/>
-                                 <setting name="enablePreemptAbility" value="false"/>
-                                 <setting name="channelPriority" value="0"/>
-                              </struct>
-                              <setting name="enable_custom_name" value="false"/>
-                           </struct>
-                           <setting name="enable_tx_edma_channel" value="false"/>
-                           <struct name="edma_tx_channel">
-                              <setting name="eDMAn" value="1"/>
-                              <setting name="eDMA_source" value="kDmaRequestMuxLPUART3Tx"/>
-                              <setting name="enableTriggerPIT" value="false"/>
-                              <setting name="init_channel_priority" value="false"/>
-                              <struct name="edma_channel_Preemption">
-                                 <setting name="enableChannelPreemption" value="false"/>
-                                 <setting name="enablePreemptAbility" value="false"/>
-                                 <setting name="channelPriority" value="0"/>
-                              </struct>
-                              <setting name="enable_custom_name" value="false"/>
-                           </struct>
-                        </struct>
-                        <struct name="lpuart_edma_handle">
-                           <setting name="enable_custom_name" value="true"/>
-                           <setting name="handle_custom_name" value="LPUART3_eDMA_Handle"/>
-                           <setting name="init_callback" value="false"/>
-                           <setting name="callback_fcn" value=""/>
-                           <setting name="user_data" value=""/>
-                        </struct>
-                     </config_set>
-                  </instance>
-                  <instance name="LPUART4" uuid="88cfd74e-a765-4630-849e-64c10bec0813" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="interrupts" peripheral="LPUART4" enabled="true" comment="" custom_name_enabled="true">
-                     <config_set name="lpuartConfig_t">
-                        <struct name="lpuartConfig">
-                           <setting name="clockSource" value="LpuartClock"/>
-                           <setting name="lpuartSrcClkFreq" value="custom:80000000"/>
-                           <setting name="baudRate_Bps" value="115200"/>
-                           <setting name="parityMode" value="kLPUART_ParityDisabled"/>
-                           <setting name="dataBitsCount" value="kLPUART_EightDataBits"/>
-                           <setting name="isMsb" value="false"/>
-                           <setting name="stopBitCount" value="kLPUART_OneStopBit"/>
-                           <setting name="txFifoWatermark" value="0"/>
-                           <setting name="rxFifoWatermark" value="1"/>
-                           <setting name="enableRxRTS" value="false"/>
-                           <setting name="enableTxCTS" value="false"/>
-                           <setting name="txCtsSource" value="kLPUART_CtsSourcePin"/>
-                           <setting name="txCtsConfig" value="kLPUART_CtsSampleAtStart"/>
-                           <setting name="rxIdleType" value="kLPUART_IdleTypeStartBit"/>
-                           <setting name="rxIdleConfig" value="kLPUART_IdleCharacter1"/>
-                           <setting name="enableTx" value="true"/>
-                           <setting name="enableRx" value="true"/>
-                        </struct>
-                     </config_set>
-                     <config_set name="interruptsCfg">
-                        <set name="interrupts">
-                           <selected>
-                              <id>kLPUART_RxDataRegFullInterruptEnable</id>
-                              <id>kLPUART_RxOverrunInterruptEnable</id>
-                           </selected>
-                        </set>
-                        <struct name="interrupt_vectors">
-                           <setting name="enable_rx_tx_irq" value="true"/>
-                           <struct name="interrupt_rx_tx">
-                              <setting name="IRQn" value="LPUART4_IRQn"/>
-                              <setting name="enable_priority" value="false"/>
-                              <setting name="priority" value="0"/>
-                              <setting name="enable_custom_name" value="false"/>
-                           </struct>
-                        </struct>
-                     </config_set>
-                  </instance>
-                  <instance name="LPUART5" uuid="7b47cb5c-d6f8-466f-84a0-7d718a2bb2f5" type="lpuart" type_id="lpuart_bebe3e12b6ec22bbd14199038f2bf459" mode="interrupts" peripheral="LPUART5" enabled="true" comment="" custom_name_enabled="true">
-                     <config_set name="lpuartConfig_t">
-                        <struct name="lpuartConfig">
-                           <setting name="clockSource" value="LpuartClock"/>
-                           <setting name="lpuartSrcClkFreq" value="custom:80000000"/>
-                           <setting name="baudRate_Bps" value="115200"/>
-                           <setting name="parityMode" value="kLPUART_ParityDisabled"/>
-                           <setting name="dataBitsCount" value="kLPUART_EightDataBits"/>
-                           <setting name="isMsb" value="false"/>
-                           <setting name="stopBitCount" value="kLPUART_OneStopBit"/>
-                           <setting name="txFifoWatermark" value="0"/>
-                           <setting name="rxFifoWatermark" value="1"/>
-                           <setting name="enableRxRTS" value="false"/>
-                           <setting name="enableTxCTS" value="false"/>
-                           <setting name="txCtsSource" value="kLPUART_CtsSourcePin"/>
-                           <setting name="txCtsConfig" value="kLPUART_CtsSampleAtStart"/>
-                           <setting name="rxIdleType" value="kLPUART_IdleTypeStartBit"/>
-                           <setting name="rxIdleConfig" value="kLPUART_IdleCharacter1"/>
-                           <setting name="enableTx" value="true"/>
-                           <setting name="enableRx" value="true"/>
-                        </struct>
-                     </config_set>
-                     <config_set name="interruptsCfg">
-                        <set name="interrupts">
-                           <selected>
-                              <id>kLPUART_RxDataRegFullInterruptEnable</id>
-                              <id>kLPUART_RxOverrunInterruptEnable</id>
-                           </selected>
-                        </set>
-                        <struct name="interrupt_vectors">
-                           <setting name="enable_rx_tx_irq" value="true"/>
-                           <struct name="interrupt_rx_tx">
-                              <setting name="IRQn" value="LPUART5_IRQn"/>
                               <setting name="enable_priority" value="false"/>
                               <setting name="priority" value="0"/>
                               <setting name="enable_custom_name" value="false"/>
@@ -1608,9 +1261,7 @@
                            <setting name="enableRoundRobinArbitration" value="false"/>
                            <setting name="enableDebugMode" value="false"/>
                         </struct>
-                        <array name="dma_table">
-                           <struct name="0"/>
-                        </array>
+                        <array name="dma_table"/>
                         <array name="edma_channels"/>
                      </config_set>
                   </instance>
@@ -1621,7 +1272,7 @@
             <component name="system" uuid="015d8baf-0ed2-43e0-93c0-49727678b60e" type_id="system_54b53072540eeeb8f8e9343e71f28176">
                <config_set_global name="global_system_definitions"/>
             </component>
-            <component name="msg" uuid="5d8d9f36-ec73-483f-b055-5449334f0344" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
+            <component name="msg" uuid="1eab3ab0-40f1-4034-815d-6cbb629e4a4d" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
                <config_set_global name="global_messages"/>
             </component>
          </components>

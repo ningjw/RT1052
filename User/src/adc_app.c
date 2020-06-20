@@ -74,12 +74,12 @@ void TMR1_IRQHandler(void)
   * @input
   * @return
 ***************************************************************************************/
-void ADC_ETC_IRQ0_IRQHandler(void)
-{
-    /*清除转换完成中断标志位*/
-    ADC_ETC_ClearInterruptStatusFlags(ADC_ETC, (adc_etc_external_trigger_source_t)0U, kADC_ETC_Done0StatusFlagMask);
-    /*读取转换结果*/
-}
+//void ADC_ETC_IRQ0_IRQHandler(void)
+//{
+//    /*清除转换完成中断标志位*/
+//    ADC_ETC_ClearInterruptStatusFlags(ADC_ETC, (adc_etc_external_trigger_source_t)0U, kADC_ETC_Done0StatusFlagMask);
+//    /*读取转换结果*/
+//}
 
 /***************************************************************************************
   * @brief   用于检测ADC_RDY引脚下降沿中断引脚
@@ -240,8 +240,8 @@ void ADC_AppTask(void)
     uint32_t r_event;
     BaseType_t xReturn = pdTRUE;
     /* 配置ADC的外部触摸模式 */
-    ADC_ETC_Config();
-    XBARA_Configuration();
+//    ADC_ETC_Config();
+//    XBARA_Configuration();
 
 	/*以下为开机自检代码*/
 	ADC_MODE_LOW_POWER;

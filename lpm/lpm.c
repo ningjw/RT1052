@@ -355,7 +355,7 @@ void LPM_LowSpeedRun(void)
 
 void LPM_LowPowerRun(void)
 {
-    ClockSetToLowPowerRun();
+//    ClockSetToLowPowerRun();
 
     /* Power down USBPHY */
     PowerDownUSBPHY();

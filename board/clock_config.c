@@ -66,7 +66,7 @@ outputs:
 - {id: GPT2_ipg_clk_highfreq.outFreq, value: 66 MHz}
 - {id: IPG_CLK_ROOT.outFreq, value: 132 MHz}
 - {id: LCDIF_CLK_ROOT.outFreq, value: 60 MHz}
-- {id: LPI2C_CLK_ROOT.outFreq, value: 20 MHz}
+- {id: LPI2C_CLK_ROOT.outFreq, value: 24 MHz}
 - {id: LPSPI_CLK_ROOT.outFreq, value: 120 MHz}
 - {id: LVDS1_CLK.outFreq, value: 1.056 GHz}
 - {id: MQS_MCLK.outFreq, value: 60 MHz}
@@ -85,10 +85,10 @@ outputs:
 - {id: SEMC_CLK_ROOT.outFreq, value: 132 MHz}
 - {id: SPDIF0_CLK_ROOT.outFreq, value: 60 MHz}
 - {id: TRACE_CLK_ROOT.outFreq, value: 8 MHz}
-- {id: UART_CLK_ROOT.outFreq, value: 80 MHz}
+- {id: UART_CLK_ROOT.outFreq, value: 24 MHz}
 - {id: USBPHY1_CLK.outFreq, value: 480 MHz}
 - {id: USDHC1_CLK_ROOT.outFreq, value: 24 MHz}
-- {id: USDHC2_CLK_ROOT.outFreq, value: 6 MHz}
+- {id: USDHC2_CLK_ROOT.outFreq, value: 24 MHz}
 settings:
 - {id: CCM.AHB_PODF.scale, value: '1', locked: true}
 - {id: CCM.ARM_PODF.scale, value: '2', locked: true}
@@ -100,7 +100,8 @@ settings:
 - {id: CCM.FLEXSPI_PODF.scale, value: '3', locked: true}
 - {id: CCM.FLEXSPI_SEL.sel, value: CCM_ANALOG.PLL2_PFD2_CLK}
 - {id: CCM.IPG_PODF.scale, value: '4', locked: true}
-- {id: CCM.LPI2C_CLK_PODF.scale, value: '3', locked: true}
+- {id: CCM.LPI2C_CLK_PODF.scale, value: '1', locked: true}
+- {id: CCM.LPI2C_CLK_SEL.sel, value: XTALOSC24M.OSC_CLK}
 - {id: CCM.LPSPI_CLK_SEL.sel, value: CCM_ANALOG.PLL3_PFD1_CLK}
 - {id: CCM.LPSPI_PODF.scale, value: '4', locked: true}
 - {id: CCM.PERCLK_PODF.scale, value: '2', locked: true}
@@ -111,9 +112,10 @@ settings:
 - {id: CCM.SPDIF0_CLK_PODF.scale, value: '4', locked: true}
 - {id: CCM.TRACE_CLK_SEL.sel, value: CCM_ANALOG.PLL2_PFD1_CLK}
 - {id: CCM.TRACE_PODF.scale, value: '3', locked: true}
+- {id: CCM.UART_CLK_SEL.sel, value: XTALOSC24M.OSC_CLK}
 - {id: CCM.USDHC1_CLK_SEL.sel, value: CCM_ANALOG.PLL2_PFD0_CLK}
 - {id: CCM.USDHC1_PODF.scale, value: '1', locked: true}
-- {id: CCM.USDHC2_PODF.scale, value: '4', locked: true}
+- {id: CCM.USDHC2_PODF.scale, value: '1', locked: true}
 - {id: CCM_ANALOG.ENET_DIV.scale, value: '4', locked: true}
 - {id: CCM_ANALOG.PLL1_BYPASS.sel, value: CCM_ANALOG.PLL1}
 - {id: CCM_ANALOG.PLL1_PREDIV.scale, value: '1', locked: true}
@@ -222,7 +224,7 @@ void BOARD_BootClockRUN(void)
     /* Disable USDHC2 clock gate. */
     CLOCK_DisableClock(kCLOCK_Usdhc2);
     /* Set USDHC2_PODF. */
-    CLOCK_SetDiv(kCLOCK_Usdhc2Div, 3);
+    CLOCK_SetDiv(kCLOCK_Usdhc2Div, 0);
     /* Set Usdhc2 clock source. */
     CLOCK_SetMux(kCLOCK_Usdhc2Mux, 0);
     /* In SDK projects, SDRAM (configured by SEMC) will be initialized in either debug script or dcd.
@@ -299,9 +301,9 @@ void BOARD_BootClockRUN(void)
     CLOCK_DisableClock(kCLOCK_Lpi2c2);
     CLOCK_DisableClock(kCLOCK_Lpi2c3);
     /* Set LPI2C_CLK_PODF. */
-    CLOCK_SetDiv(kCLOCK_Lpi2cDiv, 2);
+    CLOCK_SetDiv(kCLOCK_Lpi2cDiv, 0);
     /* Set Lpi2c clock source. */
-    CLOCK_SetMux(kCLOCK_Lpi2cMux, 0);
+    CLOCK_SetMux(kCLOCK_Lpi2cMux, 1);
     /* Disable CAN clock gate. */
     CLOCK_DisableClock(kCLOCK_Can1);
     CLOCK_DisableClock(kCLOCK_Can2);
@@ -323,7 +325,7 @@ void BOARD_BootClockRUN(void)
     /* Set UART_CLK_PODF. */
     CLOCK_SetDiv(kCLOCK_UartDiv, 0);
     /* Set Uart clock source. */
-    CLOCK_SetMux(kCLOCK_UartMux, 0);
+    CLOCK_SetMux(kCLOCK_UartMux, 1);
     /* Disable LCDIF clock gate. */
     CLOCK_DisableClock(kCLOCK_LcdPixel);
     /* Set LCDIF_PRED. */
@@ -471,3 +473,4 @@ void BOARD_BootClockRUN(void)
     /* Set SystemCoreClock variable. */
     SystemCoreClock = BOARD_BOOTCLOCKRUN_CORE_CLOCK;
 }
+

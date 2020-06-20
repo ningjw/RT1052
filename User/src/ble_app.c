@@ -238,6 +238,7 @@ void LPUART2_TimeTick(void)
 void LPUART2_IRQHandler(void)
 {
     uint8_t ucTemp;
+
     /*串口接收到数据*/
     if ( LPUART_GetStatusFlags(LPUART2) & kLPUART_RxDataRegFullFlag )
     {
