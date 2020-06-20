@@ -440,11 +440,6 @@
               <FileType>5</FileType>
               <FilePath>.\User\inc\led_app.h</FilePath>
             </File>
-            <File>
-              <FileName>lpm_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\lpm_app.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -514,6 +509,26 @@
               <FileName>pin_mux.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\board\pin_mux.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>lpm</GroupName>
+          <Files>
+            <File>
+              <FileName>specific.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\lpm\specific.c</FilePath>
+            </File>
+            <File>
+              <FileName>power_mode_switch_bm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\lpm\power_mode_switch_bm.c</FilePath>
+            </File>
+            <File>
+              <FileName>lpm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\lpm\lpm.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -944,7 +959,7 @@
 </MiscControls>
               <Define>SKIP_SYSCLK_INIT=1,CPU_MIMXRT1052CVL5B,XIP_EXTERNAL_FLASH=1, XIP_BOOT_HEADER_ENABLE =1,XIP_BOOT_HEADER_DCD_ENABLE =1,PRINTF_FLOAT_ENABLE=1,PRINTF_ADVANCED_ENABLE=1</Define>
               <Undefine></Undefine>
-              <IncludePath>.\board;.\User\inc;.\xip;.\sdmmc\inc;.\sdmmc\port\freertos;.\fatfs;.\fatfs\fsl_mmc_disk;.\cjson</IncludePath>
+              <IncludePath>.\board;.\User\inc;.\xip;.\sdmmc\inc;.\sdmmc\port\freertos;.\fatfs;.\fatfs\fsl_mmc_disk;.\cjson;.\lpm</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1038,11 +1053,6 @@
               <FileType>5</FileType>
               <FilePath>.\User\inc\led_app.h</FilePath>
             </File>
-            <File>
-              <FileName>lpm_app.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\User\src\lpm_app.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -1112,6 +1122,26 @@
               <FileName>pin_mux.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\board\pin_mux.h</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>lpm</GroupName>
+          <Files>
+            <File>
+              <FileName>specific.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\lpm\specific.c</FilePath>
+            </File>
+            <File>
+              <FileName>power_mode_switch_bm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\lpm\power_mode_switch_bm.c</FilePath>
+            </File>
+            <File>
+              <FileName>lpm.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\lpm\lpm.c</FilePath>
             </File>
           </Files>
         </Group>

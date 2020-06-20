@@ -98,7 +98,7 @@ void FlexSPI_FlashWrite(uint8_t* pBuffer,uint32_t WriteAddr,uint32_t NumByteToWr
 	uint16_t secremain=0;	   
  	uint16_t i=0;    
 	uint8_t *FLEXSPI_BUF;
-    
+    if(NumByteToWrite == 0) return;
    	FLEXSPI_BUF=FLEXSPI_FLASH_BUFFER;	     
  	secpos=WriteAddr/4096;//扇区地址  
 	secoff=WriteAddr%4096;//在扇区内的偏移

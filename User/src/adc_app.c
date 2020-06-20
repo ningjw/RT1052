@@ -1,10 +1,10 @@
 #include "main.h"
 
-float SpeedADC[ADC_LEN];
-float ShakeADC[ADC_LEN];
+uint32_t SpeedADC[ADC_LEN];
+uint32_t ShakeADC[ADC_LEN];
 float Temperature[64];
-char  SpeedStrADC[ADC_LEN * 4 + 1];
-char  VibrateStrADC[ADC_LEN * 4 + 1];
+//char  SpeedStrADC[ADC_LEN * 4 + 1];
+//char  VibrateStrADC[ADC_LEN * 4 + 1];
 
 #define ADC_MODE_LOW_POWER       GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 1)  //低功耗模式
 #define ADC_MODE_HIGH_SPEED      GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 0)   //高速模式
@@ -63,8 +63,8 @@ void TMR1_IRQHandler(void)
 {
     /* 清除中断标志 */
     QTMR_ClearStatusFlags(QUADTIMER1_PERIPHERAL, QUADTIMER1_CHANNEL_0_CHANNEL, kQTMR_EdgeFlag);
-	if(g_sys_para.spdCount < ADC_LEN){
-		SpeedADC[g_sys_para.spdCount++] = QUADTIMER1_PERIPHERAL->CHANNEL[QUADTIMER1_CHANNEL_0_CHANNEL].CAPT;//读取寄存器值
+	if(g_adc_set.spdCount < ADC_LEN){
+		SpeedADC[g_adc_set.spdCount++] = QUADTIMER1_PERIPHERAL->CHANNEL[QUADTIMER1_CHANNEL_0_CHANNEL].CAPT;//读取寄存器值
 	}
 }
 
@@ -79,10 +79,6 @@ void ADC_ETC_IRQ0_IRQHandler(void)
     /*清除转换完成中断标志位*/
     ADC_ETC_ClearInterruptStatusFlags(ADC_ETC, (adc_etc_external_trigger_source_t)0U, kADC_ETC_Done0StatusFlagMask);
     /*读取转换结果*/
-//    if(g_sys_para.shkCount < ADC_LEN) {
-////        ADC_ETC_GetADCConversionValue(ADC_ETC, 0U, 0U); /* Get trigger0 chain0 result. */
-//		ShakeADC[g_sys_para.shkCount++] = ADC_ShakeValue;
-//	}
 }
 
 /***************************************************************************************
@@ -104,12 +100,12 @@ void GPIO2_Combined_0_15_IRQHandler(void)
 void ADC_SampleStart(void)
 {
 	g_sys_para.tempCount = 0;
-    g_sys_para.spdCount = 0;
-    g_sys_para.shkCount = 0;
+    g_adc_set.spdCount = 0;
+    g_adc_set.shkCount = 0;
 	memset(ShakeADC,0,ADC_LEN);
 	memset(SpeedADC,0,ADC_LEN);
-	memset(VibrateStrADC,0,sizeof(VibrateStrADC));
-	memset(SpeedStrADC,0,sizeof(SpeedStrADC));
+//	memset(VibrateStrADC,0,sizeof(VibrateStrADC));
+//	memset(SpeedStrADC,0,sizeof(SpeedStrADC));
 
 		//判断自动关机条件
     if(g_sys_para.inactiveCondition != 1) {
@@ -131,23 +127,17 @@ void ADC_SampleStart(void)
     NVIC_DisableIRQ(SysTick_IRQn);
 	
 	//配置ADC芯片时钟
-#ifndef HDV_1_0
 	SI5351a_SetPDN(SI_CLK1_CONTROL,true);
-#endif
 	if(g_adc_set.SampleRate > 45000){
 		ADC_MODE_HIGH_SPEED;//使用高速模式
 		//使用PWM作为ADS1271的时钟, 其范围为37ns - 10000ns (10us)
 		ADC_PwmClkConfig(g_adc_set.SampleRate * 256);
-#ifndef HDV_1_0
 		si5351aSetClk0Frequency(g_adc_set.SampleRate * 256);
-#endif
 	}else{
 		ADC_MODE_LOW_POWER;//使用低速模式
 		//使用PWM作为ADS1271的时钟, 其范围为37ns - 10000ns (10us)
 		ADC_PwmClkConfig(g_adc_set.SampleRate * 512);
-#ifndef HDV_1_0
 		si5351aSetClk0Frequency(g_adc_set.SampleRate * 512);
-#endif
 	}
 
     /* 输出PWM 用于LTC1063FA的时钟输入,控制采样带宽*/
@@ -189,12 +179,13 @@ void ADC_SampleStart(void)
 	while(1) { //wait ads1271 ready
         while(ADC_READY == 1){};//等待ADC_READY为低电平
 		__disable_irq();//关闭中断
-		ShakeADC[g_sys_para.shkCount++] = LPSPI4_ReadData();
+		ShakeADC[g_adc_set.shkCount++] = LPSPI4_ReadData();
 		__enable_irq();//开启中断
-		if(g_sys_para.shkCount >= g_sys_para.sampNumber){
-			g_sys_para.shkCount = g_sys_para.sampNumber;
+		if(g_adc_set.shkCount >= g_sys_para.sampNumber){
+			g_adc_set.shkCount = g_sys_para.sampNumber;
+			SpeedADC[0] = SpeedADC[1];//采集的第一个数据可能不是一个完整的周期,所以第一个数据丢弃.
 			if(g_sys_para.sampNumber == 0){//Android发送中断采集命令后,该值为0
-				g_sys_para.spdCount = 0;
+				g_adc_set.spdCount = 0;
 			}
 			break;
 		}
@@ -275,7 +266,6 @@ void ADC_AppTask(void)
 //		ADC_ShakeValue = LPSPI4_ReadData();
 //    }
 	PWR_OFF;//关闭ADC采集相关的电源
-//	LPM_LowSpeedRun();
     PRINTF("ADC Task Create and Running\r\n");
     while(1)
     {
@@ -284,53 +274,19 @@ void ADC_AppTask(void)
 
         /* 判断是否成功等待到事件 */
         if ( pdTRUE == xReturn ) {
-			
             /* 完成采样事件*/
             if(r_event & NOTIFY_FINISH) {
-                /* ---------------将震动信号转换-----------------------*/
-				PRINTF("共采样到 %d 个震动信号\r\n", g_sys_para.shkCount);
-                memset(VibrateStrADC, 0, sizeof(VibrateStrADC));
-                int pos = 0;
-				int tempValue = 0;
-                for(uint32_t i = 0; i < g_sys_para.shkCount; i++) {
-					if(ShakeADC[i] < 0x800000){
-						ShakeADC[i] = ShakeADC[i] * g_sys_para.bias * 1.0f / 0x800000;
-					}else{
-						ShakeADC[i] = (0x1000000-ShakeADC[i]) * g_sys_para.bias * (-1.0f) / 0x800000;
-					}
-					if(i < 2000)PRINTF("%01.5f,",ShakeADC[i]);
-					tempValue = (ShakeADC[i]+2.5f) * 10000;//将浮点数转换为整数,并扩大10000倍
-                    memset(str, 0, sizeof(str));
-                    sprintf(str, "%04x", tempValue);
-                    memcpy(VibrateStrADC + pos, str, 4);
-                    pos += 4;
-                }
-				
-				/* ------------------将转速信号转换--------------------*/
-				PRINTF("\r\n共采样到 %d 个转速信号\r\n", g_sys_para.spdCount);
-                memset(SpeedStrADC, 0, sizeof(SpeedStrADC));
-                pos = 0;
-				SpeedADC[0] = SpeedADC[1];//采集的第一个数据可能不是一个完整的周期,所以第一个数据丢弃.
-                for(uint32_t i = 0; i < g_sys_para.spdCount; i++) {
-                    SpeedADC[i] = SpeedADC[i] * 1000 / QUADTIMER1_CHANNEL_0_CLOCK_SOURCE;//单位ms
-//					PRINTF("%f,",SpeedADC[i]);
-					tempValue = SpeedADC[i] * 10;//扩大10倍
-                    memset(str, 0, sizeof(str));
-                    sprintf(str, "%04x", tempValue);
-                    memcpy(SpeedStrADC + pos, str, 4);
-                    pos += 4;
-                }
 #ifdef BLE_VERSION
 				//计算发送震动信号需要多少个包,蓝牙数据一次发送160个Byte的数据, 而一个采样点需要4Byte表示, 则一次传送40个采样点
-				g_sys_para.shkPacks = (g_sys_para.shkCount / 40) +  (g_sys_para.shkCount%40?1:0);
+				g_sys_para.shkPacks = (g_adc_set.shkCount / 40) +  (g_adc_set.shkCount%40?1:0);
 				//计算发送转速信号需要多少个包
-				g_sys_para.spdPacks = (g_sys_para.spdCount / 40) +  (g_sys_para.spdCount%40?1:0);
+				g_sys_para.spdPacks = (g_adc_set.spdCount / 40) +  (g_adc_set.spdCount%40?1:0);
 				//计算将一次采集数据全部发送到Android需要多少个包
-				g_sys_para.sampPacks = g_sys_para.spdPacks + g_sys_para.shkPacks + 3;
+				g_adc_set.sampPacks = g_sys_para.spdPacks + g_sys_para.shkPacks + 3;
 #elif defined WIFI_VERSION
-				g_sys_para.shkPacks = (g_sys_para.shkCount / 250) +  (g_sys_para.shkCount%250?1:0);
-				g_sys_para.spdPacks = (g_sys_para.spdCount/250) +  (g_sys_para.spdCount%250?1:0);
-				g_sys_para.sampPacks = g_sys_para.spdPacks + g_sys_para.shkPacks + 1;
+				g_sys_para.shkPacks = (g_adc_set.shkCount / 250) +  (g_adc_set.shkCount%250?1:0);
+				g_sys_para.spdPacks = (g_adc_set.spdCount/250) +  (g_adc_set.spdCount%250?1:0);
+				g_adc_set.sampPacks = g_sys_para.spdPacks + g_sys_para.shkPacks + 1;
 #endif
                 /* ------------------统计平均温度,最小温度,最大温度--------------------*/
 			    float sum = 0;
@@ -345,7 +301,7 @@ void ADC_AppTask(void)
 				g_adc_set.ProcessMax = Temperature[max_i];
 				g_adc_set.ProcessMin = Temperature[min_i];
 				
-				SaveSampleData();
+				NorFlash_AddAdcData();
                 /* 发送任务通知，并解锁阻塞在该任务通知下的任务 */
                 xTaskNotifyGive( BLE_TaskHandle);
             }

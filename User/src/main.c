@@ -5,6 +5,9 @@ static void AppTaskCreate(void);                      /* 用于创建任务 */
 void BOARD_ConfigMPU(void);
 void BOARD_InitDebugConsole(void);
 
+extern lpm_power_mode_t s_targetPowerMode;
+extern lpm_power_mode_t s_curRunMode;
+
 SysPara  g_sys_para;
 ADC_Set  g_adc_set;
 
@@ -34,8 +37,8 @@ static void InitSysPara()
     g_sys_para.sampLedStatus = WORK_FINE;
     g_sys_para.batLedStatus = BAT_NORMAL;
     g_sys_para.BleWifiLedStatus = BLE_CLOSE;
-    g_sys_para.bias = 2.5f;//震动传感器的偏置电压默认为2.43V
-    g_sys_para.refV = 3.3f;//参考电压
+    g_adc_set.bias = 2.5f;//震动传感器的偏置电压默认为2.43V
+    g_adc_set.refV = 3.3f;//参考电压
     g_sys_para.firmUpdate = false;
     g_sys_para.firmPacksCount = 0;
     g_sys_para.firmSizeCurrent = 0;
@@ -68,6 +71,28 @@ static void AppTaskCreate(void)
     taskEXIT_CRITICAL();               //退出临界区
 }
 
+/*设置电源模式*/
+void APP_PowerModeChange(char  powerMode)
+{
+	/* 将字母与枚举类型对应，算出当前电源模式 */
+	s_targetPowerMode = (lpm_power_mode_t)powerMode;
+	/****************************第五部分**********************/
+	/* 判断当前模式在枚举类型内 */
+	if (s_targetPowerMode <= LPM_PowerModeEnd)
+	{
+		/*如果无法设置目标电源模式，则循环继续。 */
+		if (!APP_CheckPowerMode(s_curRunMode, s_targetPowerMode))
+		{
+			return;
+		}
+		/****************************第七部分**********************/
+		APP_PowerPreSwitchHook(s_targetPowerMode);
+		/* 电源模式选择 */
+		APP_PowerModeSwitch(s_targetPowerMode);
+		APP_PowerPostSwitchHook(s_targetPowerMode);
+	}
+}
+
 
 uint8_t status_reg = 0;
 /***************************************************************************************
@@ -83,13 +108,13 @@ int main(void)
     BOARD_InitBootPins();       /* 配置GPIO */
     BOARD_InitPeripherals();    /* 配置外设 */
     BOARD_InitDebugConsole();   /* 配置调试串口 */
-
 	PRINTF("app:\r\n");
     InitSysPara();              /* 初始化系统变量*/
+	LPM_Init();
+	APP_PowerModeChange(LPM_PowerModeLowPowerRun);
+	APP_PowerModeChange(LPM_PowerModeFullRun);
     FlexSPI_NorFlash_Init();    /* 初始化FlexSPI*/
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);/*1ms中断，FreeRTOS使用*/
-//	LPM_LowSpeedRun();
-//	LPM_FullSpeedRun();
 	/* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xReturn = xTaskCreate((TaskFunction_t )AppTaskCreate, "AppTaskCreate",512,NULL,1,&AppTaskCreate_Handle);
     /* 启动任务调度 */

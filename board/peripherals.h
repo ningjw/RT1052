@@ -66,12 +66,12 @@ extern "C" {
 /* Definition of peripheral ID */
 #define LPI2C1_PERIPHERAL LPI2C1
 /* Definition of clock source */
-#define LPI2C1_CLOCK_FREQ 20000000UL
+#define LPI2C1_CLOCK_FREQ 24000000UL
 /* BOARD_InitPeripherals defines for LPI2C3 */
 /* Definition of peripheral ID */
 #define LPI2C3_PERIPHERAL LPI2C3
 /* Definition of clock source */
-#define LPI2C3_CLOCK_FREQ 20000000UL
+#define LPI2C3_CLOCK_FREQ 24000000UL
 /* BOARD_InitPeripherals defines for LPSPI4 */
 /* Definition of peripheral ID */
 #define LPSPI4_PERIPHERAL LPSPI4

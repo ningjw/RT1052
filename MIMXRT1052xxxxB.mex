@@ -605,7 +605,7 @@
                   <clock_output id="GPT2_ipg_clk_highfreq.outFreq" value="66 MHz" locked="false" accuracy=""/>
                   <clock_output id="IPG_CLK_ROOT.outFreq" value="132 MHz" locked="false" accuracy=""/>
                   <clock_output id="LCDIF_CLK_ROOT.outFreq" value="60 MHz" locked="false" accuracy=""/>
-                  <clock_output id="LPI2C_CLK_ROOT.outFreq" value="20 MHz" locked="false" accuracy=""/>
+                  <clock_output id="LPI2C_CLK_ROOT.outFreq" value="24 MHz" locked="false" accuracy=""/>
                   <clock_output id="LPSPI_CLK_ROOT.outFreq" value="120 MHz" locked="false" accuracy=""/>
                   <clock_output id="LVDS1_CLK.outFreq" value="1.056 GHz" locked="false" accuracy=""/>
                   <clock_output id="MQS_MCLK.outFreq" value="60 MHz" locked="false" accuracy=""/>
@@ -624,10 +624,10 @@
                   <clock_output id="SEMC_CLK_ROOT.outFreq" value="132 MHz" locked="false" accuracy=""/>
                   <clock_output id="SPDIF0_CLK_ROOT.outFreq" value="60 MHz" locked="false" accuracy=""/>
                   <clock_output id="TRACE_CLK_ROOT.outFreq" value="8 MHz" locked="false" accuracy=""/>
-                  <clock_output id="UART_CLK_ROOT.outFreq" value="80 MHz" locked="false" accuracy=""/>
+                  <clock_output id="UART_CLK_ROOT.outFreq" value="24 MHz" locked="false" accuracy=""/>
                   <clock_output id="USBPHY1_CLK.outFreq" value="480 MHz" locked="false" accuracy=""/>
                   <clock_output id="USDHC1_CLK_ROOT.outFreq" value="24 MHz" locked="false" accuracy=""/>
-                  <clock_output id="USDHC2_CLK_ROOT.outFreq" value="6 MHz" locked="false" accuracy=""/>
+                  <clock_output id="USDHC2_CLK_ROOT.outFreq" value="24 MHz" locked="false" accuracy=""/>
                </clock_outputs>
                <clock_settings>
                   <setting id="CCM.AHB_PODF.scale" value="1" locked="true"/>
@@ -640,7 +640,8 @@
                   <setting id="CCM.FLEXSPI_PODF.scale" value="3" locked="true"/>
                   <setting id="CCM.FLEXSPI_SEL.sel" value="CCM_ANALOG.PLL2_PFD2_CLK" locked="false"/>
                   <setting id="CCM.IPG_PODF.scale" value="4" locked="true"/>
-                  <setting id="CCM.LPI2C_CLK_PODF.scale" value="3" locked="true"/>
+                  <setting id="CCM.LPI2C_CLK_PODF.scale" value="1" locked="true"/>
+                  <setting id="CCM.LPI2C_CLK_SEL.sel" value="XTALOSC24M.OSC_CLK" locked="false"/>
                   <setting id="CCM.LPSPI_CLK_SEL.sel" value="CCM_ANALOG.PLL3_PFD1_CLK" locked="false"/>
                   <setting id="CCM.LPSPI_PODF.scale" value="4" locked="true"/>
                   <setting id="CCM.PERCLK_PODF.scale" value="2" locked="true"/>
@@ -651,9 +652,10 @@
                   <setting id="CCM.SPDIF0_CLK_PODF.scale" value="4" locked="true"/>
                   <setting id="CCM.TRACE_CLK_SEL.sel" value="CCM_ANALOG.PLL2_PFD1_CLK" locked="false"/>
                   <setting id="CCM.TRACE_PODF.scale" value="3" locked="true"/>
+                  <setting id="CCM.UART_CLK_SEL.sel" value="XTALOSC24M.OSC_CLK" locked="false"/>
                   <setting id="CCM.USDHC1_CLK_SEL.sel" value="CCM_ANALOG.PLL2_PFD0_CLK" locked="false"/>
                   <setting id="CCM.USDHC1_PODF.scale" value="1" locked="true"/>
-                  <setting id="CCM.USDHC2_PODF.scale" value="4" locked="true"/>
+                  <setting id="CCM.USDHC2_PODF.scale" value="1" locked="true"/>
                   <setting id="CCM_ANALOG.ENET_DIV.scale" value="4" locked="true"/>
                   <setting id="CCM_ANALOG.PLL1_BYPASS.sel" value="CCM_ANALOG.PLL1" locked="false"/>
                   <setting id="CCM_ANALOG.PLL1_PREDIV.scale" value="1" locked="true"/>
@@ -1619,7 +1621,7 @@
             <component name="system" uuid="015d8baf-0ed2-43e0-93c0-49727678b60e" type_id="system_54b53072540eeeb8f8e9343e71f28176">
                <config_set_global name="global_system_definitions"/>
             </component>
-            <component name="msg" uuid="c7425567-c5ef-427f-a32c-13c81cce9463" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
+            <component name="msg" uuid="5d8d9f36-ec73-483f-b055-5449334f0344" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
                <config_set_global name="global_messages"/>
             </component>
          </components>

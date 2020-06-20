@@ -16,6 +16,7 @@
 #define APP_INFO_SECTOR    128 /* 升级信息保存在NorFlash的第63个扇区*/
 #define APP_START_SECTOR   129 /* App数据从第64个扇区开始保存 */
 #define ADC_INFO_SECTOR    256 //用于管理ADC数据
+#define MAX_ADC_INFO       2047//有10个sector用于管理ADC采样数据, 每个采样数据占用20byte, 共可以保存40960/20=2048个
 #define ADC_DATA_SECTOR    266
 #define MAX_SECTOR         8192
 
@@ -36,6 +37,7 @@
 #include "peripherals.h"
 #include "pin_mux.h"
 
+
 #include "fsl_gpio.h"
 #include "fsl_lpuart.h"
 #include "fsl_debug_console.h"
@@ -49,6 +51,7 @@
 #include "fsl_pwm.h"
 #include "fsl_gpc.h"
 #include "fsl_gpt.h"
+
 
 #include "FreeRTOS.h"
 #include "task.h"
@@ -74,7 +77,10 @@
 #include "battery_app.h"
 #include "led_app.h"
 #include "norflash_app.h"
-#include "lpm_app.h"
+
+#include "lpm.h"
+#include "power_mode_switch_bm.h"
+#include "specific.h"
 
 typedef struct{
 	uint32_t totalAdcInfo;
@@ -124,26 +130,23 @@ typedef struct{
     char*    sampJson;     //已经打包成json格式的数据的首地址
 	
 	uint32_t sampPacksCnt; //计数器
-    uint32_t sampPacks;	   //总共采集道的数据,需要分多少个包发给Android
+    
 	uint32_t spdPacks;     //转速信号需要分多少个包发送完成
 	uint32_t shkPacks;     //震动信号需要分多少个包发送完成
 	
     float    voltageADS1271;
 	uint32_t periodSpdSignal;//转速信号周期(us)
-    uint32_t spdCount;   //转速信号采集到的个数
-    uint32_t shkCount;   //震动信号采集到的个数
+    
 	uint32_t tempCount;  //当前记录的温度个数
 	bool     WorkStatus; //用于指示当前是否正在采集.
 	
-    float    bias;         //震动传感器偏置电压
-    float    refV;         //1052的参考电压值
+    
     char     fileName[20];
     char     earliestFile[20];
 }SysPara;
 
 
 typedef struct{
-    char  start;
     char  IDPath[128];
     char  NamePath[128];
 	char  SpeedUnits[8];
@@ -175,7 +178,12 @@ typedef struct{
     char  MeasurementComment[128];
     char  DAUID[20];
     char  Content[4];//保留
-    char  end;
+	
+	float    bias;       //震动传感器偏置电压
+    float    refV;       //1052的参考电压值
+	uint32_t sampPacks;	   //总共采集道的数据,需要分多少个包发给Android
+	uint32_t spdCount;   //转速信号采集到的个数
+    uint32_t shkCount;   //震动信号采集到的个数
 }ADC_Set;
 
 extern SysPara g_sys_para;

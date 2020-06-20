@@ -51,10 +51,9 @@ void BOARD_InitBootClocks(void)
 name: BOARD_BootClockRUN
 called_from_default_init: true
 outputs:
-- {id: AHB_CLK_ROOT.outFreq, value: 528 MHz}
+- {id: AHB_CLK_ROOT.outFreq, value: 528 MHz, locked: true, accuracy: '0.001'}
 - {id: CAN_CLK_ROOT.outFreq, value: 60 MHz}
 - {id: CKIL_SYNC_CLK_ROOT.outFreq, value: 32.768 kHz}
-- {id: CLK_1M.outFreq, value: 1 MHz}
 - {id: CLK_24M.outFreq, value: 24 MHz}
 - {id: CSI_CLK_ROOT.outFreq, value: 24 MHz}
 - {id: ENET1_TX_CLK.outFreq, value: 6 MHz}
@@ -86,10 +85,10 @@ outputs:
 - {id: SEMC_CLK_ROOT.outFreq, value: 132 MHz}
 - {id: SPDIF0_CLK_ROOT.outFreq, value: 60 MHz}
 - {id: TRACE_CLK_ROOT.outFreq, value: 8 MHz}
-- {id: UART_CLK_ROOT.outFreq, value: 80 MHz}
+- {id: UART_CLK_ROOT.outFreq, value: 24 MHz}
 - {id: USBPHY1_CLK.outFreq, value: 480 MHz}
 - {id: USDHC1_CLK_ROOT.outFreq, value: 24 MHz}
-- {id: USDHC2_CLK_ROOT.outFreq, value: 6 MHz}
+- {id: USDHC2_CLK_ROOT.outFreq, value: 24 MHz}
 settings:
 - {id: CCM.AHB_PODF.scale, value: '1', locked: true}
 - {id: CCM.ARM_PODF.scale, value: '2', locked: true}
@@ -112,9 +111,10 @@ settings:
 - {id: CCM.SPDIF0_CLK_PODF.scale, value: '4', locked: true}
 - {id: CCM.TRACE_CLK_SEL.sel, value: CCM_ANALOG.PLL2_PFD1_CLK}
 - {id: CCM.TRACE_PODF.scale, value: '3', locked: true}
+- {id: CCM.UART_CLK_SEL.sel, value: XTALOSC24M.OSC_CLK}
 - {id: CCM.USDHC1_CLK_SEL.sel, value: CCM_ANALOG.PLL2_PFD0_CLK}
 - {id: CCM.USDHC1_PODF.scale, value: '1', locked: true}
-- {id: CCM.USDHC2_PODF.scale, value: '4', locked: true}
+- {id: CCM.USDHC2_PODF.scale, value: '1', locked: true}
 - {id: CCM_ANALOG.ENET_DIV.scale, value: '4', locked: true}
 - {id: CCM_ANALOG.PLL1_BYPASS.sel, value: CCM_ANALOG.PLL1}
 - {id: CCM_ANALOG.PLL1_PREDIV.scale, value: '1', locked: true}
@@ -136,6 +136,8 @@ settings:
 - {id: CCM_ANALOG_PLL_USB1_EN_USB_CLKS_CFG, value: Enabled}
 - {id: CCM_ANALOG_PLL_USB1_EN_USB_CLKS_OUT_CFG, value: Enabled}
 - {id: CCM_ANALOG_PLL_USB1_POWER_CFG, value: 'Yes'}
+- {id: XTALOSC24M_LOWPWR_CTRL_RC_OSC_EN_CFG, value: Disabled}
+- {id: XTALOSC24M_OSC_CONFIG2_ENABLE_1M_CFG, value: Disabled}
 sources:
 - {id: CCM_ANALOG.CLK1.outFreq, value: 24 MHz, enabled: true}
 - {id: XTALOSC24M.RTC_OSC.outFreq, value: 32.768 kHz, enabled: true}
@@ -175,16 +177,14 @@ void BOARD_BootClockRUN(void)
 {
     /* Init RTC OSC clock frequency. */
     CLOCK_SetRtcXtalFreq(32768U);
-    /* Enable 1MHz clock output. */
-    XTALOSC24M->OSC_CONFIG2 |= XTALOSC24M_OSC_CONFIG2_ENABLE_1M_MASK;
-    /* Use free 1MHz clock output. */
-    XTALOSC24M->OSC_CONFIG2 &= ~XTALOSC24M_OSC_CONFIG2_MUX_1M_MASK;
+    /* Disable 1MHz clock output. */
+    XTALOSC24M->OSC_CONFIG2 &= ~XTALOSC24M_OSC_CONFIG2_ENABLE_1M_MASK;
     /* Set XTAL 24MHz clock frequency. */
     CLOCK_SetXtalFreq(24000000U);
     /* Enable XTAL 24MHz clock source. */
     CLOCK_InitExternalClk(0);
-    /* Enable internal RC. */
-    CLOCK_InitRcOsc24M();
+    /* Disable internal RC. */
+    CLOCK_DeinitRcOsc24M();
     /* Switch clock source to external OSC. */
     CLOCK_SwitchOsc(kCLOCK_XtalOsc);
     /* Set Oscillator ready counter value. */
@@ -223,7 +223,7 @@ void BOARD_BootClockRUN(void)
     /* Disable USDHC2 clock gate. */
     CLOCK_DisableClock(kCLOCK_Usdhc2);
     /* Set USDHC2_PODF. */
-    CLOCK_SetDiv(kCLOCK_Usdhc2Div, 3);
+    CLOCK_SetDiv(kCLOCK_Usdhc2Div, 0);
     /* Set Usdhc2 clock source. */
     CLOCK_SetMux(kCLOCK_Usdhc2Mux, 0);
     /* In SDK projects, SDRAM (configured by SEMC) will be initialized in either debug script or dcd.
@@ -324,7 +324,7 @@ void BOARD_BootClockRUN(void)
     /* Set UART_CLK_PODF. */
     CLOCK_SetDiv(kCLOCK_UartDiv, 0);
     /* Set Uart clock source. */
-    CLOCK_SetMux(kCLOCK_UartMux, 0);
+    CLOCK_SetMux(kCLOCK_UartMux, 1);
     /* Disable LCDIF clock gate. */
     CLOCK_DisableClock(kCLOCK_LcdPixel);
     /* Set LCDIF_PRED. */
