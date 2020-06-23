@@ -5,6 +5,7 @@ static void AppTaskCreate(void);                      /* 用于创建任务 */
 void BOARD_ConfigMPU(void);
 void BOARD_InitDebugConsole(void);
 
+TaskHandle_t LPM_TaskHandle = NULL;  /* LPM任务句柄 */
 
 SysPara  g_sys_para;
 ADC_Set  g_adc_set;
@@ -17,7 +18,7 @@ snvs_lp_srtc_datetime_t SNVS_LP_dateTimeStruct = {
   .minute = 0,
   .second = 0
 };
-
+void LPM_AppTask(void);
 /***************************************************************************************
   * @brief   初始化系统变量
   * @input   
@@ -64,10 +65,25 @@ static void AppTaskCreate(void)
     /* 创建ADC_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
     xTaskCreate((TaskFunction_t )ADC_AppTask, "ADC_Task",1024,NULL, 4,&ADC_TaskHandle);
 	
+	/* 创建LPM_Task任务 参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
+    xTaskCreate((TaskFunction_t )LPM_AppTask, "ADC_Task",512,NULL, 5,&LPM_TaskHandle);
+	
     vTaskDelete(AppTaskCreate_Handle); //删除AppTaskCreate任务
     taskEXIT_CRITICAL();               //退出临界区
 }
 
+/***************************************************************************************
+  * @brief   
+  * @input   
+  * @return  
+***************************************************************************************/
+void LPM_AppTask(void)
+{
+	while(1){
+		LPM_EnterSystemIdle();//每2ms调用一次该函数,进入系统空闲模式, 2ms后唤醒执行任务
+		vTaskDelay(2);
+	}
+}
 
 
 /***************************************************************************************
@@ -85,8 +101,7 @@ int main(void)
     BOARD_InitDebugConsole();   /* 配置调试串口 */
 	PRINTF("app:\r\n");
     InitSysPara();              /* 初始化系统变量*/
-	LPM_Test();
-//	LPM_Init();
+	LPM_Init();
     FlexSPI_NorFlash_Init();    /* 初始化FlexSPI*/
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);/*1ms中断，FreeRTOS使用*/
 	/* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 

@@ -440,6 +440,11 @@
               <FileType>5</FileType>
               <FilePath>.\User\inc\led_app.h</FilePath>
             </File>
+            <File>
+              <FileName>lpm_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\lpm_app.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -513,26 +518,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>lpm</GroupName>
-          <Files>
-            <File>
-              <FileName>specific.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\lpm\specific.c</FilePath>
-            </File>
-            <File>
-              <FileName>power_mode_switch_bm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\lpm\power_mode_switch_bm.c</FilePath>
-            </File>
-            <File>
-              <FileName>lpm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\lpm\lpm.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>sdmmc</GroupName>
           <Files>
             <File>
@@ -589,26 +574,6 @@
               <FileName>ffconf.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\fatfs\ffconf.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>xip</GroupName>
-          <Files>
-            <File>
-              <FileName>fsl_flexspi_nor_boot.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\xip\fsl_flexspi_nor_boot.c</FilePath>
-            </File>
-            <File>
-              <FileName>fire_imxrt1052_sdram_ini_dcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\xip\fire_imxrt1052_sdram_ini_dcd.c</FilePath>
-            </File>
-            <File>
-              <FileName>fire_imxrt1052_spiflash_config.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\xip\fire_imxrt1052_spiflash_config.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1056,6 +1021,11 @@
               <FileType>5</FileType>
               <FilePath>.\User\inc\led_app.h</FilePath>
             </File>
+            <File>
+              <FileName>lpm_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\User\src\lpm_app.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1129,26 +1099,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>lpm</GroupName>
-          <Files>
-            <File>
-              <FileName>specific.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\lpm\specific.c</FilePath>
-            </File>
-            <File>
-              <FileName>power_mode_switch_bm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\lpm\power_mode_switch_bm.c</FilePath>
-            </File>
-            <File>
-              <FileName>lpm.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\lpm\lpm.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>sdmmc</GroupName>
           <Files>
             <File>
@@ -1205,95 +1155,6 @@
               <FileName>ffconf.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\fatfs\ffconf.h</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>xip</GroupName>
-          <GroupOption>
-            <CommonProperty>
-              <UseCPPCompiler>0</UseCPPCompiler>
-              <RVCTCodeConst>0</RVCTCodeConst>
-              <RVCTZI>0</RVCTZI>
-              <RVCTOtherData>0</RVCTOtherData>
-              <ModuleSelection>0</ModuleSelection>
-              <IncludeInBuild>0</IncludeInBuild>
-              <AlwaysBuild>2</AlwaysBuild>
-              <GenerateAssemblyFile>2</GenerateAssemblyFile>
-              <AssembleAssemblyFile>2</AssembleAssemblyFile>
-              <PublicsOnly>2</PublicsOnly>
-              <StopOnExitCode>11</StopOnExitCode>
-              <CustomArgument></CustomArgument>
-              <IncludeLibraryModules></IncludeLibraryModules>
-              <ComprImg>1</ComprImg>
-            </CommonProperty>
-            <GroupArmAds>
-              <Cads>
-                <interw>2</interw>
-                <Optim>0</Optim>
-                <oTime>2</oTime>
-                <SplitLS>2</SplitLS>
-                <OneElfS>2</OneElfS>
-                <Strict>2</Strict>
-                <EnumInt>2</EnumInt>
-                <PlainCh>2</PlainCh>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <wLevel>0</wLevel>
-                <uThumb>2</uThumb>
-                <uSurpInc>2</uSurpInc>
-                <uC99>2</uC99>
-                <uGnu>2</uGnu>
-                <useXO>2</useXO>
-                <v6Lang>0</v6Lang>
-                <v6LangP>0</v6LangP>
-                <vShortEn>2</vShortEn>
-                <vShortWch>2</vShortWch>
-                <v6Lto>2</v6Lto>
-                <v6WtE>2</v6WtE>
-                <v6Rtti>2</v6Rtti>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath></IncludePath>
-                </VariousControls>
-              </Cads>
-              <Aads>
-                <interw>2</interw>
-                <Ropi>2</Ropi>
-                <Rwpi>2</Rwpi>
-                <thumb>2</thumb>
-                <SplitLS>2</SplitLS>
-                <SwStkChk>2</SwStkChk>
-                <NoWarn>2</NoWarn>
-                <uSurpInc>2</uSurpInc>
-                <useXO>2</useXO>
-                <uClangAs>2</uClangAs>
-                <VariousControls>
-                  <MiscControls></MiscControls>
-                  <Define></Define>
-                  <Undefine></Undefine>
-                  <IncludePath></IncludePath>
-                </VariousControls>
-              </Aads>
-            </GroupArmAds>
-          </GroupOption>
-          <Files>
-            <File>
-              <FileName>fsl_flexspi_nor_boot.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\xip\fsl_flexspi_nor_boot.c</FilePath>
-            </File>
-            <File>
-              <FileName>fire_imxrt1052_sdram_ini_dcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\xip\fire_imxrt1052_sdram_ini_dcd.c</FilePath>
-            </File>
-            <File>
-              <FileName>fire_imxrt1052_spiflash_config.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\xip\fire_imxrt1052_spiflash_config.c</FilePath>
             </File>
           </Files>
         </Group>

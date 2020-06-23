@@ -77,10 +77,8 @@
 #include "battery_app.h"
 #include "led_app.h"
 #include "norflash_app.h"
+#include "lpm_app.h"
 
-#include "lpm.h"
-#include "power_mode_switch_bm.h"
-#include "specific.h"
 
 typedef struct{
 	uint32_t totalAdcInfo;
