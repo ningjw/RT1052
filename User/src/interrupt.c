@@ -57,11 +57,6 @@ void GPIO2_Combined_16_31_IRQHandler(void)
 	/* 清除中断标志位 */
 	GPIO_PortClearInterruptFlags(BOARD_KEY_OFF_GPIO, 1<<BOARD_KEY_OFF_PIN);
 	g_sys_para.inactiveCount = 0;
-	
-	/* Disable interrupt. */
-//	GPIO_DisableInterrupts(APP_WAKEUP_BUTTON_GPIO, 1U << APP_WAKEUP_BUTTON_GPIO_PIN);
-//	GPIO_ClearPinsInterruptFlags(APP_WAKEUP_BUTTON_GPIO, 1U << APP_WAKEUP_BUTTON_GPIO_PIN);
-	LPM_DisableWakeupSource(APP_WAKEUP_BUTTON_IRQ);
 }
 
 

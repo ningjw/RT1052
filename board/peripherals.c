@@ -356,7 +356,7 @@ instance:
   - lpuartConfig_t:
     - lpuartConfig:
       - clockSource: 'LpuartClock'
-      - lpuartSrcClkFreq: 'custom:80000000'
+      - lpuartSrcClkFreq: 'BOARD_BootClockRUN'
       - baudRate_Bps: '115200'
       - parityMode: 'kLPUART_ParityDisabled'
       - dataBitsCount: 'kLPUART_EightDataBits'

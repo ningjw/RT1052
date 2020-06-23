@@ -15,8 +15,8 @@ extern void LPUART2_init(void);
 uint8_t g_lpuart2TxBuf[LPUART2_BUFF_LEN] = {0};//串口发送缓冲区
 uint8_t g_lpuart2RxBuf[LPUART2_BUFF_LEN] = {0};//串口接收缓冲区
 
-uint8_t g_puart2RxCnt = 0;
-uint8_t g_puart2TxCnt = 0;
+uint16_t g_puart2RxCnt = 0;
+uint16_t g_puart2TxCnt = 0;
 uint8_t g_puart2StartRx = false;
 uint32_t  g_puart2RxTimeCnt = 0;
 uint32_t ble_event = 0;
@@ -76,6 +76,33 @@ void WIFI_Init(void)
 	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);/*wait task notify*/
 }
 
+
+/*****************************************************************
+* 功能：发送AT指令
+* 输入: send_buf:发送的字符串
+		recv_str：期待回令中包含的子字符串
+        p_at_cfg：AT配置
+* 输出：执行结果代码
+******************************************************************/
+uint8_t BLE_SendCmd(const char *cmd, const char *recv_str, uint16_t time_out)
+{
+    uint8_t try_cnt = 0;
+	g_puart2RxCnt = 0;
+	memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
+retry:
+    LPUART2_SendString(cmd);//发送AT指令
+    /*wait resp_time*/
+    xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, time_out);
+    //接收到的数据中包含响应的数据
+    if(strstr((char *)g_lpuart2RxBuf, recv_str) != NULL) {
+        return true;
+    } else {
+        if(try_cnt++ > 3) {
+            return false;
+        }
+        goto retry;//重试
+    }
+}
 /***************************************************************************************
   * @brief   设置蓝牙模块
   * @input   
@@ -84,25 +111,14 @@ void WIFI_Init(void)
 void BLE_Init(void)
 {
 	SET_COMMOND_MODE();
-
-	for(uint8_t i = 0;i<5; i++){
-		LPUART2_SendString("AT+BAUD=230400\r\n");
-		xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);
-	}
+	BLE_SendCmd("AT\r\n","OK",500);
+	BLE_SendCmd("AT+BAUD=230400\r\n","OK",300);
     LPUART_SetBaudRate(LPUART2, 230400, LPUART2_CLOCK_SOURCE);
-	
-    /* 设置蓝牙名称 */
-	LPUART2_SendString("AT+NAME=BLE Communication\r\n");
-    g_sys_para.BleWifiLedStatus = BLE_READY;
-	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);
-	/*关闭低功耗模式*/
-	LPUART2_SendString("AT+LPM=0\r\n");
-	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);
-    /* 开启透传模式 */
-    LPUART2_SendString("AT+TPMODE=1\r\n");
-	xTaskNotifyWait(pdFALSE, ULONG_MAX, &ble_event, 200);
+	BLE_SendCmd("AT+NAME=BLE Communication\r\n","OK",300);/* 设置蓝牙名称 */
+	BLE_SendCmd("AT+LPM=0\r\n","OK",300);/*关闭低功耗模式*/
+    BLE_SendCmd("AT+TPMODE=1\r\n","OK",300);/* 开启透传模式 */
 	SET_THROUGHPUT_MODE();
-
+	g_sys_para.BleWifiLedStatus = BLE_READY;
 }
 
 /***********************************************************************
@@ -219,12 +235,10 @@ void LPUART2_TimeTick(void)
 				xTaskNotify(BLE_TaskHandle, EVT_OK, eSetBits);
 			}
 		}
-		else if(g_puart2RxTimeCnt >= 100) { //300ms未接受到数据,表示接受数据超时
+		else if(g_puart2RxTimeCnt >= 30) { //30ms未接受到数据,表示接受数据超时
 			g_puart2RxTimeCnt = 0;
 			g_puart2StartRx = false;
-			if(BleStartFlag){
-				xTaskNotify(BLE_TaskHandle, EVT_TIMTOUT, eSetBits);
-			}
+			xTaskNotify(BLE_TaskHandle, EVT_TIMTOUT, eSetBits);
         }
     }
 }

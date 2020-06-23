@@ -379,7 +379,7 @@
           <Type>0</Type>
           <LineNumber>58</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>-2147386110</Address>
+          <Address>-2147392356</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -393,18 +393,18 @@
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>534</LineNumber>
+          <LineNumber>327</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>-2147377032</Address>
+          <Address>1610679342</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\lpm\lpm.c</Filename>
+          <Filename>RTE\Device\MIMXRT1052CVL5B\startup_MIMXRT1052.s</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\rt1052\lpm/lpm.c\534</Expression>
+          <Expression>\\rt1052\RTE/Device/MIMXRT1052CVL5B/startup_MIMXRT1052.s\327</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -466,7 +466,7 @@
         <Ww>
           <count>11</count>
           <WinNumber>1</WinNumber>
-          <ItemText>g_lpuart2RxBuf</ItemText>
+          <ItemText>g_lpuart2RxBuf,0x10</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
@@ -488,6 +488,11 @@
       <ScvdPack>
         <Filename>C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS-FreeRTOS\10.2.0\CMSIS\RTOS2\FreeRTOS\FreeRTOS.scvd</Filename>
         <Type>ARM.CMSIS-FreeRTOS.10.2.0</Type>
+        <SubType>1</SubType>
+      </ScvdPack>
+      <ScvdPack>
+        <Filename>C:\Users\ningjw\AppData\Local\Arm\Packs\Keil\ARM_Compiler\1.6.2\EventRecorder.scvd</Filename>
+        <Type>Keil.ARM_Compiler.1.6.2</Type>
         <SubType>1</SubType>
       </ScvdPack>
       <Tracepoint>
@@ -1066,6 +1071,14 @@
 
   <Group>
     <GroupName>::CMSIS</GroupName>
+    <tvExp>0</tvExp>
+    <tvExpOptDlg>0</tvExpOptDlg>
+    <cbSel>0</cbSel>
+    <RteFlg>1</RteFlg>
+  </Group>
+
+  <Group>
+    <GroupName>::Compiler</GroupName>
     <tvExp>0</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>

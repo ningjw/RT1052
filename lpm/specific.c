@@ -1,9 +1,19 @@
-/*
- * Copyright 2019 NXP
- * All rights reserved.
- *
- * SPDX-License-Identifier: BSD-3-Clause
- */
+/**
+  ******************************************************************
+  * @file    bsp_specific.c
+  * @author  fire
+  * @version V1.0
+  * @date    2019-xx-xx
+  * @brief   PWR-电源模式选择
+  ******************************************************************
+  * @attention
+  *
+  * 实验平台:野火  i.MXRT1052开发板 
+  * 论坛    :http://www.firebbs.cn
+  * 淘宝    :http://firestm32.taobao.com
+  *
+  ******************************************************************
+  */
 
 #include "main.h"
 
@@ -14,21 +24,27 @@
 
 const clock_arm_pll_config_t armPllConfig_PowerMode = {
     .loopDivider = 100, /* PLL loop divider, Fout = Fin * 50 */
-    .src         = 0,   /* Bypass clock source, 0 - OSC 24M, 1 - CLK1_P and CLK1_N */
+    .src = 0,           /* Bypass clock source, 0 - OSC 24M, 1 - CLK1_P and CLK1_N */
 };
 const clock_sys_pll_config_t sysPllConfig_PowerMode = {
     .loopDivider = 1, /* PLL loop divider, Fout = Fin * ( 20 + loopDivider*2 + numerator / denominator ) */
-    .numerator   = 0, /* 30 bit numerator of fractional loop divider */
+    .numerator = 0,   /* 30 bit numerator of fractional loop divider */
     .denominator = 1, /* 30 bit denominator of fractional loop divider */
-    .src         = 0, /* Bypass clock source, 0 - OSC 24M, 1 - CLK1_P and CLK1_N */
+    .src = 0,         /* Bypass clock source, 0 - OSC 24M, 1 - CLK1_P and CLK1_N */
 };
 const clock_usb_pll_config_t usb1PllConfig_PowerMode = {
     .loopDivider = 0, /* PLL loop divider, Fout = Fin * 20 */
-    .src         = 0, /* Bypass clock source, 0 - OSC 24M, 1 - CLK1_P and CLK1_N */
+    .src = 0,         /* Bypass clock source, 0 - OSC 24M, 1 - CLK1_P and CLK1_N */
 };
 
 AT_QUICKACCESS_SECTION_CODE(void SwitchSystemClocks(lpm_power_mode_t power_mode));
 
+/**
+ * @brief 选择系统时钟
+ * @param power_mode 电源模式
+ * @return 无
+ *   @retval 无
+ */
 void SwitchSystemClocks(lpm_power_mode_t power_mode)
 {
 #if (defined(XIP_EXTERNAL_FLASH) && (XIP_EXTERNAL_FLASH == 1))
@@ -38,68 +54,70 @@ void SwitchSystemClocks(lpm_power_mode_t power_mode)
     FLEXSPI_INST->MCR0 |= FLEXSPI_MCR0_MDIS_MASK;
 
     /* Disable clock gate of flexspi. */
-    CCM->CCGR6 &= (~CCM_CCGR6_CG5_MASK);
+    //CCM->CCGR6 &= (~CCM_CCGR6_CG5_MASK);
 #endif
     switch (power_mode)
     {
-        case LPM_PowerModeOverRun:
-            CLOCK_SET_DIV(kCLOCK_SemcDiv, 3);    // SEMC CLK should not exceed 166MHz
-            CLOCK_SET_DIV(kCLOCK_FlexspiDiv, 0); // FLEXSPI in DDR mode
-            CLOCK_SET_MUX(kCLOCK_FlexspiMux, 3); // FLEXSPI mux to PLL3 PFD0
-            /* CORE CLK to 600MHz, AHB, IPG to 150MHz, PERCLK to 75MHz */
-            CLOCK_SET_DIV(kCLOCK_PerclkDiv, 1);
-            CLOCK_SET_DIV(kCLOCK_IpgDiv, 3);
-            CLOCK_SET_DIV(kCLOCK_AhbDiv, 0);
-            CLOCK_SET_MUX(kCLOCK_PerclkMux, 0);    // PERCLK mux to IPG CLK
-            CLOCK_SET_MUX(kCLOCK_PrePeriphMux, 3); // PRE_PERIPH_CLK mux to ARM PLL
-            CLOCK_SET_MUX(kCLOCK_PeriphMux, 0);    // PERIPH_CLK mux to PRE_PERIPH_CLK
-            break;
-        case LPM_PowerModeFullRun:
-            CLOCK_SET_DIV(kCLOCK_SemcDiv, 3);    // SEMC CLK should not exceed 166MHz
-            CLOCK_SET_DIV(kCLOCK_FlexspiDiv, 0); // FLEXSPI in DDR mode
-            CLOCK_SET_MUX(kCLOCK_FlexspiMux, 3); // FLEXSPI mux to PLL3 PFD0
-            /* CORE CLK to 528MHz, AHB, IPG to 132MHz, PERCLK to 66MHz */
-            CLOCK_SET_DIV(kCLOCK_PerclkDiv, 1);
-            CLOCK_SET_DIV(kCLOCK_IpgDiv, 3);
-            CLOCK_SET_DIV(kCLOCK_AhbDiv, 0);
-            CLOCK_SET_MUX(kCLOCK_PerclkMux, 0);    // PERCLK mux to IPG CLK
-            CLOCK_SET_MUX(kCLOCK_PrePeriphMux, 0); // PRE_PERIPH_CLK mux to SYS PLL
-            CLOCK_SET_MUX(kCLOCK_PeriphMux, 0);    // PERIPH_CLK mux to PRE_PERIPH_CLK
-            break;
-        case LPM_PowerModeLowSpeedRun:
-        case LPM_PowerModeSysIdle:
-            CLOCK_SET_DIV(kCLOCK_SemcDiv, 3);    // SEMC CLK should not exceed 166MHz
-            CLOCK_SET_DIV(kCLOCK_FlexspiDiv, 1); // FLEXSPI in DDR mode
-            CLOCK_SET_MUX(kCLOCK_FlexspiMux, 2); // FLEXSPI mux to PLL2 PFD2
-            /* CORE CLK to 132MHz and AHB, IPG, PERCLK to 33MHz */
-            CLOCK_SET_DIV(kCLOCK_PerclkDiv, 0);
-            CLOCK_SET_DIV(kCLOCK_IpgDiv, 3);
-            CLOCK_SET_DIV(kCLOCK_AhbDiv, 3);
-            CLOCK_SET_MUX(kCLOCK_PerclkMux, 0);    // PERCLK mux to IPG CLK
-            CLOCK_SET_MUX(kCLOCK_PrePeriphMux, 0); // Switch PRE_PERIPH_CLK to SYS PLL
-            CLOCK_SET_MUX(kCLOCK_PeriphMux, 0);    // Switch PERIPH_CLK to PRE_PERIPH_CLK
-            break;
-        case LPM_PowerModeLowPowerRun:
-        case LPM_PowerModeLPIdle:
-            CLOCK_SET_DIV(kCLOCK_PeriphClk2Div, 0);
-            CLOCK_SET_MUX(kCLOCK_PeriphClk2Mux, 1); // PERIPH_CLK2 mux to OSC
-            CLOCK_SET_MUX(kCLOCK_PeriphMux, 1);     // PERIPH_CLK mux to PERIPH_CLK2
-            CLOCK_SET_DIV(kCLOCK_SemcDiv, 0);
-            CLOCK_SET_MUX(kCLOCK_SemcMux, 0);    // SEMC mux to PERIPH_CLK
-            CLOCK_SET_DIV(kCLOCK_FlexspiDiv, 0); // FLEXSPI in DDR mode
-            CLOCK_SET_MUX(kCLOCK_FlexspiMux, 0); // FLEXSPI mux to semc_clk_root_pre
-            /* CORE CLK to 24MHz and AHB, IPG, PERCLK to 12MHz */
-            CLOCK_SET_DIV(kCLOCK_PerclkDiv, 0);
-            CLOCK_SET_DIV(kCLOCK_IpgDiv, 1);
-            CLOCK_SET_DIV(kCLOCK_AhbDiv, 0);
-            CLOCK_SET_MUX(kCLOCK_PerclkMux, 0); // PERCLK mux to IPG CLK
-            break;
-        default:
-            break;
+    case LPM_PowerModeOverRun:
+        CLOCK_SET_DIV(kCLOCK_SemcDiv, 3);    // SEMC CLK不应超过166MHz
+        CLOCK_SET_DIV(kCLOCK_FlexspiDiv, 0); // DDR模式下的FLEXSPI
+        CLOCK_SET_MUX(kCLOCK_FlexspiMux, 3); // FLEXSPI复用到PLL3 PFD0
+        /* CORE CLK至600MHz，AHB，IPG至150MHz，PERCLK至75MHz */
+        CLOCK_SET_DIV(kCLOCK_PerclkDiv, 1);
+        CLOCK_SET_DIV(kCLOCK_IpgDiv, 3);
+        CLOCK_SET_DIV(kCLOCK_AhbDiv, 0);
+        CLOCK_SET_MUX(kCLOCK_PerclkMux, 0);    //PERCLK mux到IPG CLK
+        CLOCK_SET_MUX(kCLOCK_PrePeriphMux, 3); //PRE_PERIPH_CLK mux到ARM PLL
+        CLOCK_SET_MUX(kCLOCK_PeriphMux, 0);    //PERIPH_CLK mux到PRE_PERIPH_CLK
+        break;
+    case LPM_PowerModeFullRun:
+        CLOCK_SET_DIV(kCLOCK_SemcDiv, 3);    // SEMC CLK不应超过166MHz
+        CLOCK_SET_DIV(kCLOCK_FlexspiDiv, 0); // DDR模式下的FLEXSPI
+        CLOCK_SET_MUX(kCLOCK_FlexspiMux, 3); // FLEXSPI复用到PLL3 PFD0
+        /* CORE CLK为528MHz，AHB，IPG为132MHz，PERCLK为66MHz */
+        CLOCK_SET_DIV(kCLOCK_PerclkDiv, 1);
+        CLOCK_SET_DIV(kCLOCK_IpgDiv, 3);
+        CLOCK_SET_DIV(kCLOCK_AhbDiv, 0);
+        CLOCK_SET_MUX(kCLOCK_PerclkMux, 0);    // PERCLK mux到IPG CLK
+        CLOCK_SET_MUX(kCLOCK_PrePeriphMux, 0); // PRE_PERIPH_CLK mux到SYS PLL
+        CLOCK_SET_MUX(kCLOCK_PeriphMux, 0);    // PERIPH_CLK mux到PRE_PERIPH_CLK
+        break;
+    case LPM_PowerModeLowSpeedRun:
+    case LPM_PowerModeSysIdle:   
+        CLOCK_SET_DIV(kCLOCK_SemcDiv, 3);    // SEMC CLK不应超过166MHz
+        CLOCK_SET_DIV(kCLOCK_FlexspiDiv, 1); // DDR模式下的FLEXSPI
+        CLOCK_SET_MUX(kCLOCK_FlexspiMux, 2); // FLEXSPI复用到PLL2 PFD2
+        /* CORE CLK为132MHz，AHB，IPG，PERCLK为33MHz */
+        CLOCK_SET_DIV(kCLOCK_PerclkDiv, 0);
+        CLOCK_SET_DIV(kCLOCK_IpgDiv, 3);
+        CLOCK_SET_DIV(kCLOCK_AhbDiv, 3);
+        CLOCK_SET_MUX(kCLOCK_PerclkMux, 0);    // PERCLK mux到IPG CLK
+        CLOCK_SET_MUX(kCLOCK_PrePeriphMux, 0); // 将PRE_PERIPH_CLK切换到SYS PLL
+        CLOCK_SET_MUX(kCLOCK_PeriphMux, 0);    // 将PERIPH_CLK切换为PRE_PERIPH_CLK
+        break;
+    case LPM_PowerModeLowPowerRun://LPM_PowerModeLowPowerRun
+			
+    case LPM_PowerModeLPIdle:
+
+        CLOCK_SET_DIV(kCLOCK_PeriphClk2Div, 0);
+        CLOCK_SET_MUX(kCLOCK_PeriphClk2Mux, 1); // PERIPH_CLK2多路复用到OSC
+        CLOCK_SET_MUX(kCLOCK_PeriphMux, 1);     // PERIPH_CLK mux到PERIPH_CLK2
+        CLOCK_SET_DIV(kCLOCK_SemcDiv, 0);
+        CLOCK_SET_MUX(kCLOCK_SemcMux, 0);    // SEMC复用到PERIPH_CLK
+        CLOCK_SET_DIV(kCLOCK_FlexspiDiv, 0); // DDR模式下的FLEXSPI
+        CLOCK_SET_MUX(kCLOCK_FlexspiMux, 0); // FLEXSPI mux到semc_clk_root_pre
+        /* CORE CLK至24MHz，AHB，IPG，PERCLK至12MHz */
+        CLOCK_SET_DIV(kCLOCK_PerclkDiv, 0);
+        CLOCK_SET_DIV(kCLOCK_IpgDiv, 1);
+        CLOCK_SET_DIV(kCLOCK_AhbDiv, 0);
+        CLOCK_SET_MUX(kCLOCK_PerclkMux, 0); // PERCLK mux到IPG CLK
+        break;
+    default:
+        break;
     }
 
 #if (defined(XIP_EXTERNAL_FLASH) && (XIP_EXTERNAL_FLASH == 1))
-    /* Enable clock gate of flexspi. */
+    /*启用flexspi的时钟门. */
     CCM->CCGR6 |= (CCM_CCGR6_CG5_MASK);
 
     if ((LPM_PowerModeLowPowerRun == power_mode) || (LPM_PowerModeLPIdle == power_mode))
@@ -121,7 +139,11 @@ void SwitchSystemClocks(lpm_power_mode_t power_mode)
     }
 #endif
 }
-
+/**
+ * @brief 时钟设置为超载运行模式
+ * @return 无
+ *   @retval 无
+ */
 void ClockSetToOverDriveRun(void)
 {
     // CORE CLK mux to 24M before reconfigure PLLs
@@ -135,7 +157,7 @@ void ClockSetToOverDriveRun(void)
     /* Init SYS PLL*/
     CLOCK_InitSysPll(&sysPllConfig_PowerMode);
     /* Init System pfd0. */
-    CLOCK_InitSysPfd(kCLOCK_Pfd0, 27);
+    CLOCK_InitSysPfd(kCLOCK_Pfd0, 27);//
     /* Init System pfd1. */
     CLOCK_InitSysPfd(kCLOCK_Pfd1, 16);
     /* Init System pfd2. */
@@ -196,6 +218,11 @@ void ClockSetToOverDriveRun(void)
     SwitchSystemClocks(LPM_PowerModeOverRun);
 }
 
+/**
+ * @brief 时钟设置为满载运行模式
+ * @return 无
+ *   @retval 无
+ */
 void ClockSetToFullSpeedRun(void)
 {
     // CORE CLK mux to 24M before reconfigure PLLs
@@ -270,6 +297,11 @@ void ClockSetToFullSpeedRun(void)
     SwitchSystemClocks(LPM_PowerModeFullRun);
 }
 
+/**
+ * @brief 时钟设置为低速运行模式
+ * @return 无
+ *   @retval 无
+ */
 void ClockSetToLowSpeedRun(void)
 {
     // CORE CLK mux to 24M before reconfigure PLLs
@@ -289,11 +321,11 @@ void ClockSetToLowSpeedRun(void)
     CLOCK_InitSysPfd(kCLOCK_Pfd2, 18);
     CLOCK_DeinitSysPfd(kCLOCK_Pfd3);
 
-    /* Deinit USB1 PLL */
-    CLOCK_DeinitUsb1Pll();
+//    /* Deinit USB1 PLL */
+//    CLOCK_DeinitUsb1Pll();
 
-    /* Deinit USB1 PLL PFD 0 1 2 3 */
-    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd0);
+//    /* Deinit USB1 PLL PFD 0 1 2 3 */
+//    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd0);
     CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd1);
     CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd2);
     CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd3);
@@ -313,48 +345,50 @@ void ClockSetToLowSpeedRun(void)
     SwitchSystemClocks(LPM_PowerModeLowSpeedRun);
 }
 
+/**
+ * @brief 时钟设置为低功耗运行模式
+ * @return 无
+ *   @retval 无
+ */
 void ClockSetToLowPowerRun(void)
 {
-    // CORE CLK mux to 24M before reconfigure PLLs
-    SwitchSystemClocks(LPM_PowerModeLowPowerRun);
-    ClockSelectRcOsc();
-
-    /* Deinit ARM PLL */
-    CLOCK_DeinitArmPll();
-
-    /* Deinit SYS PLL */
-    CLOCK_DeinitSysPll();
-
-    /* Deinit SYS PLL PFD 0 1 2 3 */
-    CLOCK_DeinitSysPfd(kCLOCK_Pfd0);
-    CLOCK_DeinitSysPfd(kCLOCK_Pfd1);
-    CLOCK_DeinitSysPfd(kCLOCK_Pfd2);
-    CLOCK_DeinitSysPfd(kCLOCK_Pfd3);
-
-    /* Power Down USB1 PLL */
-    CCM_ANALOG->PLL_USB1_SET = CCM_ANALOG_PLL_USB1_BYPASS_MASK;
-    CCM_ANALOG->PLL_USB1_CLR = CCM_ANALOG_PLL_USB1_POWER_MASK;
-    CCM_ANALOG->PLL_USB1_CLR = CCM_ANALOG_PLL_USB1_ENABLE_MASK;
-
-    /* Deinit USB1 PLL PFD 0 1 2 3 */
-    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd0);
-    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd1);
-    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd2);
-    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd3);
-
-    /* Deinit USB2 PLL */
-    CLOCK_DeinitUsb2Pll();
-
-    /* Deinit AUDIO PLL */
-    CLOCK_DeinitAudioPll();
-
-    /* Deinit VIDEO PLL */
-    CLOCK_DeinitVideoPll();
-
-    /* Deinit ENET PLL */
+																																							 	
+    // CORE CLK mux to 24M before reconfigure PLLs                             	
+    SwitchSystemClocks(LPM_PowerModeLowPowerRun);                               
+    ClockSelectRcOsc();                                                         
+    /* Deinit ARM PLL */                                                        
+    CLOCK_DeinitArmPll();                                                       
+    /* Deinit SYS PLL */                                                        
+    CLOCK_DeinitSysPll();                                                       
+    /* Deinit SYS PLL PFD 0 1 2 3 */                                            
+    CLOCK_DeinitSysPfd(kCLOCK_Pfd0);                                            
+    CLOCK_DeinitSysPfd(kCLOCK_Pfd1);                                            
+    CLOCK_DeinitSysPfd(kCLOCK_Pfd2);                                            
+    CLOCK_DeinitSysPfd(kCLOCK_Pfd3);                                            
+//	/* Power Down USB1 PLL */                                                     
+//    CCM_ANALOG->PLL_USB1_SET = CCM_ANALOG_PLL_USB1_BYPASS_MASK;                 
+//    CCM_ANALOG->PLL_USB1_CLR = CCM_ANALOG_PLL_USB1_POWER_MASK;                  
+//    CCM_ANALOG->PLL_USB1_CLR = CCM_ANALOG_PLL_USB1_ENABLE_MASK;                 
+    /* Deinit USB1 PLL PFD 0 1 2 3 */                                           
+    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd0);///////		                                
+		CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd1);                                           
+    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd2);                                           
+    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd3);                                           
+    /* Deinit USB2 PLL */                                                       
+    CLOCK_DeinitUsb2Pll();                                                      
+    /* Deinit AUDIO PLL */                                                      
+    CLOCK_DeinitAudioPll();                                                     
+    /* Deinit VIDEO PLL */                                                      
+    CLOCK_DeinitVideoPll();                                                     
+    /* Deinit ENET PLL */                                                       
     CLOCK_DeinitEnetPll();
 }
 
+/**
+ * @brief 时钟设置为系统空闲模式
+ * @return 无
+ *   @retval 无
+ */
 void ClockSetToSystemIdle(void)
 {
     // CORE CLK mux to 24M before reconfigure PLLs
@@ -375,13 +409,13 @@ void ClockSetToSystemIdle(void)
     CLOCK_DeinitSysPfd(kCLOCK_Pfd3);
 
     /* Deinit USB1 PLL */
-    CLOCK_DeinitUsb1Pll();
+//    CLOCK_DeinitUsb1Pll();
 
-    /* Deinit USB1 PLL PFD 0 1 2 3 */
-    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd0);
-    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd1);
-    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd2);
-    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd3);
+//    /* Deinit USB1 PLL PFD 0 1 2 3 */
+//    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd0);
+//    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd1);
+//    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd2);
+//    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd3);
 
     /* Deinit USB2 PLL */
     CLOCK_DeinitUsb2Pll();
@@ -398,6 +432,11 @@ void ClockSetToSystemIdle(void)
     SwitchSystemClocks(LPM_PowerModeSysIdle);
 }
 
+/**
+ * @brief 时钟设置为低功耗空闲模式
+ * @return 无
+ *   @retval 无
+ */
 void ClockSetToLowPowerIdle(void)
 {
     // CORE CLK mux to 24M before reconfigure PLLs
@@ -416,14 +455,14 @@ void ClockSetToLowPowerIdle(void)
     CLOCK_DeinitSysPfd(kCLOCK_Pfd2);
     CLOCK_DeinitSysPfd(kCLOCK_Pfd3);
 
-    /* Deinit USB1 PLL */
-    CLOCK_DeinitUsb1Pll();
+//    /* Deinit USB1 PLL */
+//    CLOCK_DeinitUsb1Pll();
 
-    /* Deinit USB1 PLL PFD 0 1 2 3 */
-    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd0);
-    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd1);
-    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd2);
-    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd3);
+//    /* Deinit USB1 PLL PFD 0 1 2 3 */
+//    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd0);
+//    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd1);
+//    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd2);
+//    CLOCK_DeinitUsb1Pfd(kCLOCK_Pfd3);
 
     /* Deinit USB2 PLL */
     CLOCK_DeinitUsb2Pll();
@@ -440,6 +479,11 @@ void ClockSetToLowPowerIdle(void)
     SwitchSystemClocks(LPM_PowerModeLPIdle);
 }
 
+/**
+ * @brief 设置低功耗时钟门
+ * @return 无
+ *   @retval 无
+ */
 void SetLowPowerClockGate(void)
 {
     CCM->CCGR0 = CCM_CCGR0_CG0(1) | CCM_CCGR0_CG1(1) | CCM_CCGR0_CG3(3) | CCM_CCGR0_CG11(1) | CCM_CCGR0_CG12(1);
@@ -450,17 +494,27 @@ void SetLowPowerClockGate(void)
         CCM_CCGR4_CG1(1) | CCM_CCGR4_CG2(1) | CCM_CCGR4_CG4(1) | CCM_CCGR4_CG5(1) | CCM_CCGR4_CG6(1) | CCM_CCGR4_CG7(1);
     CCM->CCGR5 = CCM_CCGR5_CG0(1) | CCM_CCGR5_CG1(1) | CCM_CCGR5_CG4(1) | CCM_CCGR5_CG6(1) | CCM_CCGR5_CG12(1) |
                  CCM_CCGR5_CG14(1) | CCM_CCGR5_CG15(1);
-    /* We can enable DCDC when need to config it and close it after configuration */
+    /* 我们可以在需要配置时启用DCDC，并在配置后关闭它*/
     CCM->CCGR6 = CCM_CCGR6_CG3(1) | CCM_CCGR6_CG4(1) | CCM_CCGR6_CG5(1) | CCM_CCGR6_CG9(1) | CCM_CCGR6_CG10(1) |
                  CCM_CCGR6_CG11(1);
 }
 
+/**
+ * @brief 断电 USB PHY
+ * @return 无
+ *   @retval 无
+ */
 void PowerDownUSBPHY(void)
 {
     USBPHY1->CTRL = 0xFFFFFFFF;
     USBPHY2->CTRL = 0xFFFFFFFF;
 }
 
+/**
+ * @brief 配置串口引脚
+ * @return 无
+ *   @retval 无
+ */
 void ConfigUartRxPinToGpio(void)
 {
     IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_13_GPIO1_IO13, 0);
@@ -468,6 +522,11 @@ void ConfigUartRxPinToGpio(void)
                         IOMUXC_SW_PAD_CTL_PAD_PKE_MASK | IOMUXC_SW_PAD_CTL_PAD_PUS(2) | IOMUXC_SW_PAD_CTL_PAD_PUE_MASK);
 }
 
+/**
+ * @brief 再次配置串口引脚
+ * @return 无
+ *   @retval 无
+ */
 void ReConfigUartRxPin(void)
 {
     IOMUXC_SetPinMux(IOMUXC_GPIO_AD_B0_13_LPUART1_RX, 0);
@@ -528,27 +587,42 @@ void ReConfigUartRxPin(void)
 
 #define GPR12_STOP_MODE_BITS (IOMUXC_GPR_GPR12_FLEXIO1_IPG_STOP_MODE_MASK | IOMUXC_GPR_GPR12_FLEXIO2_IPG_STOP_MODE_MASK)
 
+/**
+ * @brief 外设进入打盹模式
+ * @return 无
+ *   @retval 无
+ */
 void PeripheralEnterDozeMode(void)
 {
-    IOMUXC_GPR->GPR8  = GPR8_DOZE_BITS;
+    IOMUXC_GPR->GPR8 = GPR8_DOZE_BITS;
     IOMUXC_GPR->GPR12 = GPR12_DOZE_BITS;
 }
 
+/**
+ * @brief 外设退出打盹模式
+ * @return 无
+ *   @retval 无
+ */
 void PeripheralExitDozeMode(void)
 {
-    IOMUXC_GPR->GPR8  = 0x00000000;
+    IOMUXC_GPR->GPR8 = 0x00000000;
     IOMUXC_GPR->GPR12 = 0x00000000;
 }
 
+/**
+ * @brief 外设退出停止模式
+ * @return 无
+ *   @retval 无
+ */
 void PeripheralEnterStopMode(void)
 {
     IOMUXC_GPR->GPR4 = IOMUXC_GPR_GPR4_ENET_STOP_REQ_MASK;
     while ((IOMUXC_GPR->GPR4 & IOMUXC_GPR_GPR4_ENET_STOP_ACK_MASK) != IOMUXC_GPR_GPR4_ENET_STOP_ACK_MASK)
     {
     }
-    IOMUXC_GPR->GPR4  = GPR4_STOP_REQ_BITS;
-    IOMUXC_GPR->GPR7  = GPR7_STOP_REQ_BITS;
-    IOMUXC_GPR->GPR8  = GPR8_DOZE_BITS | GPR8_STOP_MODE_BITS;
+    IOMUXC_GPR->GPR4 = GPR4_STOP_REQ_BITS;
+    IOMUXC_GPR->GPR7 = GPR7_STOP_REQ_BITS;
+    IOMUXC_GPR->GPR8 = GPR8_DOZE_BITS | GPR8_STOP_MODE_BITS;
     IOMUXC_GPR->GPR12 = GPR12_DOZE_BITS | GPR12_STOP_MODE_BITS;
     while ((IOMUXC_GPR->GPR4 & GPR4_STOP_ACK_BITS) != GPR4_STOP_ACK_BITS)
     {
@@ -557,7 +631,12 @@ void PeripheralEnterStopMode(void)
     {
     }
 }
-
+/**
+ * @brief 打印时钟频率
+ * @param run_freq_only 仅运行频率标志
+ * @return 无
+ *   @retval 无
+ */
 void APP_PrintRunFrequency(int32_t run_freq_only)
 {
     PRINTF("\r\n");

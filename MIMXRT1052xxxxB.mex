@@ -856,6 +856,11 @@
                         <data type="Frequency" unit="Hz">0</data>
                      </feature>
                   </dependency>
+                  <dependency resourceType="ClockOutput" resourceId="UART_CLK_ROOT" description="UART_CLK_ROOT is inactive.问题必须在其它工具中被解决。" problem_level="2" source="Peripherals:BOARD_InitPeripherals">
+                     <feature name="frequency" evaluation="greaterThan">
+                        <data type="Frequency" unit="Hz">0</data>
+                     </feature>
+                  </dependency>
                   <dependency resourceType="PeripheralUnifiedSignal" resourceId="LPUART2.uart_tx" description="Signal TX of the peripheral LPUART2 is not routed.问题必须在其它工具中被解决。" problem_level="1" source="Peripherals:BOARD_InitPeripherals">
                      <feature name="routed" evaluation="equal">
                         <data type="Boolean">true</data>
@@ -1025,7 +1030,7 @@
                      <config_set name="lpuartConfig_t">
                         <struct name="lpuartConfig">
                            <setting name="clockSource" value="LpuartClock"/>
-                           <setting name="lpuartSrcClkFreq" value="custom:80000000"/>
+                           <setting name="lpuartSrcClkFreq" value="BOARD_BootClockRUN"/>
                            <setting name="baudRate_Bps" value="115200"/>
                            <setting name="parityMode" value="kLPUART_ParityDisabled"/>
                            <setting name="dataBitsCount" value="kLPUART_EightDataBits"/>
@@ -1272,7 +1277,7 @@
             <component name="system" uuid="015d8baf-0ed2-43e0-93c0-49727678b60e" type_id="system_54b53072540eeeb8f8e9343e71f28176">
                <config_set_global name="global_system_definitions"/>
             </component>
-            <component name="msg" uuid="1eab3ab0-40f1-4034-815d-6cbb629e4a4d" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
+            <component name="msg" uuid="4d475c67-4fd9-4447-a006-4f7c177ab911" type_id="msg_6e2baaf3b97dbeef01c0043275f9a0e7">
                <config_set_global name="global_messages"/>
             </component>
          </components>

@@ -35,6 +35,9 @@
 /*  ARM::CMSIS:RTOS2:FreeRTOS:10.2.0 */
 #define RTE_CMSIS_RTOS2                 /* CMSIS-RTOS2 */
         #define RTE_CMSIS_RTOS2_FreeRTOS        /* CMSIS-RTOS2 FreeRTOS */
+/*  Keil.ARM Compiler::Compiler:Event Recorder:DAP:1.4.0 */
+#define RTE_Compiler_EventRecorder
+          #define RTE_Compiler_EventRecorder_DAP
 
 
 #endif /* RTE_COMPONENTS_H */

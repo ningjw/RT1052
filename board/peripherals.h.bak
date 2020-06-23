@@ -55,14 +55,6 @@ extern "C" {
 /* Definition of clock source */
 #define LPSPI4_CLOCK_FREQ 120000000UL
 /* Definition of peripheral ID */
-#define LPUART1_PERIPHERAL LPUART1
-/* Definition of the clock source frequency */
-#define LPUART1_CLOCK_SOURCE 80000000UL
-/* LPUART1 interrupt vector ID (number). */
-#define LPUART1_SERIAL_RX_TX_IRQN LPUART1_IRQn
-/* LPUART1 interrupt handler identifier. */
-#define LPUART1_SERIAL_RX_TX_IRQHANDLER LPUART1_IRQHandler
-/* Definition of peripheral ID */
 #define LPUART2_PERIPHERAL LPUART2
 /* Definition of the clock source frequency */
 #define LPUART2_CLOCK_SOURCE 80000000UL
@@ -124,7 +116,6 @@ extern const snvs_lp_srtc_config_t SNVS_LP_config;
 extern const lpi2c_master_config_t LPI2C1_masterConfig;
 extern const lpi2c_master_config_t LPI2C3_masterConfig;
 extern const lpspi_master_config_t LPSPI4_config;
-extern const lpuart_config_t LPUART1_config;
 extern const lpuart_config_t LPUART2_config;
 extern const pit_config_t PIT1_config;
 extern const qtmr_config_t QuadTimer1_Channel_0_config;

@@ -33,8 +33,8 @@ typedef struct
     uint8_t  try_cnt;         //用于记录当前重试次数
 }ATCfg_t;
 
-extern uint8_t g_puart2TxCnt;
-extern uint8_t g_puart2RxCnt;
+extern uint16_t g_puart2TxCnt;
+extern uint16_t g_puart2RxCnt;
 extern TaskHandle_t BLE_TaskHandle ;  /* 蓝牙任务句柄 */
 extern uint8_t g_lpuart2TxBuf[];
 extern uint8_t g_lpuart2RxBuf[];

@@ -85,7 +85,8 @@ int main(void)
     BOARD_InitDebugConsole();   /* 配置调试串口 */
 	PRINTF("app:\r\n");
     InitSysPara();              /* 初始化系统变量*/
-	LPM_Init();
+	LPM_Test();
+//	LPM_Init();
     FlexSPI_NorFlash_Init();    /* 初始化FlexSPI*/
     SysTick_Config(SystemCoreClock / configTICK_RATE_HZ);/*1ms中断，FreeRTOS使用*/
 	/* 创建AppTaskCreate任务。参数依次为：入口函数、名字、栈大小、函数参数、优先级、控制块 */ 
