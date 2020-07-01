@@ -66,11 +66,11 @@ extern "C" {
 /* Definition of peripheral ID. */
 #define PIT1_PERIPHERAL PIT
 /* Definition of clock source frequency. */
-#define PIT1_CLK_FREQ 66000000UL
+#define PIT1_CLK_FREQ 24000000UL
 /* Definition of ticks count for channel 0 - deprecated. */
-#define PIT1_0_TICKS 6599U
+#define PIT1_0_TICKS 2399U
 /* Definition of ticks count for channel 2 - deprecated. */
-#define PIT1_2_TICKS 65999999U
+#define PIT1_2_TICKS 23999999U
 /* Definition of channel number for channel 0. */
 #define PIT1_0 kPIT_Chnl_0
 /* Definition of channel number for channel 2. */
@@ -86,7 +86,7 @@ extern "C" {
 /* Definition of the timer channel Channel_0. */
 #define QUADTIMER1_CHANNEL_0_CHANNEL kQTMR_Channel_0
 /* Definition of the timer channel Channel_0 clock source frequency. */
-#define QUADTIMER1_CHANNEL_0_CLOCK_SOURCE 1031250UL
+#define QUADTIMER1_CHANNEL_0_CLOCK_SOURCE 234375UL
 /* QuadTimer1 interrupt vector ID (number). */
 #define QUADTIMER1_IRQN TMR1_IRQn
 /* QuadTimer1 interrupt handler identifier. */
@@ -96,7 +96,7 @@ extern "C" {
 /* Definition of the timer channel Channel_0. */
 #define QUADTIMER2_CHANNEL_0_CHANNEL kQTMR_Channel_0
 /* Definition of the timer channel Channel_0 clock source frequency. */
-#define QUADTIMER2_CHANNEL_0_CLOCK_SOURCE 16500000UL
+#define QUADTIMER2_CHANNEL_0_CLOCK_SOURCE 3750000UL
 /* QuadTimer2 interrupt vector ID (number). */
 #define QUADTIMER2_IRQN TMR2_IRQn
 /* QuadTimer2 interrupt handler identifier. */
@@ -106,7 +106,7 @@ extern "C" {
 /* Definition of the timer channel Channel_0. */
 #define QUADTIMER3_CHANNEL_0_CHANNEL kQTMR_Channel_0
 /* Definition of the timer channel Channel_0 clock source frequency. */
-#define QUADTIMER3_CHANNEL_0_CLOCK_SOURCE 132000000UL
+#define QUADTIMER3_CHANNEL_0_CLOCK_SOURCE 30000000UL
 
 /***********************************************************************************************************************
  * Global variables

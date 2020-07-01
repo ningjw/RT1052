@@ -186,9 +186,8 @@ void NorFlash_ReadAdcInfo(int si, int num, char *buf)
 		}
 		//读取数据到 adcInfo 结构体
 		memcpy(&adcInfo.AdcDataAddr, NORFLASH_AHB_POINTER(tempAddr), sizeof(adcInfo));
-		
-		strcat(buf, adcInfo.AdcDataTime);
-		strcat(buf,",");//添加分隔符
+		strncat(buf, adcInfo.AdcDataTime, 12);
+		strcat(buf, ",");//添加分隔符
 	}
 	if(strlen(buf) > 0){//去掉最后一个分隔符
 		buf[strlen(buf)-1] = 0x00;

@@ -3,8 +3,6 @@
 uint32_t SpeedADC[ADC_LEN];
 uint32_t ShakeADC[ADC_LEN];
 float Temperature[64];
-//char  SpeedStrADC[ADC_LEN * 4 + 1];
-//char  VibrateStrADC[ADC_LEN * 4 + 1];
 
 #define ADC_MODE_LOW_POWER       GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 1)  //低功耗模式
 #define ADC_MODE_HIGH_SPEED      GPIO_PinWrite(BOARD_ADC_MODE_GPIO, BOARD_ADC_MODE_PIN, 0)   //高速模式
@@ -70,18 +68,6 @@ void TMR1_IRQHandler(void)
 
 
 /***************************************************************************************
-  * @brief   用于获取转速信号的电压值,该采集通过PIT1的Channel0触发
-  * @input
-  * @return
-***************************************************************************************/
-//void ADC_ETC_IRQ0_IRQHandler(void)
-//{
-//    /*清除转换完成中断标志位*/
-//    ADC_ETC_ClearInterruptStatusFlags(ADC_ETC, (adc_etc_external_trigger_source_t)0U, kADC_ETC_Done0StatusFlagMask);
-//    /*读取转换结果*/
-//}
-
-/***************************************************************************************
   * @brief   用于检测ADC_RDY引脚下降沿中断引脚
   * @input
   * @return
@@ -104,8 +90,6 @@ void ADC_SampleStart(void)
     g_adc_set.shkCount = 0;
 	memset(ShakeADC,0,ADC_LEN);
 	memset(SpeedADC,0,ADC_LEN);
-//	memset(VibrateStrADC,0,sizeof(VibrateStrADC));
-//	memset(SpeedStrADC,0,sizeof(SpeedStrADC));
 
 		//判断自动关机条件
     if(g_sys_para.inactiveCondition != 1) {
@@ -123,6 +107,7 @@ void ADC_SampleStart(void)
 	//挂起电池与LED灯的任务,并停止PendSV与SysTick中断
     vTaskSuspend(BAT_TaskHandle);
     vTaskSuspend(LED_TaskHandle);
+	vTaskSuspend(LPM_TaskHandle);
 	NVIC_DisableIRQ(PendSV_IRQn);   
     NVIC_DisableIRQ(SysTick_IRQn);
 	
@@ -142,7 +127,7 @@ void ADC_SampleStart(void)
 
     /* 输出PWM 用于LTC1063FA的时钟输入,控制采样带宽*/
 	g_sys_para.Ltc1063Clk = 1000 * g_adc_set.SampleRate / 25;
-#ifndef HDV_1_0
+#ifdef HDV_1_0
 	g_sys_para.Ltc1063Clk = 1000000;
 #endif
     QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, CLOCK_GetFreq(kCLOCK_IpgClk));
@@ -213,6 +198,7 @@ void ADC_SampleStop(void)
 	
     vTaskResume(BAT_TaskHandle);
     vTaskResume(LED_TaskHandle);
+	vTaskResume(LPM_TaskHandle);
 	
 	//结束采集后获取一次温度
 	Temperature[g_sys_para.tempCount++] = MXL_ReadObjTemp();
@@ -239,16 +225,11 @@ void ADC_AppTask(void)
 {
     uint32_t r_event;
     BaseType_t xReturn = pdTRUE;
-    /* 配置ADC的外部触摸模式 */
-//    ADC_ETC_Config();
-//    XBARA_Configuration();
 
 	/*以下为开机自检代码*/
 	ADC_MODE_LOW_POWER;
 	ADC_PwmClkConfig(1000000);
-#ifndef HDV_1_0
 	si5351aSetClk0Frequency(1000000);
-#endif
 	g_sys_para.Ltc1063Clk = 1000 * g_adc_set.SampleRate / 25;
     QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, g_sys_para.Ltc1063Clk, 50U, false, CLOCK_GetFreq(kCLOCK_IpgClk));
     QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_PriSrcRiseEdge);
@@ -257,9 +238,7 @@ void ADC_AppTask(void)
     if(LPSPI4_ReadData() == 0) {
         g_sys_para.sampLedStatus = WORK_FATAL_ERR;
     }
-#ifndef HDV_1_0
 	SI5351a_SetPDN(SI_CLK0_CONTROL,false);
-#endif
 	QTMR_StopTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL);
 //	while (1) { //wait ads1271 ready
 //        while(ADC_READY == 1){};//等待ADC_READY为低电平
@@ -276,16 +255,16 @@ void ADC_AppTask(void)
         if ( pdTRUE == xReturn ) {
             /* 完成采样事件*/
             if(r_event & NOTIFY_FINISH) {
-#ifdef BLE_VERSION
-				//计算发送震动信号需要多少个包,蓝牙数据一次发送160个Byte的数据, 而一个采样点需要4Byte表示, 则一次传送40个采样点
-				g_sys_para.shkPacks = (g_adc_set.shkCount / 40) +  (g_adc_set.shkCount%40?1:0);
+
+				//计算发送震动信号需要多少个包,蓝牙数据一次发送180个Byte的数据, 而一个采样点需要3Byte表示, 则一次传送58个采样点
+				g_sys_para.shkPacks = (g_adc_set.shkCount / ADC_NUM_ONE_PACK) +  (g_adc_set.shkCount%ADC_NUM_ONE_PACK?1:0);
 				//计算发送转速信号需要多少个包
-				g_sys_para.spdPacks = (g_adc_set.spdCount / 40) +  (g_adc_set.spdCount%40?1:0);
+				g_sys_para.spdPacks = (g_adc_set.spdCount / ADC_NUM_ONE_PACK) +  (g_adc_set.spdCount%ADC_NUM_ONE_PACK?1:0);
+                
 				//计算将一次采集数据全部发送到Android需要多少个包
+#ifdef BLE_VERSION
 				g_adc_set.sampPacks = g_sys_para.spdPacks + g_sys_para.shkPacks + 3;
 #elif defined WIFI_VERSION
-				g_sys_para.shkPacks = (g_adc_set.shkCount / 250) +  (g_adc_set.shkCount%250?1:0);
-				g_sys_para.spdPacks = (g_adc_set.spdCount/250) +  (g_adc_set.spdCount%250?1:0);
 				g_adc_set.sampPacks = g_sys_para.spdPacks + g_sys_para.shkPacks + 1;
 #endif
                 /* ------------------统计平均温度,最小温度,最大温度--------------------*/

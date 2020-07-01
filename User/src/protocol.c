@@ -465,8 +465,8 @@ SEND_DATA:
 			g_lpuart2TxBuf[i++] = 0xE8;
 			g_lpuart2TxBuf[i++] = sid & 0xff;
 			g_lpuart2TxBuf[i++] = (sid >> 8) & 0xff;
-			index = 58*(sid - 3);
-			for(uint8_t j =0; j<58; j++){//每个数据占用3个byte;每包可以上传58个数据. 58*3=174
+			index = ADC_NUM_ONE_PACK*(sid - 3);
+			for(uint8_t j =0; j<ADC_NUM_ONE_PACK; j++){//每个数据占用3个byte;每包可以上传58个数据. 58*3=174
 				g_lpuart2TxBuf[i++] = (ShakeADC[index] >> 0) & 0xff;
 				g_lpuart2TxBuf[i++] = (ShakeADC[index] >> 8) & 0xff;
 				g_lpuart2TxBuf[i++] = (ShakeADC[index] >> 16)& 0xff;
@@ -481,9 +481,9 @@ SEND_DATA:
             g_lpuart2TxBuf[i++] = 0xE9;
 			g_lpuart2TxBuf[i++] = sid & 0xff;
 			g_lpuart2TxBuf[i++] = (sid >> 8) & 0xff;
-            index = (sid - 3 - g_sys_para.shkPacks) * 58;
+            index = (sid - 3 - g_sys_para.shkPacks) * ADC_NUM_ONE_PACK;
             //每个数据占用3个byte;每包可以上传58个数据. 58*3=174
-            for(uint8_t j =0; j<58; j++){//每个数据占用3个byte;每包可以上传58个数据. 58*3=174
+            for(uint8_t j =0; j<ADC_NUM_ONE_PACK; j++){//每个数据占用3个byte;每包可以上传58个数据. 58*3=174
 				g_lpuart2TxBuf[i++] = (SpeedADC[index] >> 0) & 0xff;
 				g_lpuart2TxBuf[i++] = (SpeedADC[index] >> 8) & 0xff;
 				g_lpuart2TxBuf[i++] = (SpeedADC[index] >> 16)& 0xff;
@@ -496,7 +496,8 @@ SEND_DATA:
         break;
     }
 
-
+	g_sys_para.inactiveCount = 0;
+	
     if(flag_get_all_data ) {
 		if(sid <= 2){
 			LPUART2_SendString((char *)p_reply);
@@ -506,6 +507,7 @@ SEND_DATA:
 			p_reply = NULL;
 		}else{
 			LPUART_WriteBlocking(LPUART2, g_lpuart2TxBuf, i);
+			LPUART_WriteBlocking(LPUART3, g_lpuart2TxBuf, i);
 		}
 		vTaskDelay(ble_wait_time);
         g_sys_para.sampPacksCnt++;
@@ -991,6 +993,7 @@ SEND_DATA:
         cJSON_AddNumberToObject(pJsonRoot, "Min", sampTime.minute);
         cJSON_AddNumberToObject(pJsonRoot, "S", sampTime.second);
         p_reply = cJSON_PrintUnformatted(pJsonRoot);
+		cJSON_Delete(pJsonRoot);
         break;
     default:
         memset(g_lpuart2TxBuf, 0, LPUART2_BUFF_LEN);
@@ -1031,9 +1034,9 @@ SEND_DATA:
         }
         break;
     }
-
-    cJSON_Delete(pJsonRoot);
-
+    
+	g_sys_para.inactiveCount = 0;
+	
     if(flag_get_all_data ) {
 		if(sid == 0){
 			LPUART2_SendString((char *)p_reply);

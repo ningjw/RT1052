@@ -21,9 +21,11 @@
 #define MAX_SECTOR         8192
 
 #ifdef BLE_VERSION
+    #define ADC_NUM_ONE_PACK   58
 	#define FIRM_ONE_PACKE_LEN 166 
 	#define FIRM_ONE_LEN (FIRM_ONE_PACKE_LEN - 6)
 #elif defined WIFI_VERSION
+	#define ADC_NUM_ONE_PACK   335
 	#define FIRM_ONE_PACKE_LEN 1006
 	#define FIRM_ONE_LEN (FIRM_ONE_PACKE_LEN - 6)
 #endif
@@ -184,6 +186,7 @@ typedef struct{
     uint32_t shkCount;   //震动信号采集到的个数
 }ADC_Set;
 
+extern TaskHandle_t LPM_TaskHandle;
 extern SysPara g_sys_para;
 extern ADC_Set g_adc_set;
 extern snvs_lp_srtc_datetime_t SNVS_LP_dateTimeStruct;

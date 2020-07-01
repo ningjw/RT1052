@@ -1,7 +1,7 @@
 #include "main.h"
 
 #define LPM_GPC_IMR_NUM (sizeof(GPC->IMR) / sizeof(GPC->IMR[0]))
-uint8_t s_wakeupTimeout = 2;            /* ªΩ–—≥¨ ±°£ £®µ•Œª£∫∫¡√Î£©*/
+uint8_t s_wakeupTimeout = 30;            /* ªΩ–—≥¨ ±°£ £®µ•Œª£∫∫¡√Î£©*/
 static uint32_t g_savedPrimask;
 
 /**

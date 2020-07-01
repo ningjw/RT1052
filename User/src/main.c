@@ -80,8 +80,11 @@ static void AppTaskCreate(void)
 void LPM_AppTask(void)
 {
 	while(1){
-		LPM_EnterSystemIdle();//每2ms调用一次该函数,进入系统空闲模式, 2ms后唤醒执行任务
-		vTaskDelay(2);
+		if(g_sys_para.inactiveCount > 30){//不活动30S后进入低功耗模式
+			LPM_EnterSystemIdle();//每20ms调用一次该函数,进入系统空闲模式, 20ms后唤醒执行任务
+			PRINTF("%d ",g_sys_para.inactiveCount);
+		}
+		vTaskDelay(5);
 	}
 }
 

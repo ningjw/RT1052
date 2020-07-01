@@ -195,11 +195,6 @@ void BLE_AppTask(void)
         memset(g_lpuart2RxBuf, 0, LPUART2_BUFF_LEN);
         g_puart2RxCnt = 0;
 
-        /* 待机条件为1, 接受到蓝牙数据就清0计数器*/
-        if(g_sys_para.inactiveCondition == 1) {
-            g_sys_para.inactiveCount = 0;
-        }
-
         /* 判断蓝牙连接状态*/
 		if(g_sys_para.BleWifiLedStatus != BLE_UPDATE){
 			if(!BLE_WIFI_STATUS()) { //Disconnected
@@ -219,8 +214,8 @@ void BLE_AppTask(void)
 ***************************************************************************************/
 void LPUART2_TimeTick(void)
 {
-	extern volatile uint32_t g_eventTimeMilliseconds;
-	g_eventTimeMilliseconds++;
+//	extern volatile uint32_t g_eventTimeMilliseconds;
+//	g_eventTimeMilliseconds++;
 	
     if(g_puart2StartRx)
     {
@@ -260,6 +255,7 @@ void LPUART2_IRQHandler(void)
         ucTemp = LPUART_ReadByte(LPUART2);
 		g_puart2StartRx = true;
 		g_puart2RxTimeCnt = 0;
+		g_sys_para.inactiveCount = 0;/* 接受到蓝牙数据就清0计数器*/
 		if(g_puart2RxCnt < LPUART2_BUFF_LEN) {
 			/* 将接受到的数据保存到数组*/
 			g_lpuart2RxBuf[g_puart2RxCnt++] = ucTemp;

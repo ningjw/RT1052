@@ -356,7 +356,7 @@ instance:
   - lpuartConfig_t:
     - lpuartConfig:
       - clockSource: 'LpuartClock'
-      - lpuartSrcClkFreq: 'custom:80000000'
+      - lpuartSrcClkFreq: 'BOARD_BootClockRUN'
       - baudRate_Bps: '115200'
       - parityMode: 'kLPUART_ParityDisabled'
       - dataBitsCount: 'kLPUART_EightDataBits'
@@ -457,9 +457,9 @@ const pit_config_t PIT1_config = {
 void PIT1_init(void) {
   /* Initialize the PIT. */
   PIT_Init(PIT1_PERIPHERAL, &PIT1_config);
-  /* Set channel 0 period to 100 µs (6600 ticks). */
+  /* Set channel 0 period to 100 µs (2400 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, PIT1_0, PIT1_0_TICKS);
-  /* Set channel 2 period to 1 s (66000000 ticks). */
+  /* Set channel 2 period to 1 s (24000000 ticks). */
   PIT_SetTimerPeriod(PIT1_PERIPHERAL, PIT1_2, PIT1_2_TICKS);
   /* Enable interrupts from channel 2. */
   PIT_EnableInterrupts(PIT1_PERIPHERAL, PIT1_2, kPIT_TimerInterruptEnable);
@@ -663,7 +663,7 @@ void QuadTimer3_init(void) {
   /* Quad timer channel Channel_0 peripheral initialization */
   QTMR_Init(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, &QuadTimer3_Channel_0_config);
   /* Setup the PWM mode of the timer channel */
-  QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, 132000UL, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
+  QTMR_SetupPwm(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, 120000UL, 50U, false, QUADTIMER3_CHANNEL_0_CLOCK_SOURCE);
   /* Start the timer - select the timer counting mode */
   QTMR_StartTimer(QUADTIMER3_PERIPHERAL, QUADTIMER3_CHANNEL_0_CHANNEL, kQTMR_NoOperation);
 }
