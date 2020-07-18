@@ -115,6 +115,7 @@ void BLE_Init(void)
 	BLE_SendCmd("AT+BAUD=230400\r\n","OK",300);
     LPUART_SetBaudRate(LPUART2, 230400, LPUART2_CLOCK_SOURCE);
 	BLE_SendCmd("AT+NAME=BLE Communication\r\n","OK",300);/* 设置蓝牙名称 */
+	BLE_SendCmd("AT+VER\r\n","OK",300);/* 读取版本号 */
 	BLE_SendCmd("AT+LPM=0\r\n","OK",300);/*关闭低功耗模式*/
     BLE_SendCmd("AT+TPMODE=1\r\n","OK",300);/* 开启透传模式 */
 	SET_THROUGHPUT_MODE();
@@ -196,13 +197,13 @@ void BLE_AppTask(void)
         g_puart2RxCnt = 0;
 
         /* 判断蓝牙连接状态*/
-		if(g_sys_para.BleWifiLedStatus != BLE_UPDATE){
-			if(!BLE_WIFI_STATUS()) { //Disconnected
-				g_sys_para.BleWifiLedStatus = BLE_READY;
-			} else { 
-				g_sys_para.BleWifiLedStatus = BLE_CONNECT;//Connected
-			}
-		}
+//		if(g_sys_para.BleWifiLedStatus != BLE_UPDATE){
+//			if(!BLE_WIFI_STATUS()) { //Disconnected
+//				g_sys_para.BleWifiLedStatus = BLE_READY;
+//			} else { 
+//				g_sys_para.BleWifiLedStatus = BLE_CONNECT;//Connected
+//			}
+//		}
     }
 }
 

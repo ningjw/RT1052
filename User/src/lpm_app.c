@@ -1,7 +1,22 @@
 #include "main.h"
 
+#define GPR8_DOZE_BITS                                                               \
+    (IOMUXC_GPR_GPR8_LPI2C1_IPG_DOZE_MASK | IOMUXC_GPR_GPR8_LPI2C2_IPG_DOZE_MASK |   \
+     IOMUXC_GPR_GPR8_LPI2C3_IPG_DOZE_MASK | IOMUXC_GPR_GPR8_LPI2C4_IPG_DOZE_MASK |   \
+     IOMUXC_GPR_GPR8_LPSPI1_IPG_DOZE_MASK | IOMUXC_GPR_GPR8_LPSPI2_IPG_DOZE_MASK |   \
+     IOMUXC_GPR_GPR8_LPSPI3_IPG_DOZE_MASK | IOMUXC_GPR_GPR8_LPSPI4_IPG_DOZE_MASK |   \
+     IOMUXC_GPR_GPR8_LPUART1_IPG_DOZE_MASK | IOMUXC_GPR_GPR8_LPUART2_IPG_DOZE_MASK | \
+     IOMUXC_GPR_GPR8_LPUART3_IPG_DOZE_MASK | IOMUXC_GPR_GPR8_LPUART4_IPG_DOZE_MASK | \
+     IOMUXC_GPR_GPR8_LPUART5_IPG_DOZE_MASK | IOMUXC_GPR_GPR8_LPUART6_IPG_DOZE_MASK | \
+     IOMUXC_GPR_GPR8_LPUART7_IPG_DOZE_MASK | IOMUXC_GPR_GPR8_LPUART8_IPG_DOZE_MASK)
+
+#define GPR12_DOZE_BITS (IOMUXC_GPR_GPR12_FLEXIO1_IPG_DOZE_MASK | IOMUXC_GPR_GPR12_FLEXIO2_IPG_DOZE_MASK)
+
+
 #define LPM_GPC_IMR_NUM (sizeof(GPC->IMR) / sizeof(GPC->IMR[0]))
-uint8_t s_wakeupTimeout = 30;            /* 唤醒超时。 （单位：毫秒）*/
+	
+uint8_t s_wakeupTimeout = 20;            /* 唤醒超时。 （单位：毫秒）*/
+
 static uint32_t g_savedPrimask;
 
 /**
@@ -113,6 +128,18 @@ void LPM_Init(void)
 }
 
 
+void PeripheralEnterDozeMode(void)
+{
+    IOMUXC_GPR->GPR8  = GPR8_DOZE_BITS;
+    IOMUXC_GPR->GPR12 = GPR12_DOZE_BITS;
+}
+
+void PeripheralExitDozeMode(void)
+{
+    IOMUXC_GPR->GPR8  = 0x00000000;
+    IOMUXC_GPR->GPR12 = 0x00000000;
+}
+
 /***************************************************************************************
   * @brief   
   * @input   
@@ -126,6 +153,9 @@ void LPM_EnterSystemIdle(void)
 	GPT_StartTimer(GPT2);
 	LPM_EnableWakeupSource(GPT2_IRQn);
 	
+	USBPHY1->CTRL = 0xFFFFFFFF;
+    USBPHY2->CTRL = 0xFFFFFFFF;
+	
 	g_savedPrimask = DisableGlobalIRQ();
     __DSB();
     __ISB();
@@ -138,10 +168,12 @@ void LPM_EnterSystemIdle(void)
     /* 断开负载电阻的内部 */
     DCDC->REG1 &= ~DCDC_REG1_REG_RLOAD_SW_MASK;
 
+//	PeripheralEnterDozeMode();
     __DSB();
     __WFI();
     __ISB();
 	
+//	PeripheralExitDozeMode();
 	/* 连接内部负载电阻 */
     DCDC->REG1 |= DCDC_REG1_REG_RLOAD_SW_MASK;
     /*将SOC电压调整为1.275V */

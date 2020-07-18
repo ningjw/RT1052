@@ -28,6 +28,16 @@ void BAT_AppTask(void)
 
 	LTC2942_SetALCCMode(LTC2942_ALCC_DISABLED);
 	
+	g_sys_para.batRegAC = LTC2942_GetAC();
+	if(g_sys_para.batRegAC >= 0x7FE0 && g_sys_para.batRegAC <= 0x7FFF){//此时电池电量检测芯片中的AC值为完全掉电后的值,需要从flash中取
+		g_sys_para.batRegAC = NORFLASH_AHB_READ_HALFWORD(BAT_PERCENT_SEC * SECTOR_SIZE);
+		LTC2942_SetAC(g_sys_para.batRegAC);
+		
+		//调试时增加这条语句,为了测试拔掉电池后再上电会不会成功执行到该if语句里
+		//要正常看到电池亮红灯,还需要注释掉while(1)中对电池状态的检测代码
+//		g_sys_para.batLedStatus = BAT_CHARGING;
+	}
+	
     PRINTF("Battery Task Create and Running\r\n");
 
     while(1)
@@ -39,7 +49,24 @@ void BAT_AppTask(void)
 //        g_sys_para.batTemp = LTC2942_GetTemperature() / 100.0;
 
         // 获取电量百分比
-        g_sys_para.batRemainPercent = LTC2942_GetAC() * 100.0 / 0xFFFF;
+		g_sys_para.batRegAC = LTC2942_GetAC();
+		if(g_sys_para.batRegAC > 0x7FE0 && g_sys_para.batRegAC <= 0x7FFF){//这里保证AC寄存器里的数据不为7FFF,因为7FFF在开机时会作为一个判断
+			if(READ_CHARGE_STA == 0 && READ_STDBY_STA == 1) {//充电当中
+				g_sys_para.batRegAC = 0x8000;
+				LTC2942_SetAC(0x8000);
+			}else{
+				g_sys_para.batRegAC = 0x7FE0;
+				LTC2942_SetAC(0x7FE0);
+			}
+			NroFlash_SaveBatPercent();//将AC寄存器的值写入flash保存下来
+		}
+        g_sys_para.batRemainPercent = g_sys_para.batRegAC * 100.0 / 0xFFFF;
+		
+		//当保存在flash中的电池电量与当前电池电量不相等时
+		//将当前电量重新保存到flash当中
+		if(g_sys_para.batRemainPercent != g_sys_para.batRemainPercentBak){
+			NroFlash_SaveBatPercent();
+		}
 		
         if(READ_CHARGE_STA == 0 && READ_STDBY_STA == 1) {//充电当中
             g_sys_para.batLedStatus = BAT_CHARGING;

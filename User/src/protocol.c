@@ -4,7 +4,7 @@ extern uint8_t s_nor_program_buffer[];
 extern AdcInfoTotal adcInfoTotal;
 extern AdcInfo adcInfo;
 snvs_lp_srtc_datetime_t sampTime;
-uint16_t ble_wait_time = 5;
+uint16_t ble_wait_time = 100;
 
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
@@ -466,15 +466,17 @@ SEND_DATA:
 			g_lpuart2TxBuf[i++] = sid & 0xff;
 			g_lpuart2TxBuf[i++] = (sid >> 8) & 0xff;
 			index = ADC_NUM_ONE_PACK*(sid - 3);
-			for(uint8_t j =0; j<ADC_NUM_ONE_PACK; j++){//每个数据占用3个byte;每包可以上传58个数据. 58*3=174
+			for(uint16_t j =0; j<ADC_NUM_ONE_PACK; j++){//每个数据占用3个byte;每包可以上传58个数据. 58*3=174
 				g_lpuart2TxBuf[i++] = (ShakeADC[index] >> 0) & 0xff;
 				g_lpuart2TxBuf[i++] = (ShakeADC[index] >> 8) & 0xff;
 				g_lpuart2TxBuf[i++] = (ShakeADC[index] >> 16)& 0xff;
 				index++;
 			}
-			uint16_t crc = CRC16(g_lpuart2TxBuf, i);
-			g_lpuart2TxBuf[i++] = crc & 0xff;
-			g_lpuart2TxBuf[i++] = crc >> 8;
+			g_lpuart2TxBuf[i++] = 0xEA;
+			g_lpuart2TxBuf[i++] = 0xEB;
+			g_lpuart2TxBuf[i++] = 0xEC;
+			g_lpuart2TxBuf[i++] = 0xED;
+			
         }
         else if(sid - 3 - g_sys_para.shkPacks < g_adc_set.spdCount)
         {
@@ -483,38 +485,41 @@ SEND_DATA:
 			g_lpuart2TxBuf[i++] = (sid >> 8) & 0xff;
             index = (sid - 3 - g_sys_para.shkPacks) * ADC_NUM_ONE_PACK;
             //每个数据占用3个byte;每包可以上传58个数据. 58*3=174
-            for(uint8_t j =0; j<ADC_NUM_ONE_PACK; j++){//每个数据占用3个byte;每包可以上传58个数据. 58*3=174
+            for(uint16_t j =0; j<ADC_NUM_ONE_PACK; j++){//每个数据占用3个byte;每包可以上传58个数据. 58*3=174
 				g_lpuart2TxBuf[i++] = (SpeedADC[index] >> 0) & 0xff;
 				g_lpuart2TxBuf[i++] = (SpeedADC[index] >> 8) & 0xff;
 				g_lpuart2TxBuf[i++] = (SpeedADC[index] >> 16)& 0xff;
 				index++;
 			}
-			uint16_t crc = CRC16(g_lpuart2TxBuf, i);
-			g_lpuart2TxBuf[i++] = crc & 0xff;
-			g_lpuart2TxBuf[i++] = crc >> 8;
+			g_lpuart2TxBuf[i++] = 0xEA;
+			g_lpuart2TxBuf[i++] = 0xEB;
+			g_lpuart2TxBuf[i++] = 0xEC;
+			g_lpuart2TxBuf[i++] = 0xED;
         }
         break;
     }
 
 	g_sys_para.inactiveCount = 0;
 	
-    if(flag_get_all_data ) {
-		if(sid <= 2){
-			LPUART2_SendString((char *)p_reply);
-			PRINTF("%s\r\n",(char *)p_reply);
-			cJSON_Delete(pJsonRoot);
-			free(p_reply);
-			p_reply = NULL;
-		}else{
-			LPUART_WriteBlocking(LPUART2, g_lpuart2TxBuf, i);
-			LPUART_WriteBlocking(LPUART3, g_lpuart2TxBuf, i);
-		}
-		vTaskDelay(ble_wait_time);
-        g_sys_para.sampPacksCnt++;
-        if(g_sys_para.sampPacksCnt < g_adc_set.sampPacks) {
-            goto SEND_DATA;
-        }
-    }
+	if(sid <= 2){
+//			while(BLE_WIFI_STATUS() == 1){};//在这里等待低电平
+		LPUART2_SendString((char *)p_reply);
+		PRINTF("%s\r\n",(char *)p_reply);
+		cJSON_Delete(pJsonRoot);
+		free(p_reply);
+		p_reply = NULL;
+	}else{
+//			while(BLE_WIFI_STATUS() == 1){};//在这里等待低电平
+		LPUART_WriteBlocking(LPUART2, g_lpuart2TxBuf, i);
+//		LPUART_WriteBlocking(LPUART3, g_lpuart2TxBuf, i);
+	}
+	vTaskDelay(ble_wait_time);
+	
+	//获取所有的数据包
+	if(g_sys_para.sampPacksCnt < g_adc_set.sampPacks && flag_get_all_data) {
+		g_sys_para.sampPacksCnt++;
+		goto SEND_DATA;
+	}
 
     return p_reply;
 }
@@ -934,7 +939,7 @@ char * GetSampleDataByWifi(cJSON *pJson, cJSON * pSub)
 {
     uint32_t sid = 0, i =0;
     uint32_t index = 0;
-    uint32_t flag_get_all_data = 0;
+    uint32_t flag_get_all_data = false;
     g_sys_para.sampPacksCnt = 0;
     cJSON *pJsonRoot = NULL;
     char *p_reply = NULL;
@@ -942,7 +947,7 @@ char * GetSampleDataByWifi(cJSON *pJson, cJSON * pSub)
     pSub = cJSON_GetObjectItem(pJson, "Sid");
     sid = pSub->valueint;
     if(sid == g_adc_set.sampPacks) {
-        flag_get_all_data = 1;
+        flag_get_all_data = true;
     }
 
 SEND_DATA:
@@ -1011,9 +1016,10 @@ SEND_DATA:
 				g_lpuart2TxBuf[i++] = (ShakeADC[index] >> 16)& 0xff;
 				index++;
 			}
-			uint16_t crc = CRC16(g_lpuart2TxBuf, i);
-			g_lpuart2TxBuf[i++] = crc & 0xff;
-			g_lpuart2TxBuf[i++] = crc >> 8;
+			g_lpuart2TxBuf[i++] = 0xEA;
+			g_lpuart2TxBuf[i++] = 0xEB;
+			g_lpuart2TxBuf[i++] = 0xEC;
+			g_lpuart2TxBuf[i++] = 0xED;
         }
         else if(sid - 3 - g_sys_para.shkPacks < g_adc_set.spdCount)
         {
@@ -1028,29 +1034,28 @@ SEND_DATA:
 				g_lpuart2TxBuf[i++] = (SpeedADC[index] >> 16)& 0xff;
 				index++;
 			}
-			uint16_t crc = CRC16(g_lpuart2TxBuf, i);
-			g_lpuart2TxBuf[i++] = crc & 0xff;
-			g_lpuart2TxBuf[i++] = crc >> 8;
+			g_lpuart2TxBuf[i++] = 0xEA;
+			g_lpuart2TxBuf[i++] = 0xEB;
+			g_lpuart2TxBuf[i++] = 0xEC;
+			g_lpuart2TxBuf[i++] = 0xED;
         }
         break;
     }
     
 	g_sys_para.inactiveCount = 0;
 	
-    if(flag_get_all_data ) {
-		if(sid == 0){
-			LPUART2_SendString((char *)p_reply);
-			free(p_reply);
-			p_reply = NULL;
-		}else{
-			LPUART_WriteBlocking(LPUART2, g_lpuart2TxBuf, i);
-		}
-		vTaskDelay(ble_wait_time);
-        g_sys_para.sampPacksCnt++;
-        if(g_sys_para.sampPacksCnt < g_adc_set.sampPacks) {
-            goto SEND_DATA;
-        }
-    }
+	if(sid == 0){
+		LPUART2_SendString((char *)p_reply);
+		free(p_reply);
+		p_reply = NULL;
+	}else{
+		LPUART_WriteBlocking(LPUART2, g_lpuart2TxBuf, i);
+	}
+	vTaskDelay(ble_wait_time);
+	if(g_sys_para.sampPacksCnt < g_adc_set.sampPacks && flag_get_all_data) {
+		g_sys_para.sampPacksCnt++;
+		goto SEND_DATA;
+	}
 
     return p_reply;
 }

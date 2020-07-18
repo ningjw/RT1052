@@ -31,6 +31,18 @@ void NorFlash_SaveUpgradePara(void)
 }
 
 /***************************************************************************************
+  * @brief   保存电池电量
+  * @input   
+  * @return  
+***************************************************************************************/
+void NroFlash_SaveBatPercent()
+{
+	FlexSPI_NorFlash_Erase_Sector(FLEXSPI, BAT_PERCENT_SEC * SECTOR_SIZE);
+    FlexSPI_NorFlash_Buffer_Program(FLEXSPI, BAT_PERCENT_SEC * SECTOR_SIZE, (uint8_t *)&g_sys_para.batRegAC, 4);
+	g_sys_para.batRemainPercentBak = g_sys_para.batRemainPercent;
+}
+
+/***************************************************************************************
   * @brief   增加一条ADC数据
   * @input   
   * @return  

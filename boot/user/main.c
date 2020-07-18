@@ -14,9 +14,10 @@
  *******************************************************************/
 
 volatile bool test = false;
-uint32_t appSize = 0x32000;
+
 typedef void (*iapFun)(void);
 iapFun appMain; 
+
 __asm void MSR_MSP(uint32_t address)
 {
 	MSR MSP, r0

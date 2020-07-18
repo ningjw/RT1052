@@ -1,20 +1,20 @@
 #ifndef __MAIN_H
 #define __MAIN_H
 
-#define SOFT_VERSION       "0.15"
+#define SOFT_VERSION       "0.16"
 #define HARD_VERSION       "1.1"
 
 #define BLE_VERSION
 //#define WIFI_VERSION 
 #define HDV_1_0
 
-#define ULONG_MAX          0xFFFFFFFF
+#define ULONG_MAX     0xFFFFFFFF
 #define EVT_OK       (1 << 0)
 #define EVT_TIMTOUT  (1 << 1)
 
-
-#define APP_INFO_SECTOR    128 /* 升级信息保存在NorFlash的第63个扇区*/
-#define APP_START_SECTOR   129 /* App数据从第64个扇区开始保存 */
+#define BAT_PERCENT_SEC    127 /*用于保存电池电量*/
+#define APP_INFO_SECTOR    128 /* 升级信息保存*/
+#define APP_START_SECTOR   129 /* App数据 */
 #define ADC_INFO_SECTOR    256 //用于管理ADC数据
 #define MAX_ADC_INFO       2047//有10个sector用于管理ADC采样数据, 每个采样数据占用20byte, 共可以保存40960/20=2048个
 #define ADC_DATA_SECTOR    266
@@ -123,7 +123,9 @@ typedef struct{
     float    batTemp;      //电池温度
     float    objTemp;      //物体温度
 	float    envTemp;      //环境温度
-    float    batRemainPercent;//充电百分比
+    uint32_t    batRemainPercent;//充电百分比
+	uint32_t batRegAC;//电池管理芯片AC寄存器值
+	uint32_t batRemainPercentBak;//保存在flash中的电池电量百分比
 	
     uint32_t sampNumber;  //取样时间
     uint32_t Ltc1063Clk;  //取样时钟频率
