@@ -2,10 +2,11 @@
 .\objects\system_mimxrt1052.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
 .\objects\system_mimxrt1052.o: RTE\Device\MIMXRT1052CVL5B\fsl_device_registers.h
 .\objects\system_mimxrt1052.o: RTE\Device\MIMXRT1052CVL5B\MIMXRT1052.h
-.\objects\system_mimxrt1052.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\core_cm7.h
-.\objects\system_mimxrt1052.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_version.h
-.\objects\system_mimxrt1052.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_compiler.h
-.\objects\system_mimxrt1052.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\cmsis_armcc.h
-.\objects\system_mimxrt1052.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSIS\Core\Include\mpu_armv7.h
+.\objects\system_mimxrt1052.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\core_cm7.h
+.\objects\system_mimxrt1052.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_version.h
+.\objects\system_mimxrt1052.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_compiler.h
+.\objects\system_mimxrt1052.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cmsis_armcc.h
+.\objects\system_mimxrt1052.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\mpu_armv7.h
+.\objects\system_mimxrt1052.o: C:\Users\ningjw\AppData\Local\Arm\Packs\ARM\CMSIS\5.7.0\CMSIS\Core\Include\cachel1_armv7.h
 .\objects\system_mimxrt1052.o: RTE\Device\MIMXRT1052CVL5B\system_MIMXRT1052.h
 .\objects\system_mimxrt1052.o: RTE\Device\MIMXRT1052CVL5B\MIMXRT1052_features.h

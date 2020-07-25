@@ -398,7 +398,9 @@ char * GetSampleData(cJSON *pJson, cJSON * pSub)
     sid = pSub->valueint;
     if(sid == g_adc_set.sampPacks) {
         flag_get_all_data = 1;
-    }
+    }else{
+		flag_get_all_data = 0;
+	}
 
 SEND_DATA:
     if(flag_get_all_data) {//连续获取所有的采样数据
@@ -476,7 +478,6 @@ SEND_DATA:
 			g_lpuart2TxBuf[i++] = 0xEB;
 			g_lpuart2TxBuf[i++] = 0xEC;
 			g_lpuart2TxBuf[i++] = 0xED;
-			
         }
         else if(sid - 3 - g_sys_para.shkPacks < g_adc_set.spdCount)
         {
@@ -512,11 +513,12 @@ SEND_DATA:
 //			while(BLE_WIFI_STATUS() == 1){};//在这里等待低电平
 		LPUART_WriteBlocking(LPUART2, g_lpuart2TxBuf, i);
 //		LPUART_WriteBlocking(LPUART3, g_lpuart2TxBuf, i);
+//		PRINTF("sid = %d ; 数据长度 = %d\r\n",sid, i);
 	}
-	vTaskDelay(ble_wait_time);
 	
 	//获取所有的数据包
-	if(g_sys_para.sampPacksCnt < g_adc_set.sampPacks && flag_get_all_data) {
+	if(g_sys_para.sampPacksCnt < (g_adc_set.sampPacks-1) && flag_get_all_data) {
+		vTaskDelay(ble_wait_time);
 		g_sys_para.sampPacksCnt++;
 		goto SEND_DATA;
 	}
@@ -1052,7 +1054,7 @@ SEND_DATA:
 		LPUART_WriteBlocking(LPUART2, g_lpuart2TxBuf, i);
 	}
 	vTaskDelay(ble_wait_time);
-	if(g_sys_para.sampPacksCnt < g_adc_set.sampPacks && flag_get_all_data) {
+	if(g_sys_para.sampPacksCnt < (g_adc_set.sampPacks-1) && flag_get_all_data) {
 		g_sys_para.sampPacksCnt++;
 		goto SEND_DATA;
 	}

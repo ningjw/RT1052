@@ -6,7 +6,7 @@
 
 #define BLE_VERSION
 //#define WIFI_VERSION 
-#define HDV_1_0
+//#define HDV_1_0
 
 #define ULONG_MAX     0xFFFFFFFF
 #define EVT_OK       (1 << 0)

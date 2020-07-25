@@ -263,7 +263,7 @@ void ADC_AppTask(void)
 //					PRINTF("%01.5f,",tempValue);
 //                }
 				
-				//计算发送震动信号需要多少个包,蓝牙数据一次发送180个Byte的数据, 而一个采样点需要3Byte表示, 则一次传送58个采样点
+				//计算发送震动信号需要多少个包,蓝牙数据一次发送182个Byte的数据, 而一个采样点需要3Byte表示, 则一次传送58个采样点
 				g_sys_para.shkPacks = (g_adc_set.shkCount / ADC_NUM_ONE_PACK) +  (g_adc_set.shkCount%ADC_NUM_ONE_PACK?1:0);
 				//计算发送转速信号需要多少个包
 				g_sys_para.spdPacks = (g_adc_set.spdCount / ADC_NUM_ONE_PACK) +  (g_adc_set.spdCount%ADC_NUM_ONE_PACK?1:0);
