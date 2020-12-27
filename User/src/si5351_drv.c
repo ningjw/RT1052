@@ -14,6 +14,7 @@ void SI5351_WriteReg(uint8_t reg, uint8_t value)
 	status_t sta = kStatus_Fail;
     lpi2c_master_transfer_t masterXfer = {0};
     uint8_t data = value;
+	
     masterXfer.slaveAddress = SI5351_ADDR;
     masterXfer.direction = kLPI2C_Write;
     masterXfer.subaddress = reg;

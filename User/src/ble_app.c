@@ -152,7 +152,7 @@ void BLE_AppTask(void)
 
             /* 处理蓝牙数据协议 */
             sendBuf = ParseProtocol(g_lpuart2RxBuf);
-
+			
 			/* 是否接受完成整个数据包 */
 			if( g_sys_para.firmUpdate == true) {
 				//将参数存入Nor Flash

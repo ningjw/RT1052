@@ -4,8 +4,8 @@
 #define SOFT_VERSION       "0.16"
 #define HARD_VERSION       "1.1"
 
-#define BLE_VERSION
-//#define WIFI_VERSION 
+//#define BLE_VERSION
+#define WIFI_VERSION 
 //#define HDV_1_0
 
 #define ULONG_MAX     0xFFFFFFFF

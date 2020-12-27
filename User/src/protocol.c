@@ -4,7 +4,7 @@ extern uint8_t s_nor_program_buffer[];
 extern AdcInfoTotal adcInfoTotal;
 extern AdcInfo adcInfo;
 snvs_lp_srtc_datetime_t sampTime;
-uint16_t ble_wait_time = 100;
+uint16_t ble_wait_time = 10;
 
 /***************************************************************************************
   * @brief   处理消息id为1的消息, 该消息设置点检仪RTC时间
@@ -102,9 +102,9 @@ static char * CheckSelf(void)
     g_sys_para.objTemp = MXL_ReadObjTemp();
 
     //震动传感器电压
-    while (ADC_READY == 0);  //wait ads1271 ready
-    g_sys_para.voltageADS1271 = LPSPI4_ReadData() * g_adc_set.bias * 1.0f / 0x800000;
-
+    //while (ADC_READY == 0);  //wait ads1271 ready
+    //g_sys_para.voltageADS1271 = LPSPI4_ReadData() * g_adc_set.bias * 1.0f / 0x800000;
+	
     cJSON_AddNumberToObject(pJsonRoot, "Id", 3);
     cJSON_AddNumberToObject(pJsonRoot, "Sid",0);
     cJSON_AddNumberToObject(pJsonRoot, "AdcV", g_sys_para.voltageADS1271);  //振动传感器偏置电压
@@ -214,7 +214,7 @@ static char * SetSamplePara(cJSON *pJson, cJSON * pSub)
             memset(g_adc_set.NamePath, 0, sizeof(g_adc_set.NamePath));
             strcpy(g_adc_set.NamePath, pSub->valuestring);
         }
-        pSub = cJSON_GetObjectItem(pJson, "D");
+        pSub = cJSON_GetObjectItem(pJson, "WT");
         if (NULL != pSub) {
             ble_wait_time = pSub->valueint;
         }
@@ -230,11 +230,11 @@ static char * SetSamplePara(cJSON *pJson, cJSON * pSub)
             memset(g_adc_set.ProcessUnits, 0, sizeof(g_adc_set.ProcessUnits));
             strcpy(g_adc_set.ProcessUnits, pSub->valuestring);
         }
-        pSub = cJSON_GetObjectItem(pJson, "D");
+        pSub = cJSON_GetObjectItem(pJson, "DT");
         if (NULL != pSub) {
             g_adc_set.DetectionType = pSub->valueint;
         }
-        pSub = cJSON_GetObjectItem(pJson, "S");
+        pSub = cJSON_GetObjectItem(pJson, "ST");
         if (NULL != pSub) {
             g_adc_set.Senstivity = pSub->valuedouble;
         }
@@ -424,8 +424,8 @@ SEND_DATA:
     case 1:
         cJSON_AddStringToObject(pJsonRoot, "SU", g_adc_set.SpeedUnits);
         cJSON_AddStringToObject(pJsonRoot, "PU", g_adc_set.ProcessUnits);
-        cJSON_AddNumberToObject(pJsonRoot, "D", g_adc_set.DetectionType);
-        cJSON_AddNumberToObject(pJsonRoot, "S", g_adc_set.Senstivity);
+        cJSON_AddNumberToObject(pJsonRoot, "DT", g_adc_set.DetectionType);
+        cJSON_AddNumberToObject(pJsonRoot, "ST", g_adc_set.Senstivity);
         cJSON_AddNumberToObject(pJsonRoot, "ZD", g_adc_set.Zerodrift);
         cJSON_AddNumberToObject(pJsonRoot, "ET", g_adc_set.EUType);
         cJSON_AddStringToObject(pJsonRoot, "EU", g_adc_set.EU);
@@ -827,7 +827,7 @@ static char * SetSampleParaByWifi(cJSON *pJson, cJSON * pSub)
         memset(g_adc_set.NamePath, 0, sizeof(g_adc_set.NamePath));
         strcpy(g_adc_set.NamePath, pSub->valuestring);
     }
-    pSub = cJSON_GetObjectItem(pJson, "D");
+    pSub = cJSON_GetObjectItem(pJson, "WT");
     if (NULL != pSub) {
         ble_wait_time = pSub->valueint;
     }
@@ -842,11 +842,11 @@ static char * SetSampleParaByWifi(cJSON *pJson, cJSON * pSub)
         memset(g_adc_set.ProcessUnits, 0, sizeof(g_adc_set.ProcessUnits));
         strcpy(g_adc_set.ProcessUnits, pSub->valuestring);
     }
-    pSub = cJSON_GetObjectItem(pJson, "D");
+    pSub = cJSON_GetObjectItem(pJson, "DT");
     if (NULL != pSub) {
         g_adc_set.DetectionType = pSub->valueint;
     }
-    pSub = cJSON_GetObjectItem(pJson, "S");
+    pSub = cJSON_GetObjectItem(pJson, "ST");
     if (NULL != pSub) {
         g_adc_set.Senstivity = pSub->valuedouble;
     }
@@ -965,13 +965,13 @@ SEND_DATA:
 		}
 		cJSON_AddNumberToObject(pJsonRoot, "Id", 18);
 		cJSON_AddNumberToObject(pJsonRoot, "Sid",sid);
-        cJSON_AddNumberToObject(pJsonRoot, "D", ble_wait_time);
+        cJSON_AddNumberToObject(pJsonRoot, "WT", ble_wait_time);
         cJSON_AddStringToObject(pJsonRoot, "DP", g_adc_set.IDPath);//硬件版本号
         cJSON_AddStringToObject(pJsonRoot, "NP", g_adc_set.NamePath);//硬件版本号
         cJSON_AddStringToObject(pJsonRoot, "SU", g_adc_set.SpeedUnits);
         cJSON_AddStringToObject(pJsonRoot, "PU", g_adc_set.ProcessUnits);
-        cJSON_AddNumberToObject(pJsonRoot, "D", g_adc_set.DetectionType);
-        cJSON_AddNumberToObject(pJsonRoot, "S", g_adc_set.Senstivity);
+        cJSON_AddNumberToObject(pJsonRoot, "DT", g_adc_set.DetectionType);
+        cJSON_AddNumberToObject(pJsonRoot, "ST", g_adc_set.Senstivity);
         cJSON_AddNumberToObject(pJsonRoot, "ZD", g_adc_set.Zerodrift);
         cJSON_AddNumberToObject(pJsonRoot, "ET", g_adc_set.EUType);
         cJSON_AddStringToObject(pJsonRoot, "EU", g_adc_set.EU);
@@ -1006,29 +1006,22 @@ SEND_DATA:
         memset(g_lpuart2TxBuf, 0, LPUART2_BUFF_LEN);
 		i = 0;
 		g_lpuart2TxBuf[i++] = 0xE7;
-        if(sid-3 < g_sys_para.shkPacks)
+		g_lpuart2TxBuf[i++] = 0xE8;
+		g_lpuart2TxBuf[i++] = sid & 0xff;
+		g_lpuart2TxBuf[i++] = (sid >> 8) & 0xff;
+        if(sid-1 < g_sys_para.shkPacks)
         {
-			g_lpuart2TxBuf[i++] = 0xE8;
-			g_lpuart2TxBuf[i++] = sid & 0xff;
-			g_lpuart2TxBuf[i++] = (sid >> 8) & 0xff;
-			index = 335 * (sid - 3);
+			index = 335 * (sid - 1);
 			for(uint16_t j =0; j<335; j++){//每个数据占用3个byte;每包可以上传335个数据. 335*3=1005
 				g_lpuart2TxBuf[i++] = (ShakeADC[index] >> 0) & 0xff;
 				g_lpuart2TxBuf[i++] = (ShakeADC[index] >> 8) & 0xff;
 				g_lpuart2TxBuf[i++] = (ShakeADC[index] >> 16)& 0xff;
 				index++;
 			}
-			g_lpuart2TxBuf[i++] = 0xEA;
-			g_lpuart2TxBuf[i++] = 0xEB;
-			g_lpuart2TxBuf[i++] = 0xEC;
-			g_lpuart2TxBuf[i++] = 0xED;
         }
-        else if(sid - 3 - g_sys_para.shkPacks < g_adc_set.spdCount)
+        else if(sid - 1 - g_sys_para.shkPacks < g_adc_set.spdCount)
         {
-            g_lpuart2TxBuf[i++] = 0xE9;
-			g_lpuart2TxBuf[i++] = sid & 0xff;
-			g_lpuart2TxBuf[i++] = (sid >> 8) & 0xff;
-            index = (sid - 3 - g_sys_para.shkPacks) * 335;
+            index = (sid - 1 - g_sys_para.shkPacks) * 335;
             //每个数据占用3个byte;每包可以上传335个数据. 335*3=174
             for(uint16_t j =0; j<335; j++){//每个数据占用3个byte;每包可以上传335个数据. 335*3=1005
 				g_lpuart2TxBuf[i++] = (SpeedADC[index] >> 0) & 0xff;
@@ -1036,11 +1029,11 @@ SEND_DATA:
 				g_lpuart2TxBuf[i++] = (SpeedADC[index] >> 16)& 0xff;
 				index++;
 			}
-			g_lpuart2TxBuf[i++] = 0xEA;
-			g_lpuart2TxBuf[i++] = 0xEB;
-			g_lpuart2TxBuf[i++] = 0xEC;
-			g_lpuart2TxBuf[i++] = 0xED;
         }
+		g_lpuart2TxBuf[i++] = 0xEA;
+		g_lpuart2TxBuf[i++] = 0xEB;
+		g_lpuart2TxBuf[i++] = 0xEC;
+		g_lpuart2TxBuf[i++] = 0xED;
         break;
     }
     
@@ -1053,7 +1046,8 @@ SEND_DATA:
 	}else{
 		LPUART_WriteBlocking(LPUART2, g_lpuart2TxBuf, i);
 	}
-	vTaskDelay(ble_wait_time);
+	vTaskDelay(8);
+//	vTaskDelay(ble_wait_time);
 	if(g_sys_para.sampPacksCnt < (g_adc_set.sampPacks-1) && flag_get_all_data) {
 		g_sys_para.sampPacksCnt++;
 		goto SEND_DATA;
